@@ -1,0 +1,183 @@
+.message {color: green;}
+.error {color: red; }
+
+body{
+    top:0;
+    margin: 0;
+    padding: 0;
+    background-color: #F6F6F6;
+}
+
+#header{
+    height: 57px;
+    background-image: url('../images/logo_background.jpg');
+    background-repeat:repeat-x;
+    background-position: top left;
+    /*border: 1px solid black;*/
+    padding: 0;
+    margin: 0;
+    vertical-align: middle;
+}
+
+#content{
+    background-color: white;
+
+}
+
+#menu {
+    width: 100%;
+    height: 33px;
+    background-color: #EDEDED;
+    border-bottom: 1px solid #E1E1E1;
+    text-align: left;
+    margin: 0;
+}
+
+#actions{
+    padding-left: 122px;
+    height: 27px;
+    border: 1px solid #E5E5E5;
+    background-color: #F6F6F6;
+    padding-top: 5px;
+}
+
+#editor{
+    position: fixed;
+    top: 125px;
+    bottom: 0px;
+    width: 100%;
+}
+
+.separator {
+    vertical-align:middle; 
+    margin: 0 10px 2px 10px;
+}
+
+#a {
+    border: 1px solid #E5E5E5;
+    background-repeat: repeat;
+    background-color: #FFFFFF;
+}
+#body{
+    width: 100%;
+}
+
+
+
+#figures {
+    float: left;
+    width: 120px;
+    height: 300px;
+    border: 1px solid #E5E5E5;
+    background-color: #F6F6F6;
+}
+
+#container{
+    position: fixed;
+    top: 125px;
+    bottom: 0px;
+    left: 130px;
+    right: 260px;
+    /*height: 600px;*/
+}
+#right{
+    float: right;
+    /*overflow: scroll;*/
+}
+
+#edit{
+    width: 240px;
+    background-color: #F6F6F6;
+    padding: 10px 10px 0 10px;
+}
+
+#edit textarea {
+    width: 200px;
+    height: 50px;
+}
+
+#edit select {
+    width: 100px;
+}
+#edit div.label {
+    float: left;
+    color: #8C8C8C;
+    text-shadow: 0px 1px 0px #FFFFFF;
+}
+#edit div.line {
+    height: 22px;
+    clear: both;
+    width: 100%;
+}
+#edit div.textLine {
+    clear: both;
+    width: 100%;
+}
+.menuText {
+    color: #8B8B8B;
+    font-size: 12px;
+    /*text-decoration: none;*/
+    text-shadow: 0px 1px 0px #FFFFFF;
+    /**For IE glow you need both width and filter but also shrink the <a> area :p
+    width: 50px;
+    filter: glow(color=FFFFFF,strength=1);    
+    */
+    white-space: nowrap;
+}
+
+.toolbarText {
+    color: #8B8B8B;
+    font-size: 12px;
+    /*text-decoration: none;*/
+    text-shadow: 0px 1px 0px #FFFFFF;
+    /**For IE glow you need both width and filter but also shrink the <a> area :p
+    width: 50px;
+    filter: glow(color=FFFFFF,strength=1);
+    */
+}
+.button{
+    margin: 2px;
+    border: 1px dotted black;
+    text-decoration:  none;
+}
+
+.button:hover{
+    background-color: orange;
+}
+
+.darkgray{color: #333333;}
+
+
+.formTitle{
+    background-image: url('../images/save-background.jpg');
+    background-repeat:repeat-x;
+    background-position: top left;
+    height: 40px;
+    margin: 2px;
+    text-align: left;
+    font-weight: bold;
+    padding-top: 10px;
+    padding-left: 10px;
+    color: #8B8B8B;
+}
+
+.form{
+    background-color: #F6F6F6;
+    border: 1px #E4E4E4 solid;
+    margin-right: auto; margin-left: auto;
+}
+
+.formField{
+    height: 22px;
+    border: 1px #E4E4E4 solid;
+}
+
+.formArea {
+    border: 1px #E4E4E4 solid;
+}
+
+.formLabel {
+    color: #8B8B8B;
+    font-size: 14px;
+    text-shadow: 0px 1px 0px #FFFFFF;
+}

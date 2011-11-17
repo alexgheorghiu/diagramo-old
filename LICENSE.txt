@@ -1,0 +1,53 @@
+Diagramo Free License
+version 1.0, January 2011
+
+Diagramo is copyrighted free software by Scriptoid <http://scriptoid.com>.
+You can disseminate it and/or modify it under the conditions below:
+
+	1. You may give away verbatim copies of the source form of the software
+        without restriction, provided that you duplicate all of the original
+        copyright notices and associated disclaimers.
+
+	2. You may modify your copy of the software in any way, provided that 
+        you do at least ONE of the following:
+
+            a) place your modifications in the Public Domain or allow the author to
+            include your modifications in the software.
+
+            b)use the modified software only internally or within your corporation
+            or organization.
+
+            c) make other distribution arrangements with the author.
+
+	3. You may disseminate the modified software provided that you do at
+        least ONE of the following:
+
+            a) place your modifications in the Public Domain and  accompany the
+            distribution with the source of the modified software together with
+            instructions on where to get the original distribution.
+
+            b) make other distribution arrangements with the author.
+
+	4. You may use the software and/or the modified software provided that
+        you do at least ONE of the following:
+
+            a)use the modified software only internally or within your corporation
+            or organization.
+
+            b) make other arrangements with the author.
+
+	5. The files supplied as input to or produced as output from the
+        software do not automatically fall under the copyright of the software,
+        but belong to whomever generated them, and may be sold commercially.
+
+	6. This Agreement shall be construed in accordance with the
+        international laws.  All disputes arising out of or in
+        connection with the present Agreement shall be finally
+        settled under the Rules of Arbitration of the International
+        Chamber of Commerce in Paris, France, by one arbitrator
+        appointed in accordance with the said Rules.
+
+	7. THIS SOFTWARE IS PROVIDED "AS IS" AND WITHOUT ANY EXPRESS OR
+        IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
+        WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+

@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script type="text/javascript" src="../../assets/javascript/jquery-1.4.2.min.js"></script>
+    <script language="javascript1.2" type="text/javascript" src="scroll.js"></script>
+    <script language="javascript1.2" type="text/javascript" src="minimap.js"></script>
+    <script language="javascript1.2" type="text/javascript">
+        document.onmouseup = function(){mouseDown = false;}
+        $(document).mousemove(tryScroll);
+        document.onselectstart = function(){return false}
+        function setupScroll(){
+            
+            var sscroll = new Scroll(document.getElementById("image"), 600, 500);
+
+            //set up a minimap with a width priority
+            var mminimap = new Minimap(document.getElementById("minimap"), sscroll, 120, 0);
+            sscroll.setMinimap(mminimap);
+        }
+        function tryScroll(event){
+            Scroll.tryScroll(event);
+            Minimap.tryScroll(event);
+            //event.preventDefault();
+        }
+    </script>
+  </head>
+  <body onload ="setupScroll();">
+      <div>
+      <img src = "desert.jpg" id="image" style="display: none"/>
+      </div><br /><br />
+      
+      <div id="minimap">          
+      </div>
+  </body>
+</html>

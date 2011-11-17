@@ -1,0 +1,118 @@
+<!DOCTYPE HTML>
+<!--
+@see http://radio.javaranch.com/pascarello/2005/12/14/1134573598403.html
+@see https://developer.mozilla.org/en/DOM/element.scrollTop
+@see https://developer.mozilla.org/en/DOM/element.scrollLeft
+@see http://help.dottoro.com/ljurkcpe.php for onScroll event
+
+There is not way to listen to scroll (AFAIK) but to create a thread that listen for scrollTop/Left changes
+-->
+
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <style type="text/css">
+            body{
+                background-color: #8B8B8B;
+            }
+
+            #mapcontainer {
+                width: 400px;
+                height: 400px;
+                display: inline-block;
+                border: 1px solid #000000;
+                overflow: scroll;
+            }
+
+            #map {
+                background-color: #DD7777;
+                position: relative;
+            }
+
+            #minimap {
+                background-color: #DD7777;
+                position: relative;
+            }
+
+
+        </style>
+        <script type="text/javascript">
+            var img = new Image();
+            img.onload = new function(){
+//                alert('Image loaded');
+            }
+            img.src = 'desert.jpg';
+
+            var mapcontainer = null;
+            var map = null;
+            
+            var topOffset = 0;
+            var leftOffset = 0;
+
+            
+            function init(){
+//                alert('init');
+                mapcontainer = document.getElementById('mapcontainer');
+                map = document.getElementById('map');
+                map.width = img.width;
+                map.height = img.height;
+                //            var mini = document.getElementById('minimap');
+                var ctxMap = map.getContext('2d');
+                //            var ctxMini = mini.getContext('2d');
+
+                //            ctxMap.fillStyle='rgb(200, 20, 10)';
+                //            ctxMap.fillRect(0,0,30,30);
+                ctxMap.drawImage(img, 0, 0);
+                //ctxMap.stroke();
+
+//                alert(mapcontainer);
+            }
+
+            function scroll(direction, delta){
+                
+                switch(direction){
+                    case 'top':
+                        topOffset += delta;
+                        mapcontainer.scrollTop  = topOffset;
+                        break;
+                        
+                    case 'left':
+                        leftOffset  += delta;
+                        mapcontainer.scrollLeft  = leftOffset;
+                        break;
+
+                }
+
+            }
+
+            function dump(){
+                var log = document.getElementById('log');
+                log.value = 'scrollTop ' + mapcontainer.scrollTop + ' scrollLeft ' + mapcontainer.scrollLeft;
+            }
+
+            /**
+             *"When the window.scrollX/scrollY isn't 0 -- meaning that some
+             *scrolling occurred by either script or manual action -- reloading the current page will trigger the onscroll event immediately. "
+             *@see https://developer.mozilla.org/en/DOM/window.onscroll
+             *This means that this method might be callled before the init() function
+             **/
+            function mapScroll(){
+//                alert('Scroll');
+                dump();
+            }
+        </script>
+</head>
+
+<body onload="init()">
+    <div id="mapcontainer" onscroll="mapScroll()">
+        <canvas id="map" width="500" height="500" ></canvas>
+    </div>
+
+    <canvas id="minimap" width="100" height="100"></canvas>
+    <input type="button" onclick="scroll('top',100)" value="+Top" />
+    <input type="button" onclick="scroll('left',100)" value="+Left" />
+    <textarea id="log"></textarea>
+
+</body>
+</html>

@@ -1,0 +1,76 @@
+Action Objects:
+Action objects will be created for any of the following events:
+Creation (group, figure, connector)
+delete (group, figure, connector)
+transformation (group, figure, connector)
+property change (figure, connector)
+permanently group (figure)
+ungroup (group)
+connect (connector)
+disconnect (connector)
+
+Possible future expansion could include the editing of static values, i.e. width/height of the canvas should be "undoable" as well as other static values, such as selectedId's. These are usually managed during other events. Also, if at any point we utilise connectionPoints outside of Connectors, these should allow for Action objects too.
+
+Action objects will be stored in an array, after each "undo" a pointer will be updated to represent the Action object we are currently at. Each Action can also be "redone" moving the pointer in the opposite direction. 
+
+Performing a new Event, part way through a "undo/redo" chain, will cause the current chain, from the current Action forward, to be erased, and a new chain be created holding the new Action at its final point.
+
+To allow for "undo/redo" an Action object must hold the following pieces of data:
+objectID - the ID of the figure/group/connector that is being operated on
+typeOfObject - the type of object, either OBJECT_FIGURE, OBJECT_CONNECTOR, OBJCET_GROUP, OBJECT_CONNECTION_POINT, OBJECT_GLUE or OBJECT_STATIC
+typeOfAction - the type of action being performed, either ACTION_MATRIX, ACTION_CREATE, ACTION_DELETE, ACTION_PROPERTY, ACTION_GROUP, ACTION_UNGROUP, ACTION_CONNECT, ACTION_CONNECTOR_HANDLE
+property - the property of the object that we are editing
+currentValue - the value of the object, after the change is created (used for redo)
+previousValue - the value of the object prior to the change (used for undo)
+
+For each typeOfAction, a different method is required, however this is not the case for different objects, using the same action (i.e. connector and figure both use the same method for delete).
+
+For some typeOfAction a method is used to recreate the undo, for example, delete/undelete. In these cases, a mouse event is often passed. Also, when these methods are used, we have to check if it is a new event, or an undo/redo being performed, so that another Action object is only created when it should be. To do this we set a property of the mouseEvent
+
+There is no ACTION_DISCONNECT, as disconnect is handled when moving a connectionPoint
+For ACTION_MATRIX the Action object needs to be created onMouseDown, but only added onMouseUp, often a slightly different value is given to the Action during onMouseDown, then changed onMouseUp, as it is easier to access
+For each typeOfAction, and in some cases, typeOfObject, different pieces of data need to be stored. The following is a list:
+
+OBJECT_FIGURE/OBJECT_CONNECTOR - ACTION_PROPERTY
+property = property being edited
+currentValue = new value
+previousValue = previous value
+
+ALL - ACTION_DELETE
+property = null
+currentValue = object
+previousValue = mouseEvent
+
+ALL - ACTION_MATRIX
+property = Action.MATRIX
+currentValue = Matrix[]
+previousValue = Matrix[]
+//CONNECTOR - property = [glue.id1,glue.id2]/null
+
+OBJECT_FIGURE/OBJECT_CONNECTOR - ACTION_CREATE
+property = null
+currentValue = createdFigure.id - required so that when undoing a sequence, we can keep the figure ID the same, so that any future undo's will reference the correct Figure
+previousValue = [createFigureFunction, mouseEvent]
+
+OBJECT_GROUP - ACTION_GROUP
+property = group.permanant
+currentValue = false
+previousValue = figureIds
+
+OBJECT_GROUP - ACTION_UNGROUP (called from either ungroup button, or exiting a temp group)
+property = group.permanant
+currentValue = figureId
+previousValue = false;
+
+OBJECT_CONNECTOR - ACTION_CONNECTOR_HANDLE
+property = null
+currentValue = turningPoints - after editing
+previousValue = turningPoints - prior editing
+
+OBJECT_CONNECTOR - ACTION_CONNECT - this action ALWAYS involves another action of some sort, either creation, or movement so an undo action on this will always undo 2 actions, redo sorts itself out
+objectId = [glue.id1, glue.id2]
+property = null
+previousValue = glue.id1
+currentValue = null
+
+OBJECT_CONNECTOR - ACTION_DISCONNECT

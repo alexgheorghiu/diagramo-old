@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="./style.css"/>
+	<script type="text/javascript" src="./utils.js"></script>
+</head>
+<body onload="hello()">	
+	<div>
+		<form action="./cgi-bin/addUser.py" method="POST">
+			Name <input type="text" name="name"/><br/>
+			Password <input type="password" name="password"/><br/>
+			<input type="submit" value="Add" />
+		</form>
+	</div>
+</body>
+</html>

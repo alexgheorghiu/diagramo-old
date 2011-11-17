@@ -1,0 +1,18 @@
+Ideeas for diagramo
+-------------------
+
+* rounded connectors
+* drop shadow
+* connector "jump" over other connector
+* fill, outline, font, etc  will have special icons
+* able to upload and then reuse image per diagram
+* when a connection is to be made a circle will enclose those 2 connection points
+* tag for diagram, tag cloud
+* request collaboration. On diagram's page an action should be present to
+allow someone to ask to join editing a diagram.  Requester will fill an email and a comment.
+* basic versioning added (editor, datetime and data). Plus able to restore
+to a previous version
+* dotted, dashed line support
+* background enhancement: solid color, image, pattern
+* make the connetor end in a filled arrow by default. Keep last connector
+start/end in some prefferences?

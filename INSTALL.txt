@@ -1,0 +1,119 @@
+Diagramo - installation mini guide
+===================================
+
+This files describes how to install the application on the server.
+
+
+********************************
+*************MYSQL**************
+********************************
+
+1. Create database
+-------------------
+
+a. In /documents/sql you will find schema.sql. To create an "out of the box" database run (as "root"):
+
+    mysql  < schema.sql
+
+    This will create a database diagramo and and user diagramo with password diagramo. 
+
+    Options:
+    There are a few options of how to allow/deny remote users to connect inside schema.sql.
+    Modify the line:
+        GRANT ALL PRIVILEGES ON  diagramo.* TO  diagramo@localhost IDENTIFIED BY 'diagramo' WITH GRANT OPTION;
+    to fit your needs.
+
+    Under Ubuntu you need something like:
+        sudo mysql < schema.sql -p
+    The -p agument is used in case you have a root password set, otherwise just not
+    use it.
+
+
+2. Edit /common/settings.php 
+-----------------------------------
+
+a. Change the DB_ADDRESS to the IP/domain where mySQL is running.
+    If you do remote connection see that the remote machine's 3306 port is be open.
+    Also if you remote access it change the password for diagramo user
+
+   More information is present inside the settings.file near each option.
+
+b. Change WEBADDRESS to the URL where application is installed
+    Example: define('WEBADDRESS','http://abc.com/diagramo');
+
+
+c. DEBUG and SERVICE has to be set to false:
+    define('DEBUG', false);
+    define('SERVICE', false);
+
+
+
+    
+********************************
+***********PHP settings*********
+********************************
+
+1. Allow short open tags
+------------------------
+Also in /etc/apache2/php.ini see that the short_open_tag settings to have 'On' value:
+    short_open_tag = On
+
+2. PHP Magic quotes should be off
+---------------------------------
+Also in /etc/apache2/php.ini see that the magic_quotes_gpc settings to have 'Off' value:
+    magic_quotes_gpc = Off
+
+3. If you want to use SMTP mail boxed you need to install some additional PHP packages
+---------------------------------------------------------------------------------------
+a. Make sure you have pear installed. Go to php installation folder and run go-pear.bat (on Windows)
+b. Install Mail package
+    pear install Mail-1.2.0
+
+c. Install Net_SMTP package to be able to use SMTP
+    pear install Net_SMTP-1.5.2
+
+d. Install Mail_Mime-1.8.1 to be able to send HTML 
+    pear install Mail_Mime-1.8.1
+
+
+********************************
+***********Apache settings******
+********************************
+
+1. Apache's mode rewrite should be activated
+---------------------------------------------
+Go to your httpd.conf file and see that  mod_rewrite got activated.
+
+    Ex: LoadModule rewrite_module modules/mod_rewrite.so
+
+Note: Without this module activated you will not be able to properly share links/diagrams.
+
+
+********************************
+***********System***************
+********************************
+
+1. Allow apache to write in /diagrams/ folder
+----------------------------------------------------
+The application needs be able to create files in the /diagrams/ folder.
+If you are under Windows just skip this point.
+
+Assign the /diagrams/ folder to Apache2 daemon (group+user):
+    sudo chown -R www-data:www-data /<path_to_application>//diagrams/
+
+    Example: sudo chown -R www-data:www-data /var/www/abc.com/web//diagrams/
+
+
+2. Have Java (http://java.sun.com) installed - for PNG, JPG exports
+-------------------------------------------------------------------
+You must have Java installed on your server. It must version 1.5 or higher.
+To test if you do just type in console:
+    java -version
+
+If you have java installed you should get something similar to:
+    java version "1.6.0_22"
+    Java(TM) SE Runtime Environment (build 1.6.0_22-b04)
+    Java HotSpot(TM) Client VM (build 17.1-b03, mixed mode, sharing)
+
+If you do not have Java installed you will not be able to use the export to PNG and
+JPG exports, although the export to SVG will still work.

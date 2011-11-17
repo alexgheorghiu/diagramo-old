@@ -1,0 +1,15 @@
+Basic rules when coding in Diagramo
+-----------------------------------
+
+These are the basic rules we want to impose to ourselves when coding for Diagramo.
+
+0. We adhere to The Zen of Python (http://www.python.org/dev/peps/pep-0020/)
+1. Anyone that work on this project to post at least an email and a phone number 
+    (with hours when he can be disturbed).
+2. Any commit will have a small resume (in SVN is named "Commit message") that 
+    describes what does the commit try to add/fix
+3. We will usually integrate contribution that help in our goal. We try to avoid
+    adding too many contributions that can make the application harder to use.
+4. We should "Getting paid to remove features" instead of adding them.
+5. Anyone that broke a build or automated tests will fix it.
+

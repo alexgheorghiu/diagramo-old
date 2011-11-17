@@ -1,0 +1,33 @@
+Video presentation
+------------------
+
+Hi, my name is Alex and I will show you what Diagramo is.
+
+Diagramo is an online diagram editor. It was built using ONLY 
+HTML5 - no Flash or other plugins.
+
+Draw
+-----
+Let's do a simple diagram
+Take a rounded rectangle, drop it 
+Take another one, drop it
+Draw a line between them.
+
+Change their color.
+
+
+Share
+------
+You can share it with anyone.
+
+Go to Collaborators section and invite people.
+
+
+Export
+-------
+You can export it as SVG, PNG or JPG.
+
+Action
+------
+Make an account or download it for your server.
+

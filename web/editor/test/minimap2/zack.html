@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="minimap.css" />
+    <script type="text/javascript" src="../../assets/javascript/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="../../lib/log.js"></script>
+    <script type="text/javascript" src="minimap.js"></script>
+    <script type="text/javascript">
+        var mouseDown = false;
+        
+        /**On mouse up the mouse will no longer considered pressed*/
+        document.onmouseup = function(){
+            minimap.selected = false;
+        }
+        
+        /**Disable the "default" selection*/
+        document.onselectstart = function(){
+            return false
+        }
+
+        /**stores the minimap variable*/
+        var minimap;
+        
+        function setupScroll(){
+            var canvas = document.getElementById("a");
+            var ctx = canvas.getContext("2d");
+            ctx.beginPath();
+            ctx.moveTo(100, 100);
+            ctx.lineTo(200,200);
+            ctx.lineTo(100,200);
+            ctx.lineTo(150,200);
+            ctx.lineTo(200,500);
+            ctx.lineTo(300,200);
+            ctx.lineTo(400,600);
+            ctx.lineTo(100,200);
+            ctx.stroke();
+            ctx.closePath();
+            
+            minimap = new Minimap(canvas, document.getElementById("minimap"), 120);
+            minimap.updateCanvas();
+        }
+    </script>
+  </head>
+  <body onload ="setupScroll();">
+      <div id="container" style="width: 400px; height: 400px;">
+          <canvas width="1000" height="900" id="a"></canvas>
+      </div>
+      
+      <br/><br />
+      
+      <div id="minimap">
+      </div>
+  </body>
+</html>

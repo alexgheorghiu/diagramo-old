@@ -1,0 +1,25 @@
+SVG figure set job
+------------------
+
+I need a set of XXX SVG figures.
+Their will be about XXX.
+They must look good in aaaxbbb px dimension (ex. 300x400px)
+They should be created in Inkscape.
+
+Network
+--------
+Pc
+Laptop
+Smartphone
+Server
+Rounter
+Switch
+Internet
+Blade
+Cloud (inter)net
+Windows logo
+Linux logo
+
+Links:
+------
+http://tango.freedesktop.org/Tango_Icon_Theme_Guidelines
