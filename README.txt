@@ -1,14 +1,4 @@
-Quick install
--------------
-
-Just point your browser to the folder/location where you installed the application
-and an installation wizard will be launched.
-
-Problems with install
----------------------
-If you have problem with install please let us know here
-http://diagramo.com/contact.php or read INSTALL.txt
-
+The application is released under Diagramo Free License ( http://diagramo.com/license.php )
 
 Details
 ---------
