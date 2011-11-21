@@ -2,7 +2,7 @@ The application is released under Diagramo Free License ( http://diagramo.com/li
 
 Details
 ---------
-Bellow overview of the application.
+Bellow is an overview of the application.
 
 If you want to read how to install application read INSTALL.txt
 If you want to read the license read LICENSE.txt
