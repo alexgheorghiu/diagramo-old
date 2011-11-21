@@ -492,14 +492,15 @@ function utf_8_sprintf ($format) {
 
 
 function generateRandom($length = 10, $vals = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabchefghjkmnpqrstuvwxyz0123456789-') {
-    $s = "";
-
-    while(strlen($s) < $length) {
-        mt_getrandmax();
-        $num = rand() % strlen($vals);
-        $s .= substr($vals, $num+4, 1);
-    }
-    return $s;
+    $r = "";
+        
+    $i = 0;
+    while($i < $length){       
+        $r .= $vals[rand(0, strlen($vals)-1)];        
+        $i++;
+    }    
+    
+    return $r;
 }
 
 
