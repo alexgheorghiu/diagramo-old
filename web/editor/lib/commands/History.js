@@ -5,6 +5,9 @@
  * @constructor
  * @author Zack Newsham zack_newsham@yahoo.co.uk
  * @author Alex <alex@scriptoid.com>
+ * 
+ * Interesting implementation in Java
+ * @see http://download.oracle.com/javase/6/docs/api/javax/swing/undo/UndoManager.html
  */
 function History(){
 }
