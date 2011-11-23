@@ -2316,10 +2316,17 @@ function action(action){
         case 'group':
             /*After we pressed Ctrl-G any temporary group will became permanent*/
             if(selectedGroupId != -1){
-                cmdGroup = new GroupFiguresCommand(selectedGroupId);
-                cmdGroup.execute();
-                History.addUndo(cmdGroup);
-                Log.info("main.js->action()->Group. New group made permanent: " + selectedGroupId);
+                var group = stack.groupGetById(selectedGroupId);
+                if(!group.permanent){
+                    cmdGroup = new GroupFiguresCommand(selectedGroupId);
+                    cmdGroup.execute();
+                    History.addUndo(cmdGroup);
+                    Log.info("main.js->action()->Group. New group made permanent. Group id = " + selectedGroupId);
+                }
+                else{
+                    Log.info("main.js->action()->Group. Group ALREADY permanent.  Group id = " + selectedGroupId);
+                }
+                
             }
             redraw = true;
             break;

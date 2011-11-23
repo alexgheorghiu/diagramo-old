@@ -12,7 +12,8 @@ function UngroupFiguresCommand(groupId){
 UngroupFiguresCommand.prototype = {
     /**This method got called every time the Command must execute*/
     execute : function(){
-        //TODO: implement it
+        stack.groupDestroy(this.groupId);
+        state = STATE_NONE;
     },
     
     
