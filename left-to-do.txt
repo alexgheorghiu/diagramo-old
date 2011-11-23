@@ -3,6 +3,7 @@ Current stack:
 
 
 * move Group (others too?) by key not working :(
+up (in progress but command not consistent with mouse move one), down, left, right
 
 * [x]select group, rotate it/ scale, try to move... it will rotate/scale :( (rotate handle still selected?)
 * grouped figures can not rotate

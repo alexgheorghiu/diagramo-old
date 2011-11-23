@@ -2403,6 +2403,28 @@ function action(action){
             break;
 
         case 'up':
+            TRANSLATE = [
+                [1, 0, 0],
+                [0, 1, -1],
+                [0, 0, 1]
+                ];
+                
+            TRANSLATE_BACK = [
+                [1, 0, 0],
+                [0, 1, +1],
+                [0, 0, 1]
+                ];    
+                
+            switch(state){
+                case STATE_FIGURE_SELECTED:
+                    var cmdFigUp = new TranslateFigureCommand(figureId, x, y)
+                    redraw = true;
+                    break;
+                case STATE_GROUP_SELECTED:
+                    redraw = true;
+                    break;
+            }
+            
             if(selectedFigureId != -1){
                 //alert("Selected figure index: " + stack.figureSelectedIndex);
                 var figure = stack.figureGetById(selectedFigureId);
