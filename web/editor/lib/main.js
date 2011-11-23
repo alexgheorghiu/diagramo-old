@@ -2317,8 +2317,8 @@ function action(action){
             /*After we pressed Ctrl-G any temporary group will became permanent*/
             if(selectedGroupId != -1){
                 var group = stack.groupGetById(selectedGroupId);
-                if(!group.permanent){
-                    cmdGroup = new GroupFiguresCommand(selectedGroupId);
+                if(!group.permanent){ //group only temporary groups
+                    var cmdGroup = new GroupFiguresCommand(selectedGroupId);
                     cmdGroup.execute();
                     History.addUndo(cmdGroup);
                     Log.info("main.js->action()->Group. New group made permanent. Group id = " + selectedGroupId);
@@ -2333,13 +2333,17 @@ function action(action){
         
         case 'ungroup':
             if(selectedGroupId != -1){
-                if(doUndo){
-                    History.addUndo(new GroupCommand(selectedGroupId, History.OBJECT_GROUP, true, stack.figureGetIdsByGroupId(selectedGroupId), false));
+                var group = stack.groupGetById(selectedGroupId);
+                if(group.permanent){ //split only permanent groups
+                    var cmdUngroup = new UngroupFiguresCommand(selectedGroupId);
+                    cmdUngroup.execute();
+                    History.addUndo(cmdUngroup);
+                    Log.info("main.js->action()->Ungroup. New group made permanent. Group id = " + selectedGroupId);
                 }
-
-                stack.groupDestroy(selectedGroupId);
-                selectedGroupId = -1;
-                state = STATE_NONE;
+                else{
+                    Log.info("main.js->action()->Ungroup. Ignore. Group is not permanent.  Group id = " + selectedGroupId);
+                }
+                
                 redraw = true;
             }
             break;

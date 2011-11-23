@@ -24,24 +24,38 @@ GroupFiguresCommand.prototype = {
         
         if(this.firstExecute){ //first execute
             stack.groupGetById(this.groupId).permanent = true; //transform this group into a permanent one
-            state = STATE_GROUP_SELECTED;
             
             this.firstExecute = false;
         } 
         else{ //a redo (group was previously destroyed)
-            this.groupId = stack.groupCreate(this.figuresIds);            
-            var group = stack.groupGetById(this.groupId);
-            group.permanent = true;
+            //create group
+            var g = new Group();
+            g.id = this.groupId; //copy old Id
+            g.permanent = true;
+
+            //add figures to group
+            for(var i=0; i < this.figuresIds.length; i++){
+                var f = stack.figureGetById(this.figuresIds[i]);
+                f.groupId = g.id;
+            }
             
-            state = STATE_GROUP_SELECTED;
-            selectedGroupId = this.groupId;
+            var bounds = g.getBounds();
+            g.rotationCoords.push(new Point(bounds[0]+(bounds[2]-bounds[0])/2, bounds[1] + (bounds[3] - bounds[1]) / 2));
+            g.rotationCoords.push(new Point(bounds[0]+(bounds[2]-bounds[0])/2, bounds[1]));
+
+            //save group to stack
+            stack.groups.push(g);
         }
+        
+        state = STATE_GROUP_SELECTED;
+        selectedGroupId = this.groupId;            
     },
     
     
     /**This method should be called every time the Command should be undone*/
     undo : function(){
         stack.groupDestroy(this.groupId);
+        
         selectedGroupId = -1;
         state = STATE_NONE;
     }

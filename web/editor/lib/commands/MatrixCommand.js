@@ -5,6 +5,7 @@
  * @param property {Number}  History.MATRIX
  * @param previousValue {Matrix} the matrix to revert to
  * @param currentValue {Matrix} the matrix we now have
+ * @deprecated
  */
 function MatrixCommand(objectId, typeOfObject, property, previousValue, currentValue){
     this.objectId = objectId;

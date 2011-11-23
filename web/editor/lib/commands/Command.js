@@ -10,9 +10,13 @@
 function Command(objectId, typeOfObject, property, previousValue, currentValue){
     this.oType = 'RotateFigureCommand';
     
-    /**Any sequence of many mergeable actions can be packed by the history*/
+    /**Any sequence of many mergeable actions that can be packed (merged into a single) by the history.
+     *Example: all figure moves can be merges into a single command*/
     this.mergeable = true;
     
+    /**Keeps track if we are executing this command for the first time.
+     *Usually it there can be differences between first execute and a later execeut (redo)*/
+    this.firstExecute = true;
     /*........*/
 }
 

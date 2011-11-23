@@ -1,9 +1,8 @@
 Current stack:
 
-* Undo for "Group figures" is wrong
-Example:
-(1)Create 2 figures, (2)group them, (3)move group
-if undo(3), undo(2), redo(2), redo(3) -> got error as the moving was for a group Id that is dead now :(
+
+
+* move Group (others too?) by key not working :(
 
 * [x]select group, rotate it/ scale, try to move... it will rotate/scale :( (rotate handle still selected?)
 * grouped figures can not rotate
