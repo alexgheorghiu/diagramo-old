@@ -10,7 +10,7 @@ var debugSolutions = null;
 /**Set it on true if you want visual debug clues.
  * Note: See to set the Connector's visualDebug (Connector.visualDebug) to false too
  **/
-var visualDebug = false; 
+var visualDebug = true; 
 
 /**Activate or deactivate the undo feature**/
 var doUndo = true; 
@@ -70,31 +70,31 @@ var stack  = new Stack();
 var mousePressed = false; 
 
 /**the default application state*/
-var STATE_NONE = 0; 
+var STATE_NONE = 'none'; 
 
 /**we have figure to be created**/
-var STATE_FIGURE_CREATE = 1; 
+var STATE_FIGURE_CREATE = 'figure_create'; 
 
 /**we selected a figure (for further editing for example)*/
-var STATE_FIGURE_SELECTED = 2; 
+var STATE_FIGURE_SELECTED = 'figure_selected'; 
 
 /**we are selecting the start of a connector*/
-var STATE_CONNECTOR_PICK_FIRST = 4; 
+var STATE_CONNECTOR_PICK_FIRST = 'connector_pick_first'; 
 
 /**we are selecting the end of a connector*/
-var STATE_CONNECTOR_PICK_SECOND = 8; 
+var STATE_CONNECTOR_PICK_SECOND = 'connector_pick_second'; 
 
 /**we selected a connector (for further editing for example)*/
-var STATE_CONNECTOR_SELECTED = 16;
+var STATE_CONNECTOR_SELECTED = 'connector_selected';
 
 /**move a connection point of a connector*/
-var STATE_CONNECTOR_MOVE_POINT = 32;
+var STATE_CONNECTOR_MOVE_POINT = 'connector_move_point';
 
 /**we are dragging the mouse over a group of figures.*/
-var STATE_SELECTING_MULTIPLE = 64;
+var STATE_SELECTING_MULTIPLE = 'selecting_multiple';
 
 /**we have a group selected (either temporary or permanent)*/
-var STATE_GROUP_SELECTED = 128;
+var STATE_GROUP_SELECTED = 'group_selected';
 
 /**Keeps current state*/
 var state = STATE_NONE;
@@ -681,7 +681,7 @@ function onMouseDown(ev){
                 var con = CONNECTOR_MANAGER.connectorGetById(selectedConnectorId);
                 setUpEditPanel(con);
                 Log.info('onMouseDown() + STATE_NONE  - change to STATE_CONNECTOR_SELECTED');
-                repaint = true;
+                redraw = true;
             } else {                   
                 //find figure at (x,y)
                 var fId = stack.figureGetByXY(x, y);
@@ -706,7 +706,7 @@ function onMouseDown(ev){
                         Log.info('onMouseDown() + STATE_NONE + lonely figure => change to STATE_FIGURE_SELECTED');
                     }
                     
-                    repaint = true;
+                    redraw = true;
                 }
                 else{
             //DO NOTHING aka "Dolce far niente"
@@ -737,7 +737,7 @@ function onMouseDown(ev){
                 createFigureFunction = null;
 
                 mousePressed = false;
-                repaint = true;
+                redraw = true;
             }
             break;
 
@@ -754,6 +754,7 @@ function onMouseDown(ev){
              *          - does current figure belong to a group? If yes, select that group
              *      - did we clicked another figure?
              *          - does this new figure belong to a group? If, yes, select that group
+             * - if we click no nothing -> State none         
              *      
              */
             
@@ -774,7 +775,7 @@ function onMouseDown(ev){
                     HandleManager.figureSet(con);                                        
                     setUpEditPanel(con);
                     Log.info('onMouseDown() + STATE_FIGURE_SELECTED  - change to STATE_CONNECTOR_SELECTED');
-                    repaint = true;
+                    redraw = true;
                 }
                 else{ //No connector
                     
@@ -784,6 +785,7 @@ function onMouseDown(ev){
                     if(fId == -1){ //Clicked outside of anything
                         state = STATE_NONE;
                         setUpEditPanel(canvasProps);
+                        redraw = true;
                         Log.info('onMouseDown() + STATE_FIGURE_SELECTED  - change to STATE_NONE');
                     }
                     else{ //We are sure we clicked a figure
@@ -792,11 +794,25 @@ function onMouseDown(ev){
                         //DO NOTHING
                         }
                         else{ //Clicked a different figure
-                            selectedFigureId = fId;
-                            HandleManager.clear();
                             var f = stack.figureGetById(fId);
-                            setUpEditPanel(f);
-                            Log.info('onMouseDown() + STATE_FIGURE_SELECTED  - change to STATE_FIGURE_SELECTED (different figure)');
+                            if(f.groupId != -1){ // belongs to a group, so select it
+                                
+                                selectedFigureId = -1;
+                                selectedGroupId = f.groupId;
+                                state = STATE_GROUP_SELECTED;
+                                redraw = true;                                
+                                Log.info('onMouseDown() + STATE_FIGURE_SELECTED + group figure => change to STATE_GROUP_SELECTED');                                                                
+                            }
+                            else{ //single figure
+                                selectedFigureId = fId;
+                                HandleManager.clear();
+                                var f = stack.figureGetById(fId);
+                                setUpEditPanel(f);
+                                redraw = true;
+                                Log.info('onMouseDown() + STATE_FIGURE_SELECTED + single figure => change to STATE_FIGURE_SELECTED (different figure)');
+                            }
+                            
+                            
                         }
                     }
                 }
@@ -902,7 +918,10 @@ function onMouseDown(ev){
                     Log.info('onMouseDown() + STATE_GROUP_SELECTED  + lonely figure => STATE_FIGURE_SELECTED');
                     
                     //destroy temp group
-                    stack.groupDestroy(selectedGroupId);
+                    if(!selectedGroup.permanent){
+                        stack.groupDestroy(selectedGroupId);
+                    }
+                    
                     selectedGroupId = -1;
                     
                     redraw = true;
@@ -910,18 +929,24 @@ function onMouseDown(ev){
                 else{ //group figure
                     if(fig.groupId != selectedGroupId){
                         //destroy temp group
-                        stack.groupDestroy(selectedGroupId);
+                        if(!selectedGroup.permanent){
+                            stack.groupDestroy(selectedGroupId);
+                        }
                         
                         selectedGroupId = fig.groupId;
                         Log.info('onMouseDown() + STATE_GROUP_SELECTED  + (different) group figure => STATE_GROUP_SELECTED');
                         
                         redraw = true;
                     }
+                    else{ //figure from same group
+                        //do nothing
+                    }
                 }
             } 
-            else{ //mouse down on empty
+            else{ //mouse down on empty space
                 if(!selectedGroup.permanent){
                     stack.groupDestroy(selectedGroupId);
+                    alert("Destroy group");
                 }
                 
                 selectedGroupId = -1;
@@ -1057,7 +1082,7 @@ function onMouseDown(ev){
                     selectedConnectorId = -1;
                     state = STATE_NONE;
                     setUpEditPanel(canvasProps);
-                    repaint = true;
+                    redraw = true;
 
                 //START: Quick Select FIGURE
                 //                    var fId = stack.figureGetByXY(x, y);
@@ -1079,7 +1104,7 @@ function onMouseDown(ev){
                     selectedConnectorId = newCId;
                     setUpEditPanel(CONNECTOR_MANAGER.connectorGetById(selectedConnectorId));
                     state = STATE_CONNECTOR_SELECTED;
-                    repaint = true;
+                    redraw = true;
                 }
                 if(HandleManager.handleGet(x, y) != null){ //select handle
                     Log.info("onMouseDown() + STATE_FIGURE_SELECTED - handle selected");

@@ -97,12 +97,15 @@ Stack.prototype = {
         return null;
     },
 
-    /**Destroy a group by it's Id
-     * Also remove the figures from group (figure.groupId = -1)
+    /**Destroy a group by it's Id. 
+     *I will be removed from Stack's groups and any member figure will be removed
+     *from group (by set the groupId to -1)
      * @param {Number} groupId - the id of the group
      **/
     groupDestroy: function(groupId){
         var index = -1;
+        
+        //search for the group
         for(var i=0; i<this.groups.length; i++ ){
             if(this.groups[i].id == groupId){
                 index = i;
@@ -110,6 +113,7 @@ Stack.prototype = {
             }
         }
 
+        //remove it
         if(index > -1){
             //remove Group
             this.groups.splice(index, 1);
@@ -611,6 +615,17 @@ Stack.prototype = {
          * 3. handlers
          * 4. selection area (last) 
          **/
+        
+        if(visualDebug){
+            context.save();
+            context.strokeStyle= '#AAAAAA';
+            context.lineWidth = 1;  
+            context.strokeText("state: " + state, 0, 10);
+            context.strokeText("selectedFigureId: : " + selectedFigureId, 0, 20);
+            context.strokeText("selectedGroupId: : " + selectedGroupId, 0, 30);
+            context.restore();
+        }
+        
         
         //paint figures
         for (var i=0; i<this.figures.length; i++) {

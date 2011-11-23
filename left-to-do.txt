@@ -1,10 +1,13 @@
-Observed:
+Current stack:
 
 * onMouseDown + State_NONE + group does not work
-    load diagram, click group, click empty, re-click group ==> figure selected (it should be group) :(
+    #load diagram, click group, click empty, re-click group ==> figure selected (it should be group) :(
+    Have a group of figure and another figure. Click singular figure then click a figure from group. 
+    That group figure is selected instead of whole group
 * grouped figures can not rotate
     onMouseMove + STATE_GROUP_SELECTED - refator accordind to Description
     onMouseDown + STATE_GROUP_SELECTED - refactor according to Description
     -- / --     + None + over a figure of a group - only that figure is selected -not the whole group :(
     deselect group             
 * select 2 figures (temp group). Now you can not escape the selection
+* redraw boolean value does not seems to be really used !?!?!
