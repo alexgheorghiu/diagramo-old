@@ -783,7 +783,9 @@ function onMouseDown(ev){
                     var fId = stack.figureGetByXY(x, y);
 
                     if(fId == -1){ //Clicked outside of anything
+                        selectedFigureId = -1;
                         state = STATE_NONE;
+                        
                         setUpEditPanel(canvasProps);
                         redraw = true;
                         Log.info('onMouseDown() + STATE_FIGURE_SELECTED  - change to STATE_NONE');
