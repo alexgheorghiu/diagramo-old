@@ -234,7 +234,7 @@ ConnectorManager.prototype = {
 
 //            //(if selected) activate the handlers for the connector
 //            if(i == this.connectorSelectedIndex){
-//                HandleManager.figureSet(this.connectors[i]);
+//                HandleManager.shapeSet(this.connectors[i]);
 //                HandleManager.paint(context);
 //            }
             

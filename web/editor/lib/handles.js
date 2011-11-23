@@ -93,7 +93,7 @@ Handle.prototype = {
      *@param {Number} newY - new Y coordinate
      **/
     actionFigure: function(lastMove, newX, newY){
-        var figBounds=HandleManager.figure.getBounds();
+        var figBounds=HandleManager.shape.getBounds();
         
         var transX = 0; //the amount of translation on Ox
         var transY = 0; //the amount of translation on Oy
@@ -104,15 +104,15 @@ Handle.prototype = {
         //see if we have a resize and prepare the figure by moving it back to Origin and "unrotate" it
         if(this.type == 'r'){
             //rotationCoords[0] is always the center of the shape, we clone it as when we do -rotationCoords[0].x, it is set to 0.
-            var center = HandleManager.figure.rotationCoords[0].clone();
-            var endAngle = Util.getAngle(HandleManager.figure.rotationCoords[0],new Point(newX,newY));
-            var startAngle = Util.getAngle(HandleManager.figure.rotationCoords[0],HandleManager.figure.rotationCoords[1]);//new Point(lastMove[0],lastMove[1])
+            var center = HandleManager.shape.rotationCoords[0].clone();
+            var endAngle = Util.getAngle(HandleManager.shape.rotationCoords[0],new Point(newX,newY));
+            var startAngle = Util.getAngle(HandleManager.shape.rotationCoords[0],HandleManager.shape.rotationCoords[1]);//new Point(lastMove[0],lastMove[1])
             var rotAngle = endAngle - startAngle;
 
 
-//            HandleManager.figure.transform(Matrix.translationMatrix(-center.x, -center.y))
-//            HandleManager.figure.transform(Matrix.rotationMatrix(rotAngle))
-//            HandleManager.figure.transform(Matrix.translationMatrix(center.x, center.y));
+//            HandleManager.shape.transform(Matrix.translationMatrix(-center.x, -center.y))
+//            HandleManager.shape.transform(Matrix.rotationMatrix(rotAngle))
+//            HandleManager.shape.transform(Matrix.translationMatrix(center.x, center.y));
             
             var equivTransfMatrix = Matrix.mergeTransformations(
                     Matrix.translationMatrix(-center.x, -center.y), 
@@ -130,17 +130,17 @@ Handle.prototype = {
                     Matrix.translationMatrix(center.x,center.y)
                 );
             
-            var cmdRotate = new RotateFigureCommand(HandleManager.figure.id, equivTransfMatrix, inverseTransfMatrix);
+            var cmdRotate = new RotateFigureCommand(HandleManager.shape.id, equivTransfMatrix, inverseTransfMatrix);
             cmdRotate.execute();
             History.addUndo(cmdRotate);
                 
         }
         else{ //if not "rotate" (figure), "updown", "leftright" (connector)
             //find the angle by which the figure was rotated (for any figure this is initally 0 so if != than 0 we have a rotation)
-            var angle = Util.getAngle(HandleManager.figure.rotationCoords[0], HandleManager.figure.rotationCoords[1]);
+            var angle = Util.getAngle(HandleManager.shape.rotationCoords[0], HandleManager.shape.rotationCoords[1]);
 
             //save initial figure's center
-            var oldCenter = HandleManager.figure.rotationCoords[0].clone();
+            var oldCenter = HandleManager.shape.rotationCoords[0].clone();
 
             
 
@@ -259,21 +259,21 @@ Handle.prototype = {
                 Matrix.translationMatrix(oldCenter.x,oldCenter.y)
             );
                 
-//            HandleManager.figure.transform(Matrix.translationMatrix(-oldCenter.x,-oldCenter.y));
-//            HandleManager.figure.transform(Matrix.rotationMatrix(-angle));
-//            HandleManager.figure.transform(Matrix.translationMatrix(oldCenter.x,oldCenter.y));
+//            HandleManager.shape.transform(Matrix.translationMatrix(-oldCenter.x,-oldCenter.y));
+//            HandleManager.shape.transform(Matrix.rotationMatrix(-angle));
+//            HandleManager.shape.transform(Matrix.translationMatrix(oldCenter.x,oldCenter.y));
 //
 //            //scale matrix
-//            HandleManager.figure.transform(Matrix.translationMatrix(-transX, -transY));
-//            HandleManager.figure.transform(Matrix.scaleMatrix(scaleX, scaleY))
-//            HandleManager.figure.transform(Matrix.translationMatrix(transX, transY));
+//            HandleManager.shape.transform(Matrix.translationMatrix(-transX, -transY));
+//            HandleManager.shape.transform(Matrix.scaleMatrix(scaleX, scaleY))
+//            HandleManager.shape.transform(Matrix.translationMatrix(transX, transY));
 //
 //
 //            //move and rotate the figure back to its original coordinates
-//            HandleManager.figure.transform(Matrix.translationMatrix(-oldCenter.x,-oldCenter.y));
-//            HandleManager.figure.transform(Matrix.rotationMatrix(angle));
-//            HandleManager.figure.transform(Matrix.translationMatrix(oldCenter.x,oldCenter.y));
-//             HandleManager.figure.transform(directMatrix);            
+//            HandleManager.shape.transform(Matrix.translationMatrix(-oldCenter.x,-oldCenter.y));
+//            HandleManager.shape.transform(Matrix.rotationMatrix(angle));
+//            HandleManager.shape.transform(Matrix.translationMatrix(oldCenter.x,oldCenter.y));
+//             HandleManager.shape.transform(directMatrix);            
             
             //scale matrix
             var scaleMatrix = Matrix.mergeTransformations(
@@ -298,11 +298,9 @@ Handle.prototype = {
              var directMatrix = Matrix.mergeTransformations(matrixToOrigin, scaleMatrix, matrixBackFromOrigin);
              var reverseMatrix = Matrix.mergeTransformations(matrixToOrigin, unscaleMatrix, matrixBackFromOrigin);
              
-             var cmdScale = new ScaleFigureCommand(HandleManager.figure.id, directMatrix, reverseMatrix);
+             var cmdScale = new ScaleFigureCommand(HandleManager.shape.id, directMatrix, reverseMatrix);
              cmdScale.execute();
-             History.addUndo(cmdScale);
-
-                
+             History.addUndo(cmdScale);                
             
         } //end else
         
@@ -321,38 +319,38 @@ Handle.prototype = {
             case 'v':
                 var index;
                 //find the two turning points this handle is in between
-                for(var i = 1; i < HandleManager.figure.turningPoints.length-1; i++){
-                    if(HandleManager.figure.turningPoints[i-1].y == HandleManager.figure.turningPoints[i].y 
-                        && HandleManager.figure.turningPoints[i].y == this.y 
-                        && Math.min(HandleManager.figure.turningPoints[i].x, HandleManager.figure.turningPoints[i-1].x) <= this.x 
-                        && Math.max(HandleManager.figure.turningPoints[i].x, HandleManager.figure.turningPoints[i-1].x) >= this.x)
+                for(var i = 1; i < HandleManager.shape.turningPoints.length-1; i++){
+                    if(HandleManager.shape.turningPoints[i-1].y == HandleManager.shape.turningPoints[i].y 
+                        && HandleManager.shape.turningPoints[i].y == this.y 
+                        && Math.min(HandleManager.shape.turningPoints[i].x, HandleManager.shape.turningPoints[i-1].x) <= this.x 
+                        && Math.max(HandleManager.shape.turningPoints[i].x, HandleManager.shape.turningPoints[i-1].x) >= this.x)
                     {
                         index = i;
                     }
                 }
                 //Pick turning points neighbours and translate them on Oy
-                HandleManager.figure.turningPoints[index-1].transform( Matrix.translationMatrix(0, newY - lastMove[1]) );
-                HandleManager.figure.turningPoints[index].transform( Matrix.translationMatrix(0, newY - lastMove[1]) );
+                HandleManager.shape.turningPoints[index-1].transform( Matrix.translationMatrix(0, newY - lastMove[1]) );
+                HandleManager.shape.turningPoints[index].transform( Matrix.translationMatrix(0, newY - lastMove[1]) );
                 break;
 
             case 'h':
                 var index;
                 //find the two turning points this handle is in between
-                for(var i = 1; i < HandleManager.figure.turningPoints.length-1; i++){
-                    if(HandleManager.figure.turningPoints[i-1].x == HandleManager.figure.turningPoints[i].x 
-                        && HandleManager.figure.turningPoints[i].x == this.x 
-                        && Math.min(HandleManager.figure.turningPoints[i].y, HandleManager.figure.turningPoints[i-1].y) <= this.y 
-                        && Math.max(HandleManager.figure.turningPoints[i].y, HandleManager.figure.turningPoints[i-1].y) >= this.y)
+                for(var i = 1; i < HandleManager.shape.turningPoints.length-1; i++){
+                    if(HandleManager.shape.turningPoints[i-1].x == HandleManager.shape.turningPoints[i].x 
+                        && HandleManager.shape.turningPoints[i].x == this.x 
+                        && Math.min(HandleManager.shape.turningPoints[i].y, HandleManager.shape.turningPoints[i-1].y) <= this.y 
+                        && Math.max(HandleManager.shape.turningPoints[i].y, HandleManager.shape.turningPoints[i-1].y) >= this.y)
                     {
                         index = i;
                     }
                 }
                 //Pick turning points neighbours and translate them on Ox
-                HandleManager.figure.turningPoints[index-1].transform( Matrix.translationMatrix(newX-lastMove[0],0) );
-                HandleManager.figure.turningPoints[index].transform( Matrix.translationMatrix(newX-lastMove[0],0) );
+                HandleManager.shape.turningPoints[index-1].transform( Matrix.translationMatrix(newX-lastMove[0],0) );
+                HandleManager.shape.turningPoints[index].transform( Matrix.translationMatrix(newX-lastMove[0],0) );
                 break;
         }
-        HandleManager.figure.updateMiddleText();
+        HandleManager.shape.updateMiddleText();
     },
 
     /**Handle an action. Simply dispatch to the correct handler
@@ -364,7 +362,7 @@ Handle.prototype = {
         if(lastMove == null || lastMove.length != 2){
             throw new Exception('Handle:action() Last move is wrong');
         }
-        if(HandleManager.figure instanceof Connector){
+        if(HandleManager.shape instanceof Connector){
             this.actionConnector(lastMove, newX, newY);
         }
         else{
@@ -454,7 +452,7 @@ Handle.prototype = {
      **/
     
     getCursor:function(){
-        if(HandleManager.figure instanceof Connector){
+        if(HandleManager.shape instanceof Connector){
             if(this.visible == false){
                 return "";
             }
@@ -473,7 +471,7 @@ Handle.prototype = {
                 return 'move';
             }
         
-            var figureBounds = HandleManager.figure.getBounds(); //get figure's bounds
+            var figureBounds = HandleManager.shape.getBounds(); //get figure's bounds
             var figureCenter = new Point(figureBounds[0] + ((figureBounds[2]-figureBounds[0])/2),
                 (figureBounds[1] + ((figureBounds[3] - figureBounds[1])/2)) ); //get figure's center
 
@@ -523,7 +521,7 @@ function HandleManager(){
 }
 
 /**The shape (figure or connector) that the HandleManager will manage*/
-HandleManager.figure = null;
+HandleManager.shape = null;
 
 /**An {Array} with current handles*/
 HandleManager.handles = [];
@@ -551,8 +549,8 @@ HandleManager.handleGetSelected = function(){
 /**Use this method to set a new shape (Figure or Connetor)  to this manager.
  * Every time a new figure is set, old handles will dissapear (got erased by new figure's handles)
  **/
-HandleManager.figureSet = function(shape){
-    HandleManager.figure = shape;
+HandleManager.shapeSet = function(shape){
+    HandleManager.shape = shape;
 
     //1. clear old/previous handles
     HandleManager.handles = [];
@@ -571,31 +569,31 @@ HandleManager.figureSet = function(shape){
             if( 
                 /*Previous points are not colinear and next points are either non colinear or last 2 coincide (this case appear when dragging)*/
                 (
-                    ! Util.collinearity(HandleManager.figure.turningPoints[i-1], HandleManager.figure.turningPoints[i], HandleManager.figure.turningPoints[i+1])
+                    ! Util.collinearity(HandleManager.shape.turningPoints[i-1], HandleManager.shape.turningPoints[i], HandleManager.shape.turningPoints[i+1])
                     && 
-                    ( !Util.collinearity(HandleManager.figure.turningPoints[i], HandleManager.figure.turningPoints[i+1], HandleManager.figure.turningPoints[i+2])
-                    || HandleManager.figure.turningPoints[i+1].equals(HandleManager.figure.turningPoints[i+2]) )
+                    ( !Util.collinearity(HandleManager.shape.turningPoints[i], HandleManager.shape.turningPoints[i+1], HandleManager.shape.turningPoints[i+2])
+                    || HandleManager.shape.turningPoints[i+1].equals(HandleManager.shape.turningPoints[i+2]) )
                 )
             
             ||
                 /*Previous points are non colinear or last 2 of them coincide and next points are not colinear*/
                 (
-                    (! Util.collinearity(HandleManager.figure.turningPoints[i-1], HandleManager.figure.turningPoints[i], HandleManager.figure.turningPoints[i+1])
-                    || HandleManager.figure.turningPoints[i-1].equals(HandleManager.figure.turningPoints[i]) )
+                    (! Util.collinearity(HandleManager.shape.turningPoints[i-1], HandleManager.shape.turningPoints[i], HandleManager.shape.turningPoints[i+1])
+                    || HandleManager.shape.turningPoints[i-1].equals(HandleManager.shape.turningPoints[i]) )
                     && 
-                    !Util.collinearity(HandleManager.figure.turningPoints[i], HandleManager.figure.turningPoints[i+1], HandleManager.figure.turningPoints[i+2])
+                    !Util.collinearity(HandleManager.shape.turningPoints[i], HandleManager.shape.turningPoints[i+1], HandleManager.shape.turningPoints[i+2])
                 )
             ){
                 if(shape.turningPoints[i].x == shape.turningPoints[i+1].x){ //same vertical
                     h = new Handle("h");
-                    h.x = HandleManager.figure.turningPoints[i].x;
-                    h.y = (HandleManager.figure.turningPoints[i].y + HandleManager.figure.turningPoints[i+1].y) / 2;
+                    h.x = HandleManager.shape.turningPoints[i].x;
+                    h.y = (HandleManager.shape.turningPoints[i].y + HandleManager.shape.turningPoints[i+1].y) / 2;
 
                 }
                 else{ // same horizontal
                     h = new Handle("v");
-                    h.x = (HandleManager.figure.turningPoints[i].x +  HandleManager.figure.turningPoints[i+1].x) / 2;
-                    h.y = HandleManager.figure.turningPoints[i].y;
+                    h.x = (HandleManager.shape.turningPoints[i].x +  HandleManager.shape.turningPoints[i+1].x) / 2;
+                    h.y = HandleManager.shape.turningPoints[i].y;
                 }
                 h.visible = true;
                 HandleManager.handles.push(h);
@@ -604,14 +602,14 @@ HandleManager.figureSet = function(shape){
     }
     else if(shape instanceof Figure || shape instanceof Group){
         //find Figure's angle
-        var angle = Util.getAngle(HandleManager.figure.rotationCoords[0], HandleManager.figure.rotationCoords[1]);
+        var angle = Util.getAngle(HandleManager.shape.rotationCoords[0], HandleManager.shape.rotationCoords[1]);
 
         //rotate it back to "normal" space (from current space)
-        HandleManager.figure.transform(Matrix.rotationMatrix(-angle), false);
+        HandleManager.shape.transform(Matrix.rotationMatrix(-angle), false);
         HandleManager.selectRect = new Polygon();
 
         //construct bounds of the Figure in "normal" space
-        var bounds = HandleManager.figure.getBounds();
+        var bounds = HandleManager.shape.getBounds();
         HandleManager.selectRect.points = [];
         HandleManager.selectRect.addPoint(new Point(bounds[0] - HandleManager.handleOffset, bounds[1] - HandleManager.handleOffset)); //top left
         HandleManager.selectRect.addPoint(new Point(bounds[2]+ HandleManager.handleOffset, bounds[1] - HandleManager.handleOffset)); //top right
@@ -671,7 +669,7 @@ HandleManager.figureSet = function(shape){
         HandleManager.selectRect.transform(Matrix.rotationMatrix(angle));
 
         //rotate figure from "normal" space to current space
-        HandleManager.figure.transform(Matrix.rotationMatrix(angle),false);
+        HandleManager.shape.transform(Matrix.rotationMatrix(angle),false);
         if(shape instanceof Figure){
             if(shape.primitives[0] instanceof Text && shape.primitives.length == 1){
                 for(var i = 0; i < HandleManager.handles.length-1; i++){
@@ -727,7 +725,7 @@ HandleManager.handleSelectXY = function(x,y){
  **/
 HandleManager.clear = function(){
     HandleManager.handleSelectedIndex = -1;
-    HandleManager.figure = null;
+    HandleManager.shape = null;
     HandleManager.handles = [];
 }
 

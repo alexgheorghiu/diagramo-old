@@ -678,7 +678,7 @@ function onMouseDown(ev){
                 if(doUndo){
                     currentMoveUndo = new MatrixCommand(selectedFigureId, History.OBJECT_FIGURE, History.MATRIX, Matrix.translationMatrix(g.getBounds()[0],g.getBounds()[1]), null);
                 }
-                HandleManager.figureSet(g);
+                HandleManager.shapeSet(g);
                 state = STATE_GROUP_SELECTED;
                 break;
             }

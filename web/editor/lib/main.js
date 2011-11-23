@@ -709,11 +709,11 @@ function onMouseDown(ev){
                     redraw = true;
                 }
                 else{
-            //DO NOTHING aka "Dolce far niente"
-            //                    state = STATE_NONE;
-            //                    setUpEditPanel(canvasProps);
-            //                    Log.info('onMouseDown() + STATE_NONE  - no change');
-            }
+                    //DO NOTHING aka "Dolce far niente"
+                    //                    state = STATE_NONE;
+                    //                    setUpEditPanel(canvasProps);
+                    //                    Log.info('onMouseDown() + STATE_NONE  - no change');
+                }
             }
             
             break;
@@ -772,7 +772,7 @@ function onMouseDown(ev){
                     state = STATE_CONNECTOR_SELECTED;
                     selectedConnectorId = cId;
                     var con = CONNECTOR_MANAGER.connectorGetById(selectedConnectorId);
-                    HandleManager.figureSet(con);                                        
+                    HandleManager.shapeSet(con);                                        
                     setUpEditPanel(con);
                     Log.info('onMouseDown() + STATE_FIGURE_SELECTED  - change to STATE_CONNECTOR_SELECTED');
                     redraw = true;
@@ -800,6 +800,7 @@ function onMouseDown(ev){
                                 selectedFigureId = -1;
                                 selectedGroupId = f.groupId;
                                 state = STATE_GROUP_SELECTED;
+                                setUpEditPanel(null);
                                 redraw = true;                                
                                 Log.info('onMouseDown() + STATE_FIGURE_SELECTED + group figure => change to STATE_GROUP_SELECTED');                                                                
                             }
@@ -832,7 +833,7 @@ function onMouseDown(ev){
             //                if(doUndo){
             //                    currentMoveUndo = new MatrixCommand(selectedFigureId, History.OBJECT_FIGURE, History.MATRIX, Matrix.translationMatrix(g.getBounds()[0],g.getBounds()[1]), null);
             //                }
-            //                HandleManager.figureSet(g);
+            //                HandleManager.shapeSet(g);
             //                state = STATE_GROUP_SELECTED;
             //                break;
             //            }
@@ -874,21 +875,23 @@ function onMouseDown(ev){
 
         case STATE_GROUP_SELECTED:
             /*Description:
-             *TODO: implement it
-             * If we have a selected group and we pressed the mouse here is what can happen:
+             * If we have a selected group and we pressed the mouse this can happen:
              * - if we clicked a handle of current selected shape (asset: it should be Group) then just select that Handle
              * - if we clicked a Connector than that Connector should be selected  (Connectors are more important than Figures 
              *      or Groups :p) :
+             *      - deselect current group
              *      - if current group is temporary (destroy it)
              * - if we clicked a Figure:
+             *      - deselect current group
              *      - the figure is from same group? (do nothing)
              *      - the figure is from different group? (select that group)
              *          - if current group is temporary (destroy it)
              *      - the figure does not belong to any group? 
+             *           - select that figure
              *           - if current group is temporary (destroy it)
              * - if we clicked on empty space
              *      - if group was temporary, destroy it
-             *      - if group was permanent ...just deselect it.    
+             *      - if group was permanent ...just deselect it (state none)  
              */
             
             //GROUPS
@@ -898,45 +901,56 @@ function onMouseDown(ev){
             
             if( HandleManager.handleGet(x,y) != null){ //handle ?
                 HandleManager.handleSelectXY(x, y);
-                Log.info('onMouseDown() + STATE_GROUP_SELECTED  + handle selected => STATE_GROUP_SELECTED');
+                redraw = true;
+                Log.info('onMouseDown() + STATE_GROUP_SELECTED  + handle selected => STATE_GROUP_SELECTED');                
             }
             else if(CONNECTOR_MANAGER.connectorGetByXY(x, y) != -1){ //connector?
+                //destroy current group (if temporary)
+                if(!selectedGroup.permanent){
+                    stack.groupDestroy(selectedGroupId);
+                }
+                
+                //deselect current group
+                selectedGroupId = -1;
+                
                 selectedConnectorId = CONNECTOR_MANAGER.connectorGetByXY(x, y);
                 state = STATE_CONNECTOR_SELECTED;
                 redraw = true;
                 Log.info('onMouseDown() + STATE_GROUP_SELECTED  + handle selected => STATE_CONNECTOR_SELECTED');
-                
-                //TODO: destroy current group
             }
             else if(stack.figureGetByXY(x, y) != -1){
                 var fId = stack.figureGetByXY(x, y);
                 var fig = stack.figureGetById(fId);
                 
                 if(fig.groupId == -1){ //lonely figure
-                    state = STATE_FIGURE_SELECTED;
-                    selectedFigureId = fId;
-                    Log.info('onMouseDown() + STATE_GROUP_SELECTED  + lonely figure => STATE_FIGURE_SELECTED');
-                    
-                    //destroy temp group
+                    //destroy current group (if temporary)
                     if(!selectedGroup.permanent){
                         stack.groupDestroy(selectedGroupId);
                     }
                     
+                    //deselect current group
                     selectedGroupId = -1;
                     
+                    
+                    state = STATE_FIGURE_SELECTED;
+                    selectedFigureId = fId;
+                    Log.info('onMouseDown() + STATE_GROUP_SELECTED  + lonely figure => STATE_FIGURE_SELECTED');
+                    
+                    setUpEditPanel(fig);
                     redraw = true;
                 }
                 else{ //group figure
                     if(fig.groupId != selectedGroupId){
-                        //destroy temp group
+                        //destroy current group (if temporary)
                         if(!selectedGroup.permanent){
                             stack.groupDestroy(selectedGroupId);
                         }
                         
-                        selectedGroupId = fig.groupId;
-                        Log.info('onMouseDown() + STATE_GROUP_SELECTED  + (different) group figure => STATE_GROUP_SELECTED');
                         
+                        selectedGroupId = fig.groupId;
+                                                
                         redraw = true;
+                        Log.info('onMouseDown() + STATE_GROUP_SELECTED  + (different) group figure => STATE_GROUP_SELECTED');
                     }
                     else{ //figure from same group
                         //do nothing
@@ -945,15 +959,13 @@ function onMouseDown(ev){
             } 
             else{ //mouse down on empty space
                 if(!selectedGroup.permanent){
-                    stack.groupDestroy(selectedGroupId);
-                    alert("Destroy group");
+                    stack.groupDestroy(selectedGroupId);                    
                 }
                 
                 selectedGroupId = -1;
                 state = STATE_NONE;
-                Log.info('onMouseDown() + STATE_GROUP_SELECTED  + mouse on empty => STATE_NONE');
-                
                 redraw = true;
+                Log.info('onMouseDown() + STATE_GROUP_SELECTED  + mouse on empty => STATE_NONE');
             }
             
             //            if(!selectedGroup.contains(x,y) && HandleManager.handleGet(x,y) == null){
@@ -1002,27 +1014,27 @@ function onMouseDown(ev){
             //                Log.info("onMouseDown() + STATE_FIGURE_SELECTED - handle selected");
             //                HandleManager.handleSelectXY(x,y);
             //
-            //                var oldRot = [HandleManager.figure.rotationCoords[0].clone(),HandleManager.figure.rotationCoords[1].clone()];
-            //                var angle = Util.getAngle(HandleManager.figure.rotationCoords[0], HandleManager.figure.rotationCoords[1],0.00001);
-            //                var trans = Matrix.translationMatrix(-HandleManager.figure.rotationCoords[0].x,-HandleManager.figure.rotationCoords[0].y);
+            //                var oldRot = [HandleManager.shape.rotationCoords[0].clone(),HandleManager.shape.rotationCoords[1].clone()];
+            //                var angle = Util.getAngle(HandleManager.shape.rotationCoords[0], HandleManager.shape.rotationCoords[1],0.00001);
+            //                var trans = Matrix.translationMatrix(-HandleManager.shape.rotationCoords[0].x,-HandleManager.shape.rotationCoords[0].y);
             //                if(angle!= 0){
-            //                    HandleManager.figure.transform(trans);
-            //                    HandleManager.figure.transform(Matrix.rotationMatrix(-angle));
+            //                    HandleManager.shape.transform(trans);
+            //                    HandleManager.shape.transform(Matrix.rotationMatrix(-angle));
             //                    trans[0][2] = -trans[0][2];
             //                    trans[1][2] = -trans[1][2];
-            //                    HandleManager.figure.transform(trans);
+            //                    HandleManager.shape.transform(trans);
             //                    trans[0][2] = -trans[0][2];
             //                    trans[1][2] = -trans[1][2];
             //                }
             //                if(doUndo){
-            //                    currentMoveUndo = new MatrixCommand(HandleManager.figure.id,History.OBJECT_GROUP,History.MATRIX, oldRot, HandleManager.figure.getBounds());
+            //                    currentMoveUndo = new MatrixCommand(HandleManager.shape.id,History.OBJECT_GROUP,History.MATRIX, oldRot, HandleManager.shape.getBounds());
             //                }
             //                if(angle!= 0){
-            //                    HandleManager.figure.transform(trans);
-            //                    HandleManager.figure.transform(Matrix.rotationMatrix(angle));
+            //                    HandleManager.shape.transform(trans);
+            //                    HandleManager.shape.transform(Matrix.rotationMatrix(angle));
             //                    trans[0][2] = -trans[0][2];
             //                    trans[1][2] = -trans[1][2];
-            //                    HandleManager.figure.transform(trans);
+            //                    HandleManager.shape.transform(trans);
             //                }
             //            }
             break;
@@ -1180,7 +1192,7 @@ function onMouseUp(ev){
             //            }
             //            //lots of things that can happen here, so quite complicated
             //            if(HandleManager.handleGetSelected() != null){ //deselect current handle
-            //                var figure = HandleManager.figure;
+            //                var figure = HandleManager.shape;
             //                var bounds = figure.getBounds();
             //
             //                //get the angle of the original shape, prior to any action
@@ -1209,29 +1221,29 @@ function onMouseUp(ev){
             //
             //
             //                    //rotate the current figure back to the 0 axis, to get correct representation of width and height
-            //                    var trans = Matrix.translationMatrix(-HandleManager.figure.rotationCoords[0].x,-HandleManager.figure.rotationCoords[0].y);
+            //                    var trans = Matrix.translationMatrix(-HandleManager.shape.rotationCoords[0].x,-HandleManager.shape.rotationCoords[0].y);
             //
-            //                    HandleManager.figure.transform(trans);
+            //                    HandleManager.shape.transform(trans);
             //                    trans[0][2] = -trans[0][2];
             //                    trans[1][2] = -trans[1][2];
-            //                    HandleManager.figure.transform(Matrix.rotationMatrix(-newAngle));
-            //                    HandleManager.figure.transform(trans);
+            //                    HandleManager.shape.transform(Matrix.rotationMatrix(-newAngle));
+            //                    HandleManager.shape.transform(trans);
             //                    trans[0][2] = -trans[0][2];
             //                    trans[1][2] = -trans[1][2];
             //
-            //                    var newBounds = HandleManager.figure.getBounds();
+            //                    var newBounds = HandleManager.shape.getBounds();
             //
             //                    //rotate the figure back into its normal position
-            //                    HandleManager.figure.transform(trans);
+            //                    HandleManager.shape.transform(trans);
             //                    trans[0][2] = -trans[0][2];
             //                    trans[1][2] = -trans[1][2];
-            //                    HandleManager.figure.transform(Matrix.rotationMatrix(newAngle));
-            //                    HandleManager.figure.transform(trans);
+            //                    HandleManager.shape.transform(Matrix.rotationMatrix(newAngle));
+            //                    HandleManager.shape.transform(trans);
             //
             //                    //we need a record of the non translated, rotated bounds, in order to scale correctly later
-            //                    HandleManager.figure.transform(Matrix.rotationMatrix(-newAngle));
-            //                    var untranslatedBounds = HandleManager.figure.getBounds();
-            //                    HandleManager.figure.transform(Matrix.rotationMatrix(newAngle));
+            //                    HandleManager.shape.transform(Matrix.rotationMatrix(-newAngle));
+            //                    var untranslatedBounds = HandleManager.shape.getBounds();
+            //                    HandleManager.shape.transform(Matrix.rotationMatrix(newAngle));
             //
             //                    //get the old and new widths and heights;
             //                    var oldWidth = (oldBounds[2]-oldBounds[0])/2;
@@ -1629,7 +1641,7 @@ function onMouseMove(ev){
                     }
                 }
             }
-            else{ //no mouse press
+            else{ //no mouse press (only change cursor)
                 var handle = HandleManager.handleGet(x,y); //TODO: we should be able to replace it with .getSelectedHandle()
                     
                 if(handle != null){ //We are over a Handle of selected Figure               
@@ -1659,7 +1671,7 @@ function onMouseMove(ev){
             //            }
             //            else if(HandleManager.handleGet(x,y) != null){ //over a handle?. Handles should appear only for selected figures
             //                
-            //                if(HandleManager.figure.id == selectedFigureId){
+            //                if(HandleManager.shape.id == selectedFigureId){
             //                    canvas.style.cursor = HandleManager.handleGet(x,y).getCursor();
             //                    Log.info('onMouseMove() - STATE_FIGURE_SELECTED - mouse cursor = ' + canvas.style.cursor);
             //                }
@@ -1721,23 +1733,28 @@ function onMouseMove(ev){
              */
             
             if(mousePressed){
-                //Log.debug('onMouseMove() - STATE_GROUP_SELECTED + mouse pressed');
-                if(HandleManager.handleGet(x,y) != null){ //over a handle
-                    Log.info('onMouseMove() - STATE_GROUP_SELECTED + mouse pressed  + over a Handle');
-                    HandleManager.handleSelectXY(x, y);
-                    canvas.style.cursor = HandleManager.handleGet(x,y).getCursor();
-                }
-                else{ //not over any handle -so it must be translating
-                    Log.info('onMouseMove() - STATE_GROUP_SELECTED + mouse pressed + NOT over a Handle');
-                    canvas.style.cursor = 'move';
-                    var cmdTranslateGroup = new TranslateGroupCommand(selectedGroupId, x, y);
-                    cmdTranslateGroup.execute();
-                    History.addUndo(cmdTranslateGroup);
-                    redraw = true;
+                if(lastMove != null){
+                    //Log.debug('onMouseMove() - STATE_GROUP_SELECTED + mouse pressed');
+                    var handle = HandleManager.handleGet(x,y);
+                    if(handle != null){ //over a handle
+                        Log.info('onMouseMove() - STATE_GROUP_SELECTED + mouse pressed  + over a Handle');
+                        HandleManager.handleSelectXY(x, y);
+                        canvas.style.cursor = HandleManager.handleGet(x,y).getCursor();
+                        //TODO: add handle action
+                        var cmd
+                    }
+                    else{ //not over any handle -so it must be translating
+                        Log.info('onMouseMove() - STATE_GROUP_SELECTED + mouse pressed + NOT over a Handle');
+                        canvas.style.cursor = 'move';
+                        var cmdTranslateGroup = new TranslateGroupCommand(selectedGroupId, x, y);
+                        cmdTranslateGroup.execute();
+                        History.addUndo(cmdTranslateGroup);
+                        redraw = true;
+                    }
                 }
             }
-            else{
-                Log.info('onMouseMove() - STATE_GROUP_SELECTED + mouse NOT pressed');
+            else{ //mouse not pressed (only change cursor)
+                Log.debug('onMouseMove() - STATE_GROUP_SELECTED + mouse NOT pressed');
                 if(HandleManager.handleGet(x,y) != null){
                     canvas.style.cursor = HandleManager.handleGet(x,y).getCursor();
                 }

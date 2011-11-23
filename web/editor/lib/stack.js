@@ -656,18 +656,18 @@ Stack.prototype = {
         //paint handlers for selected shape
         if(state == STATE_FIGURE_SELECTED){ //FIGURE
             var f = this.figureGetById(selectedFigureId)
-            HandleManager.figureSet(f);
+            HandleManager.shapeSet(f);
             //alert('Paint handles');
             HandleManager.paint(context);
         }
         else if(state == STATE_CONNECTOR_SELECTED){ //CONNECTOR
             var c = CONNECTOR_MANAGER.connectorGetById(selectedConnectorId)
-            HandleManager.figureSet(c);
+            HandleManager.shapeSet(c);
             HandleManager.paint(context);
         }
         else if(state == STATE_GROUP_SELECTED){ //GROUP 
             var g = this.groupGetById(selectedGroupId)
-            HandleManager.figureSet(g);
+            HandleManager.shapeSet(g);
             HandleManager.paint(context);
         }
 
