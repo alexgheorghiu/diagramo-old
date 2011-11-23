@@ -67,6 +67,8 @@ if(is_numeric($_REQUEST['diagramId'])){
         <script type="text/javascript" src="./lib/commands/TranslateFigureCommand.js?<?=time()?>"></script>
         <script type="text/javascript" src="./lib/commands/RotateFigureCommand.js?<?=time()?>"></script>
         <script type="text/javascript" src="./lib/commands/ScaleFigureCommand.js?<?=time()?>"></script>
+        <script type="text/javascript" src="./lib/commands/RotateGroupCommand.js?<?=time()?>"></script>
+        <script type="text/javascript" src="./lib/commands/ScaleGroupCommand.js?<?=time()?>"></script>
         <script type="text/javascript" src="./lib/commands/ZOrderFigureCommand.js?<?=time()?>"></script>
         <script type="text/javascript" src="./lib/commands/CreateFigureCommand.js?<?=time()?>"></script>
         <script type="text/javascript" src="./lib/commands/TranslateGroupCommand.js?<?=time()?>"></script>

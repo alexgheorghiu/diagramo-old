@@ -1180,6 +1180,10 @@ function onMouseUp(ev){
 
         case STATE_GROUP_SELECTED:
             Log.info('onMouseUp() + STATE_GROUP_SELECTED ...');
+            
+            mousePressed = false;
+            HandleManager.handleSelectedIndex = -1; //reset only the handler....the Group is still selected
+            
             //            //GROUPS
             //            if(currentMoveUndo != null && HandleManager.handleGetSelected() == null){
             //                var f = stack.groupGetById(selectedGroupId);
@@ -1617,12 +1621,11 @@ function onMouseMove(ev){
             
             if(mousePressed){ // mouse is (at least was) pressed
                 if(lastMove != null){ //we are in dragging mode
-                    //                    var handle = HandleManager.handleGet(x,y); //TODO: we should be able to replace it with .getSelectedHandle()
                     /*We need to use handleGetSelected() as if we are using handleGet(x,y) then 
                      *as we move the mouse....it can move faster/slower than the figure and we 
                      *will lose the Handle selection.
                      **/
-                    var handle = HandleManager.handleGetSelected(); //TODO: we should be able to replace it with .getSelectedHandle()
+                    var handle = HandleManager.handleGetSelected();
                     
                     if(handle != null){ //We are over a Handle of selected Figure               
                         canvas.style.cursor = handle.getCursor();
@@ -1735,13 +1738,18 @@ function onMouseMove(ev){
             if(mousePressed){
                 if(lastMove != null){
                     //Log.debug('onMouseMove() - STATE_GROUP_SELECTED + mouse pressed');
-                    var handle = HandleManager.handleGet(x,y);
+                    /*We need to use handleGetSelected() as if we are using handleGet(x,y) then 
+                     *as we move the mouse....it can move faster/slower than the figure and we 
+                     *will lose the Handle selection.
+                     **/
+                    var handle = HandleManager.handleGetSelected();
+                    
                     if(handle != null){ //over a handle
                         Log.info('onMouseMove() - STATE_GROUP_SELECTED + mouse pressed  + over a Handle');
-                        HandleManager.handleSelectXY(x, y);
-                        canvas.style.cursor = HandleManager.handleGet(x,y).getCursor();
-                        //TODO: add handle action
-                        var cmd
+                        //HandleManager.handleSelectXY(x, y);
+                        canvas.style.cursor = handle.getCursor();
+                        handle.action(lastMove, x, y);
+                        redraw = true;
                     }
                     else{ //not over any handle -so it must be translating
                         Log.info('onMouseMove() - STATE_GROUP_SELECTED + mouse pressed + NOT over a Handle');
