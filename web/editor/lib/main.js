@@ -587,11 +587,11 @@ function onKeyDown(ev){
             }
             break;
 
-        case KEY.Y:
-            if(CNTRL_PRESSED){
-                action('redo');
-            }
-            break;
+//        case KEY.Y:
+//            if(CNTRL_PRESSED){
+//                action('redo');
+//            }
+//            break;
             
         case KEY.G:
             if(CNTRL_PRESSED){
@@ -2312,11 +2312,11 @@ function action(action){
             redraw = true;
             break;
             
-        case 'redo':
-            Log.info("main.js->action()->Redo. Nr of actions in the stack: " + History.COMMANDS.length);
-            History.redo();
-            redraw = true;
-            break;
+//        case 'redo':
+//            Log.info("main.js->action()->Redo. Nr of actions in the stack: " + History.COMMANDS.length);
+//            History.redo();
+//            redraw = true;
+//            break;
             
         case 'group':
             /*After we pressed Ctrl-G any temporary group will became permanent*/

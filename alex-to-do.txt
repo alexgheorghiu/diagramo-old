@@ -2,15 +2,8 @@ This is Alex's current mental stack
 
 Current stack:
 
-* [done]move Group, Figure  by key not working :( (working on up action)
-up (in progress but command not consistent with mouse move one), down, left, right
+* no more redo (at least in the interface)
 
-* [x]select group, rotate it/ scale, try to move... it will rotate/scale :( (rotate handle still selected?)
-* grouped figures can not rotate
-    [x]onMouseMove + STATE_GROUP_SELECTED - refactor according to Description
-    [x]onMouseDown + STATE_GROUP_SELECTED - refactor according to Description
-    -- / --     + None + over a figure of a group - only that figure is selected -not the whole group :(
-    deselect group             
 * ungroup group not working
 * ZOrder commands
 * redraw boolean value does not seems to be really used !?!?!
