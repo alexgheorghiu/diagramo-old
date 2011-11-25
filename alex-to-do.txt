@@ -2,5 +2,6 @@ This is Alex's current mental stack
 
 Current stack:
 
+* connectors - create action & others
 * redraw boolean value does not seems to be really used !?!?!
 * add development-rules.txt to wiki
