@@ -1,0 +1,33 @@
+System actions
+--------------
+Bellow is a list of system's action/commands
+
+figure create
+figure move
+figure expand
+figure rotate
+figure delete
+figure change
+figure move back
+figure move front
+figure move backward
+figure move forward
+
+group create 
+group split
+group expand
+group move
+group rotate
+
+canvas change size
+
+connector str8 create
+connector str8 connect
+connector str8 disconnect
+connector str8 delete
+
+connector jagged create
+connector jagged connect
+connector jagged disconnect
+connector jagged alter shape
+connector jagged delete
