@@ -2,8 +2,5 @@ This is Alex's current mental stack
 
 Current stack:
 
-* no more redo (at least in the interface)
-
-* ungroup group not working
 * ZOrder commands
 * redraw boolean value does not seems to be really used !?!?!

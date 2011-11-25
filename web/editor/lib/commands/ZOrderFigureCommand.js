@@ -33,7 +33,7 @@ ZOrderFigureCommand.prototype = {
         else{
             stack.setPosition(this.figureId, this.oldPosition);
         }
-    },
+    }
     
 }
 
