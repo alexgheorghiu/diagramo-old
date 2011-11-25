@@ -136,7 +136,7 @@ Matrix.mergeTransformations = function(){
  **/
 Matrix.invertMatrix = function(m){
     
-};
+    };
 
 /**Compares two matrixes
   *@param {Array} m1 - first matrix
@@ -228,5 +228,31 @@ Matrix.R90 = [[0, -1, 0], [0,  1, 0], [0,  0, 1]];
 /**The identity matrix*/
 Matrix.IDENTITY = [[1,0,0],[0,1,0],[0,0,1]];
 
+/**The move up by 1 unit matrix*/
+Matrix.UP = [
+    [1, 0, 0],
+    [0, 1, -1],
+    [0, 0, 1]
+    ];
+    
+/**The move down by 1 unit matrix*/
+Matrix.DOWN = [
+    [1, 0, 0],
+    [0, 1, 1],
+    [0, 0, 1]
+    ];
+    
+/**The move left by 1 unit matrix*/
+Matrix.LEFT = [
+    [1, 0, -1],
+    [0, 1, 0],
+    [0, 0, 1]
+    ];
 
+/**The move right by 1 unit matrix*/
+Matrix.RIGHT = [
+    [1, 0, 1],
+    [0, 1, 0],
+    [0, 0, 1]
+    ];
 

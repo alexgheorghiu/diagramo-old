@@ -617,12 +617,19 @@ Stack.prototype = {
          **/
         
         if(visualDebug){
+            var  pos = 1;
             context.save();
-            context.strokeStyle= '#AAAAAA';
+            context.font = "10px Arial";
+            context.fillStyle= '#000000';
+            context.strokeStyle= '#000000';
             context.lineWidth = 1;  
-            context.strokeText("state: " + state, 0, 10);
-            context.strokeText("selectedFigureId: : " + selectedFigureId, 0, 20);
-            context.strokeText("selectedGroupId: : " + selectedGroupId, 0, 30);
+            context.fillText("state: " + state, 0, 10 * pos++);
+            context.fillText("selectedFigureId: : " + selectedFigureId, 0, 10 * pos++);
+            context.fillText("selectedGroupId: : " + selectedGroupId, 0, 10 * pos++);
+            if(selectedGroupId != -1){
+                var logGroup = this.groupGetById(selectedGroupId);
+                context.fillText("permanent: : " + logGroup.permanent, 0, 10 * pos++);
+            }
             context.restore();
         }
         

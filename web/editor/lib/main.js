@@ -566,6 +566,7 @@ function onKeyDown(ev){
             break;
 
         case KEY.UP://Arrow Up
+//            alert('up');
             action("up");
             return false;
             break;
@@ -1638,7 +1639,8 @@ function onMouseMove(ev){
                     else{
                         /*move figure only if no handle is selected*/
                         canvas.style.cursor = 'move';
-                        var cmdTranslateFigure = new TranslateFigureCommand(selectedFigureId, x, y);
+                        var translateMatrix = generateMoveMatrix(stack.figureGetById(selectedFigureId), x, y);
+                        var cmdTranslateFigure = new TranslateFigureCommand(selectedFigureId, translateMatrix);
                         History.addUndo(cmdTranslateFigure);
                         cmdTranslateFigure.execute();
                         redraw = true;
@@ -1756,7 +1758,8 @@ function onMouseMove(ev){
                     else{ //not over any handle -so it must be translating
                         Log.info('onMouseMove() - STATE_GROUP_SELECTED + mouse pressed + NOT over a Handle');
                         canvas.style.cursor = 'move';
-                        var cmdTranslateGroup = new TranslateGroupCommand(selectedGroupId, x, y);
+                        var mTranslate = generateMoveMatrix(stack.groupGetById(selectedGroupId), x, y);
+                        var cmdTranslateGroup = new TranslateGroupCommand(selectedGroupId, mTranslate);
                         cmdTranslateGroup.execute();
                         History.addUndo(cmdTranslateGroup);
                         redraw = true;
@@ -2402,81 +2405,75 @@ function action(action){
             }
             break;
 
-        case 'up':
-            TRANSLATE = [
-                [1, 0, 0],
-                [0, 1, -1],
-                [0, 0, 1]
-                ];
-                
-            TRANSLATE_BACK = [
-                [1, 0, 0],
-                [0, 1, +1],
-                [0, 0, 1]
-                ];    
-                
+        case 'up': //decrease Y                                   
             switch(state){
                 case STATE_FIGURE_SELECTED:
-                    var cmdFigUp = new TranslateFigureCommand(figureId, x, y)
+                    var cmdFigUp = new TranslateFigureCommand(selectedFigureId, Matrix.UP);
+                    History.addUndo(cmdFigUp);
+                    cmdFigUp.execute();
                     redraw = true;
                     break;
                 case STATE_GROUP_SELECTED:
+                    var cmdGrpUp = new TranslateGroupCommand(selectedGroupId, Matrix.UP);
+                    History.addUndo(cmdGrpUp);
+                    cmdGrpUp.execute();
                     redraw = true;
                     break;
             }
-            
-            if(selectedFigureId != -1){
-                //alert("Selected figure index: " + stack.figureSelectedIndex);
-                var figure = stack.figureGetById(selectedFigureId);
-                TRANSLATE = [
-                [1, 0, 0],
-                [0, 1, -1],
-                [0, 0, 1]
-                ]
-                figure.transform(TRANSLATE);
-                redraw = true;
-            }
+                        
             break;
 
         case 'down':
-            if(selectedFigureId != -1){
-                //alert("Selected figure index: " + stack.figureSelectedIndex);
-                var figure = stack.figureGetById(selectedFigureId);
-                TRANSLATE = [
-                [1, 0, 0],
-                [0, 1, 1],
-                [0, 0, 1]
-                ]
-                figure.transform(TRANSLATE);
-                redraw = true;
-            }
+            switch(state){
+                case STATE_FIGURE_SELECTED:
+                    var cmdFigDown = new TranslateFigureCommand(selectedFigureId, Matrix.DOWN);
+                    History.addUndo(cmdFigDown);
+                    cmdFigDown.execute();
+                    redraw = true;
+                    break;
+                    
+                case STATE_GROUP_SELECTED:
+                    var cmdGrpDown = new TranslateGroupCommand(selectedGroupId, Matrix.DOWN);
+                    History.addUndo(cmdGrpDown);
+                    cmdGrpDown.execute();
+                    redraw = true;
+                    break;
+            }                        
             break;
 
         case 'right':
-            if(selectedFigureId != -1){
-                //alert("Selected figure index: " + stack.figureSelectedIndex);
-                var figure = stack.figureGetById(selectedFigureId);
-                TRANSLATE = [
-                [1, 0, 1],
-                [0, 1, 0],
-                [0, 0, 1]
-                ]
-                figure.transform(TRANSLATE);
-                redraw = true;
-            }
+            switch(state){
+                case STATE_FIGURE_SELECTED:
+                    var cmdFigRight = new TranslateFigureCommand(selectedFigureId, Matrix.RIGHT);
+                    History.addUndo(cmdFigRight);
+                    cmdFigRight.execute();
+                    redraw = true;
+                    break;
+                    
+                case STATE_GROUP_SELECTED:
+                    var cmdGrpRight = new TranslateGroupCommand(selectedGroupId, Matrix.RIGHT);
+                    History.addUndo(cmdGrpRight);
+                    cmdGrpRight.execute();
+                    redraw = true;
+                    break;
+            } 
             break;
 
         case 'left':
-            if(selectedFigureId != -1){
-                //alert("Selected figure index: " + stack.figureSelectedIndex);
-                var figure = stack.figureGetById(selectedFigureId);
-                var TRANSLATE = [
-                [1, 0, -1],
-                [0, 1, 0],
-                [0, 0, 1]
-                ]
-                figure.transform(TRANSLATE);
-                redraw = true;
+            switch(state){
+                case STATE_FIGURE_SELECTED:
+                    var cmdFigLeft = new TranslateFigureCommand(selectedFigureId, Matrix.LEFT);
+                    History.addUndo(cmdFigLeft);
+                    cmdFigLeft.execute();
+                    redraw = true;
+                    break;
+                    
+                case STATE_GROUP_SELECTED:
+                    var cmdGrpLeft = new TranslateGroupCommand(selectedGroupId, Matrix.LEFT);
+                    History.addUndo(cmdGrpLeft);
+                    cmdGrpLeft.execute();
+                    redraw = true;
+                    break;
             }
             break;
 

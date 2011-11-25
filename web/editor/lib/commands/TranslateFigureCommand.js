@@ -1,19 +1,20 @@
 /* 
- * This is triggered when a figure was moved
+ * This is triggered when a figure was translated
+ * @param {Integer} figureId - the id of the figure translated
+ * @param {Array} matrix - the transformation matrix of translation
  * @author Alex Gheorghiu <alex@scriptoid.com>
  */
-function TranslateFigureCommand(figureId, x, y){
+function TranslateFigureCommand(figureId, matrix){
     this.oType = 'TranslateFigureCommand';
     
     /**Any sequence of many mergeable actions can be packed by the history*/
     this.mergeable = true;
     
     this.figureId = figureId;
-    this.x = x;
-    this.y = y;    
     
     //compute the translation matrix
-    this.matrix = generateMoveMatrix(stack.figureGetById(figureId), this.x,this. y);
+//    this.matrix = generateMoveMatrix(stack.figureGetById(figureId), this.x,this. y);
+    this.matrix = matrix
         
     //compute the reverse matrix
     this.reverseMatrix = [
