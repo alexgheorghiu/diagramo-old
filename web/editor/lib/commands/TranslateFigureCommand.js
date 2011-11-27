@@ -13,7 +13,7 @@ function TranslateFigureCommand(figureId, matrix){
     this.figureId = figureId;
     
     //compute the translation matrix
-//    this.matrix = generateMoveMatrix(stack.figureGetById(figureId), this.x,this. y);
+//    this.matrix = generateMoveMatrix(STACK.figureGetById(figureId), this.x,this. y);
     this.matrix = matrix
         
     //compute the reverse matrix
@@ -32,14 +32,14 @@ TranslateFigureCommand.prototype = {
     
     /**This method got called every time the Command must execute*/
     execute : function(){  
-        var fig = stack.figureGetById(this.figureId);                
+        var fig = STACK.figureGetById(this.figureId);                
         fig.transform(this.matrix);        
     },
     
     
     /**This method should be called every time the Command should be undone*/
     undo : function(){        
-        var fig = stack.figureGetById(this.figureId);
+        var fig = STACK.figureGetById(this.figureId);
         fig.transform(this.reverseMatrix);
     }
 }

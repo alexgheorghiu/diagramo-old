@@ -77,7 +77,7 @@ Stack.prototype = {
         g.rotationCoords.push(new Point(bounds[0]+(bounds[2]-bounds[0])/2, bounds[1] + (bounds[3] - bounds[1]) / 2));
         g.rotationCoords.push(new Point(bounds[0]+(bounds[2]-bounds[0])/2, bounds[1]));
 
-        //save group to stack
+        //save group to STACK
         this.groups.push(g);
 
         return g.id;
@@ -131,8 +131,8 @@ Stack.prototype = {
         throw Exception("Not implemented");
     },
     
-    /**See if this stack is equal to another. It is a shallow compare.
-     *@param {Stack} anotherStack - the other stack object
+    /**See if this STACK is equal to another. It is a shallow compare.
+     *@param {Stack} anotherStack - the other STACK object
      *@return {Boolean} - true if equals, false otherwise
      **/
     equals: function(anotherStack){
@@ -344,7 +344,7 @@ Stack.prototype = {
      *@return {Figure} - the figure connected, or null if none 
      **/
     figureGetAsFirstFigureForConnector: function(connectorId){
-        Log.group("stack: figureGetAsFirstFigureForConnector");
+        Log.group("STACK: figureGetAsFirstFigureForConnector");
         
         /*Algorithm
          *Connector -> first Connector's ConnectionPoint-> Glue -> Figure's ConnectionPoint -> Figure        
@@ -384,7 +384,7 @@ Stack.prototype = {
      *@return {Figure} - the figure connected, or null if none 
      **/    
     figureGetAsSecondFigureForConnector: function(connectorId){
-        Log.group("stack: figureGetAsSecondFigureForConnector");
+        Log.group("STACK: figureGetAsSecondFigureForConnector");
         
         /*Algorithm
          *Connector -> first Connector's ConnectionPoint-> Glue -> Figure's ConnectionPoint -> Figure        
@@ -608,7 +608,7 @@ Stack.prototype = {
      *@param  {Context} context - the 2D context
      **/
     paint:function(context){
-//        Log.group("stack: paint");
+//        Log.group("STACK: paint");
         /*The ideea is to paint from bottom to top
          * 1. figures (first)
          * 2. connectors
@@ -759,7 +759,7 @@ Stack.prototype = {
 //        Log.groupEnd();
     },
 
-    /**Convert all stack to SVG representation
+    /**Convert all STACK to SVG representation
      *@return {String} - the SVG string representation*/
     toSVG : function(){
         var svg = ' ';

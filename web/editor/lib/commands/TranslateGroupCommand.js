@@ -31,14 +31,14 @@ TranslateGroupCommand.prototype = {
     
     /**This method got called every time the Command must execute*/
     execute : function(){  
-        var group = stack.groupGetById(this.groupId);                
+        var group = STACK.groupGetById(this.groupId);                
         group.transform(this.matrix);        
     },
     
     
     /**This method should be called every time the Command should be undone*/
     undo : function(){        
-        var group = stack.groupGetById(this.groupId);
+        var group = STACK.groupGetById(this.groupId);
         group.transform(this.reverseMatrix);
     }
 }

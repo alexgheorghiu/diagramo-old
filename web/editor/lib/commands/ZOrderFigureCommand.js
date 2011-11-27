@@ -9,7 +9,7 @@ function ZOrderFigureCommand(figureId, newPosition){
     this.figureId = figureId;
     this.oType = "ZOrderFigureCommand";
     
-    this.oldPosition = stack.idToIndex[figureId];
+    this.oldPosition = STACK.idToIndex[figureId];
     this.newPosition = newPosition;
 }
 
@@ -17,10 +17,10 @@ ZOrderFigureCommand.prototype = {
     /**This method got called every time the Command must execute*/
     execute : function(){
         if(this.oldPosition + 1 == this.newPosition || this.oldPosition - 1 == this.newPosition){
-            stack.swapToPosition(this.figureId, this.newPosition);
+            STACK.swapToPosition(this.figureId, this.newPosition);
         }
         else{
-            stack.setPosition(this.figureId, this.newPosition);
+            STACK.setPosition(this.figureId, this.newPosition);
         }
     },
     
@@ -28,10 +28,10 @@ ZOrderFigureCommand.prototype = {
     /**This method should be called every time the Command should be undone*/
     undo : function(){
         if(this.newPosition + 1 == this.oldPosition || this.newPosition - 1 == this.oldPosition){
-            stack.swapToPosition(this.figureId, this.oldPosition);
+            STACK.swapToPosition(this.figureId, this.oldPosition);
         }
         else{
-            stack.setPosition(this.figureId, this.oldPosition);
+            STACK.setPosition(this.figureId, this.oldPosition);
         }
     }
     

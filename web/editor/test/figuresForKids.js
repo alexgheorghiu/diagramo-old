@@ -809,8 +809,8 @@ function testCubicCurve(){
     f.style.strokeStyle="black";
     var c=new CubicCurve(new Point(50,50),new Point(100,100),new Point(150,0), new Point(250,50));
     f.addPrimitive(c);
-    stack=new Stack();
-    stack.figureAdd(f); 
+    STACK=new Stack();
+    STACK.figureAdd(f); 
     draw();
     /*
     for (var x=50; x<250; x++){

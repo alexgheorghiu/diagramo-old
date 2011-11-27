@@ -195,7 +195,7 @@ Text.prototype = {
 //        var x = oldBounds[0];
 //        var y = oldBounds[1];
 //
-//        var figure = stack.figureGetById(selectedFigureId);
+//        var figure = STACK.figureGetById(selectedFigureId);
 //        figure.transform(Matrix.translationMatrix(-x, -y));
 //        
 //        figure.transform(Matrix.scaleMatrix(1 / oldWidth * newWidth, 1 / oldHeight * newHeight));

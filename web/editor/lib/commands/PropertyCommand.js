@@ -33,13 +33,13 @@ PropertyCommand.prototype = {
         var shape = null;
         switch(this.typeOfObject){
             case History.OBJECT_FIGURE:
-                shape = stack.figureGetById(this.objectId);
+                shape = STACK.figureGetById(this.objectId);
                 break;
             case History.OBJECT_CONNECTOR:
                 shape = CONNECTOR_MANAGER.connectorGetById(this.objectId);
                 break;
             case History.OBJECT_GROUP:
-                shape = stack.groupGetById(this.objectId);
+                shape = STACK.groupGetById(this.objectId);
                 break;
         }
         

@@ -31,10 +31,10 @@ MatrixCommand.prototype = {
     _doAction:function(value){
         var figure;
         if(this.typeOfObject == History.OBJECT_FIGURE){
-            figure = stack.figureGetById(this.objectId);
+            figure = STACK.figureGetById(this.objectId);
         }
         else if(this.typeOfObject == History.OBJECT_GROUP){
-            figure = stack.groupGetById(this.objectId);
+            figure = STACK.groupGetById(this.objectId);
         }
         else if(this.typeOfObject == History.OBJECT_CONNECTION_POINT){
             figure = CONNECTOR_MANAGER.connectionPointGetById(this.objectId);

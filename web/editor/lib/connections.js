@@ -408,7 +408,7 @@ Connector.prototype = {
         var glue  = CONNECTOR_MANAGER.glueGetByConnectionPointId(startConnectionPoint.id)[0];//there will only be one for this
 
         var startConnectionFigureId = CONNECTOR_MANAGER.connectionPointGet(glue.id1 == startConnectionPoint.id ? glue.id2 : glue.id1).parentId;
-        var startConnectionFigure = stack.figureGetById(startConnectionFigureId);
+        var startConnectionFigure = STACK.figureGetById(startConnectionFigureId);
         
         var startCenterPoint
         if(startConnectionFigure){
@@ -422,7 +422,7 @@ Connector.prototype = {
         var endCon = CONNECTOR_MANAGER.connectionPointGetAllByParent(this.id)[1];
         glue  = CONNECTOR_MANAGER.glueGetByConnectionPointId(endCon.id)[0];//there will only be one for this
         var endConnectionFigure=CONNECTOR_MANAGER.connectionPointGet(glue.id1==endCon.id ? glue.id2 : glue.id1).parentId;
-        endConnectionFigure=stack.figureGetById(endConnectionFigure);
+        endConnectionFigure=STACK.figureGetById(endConnectionFigure);
         var endCenterPoint
         if(endConnectionFigure){
             endCenterPoint = endConnectionFigure.rotationCoords[0];
@@ -613,7 +613,7 @@ Connector.prototype = {
         if(glue != null){ //only if there is a Figure glued
             //get ConnectionPoint on Figure
             var startFigureConnectionPoint = CONNECTOR_MANAGER.connectionPointGet(glue.id1 == startConnectionPointOnConnector.id ? glue.id2 : glue.id1);
-            var startFigure = stack.figureGetById(startFigureConnectionPoint.parentId);
+            var startFigure = STACK.figureGetById(startFigureConnectionPoint.parentId);
 
             var startAngle = Util.getAngle(startFigure.rotationCoords[0], startPoint, Math.PI/2);
             switch(startAngle){
@@ -640,7 +640,7 @@ Connector.prototype = {
         if(glue != null){ //only if there is a Figure glued
             //get ConnectionPoint on Figure
             var endFigureConnectionPoint = CONNECTOR_MANAGER.connectionPointGet(glue.id1 == endConnectionPointOnConnector.id ? glue.id2 : glue.id1);
-            var endFigure = stack.figureGetById(endFigureConnectionPoint.parentId);
+            var endFigure = STACK.figureGetById(endFigureConnectionPoint.parentId);
 
             var endAngle = Util.getAngle(endFigure.rotationCoords[0], endPoint, Math.PI/2);
             switch(startAngle){

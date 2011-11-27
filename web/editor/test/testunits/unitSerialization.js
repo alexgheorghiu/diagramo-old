@@ -1,4 +1,4 @@
-stack = new Stack();
+STACK = new Stack();
 
 // In order to execute, call performUnitTest(testSerialization)
 unitSerialization = {

@@ -1,6 +1,6 @@
 /**
  * An facade to add Commands, undo and redo them.
- * It keeps a stack of commands and can tigger undo actions in the system.
+ * It keeps a STACK of commands and can tigger undo actions in the system.
  * @this {History} 
  * @constructor
  * @author Zack Newsham zack_newsham@yahoo.co.uk
@@ -40,7 +40,7 @@ History.CURRENT_POINTER = -1;
 
 
 
-/* Add an action to the stack of undoable actions.
+/* Add an action to the STACK of undoable actions.
  * We position at current pointer, remove everything after it and then add the new
  * action
  * @param {Command} command -  the command History must store

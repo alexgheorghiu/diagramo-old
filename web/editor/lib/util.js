@@ -49,7 +49,7 @@ var Util = {
     /**Updates first letter of a string
      *@param {String} string -  the actual string
      *@return {String} the string with first letter capitalized
-     *@see <a href="http://stackoverflow.com/questions/1026069/capitalize-first-letter-of-string-in-javascript">http://stackoverflow.com/questions/1026069/capitalize-first-letter-of-string-in-javascript</a>
+     *@see <a href="http://STACKoverflow.com/questions/1026069/capitalize-first-letter-of-string-in-javascript">http://STACKoverflow.com/questions/1026069/capitalize-first-letter-of-string-in-javascript</a>
      **/
     capitaliseFirstLetter : function(string){
         return string.charAt(0).toUpperCase() + string.slice(1);
@@ -618,7 +618,7 @@ function signum(x){
 
 /** Check if a value is numeric
  * @param {String} input - a numeric value
- * @see <a href="http://stackoverflow.com/questions/18082/validate-numbers-in-javascript-isnumeric">http://stackoverflow.com/questions/18082/validate-numbers-in-javascript-isnumeric</a>
+ * @see <a href="http://STACKoverflow.com/questions/18082/validate-numbers-in-javascript-isnumeric">http://STACKoverflow.com/questions/18082/validate-numbers-in-javascript-isnumeric</a>
  * @author Zack Newsham <zack_newsham@yahoo.co.uk>
  * */
 function isNumeric(input){

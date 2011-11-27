@@ -126,7 +126,7 @@ Minimap.prototype = {
         thisCtx.stroke();
         thisCtx.save();
 
-        /*@see http://stackoverflow.com/questions/3448347/how-to-scale-an-imagedata-in-html-canvas*/
+        /*@see http://STACKoverflow.com/questions/3448347/how-to-scale-an-imagedata-in-html-canvas*/
         thisCtx.scale(this.ratio/100 , this.ratio/100 );
         thisCtx.drawImage(canvas, 0,0);
         thisCtx.restore();

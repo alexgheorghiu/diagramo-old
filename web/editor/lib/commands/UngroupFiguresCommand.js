@@ -7,7 +7,7 @@
 function UngroupFiguresCommand(groupId){
     this.groupId = groupId;
     
-    this.figuresIds = stack.figureGetIdsByGroupId(groupId);
+    this.figuresIds = STACK.figureGetIdsByGroupId(groupId);
     
     this.firstExecute = true;
     this.oType = "UngroupFiguresCommand";            
@@ -17,7 +17,7 @@ UngroupFiguresCommand.prototype = {
     
     /**Split group apart*/
     execute : function(){
-        stack.groupDestroy(this.groupId);
+        STACK.groupDestroy(this.groupId);
         
         selectedGroupId = -1;
         state = STATE_NONE;
@@ -34,7 +34,7 @@ UngroupFiguresCommand.prototype = {
 
         //add figures to group
         for(var i=0; i < this.figuresIds.length; i++){
-            var f = stack.figureGetById(this.figuresIds[i]);
+            var f = STACK.figureGetById(this.figuresIds[i]);
             f.groupId = g.id;
         }
             
@@ -42,8 +42,8 @@ UngroupFiguresCommand.prototype = {
         g.rotationCoords.push(new Point(bounds[0]+(bounds[2]-bounds[0])/2, bounds[1] + (bounds[3] - bounds[1]) / 2));
         g.rotationCoords.push(new Point(bounds[0]+(bounds[2]-bounds[0])/2, bounds[1]));
 
-        //save group to stack
-        stack.groups.push(g);
+        //save group to STACK
+        STACK.groups.push(g);
         
         state = STATE_GROUP_SELECTED;
         selectedGroupId = this.groupId;       

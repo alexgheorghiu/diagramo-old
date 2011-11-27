@@ -104,7 +104,7 @@ if(is_numeric($_REQUEST['diagramId'])){
             function toSVG(){
                 var canvas = getCanvas();
                 var v2 = '<svg width="' + canvas.width +'" height="' + canvas.height + '" viewBox="0 0 ' + canvas.width + ' ' + canvas.height + '" xmlns="http://www.w3.org/2000/svg" version="1.1">';
-                v2 += stack.toSVG();
+                v2 += STACK.toSVG();
                 v2 += CONNECTOR_MANAGER.toSVG();
                 v2 += '</svg>';
 
@@ -121,7 +121,7 @@ if(is_numeric($_REQUEST['diagramId'])){
                 Log.info('Save pressed');
 
                 
-                var diagram = { c: canvasProps, s:stack, m:CONNECTOR_MANAGER };
+                var diagram = { c: canvasProps, s:STACK, m:CONNECTOR_MANAGER };
                 //Log.info('stringify ...');
                 var serializedDiagram = JSON.stringify(diagram);
                 //Log.info('JSON stringify : ' + serializedDiagram);
@@ -168,7 +168,7 @@ if(is_numeric($_REQUEST['diagramId'])){
                     function(data){
 //                        alert(data);
                         var obj  = eval('(' + data + ')');
-                        stack = Stack.load(obj['s']);
+                        STACK = Stack.load(obj['s']);
                         canvasProps = CanvasProps.load(obj['c']);
                         canvasProps.sync();
                         setUpEditPanel(canvasProps);
@@ -188,7 +188,7 @@ if(is_numeric($_REQUEST['diagramId'])){
              **/
             function saveAs(){
                 var canvas = getCanvas();
-//                var $diagram = {c:canvas.save(), s:stack, m:CONNECTOR_MANAGER};
+//                var $diagram = {c:canvas.save(), s:STACK, m:CONNECTOR_MANAGER};
                 var $diagram = {c:canvasProps, s:stack, m:CONNECTOR_MANAGER};
                 $serializedDiagram = JSON.stringify($diagram);
                 var svgDiagram = toSVG();
@@ -227,7 +227,7 @@ if(is_numeric($_REQUEST['diagramId'])){
                 var canvas = getCanvas();
 
                 var v2 = '<svg width="' + canvas.width +'" height="' + canvas.height + '" xmlns="http://www.w3.org/2000/svg" version="1.1">';
-                v2 += stack.toSVG();
+                v2 += STACK.toSVG();
                 v2 += CONNECTOR_MANAGER.toSVG();
                 v2 += '</svg>';
                 alert(v2);
@@ -426,7 +426,7 @@ if(is_numeric($_REQUEST['diagramId'])){
             <a class="button" href="javascript:action('shrink');">shrink</a>
             <a class="button" href="javascript:action('rotate90');">rotate 5<sup>o</sup> CW</a>
             <a class="button" href="javascript:action('rotate90A');">rotate 5<sup>o</sup> ACW</a>
-            <a style="border: 1px solid red; background-color: red; color: white;" href="javascript:stack.reset(); CONNECTOR_MANAGER.reset(); draw();">Reset Canvas</a><br />
+            <a style="border: 1px solid red; background-color: red; color: white;" href="javascript:STACK.reset(); CONNECTOR_MANAGER.reset(); draw();">Reset Canvas</a><br />
             -->
             <a href="javascript:action('front');" title="Move to front"><img src="assets/images/icon_front.gif" border="0"/></a>
             <img class="separator" src="assets/images/toolbar_separator.gif" border="0" width="1" height="16"/>

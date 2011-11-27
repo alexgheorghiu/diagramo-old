@@ -1286,7 +1286,7 @@ CubicCurve.prototype = {
  * 2: draw pie slice, line to center point, line to start point
  * default: empty/0/anything else: just draw the arc
  * TODO: make it a class constant
- * @see <a href="http://stackoverflow.com/questions/2688808/drawing-quadratic-bezier-circles-with-a-given-radius-how-to-determine-control-po">http://stackoverflow.com/questions/2688808/drawing-quadratic-bezier-circles-with-a-given-radius-how-to-determine-control-po</a>
+ * @see <a href="http://STACKoverflow.com/questions/2688808/drawing-quadratic-bezier-circles-with-a-given-radius-how-to-determine-control-po">http://STACKoverflow.com/questions/2688808/drawing-quadratic-bezier-circles-with-a-given-radius-how-to-determine-control-po</a>
  **/
 
 function Arc(x, y, radius, startAngle, endAngle, direction, styleFlag){
@@ -2294,7 +2294,7 @@ Path.prototype = {
  **/
 function Figure(name) {
     /**Each Figure will have an unique Id on canvas*/
-    this.id = stack.generateId();
+    this.id = STACK.generateId();
     
     /**Figure's name*/
     this.name = name;

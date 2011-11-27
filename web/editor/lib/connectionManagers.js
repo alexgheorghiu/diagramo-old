@@ -140,7 +140,7 @@ ConnectorManager.prototype = {
      */
     connectorCreate:function(startPoint,endPoint,type){
         //get a new id for Connector
-        var id = stack.currentId++;
+        var id = STACK.currentId++;
 
         //create and save connector
         this.connectors.push(new Connector(startPoint,endPoint,type, id));
@@ -394,11 +394,11 @@ ConnectorManager.prototype = {
             var endPoint = conCps[1].point.clone();
             
             //first bounds
-            var sFigure = stack.figureGetAsFirstFigureForConnector(con.id);
+            var sFigure = STACK.figureGetAsFirstFigureForConnector(con.id);
             var sBounds =  sFigure == null ? null : sFigure.getBounds();
                 
             //second bounds
-            var eFigure = stack.figureGetAsSecondFigureForConnector(con.id);
+            var eFigure = STACK.figureGetAsSecondFigureForConnector(con.id);
             var eBounds = eFigure == null ? null : eFigure.getBounds();
             
             //adjust connector
@@ -453,7 +453,7 @@ ConnectorManager.prototype = {
                  *bound by 10 pixels.
                  *Then we will pick the shortest distance from start to startExitPoint*/
                 var fCp = this.connectionPointGetById(glue.id1);
-                startFigure = stack.figureGetById(fCp.parentId);
+                startFigure = STACK.figureGetById(fCp.parentId);
                 var fb = startFigure.getBounds();
                 var tempExit = null;
 
@@ -490,7 +490,7 @@ ConnectorManager.prototype = {
                  *bound by 10 pixels.
                  *Then we will pick the shortest distance from start to startExitPoint*/                
                 fCp = this.connectionPointGetById(glue.id1);
-                endFigure = stack.figureGetById(fCp.parentId);
+                endFigure = STACK.figureGetById(fCp.parentId);
                 Log.debug("connectorAdjustByConnectionPoint() - figure is " + endFigure);
                 fb = endFigure.getBounds();
                 tempExit = null;

@@ -11,7 +11,7 @@
  */
 function Group(){
     /**Group's id*/
-    this.id = stack.generateId();
+    this.id = STACK.generateId();
     
     /**By default all groups are temporary....so it's up to you make them permanent*/
     this.permanent = false;
@@ -73,7 +73,7 @@ Group.prototype = {
      *@param {Number} y - the y coordinate of the point
      **/
     contains:function(x,y){
-        var figures = stack.figureGetByGroupId(this.id);
+        var figures = STACK.figureGetByGroupId(this.id);
         for(var i = 0; i < figures.length; i++){
             if(figures[i].contains(x,y) == true){
                 return true;
@@ -89,7 +89,7 @@ Group.prototype = {
      *@param {Number} radius - the radius to search for
      **/
     near:function(x,y,radius){
-        var figures = stack.figureGetByGroupId(this.id);
+        var figures = STACK.figureGetByGroupId(this.id);
         for(var i = 0; i < figures.length; i++){
             if(figures[i].near(x,y,radius) == true){
                 return true;
@@ -103,7 +103,7 @@ Group.prototype = {
      *Get a group bounds
      **/
     getBounds:function(){
-        var figures = stack.figureGetByGroupId(this.id);
+        var figures = STACK.figureGetByGroupId(this.id);
         var points = [];
         for(var i = 0; i < figures.length; i++){
             var bounds = figures[i].getBounds();
@@ -118,10 +118,10 @@ Group.prototype = {
      *Get all points of a Group (collect them from all figures)
      **/
     getPoints:function(){
-        var figures = stack.figureGetByGroupId(this.id);
+        var figures = STACK.figureGetByGroupId(this.id);
         var points = [];
-        for(var i = 0; i < stack.figureIds.length; i++){
-            var fPoints = stack.figureGetById(stack.figureIds[i]).getPoints();
+        for(var i = 0; i < STACK.figureIds.length; i++){
+            var fPoints = STACK.figureGetById(STACK.figureIds[i]).getPoints();
             points = points.concat(fPoints);
         }
         return points;
@@ -134,7 +134,7 @@ Group.prototype = {
     transform:function(matrix){
         this.rotationCoords[0].transform(matrix);
         this.rotationCoords[1].transform(matrix);
-        var figures = stack.figureGetByGroupId(this.id);
+        var figures = STACK.figureGetByGroupId(this.id);
         for(var i = 0; i < figures.length; i++){
 
             figures[i].transform(matrix);

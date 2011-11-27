@@ -26,7 +26,7 @@ CanvasProps.DEFAULT_HEIGHT = 600;
 CanvasProps.DEFAULT_WIDTH = 800; 
 
 /**
- *We only ever have one instance of this class (like stack)
+ *We only ever have one instance of this class (like STACK)
  *but we need the creation of the Canvas to appear AFTER the page exists,
  *otherwise we would not be able to add it dinamically to the document.
  *@param {JSONObject} o

@@ -29,7 +29,7 @@ DeleteCommand.prototype = {
     
     _doAction:function(value){
         if(this.typeOfObject == History.OBJECT_FIGURE){
-            if(stack.figureGetById(this.objectId)){//we are re-deleting
+            if(STACK.figureGetById(this.objectId)){//we are re-deleting
                 selectedFigureId = this.objectId;
                 state = STATE_FIGURE_SELECTED;
                 value.noAddUndo = true;
@@ -38,7 +38,7 @@ DeleteCommand.prototype = {
                 selectedFigureId = -1;
             }
             else{
-                stack.figureAdd(this.previousValue);
+                STACK.figureAdd(this.previousValue);
                 selectedFigureId = this.previousValue.figureId;
             }
         }
@@ -91,19 +91,19 @@ DeleteCommand.prototype = {
                 state = STATE_GROUP_SELECTED;
                 var figureIds = [];
                 for(var i = 0; i < value.length; i++){
-                    stack.figureAdd(value[i]);
+                    STACK.figureAdd(value[i]);
                     figureIds.push(value[i].id);
                 }
-                this.objectId = stack.groupCreate(figureIds);
-                stack.groupGetById(this.objectId).permanent = this.currentValue;
+                this.objectId = STACK.groupCreate(figureIds);
+                STACK.groupGetById(this.objectId).permanent = this.currentValue;
                 selectedGroupId = this.objectId;
                 state = STATE_GROUP_SELECTED;
             }
             else{
-                var figures = stack.figureGetByGroupId(this.objectId);
-                stack.groupDestroy(this.objectId);
+                var figures = STACK.figureGetByGroupId(this.objectId);
+                STACK.groupDestroy(this.objectId);
                 for(var i = 0; i < figures.length; i++){
-                    stack.figureRemoveById(figures[i].id);
+                    STACK.figureRemoveById(figures[i].id);
                 }
                 selectedGroupId = -1;
                 state = STATE_NONE;

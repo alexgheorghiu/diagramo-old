@@ -456,7 +456,7 @@ BuilderProperty.prototype = {
      *@param{Number} figureId - the id of the shape {Figure} or {Connector} we are using, could also be the canvas (figureId = 'a')
      */
     getValue:function(figureId){
-        var obj = stack.figureGetById(figureId);
+        var obj = STACK.figureGetById(figureId);
         if(obj == null){ //ok so it's not a Figure...so it should be a Connector
             obj = CONNECTOR_MANAGER.connectorGetById(figureId);
         }                

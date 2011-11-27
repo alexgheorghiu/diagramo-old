@@ -63,7 +63,7 @@ function stopselection(ev){
     return false;
 
 }
-var stack  = new Stack();
+var STACK  = new Stack();
 
 
 /**keeps track if the MLB is pressed*/    
@@ -201,7 +201,7 @@ function updateFigure(figureId, property, newValue){
     
     /*Try to guess the object type*/
     var objType = null;
-    var obj = stack.figureGetById(figureId); //try to find it inside {Figure}s
+    var obj = STACK.figureGetById(figureId); //try to find it inside {Figure}s
     
     if(obj){ //try to find it inside {Connector}s
         objType = History.OBJECT_FIGURE;        
@@ -374,16 +374,16 @@ function onClick(ev){
     var y = coords[1];
 
 //here is the problem....how do we know we clicked on canvas
-/*var fig=stack.figures[stack.figureGetMouseOver(x,y,null)];
+/*var fig=STACK.figures[STACK.figureGetMouseOver(x,y,null)];
     if(CNTRL_PRESSED && fig!=null){
         TEMPORARY_GROUP.addPrimitive();
-        stack.figureRemove(fig);
-        stack.figureAdd(TEMPORARY_GROUP);
+        STACK.figureRemove(fig);
+        STACK.figureAdd(TEMPORARY_GROUP);
     }
-    else if(stack.figureGetMouseOver(x,y,null)!=null){
+    else if(STACK.figureGetMouseOver(x,y,null)!=null){
         TEMPORARY_GROUP.primitives=[];
         TEMPORARY_GROUP.addPrimitive(fig);
-        stack.figureRemove(fig);
+        STACK.figureRemove(fig);
     }*/
 //draw();
 }
@@ -406,7 +406,7 @@ function onKeyPress(ev){
 
     switch(ev.charCode){
         case KEY.NUMPAD4: //Numpad 4
-            if(CNTRL_PRESSED && stack.figureGetSelected()){ //clone a figure
+            if(CNTRL_PRESSED && STACK.figureGetSelected()){ //clone a figure
                 /*TODO: right now the newly created figure belongs to the Group with Id = -1 (supposelly no group)
                  *So this might not be a good ideea
                  **/
@@ -414,9 +414,9 @@ function onKeyPress(ev){
                 /*Creates a clone of currently selected figure and
                  * move it a little right (10 pixels) and down (10 pixels)
                  * */
-                var createdFigure = stack.figureGetSelected().clone();
-                stack.figureAdd(createdFigure);
-                stack.figureSelect(stack.figures.length-1);
+                var createdFigure = STACK.figureGetSelected().clone();
+                STACK.figureAdd(createdFigure);
+                STACK.figureSelect(STACK.figures.length-1);
                 createdFigure.transform(Matrix.translationMatrix(10,10));
                 getCanvas().style.cursor="default";
             }
@@ -487,12 +487,12 @@ function onKeyDown(ev){
                         //remove figure
 
                         if(!ev.noAddUndo && doUndo){//only add an action, if we are not currently undo/redoing an action
-                            var undo = new DeleteCommand(selectedFigureId, History.OBJECT_FIGURE, null, stack.figureGetById(selectedFigureId),ev)
+                            var undo = new DeleteCommand(selectedFigureId, History.OBJECT_FIGURE, null, STACK.figureGetById(selectedFigureId),ev)
 
                             History.addUndo(undo);
                         }
                         
-                        stack.figureRemoveById(selectedFigureId);
+                        STACK.figureRemoveById(selectedFigureId);
                         
                         
                         //remove glues
@@ -532,16 +532,16 @@ function onKeyDown(ev){
                     break;
                     
                 case STATE_GROUP_SELECTED:
-                    var figures = stack.figureGetByGroupId(selectedGroupId);
+                    var figures = STACK.figureGetByGroupId(selectedGroupId);
                     if(!ev.noAddUndo && doUndo){//only add an action, if we are not currently undo/redoing an action
-                        var undo = new DeleteCommand(selectedGroupId, History.OBJECT_GROUP, null, figures, stack.groupGetById(selectedGroupId).permanent)
+                        var undo = new DeleteCommand(selectedGroupId, History.OBJECT_GROUP, null, figures, STACK.groupGetById(selectedGroupId).permanent)
 
                         History.addUndo(undo);
                     }
-                    var figures = stack.figureGetByGroupId(selectedGroupId);
-                    stack.groupDestroy(selectedGroupId);
+                    var figures = STACK.figureGetByGroupId(selectedGroupId);
+                    STACK.groupDestroy(selectedGroupId);
                     for(var i = 0; i < figures.length; i++){
-                        stack.figureRemoveById(figures[i].id);
+                        STACK.figureRemoveById(figures[i].id);
                     }
                     selectedGroupId = -1;
                     state = STATE_NONE;
@@ -685,11 +685,11 @@ function onMouseDown(ev){
                 redraw = true;
             } else {                   
                 //find figure at (x,y)
-                var fId = stack.figureGetByXY(x, y);
+                var fId = STACK.figureGetByXY(x, y);
                 if(fId != -1){ //Selected a figure
-                    if(stack.figureGetById(fId).groupId != -1){ //if the figure belongs to a group then select that group
-                        selectedGroupId = stack.figureGetById(fId).groupId;
-                        var grp = stack.groupGetById(selectedGroupId);
+                    if(STACK.figureGetById(fId).groupId != -1){ //if the figure belongs to a group then select that group
+                        selectedGroupId = STACK.figureGetById(fId).groupId;
+                        var grp = STACK.groupGetById(selectedGroupId);
                         state = STATE_GROUP_SELECTED;
 //                        if(doUndo){
 //                            currentMoveUndo = new MatrixCommand(selectedGroupId, History.OBJECT_GROUP, History.MATRIX, Matrix.translationMatrix(grp.getBounds()[0],grp.getBounds()[1]), null);
@@ -698,7 +698,7 @@ function onMouseDown(ev){
                     }
                     else{ //ok, we will select lonely figure
                         selectedFigureId = fId;
-                        var f = stack.figureGetById(fId);
+                        var f = STACK.figureGetById(fId);
                         setUpEditPanel(f);
                         state = STATE_FIGURE_SELECTED;
 //                        if(doUndo){
@@ -781,7 +781,7 @@ function onMouseDown(ev){
                 else{ //No connector
                     
                     //find the figure from (x,y)
-                    var fId = stack.figureGetByXY(x, y);
+                    var fId = STACK.figureGetByXY(x, y);
 
                     if(fId == -1){ //Clicked outside of anything
                         selectedFigureId = -1;
@@ -797,7 +797,7 @@ function onMouseDown(ev){
                         //DO NOTHING
                         }
                         else{ //Clicked a different figure
-                            var f = stack.figureGetById(fId);
+                            var f = STACK.figureGetById(fId);
                             if(f.groupId != -1){ // belongs to a group, so select it
                                 
                                 selectedFigureId = -1;
@@ -810,7 +810,7 @@ function onMouseDown(ev){
                             else{ //single figure
                                 selectedFigureId = fId;
                                 HandleManager.clear();
-                                var f = stack.figureGetById(fId);
+                                var f = STACK.figureGetById(fId);
                                 setUpEditPanel(f);
                                 redraw = true;
                                 Log.info('onMouseDown() + STATE_FIGURE_SELECTED + single figure => change to STATE_FIGURE_SELECTED (different figure)');
@@ -827,11 +827,11 @@ function onMouseDown(ev){
             //            
             //            
             //            
-            //            if(fId != -1 && stack.figureGetById(fId).groupId != -1){ //Clicked the figure from a group
+            //            if(fId != -1 && STACK.figureGetById(fId).groupId != -1){ //Clicked the figure from a group
             //                state = STATE_GROUP_SELECTED;
-            //                selectedGroupId = stack.figureGetById(fId).groupId;
+            //                selectedGroupId = STACK.figureGetById(fId).groupId;
             //                selectedFigureId = -1;
-            //                var g = stack.groupGetById(selectedFigureId);
+            //                var g = STACK.groupGetById(selectedFigureId);
             //                redraw = true;
             //                if(doUndo){
             //                    currentMoveUndo = new MatrixCommand(selectedFigureId, History.OBJECT_FIGURE, History.MATRIX, Matrix.translationMatrix(g.getBounds()[0],g.getBounds()[1]), null);
@@ -845,7 +845,7 @@ function onMouseDown(ev){
             //            if(fId != -1 && fId != selectedFigureId){ //select figure, if we havent already got it selected
             //                selectedFigureId = fId;
             //                HandleManager.clear();
-            //                var f = stack.figureGetById(fId);
+            //                var f = STACK.figureGetById(fId);
             //                setUpEditPanel(f);
             //                redraw = true;
             //                if(doUndo){
@@ -853,7 +853,7 @@ function onMouseDown(ev){
             //                }
             //            }
             //            else if(fId == selectedFigureId && fId != -1){ //same figure
-            //                var f = stack.figureGetById(fId);
+            //                var f = STACK.figureGetById(fId);
             //                if(doUndo){
             //                    currentMoveUndo = new MatrixCommand(fId, History.OBJECT_FIGURE, History.MATRIX, Matrix.translationMatrix(f.getBounds()[0],f.getBounds()[1]), null);
             //                }
@@ -900,7 +900,7 @@ function onMouseDown(ev){
             //GROUPS
             
             //if selected group is temporary and we pressed outside of it's border we will destroy it
-            var selectedGroup = stack.groupGetById(selectedGroupId);
+            var selectedGroup = STACK.groupGetById(selectedGroupId);
             
             if( HandleManager.handleGet(x,y) != null){ //handle ?
                 HandleManager.handleSelectXY(x, y);
@@ -910,7 +910,7 @@ function onMouseDown(ev){
             else if(CONNECTOR_MANAGER.connectorGetByXY(x, y) != -1){ //connector?
                 //destroy current group (if temporary)
                 if(!selectedGroup.permanent){
-                    stack.groupDestroy(selectedGroupId);
+                    STACK.groupDestroy(selectedGroupId);
                 }
                 
                 //deselect current group
@@ -921,14 +921,14 @@ function onMouseDown(ev){
                 redraw = true;
                 Log.info('onMouseDown() + STATE_GROUP_SELECTED  + handle selected => STATE_CONNECTOR_SELECTED');
             }
-            else if(stack.figureGetByXY(x, y) != -1){
-                var fId = stack.figureGetByXY(x, y);
-                var fig = stack.figureGetById(fId);
+            else if(STACK.figureGetByXY(x, y) != -1){
+                var fId = STACK.figureGetByXY(x, y);
+                var fig = STACK.figureGetById(fId);
                 
                 if(fig.groupId == -1){ //lonely figure
                     //destroy current group (if temporary)
                     if(!selectedGroup.permanent){
-                        stack.groupDestroy(selectedGroupId);
+                        STACK.groupDestroy(selectedGroupId);
                     }
                     
                     //deselect current group
@@ -946,7 +946,7 @@ function onMouseDown(ev){
                     if(fig.groupId != selectedGroupId){
                         //destroy current group (if temporary)
                         if(!selectedGroup.permanent){
-                            stack.groupDestroy(selectedGroupId);
+                            STACK.groupDestroy(selectedGroupId);
                         }
                         
                         
@@ -962,7 +962,7 @@ function onMouseDown(ev){
             } 
             else{ //mouse down on empty space
                 if(!selectedGroup.permanent){
-                    stack.groupDestroy(selectedGroupId);                    
+                    STACK.groupDestroy(selectedGroupId);                    
                 }
                 
                 selectedGroupId = -1;
@@ -973,8 +973,8 @@ function onMouseDown(ev){
             
             //            if(!selectedGroup.contains(x,y) && HandleManager.handleGet(x,y) == null){
             //                if(selectedGroup.permanent == false && doUndo){
-            //                    History.addUndo(new GroupCommand(selectedGroupId,History.OBJECT_GROUP, false, stack.figureGetIdsByGroupId(selectedGroupId),false));
-            //                    stack.groupDestroy(selectedGroupId);
+            //                    History.addUndo(new GroupCommand(selectedGroupId,History.OBJECT_GROUP, false, STACK.figureGetIdsByGroupId(selectedGroupId),false));
+            //                    STACK.groupDestroy(selectedGroupId);
             //                }
             //                selectedGroupId = -1;
             //                state = STATE_NONE;
@@ -984,11 +984,11 @@ function onMouseDown(ev){
             //
             //            Log.info('onMouseDown() + STATE_GROUP_SELECTED  + somewhere  there...');
             //
-            //            var fId = stack.figureGetByXY(x, y);
+            //            var fId = STACK.figureGetByXY(x, y);
             //            var gId = selectedGroupId;
-            //            if(fId != -1 && stack.figureGetById(fId).groupId != -1){
+            //            if(fId != -1 && STACK.figureGetById(fId).groupId != -1){
             //                //we have selected a figure, could be part of our group or a different group, but is in a group
-            //                gId = stack.figureGetById(fId).groupId;
+            //                gId = STACK.figureGetById(fId).groupId;
             //            }
             //            else if(HandleManager.handleGet(x,y) != null){
             //                //we are dragging a handle, so set gid to -1, to skip a future if
@@ -1005,7 +1005,7 @@ function onMouseDown(ev){
             //                // we have a group, set the selectedGroupId, and create an undo object
             //                selectedGroupId = gId;
             //                //HandleManager.clear();
-            //                var g = stack.groupGetById(gId);
+            //                var g = STACK.groupGetById(gId);
             //                redraw = true;
             //                if(doUndo){
             //                    currentMoveUndo = new MatrixCommand(gId, History.OBJECT_GROUP, History.MATRIX, Matrix.translationMatrix(g.getBounds()[0],g.getBounds()[1]), null);
@@ -1100,11 +1100,11 @@ function onMouseDown(ev){
                     redraw = true;
 
                 //START: Quick Select FIGURE
-                //                    var fId = stack.figureGetByXY(x, y);
+                //                    var fId = STACK.figureGetByXY(x, y);
                 //                    if(fId != -1){ //select figure
                 //                        Log.info("onMouseDown() + STATE_CONNECTOR_SELECTED - quick select a figure, new state (STATE_FIGURE_SELECTED)");
                 //                        selectedFigureId = fId;
-                //                        var f = stack.figureGetById(fId);
+                //                        var f = STACK.figureGetById(fId);
                 //                        setUpEditPanel(f);
                 //                        mousePressed = false;
                 //                        state = STATE_FIGURE_SELECTED;
@@ -1189,7 +1189,7 @@ function onMouseUp(ev){
             
             //            //GROUPS
             //            if(currentMoveUndo != null && HandleManager.handleGetSelected() == null){
-            //                var f = stack.groupGetById(selectedGroupId);
+            //                var f = STACK.groupGetById(selectedGroupId);
             //                if(f.getBounds()[0] != currentMoveUndo.previousValue[0][2]
             //                    || f.getBounds()[1] != currentMoveUndo.previousValue[1][2])
             //                    {
@@ -1303,19 +1303,19 @@ function onMouseUp(ev){
             Log.info('onMouseUp() selection area: ' + selectionArea);
             state = STATE_NONE;
             var figuresToAdd = [];
-            for(var i = 0; i < stack.figures.length; i++){
-                if(stack.figures[i].groupId == -1){ //we only want ungrouped items
-                    var points = stack.figures[i].getPoints();
+            for(var i = 0; i < STACK.figures.length; i++){
+                if(STACK.figures[i].groupId == -1){ //we only want ungrouped items
+                    var points = STACK.figures[i].getPoints();
                     if(points.length == 0){ //if no  point at least to add bounds TODO: lame 'catch all' condition
-                        points.push( new Point(stack.figures[i].getBounds()[0], stack.figures[i].getBounds()[1]) ); //top left
-                        points.push( new Point(stack.figures[i].getBounds()[2], stack.figures[i].getBounds()[3]) ); //bottom right
-                        points.push( new Point(stack.figures[i].getBounds()[0], stack.figures[i].getBounds()[3]) ); //bottom left
-                        points.push( new Point(stack.figures[i].getBounds()[2], stack.figures[i].getBounds()[1]) ); //top right
+                        points.push( new Point(STACK.figures[i].getBounds()[0], STACK.figures[i].getBounds()[1]) ); //top left
+                        points.push( new Point(STACK.figures[i].getBounds()[2], STACK.figures[i].getBounds()[3]) ); //bottom right
+                        points.push( new Point(STACK.figures[i].getBounds()[0], STACK.figures[i].getBounds()[3]) ); //bottom left
+                        points.push( new Point(STACK.figures[i].getBounds()[2], STACK.figures[i].getBounds()[1]) ); //top right
                     }
                         
                     for(var a = 0; a < points.length; a++){
                         if( Util.isPointInside(points[a], selectionArea.getPoints()) ){
-                            figuresToAdd.push(stack.figures[i].id);
+                            figuresToAdd.push(STACK.figures[i].id);
                             break;
                         }
                     }
@@ -1323,7 +1323,7 @@ function onMouseUp(ev){
             } //end for
                 
             if(figuresToAdd.length >= 2){ //if we selected at least 2 figures then we can create a group
-                selectedGroupId = stack.groupCreate(figuresToAdd);
+                selectedGroupId = STACK.groupCreate(figuresToAdd);
                 state = STATE_GROUP_SELECTED;
                 Log.info('onMouseUp() + STATE_SELECTING_MULTIPLE  + min. 2 figures => STATE_GROUP_SELECTED');
             }
@@ -1433,7 +1433,7 @@ function onMouseUp(ev){
             if(fCpId != -1){ //we are over a figure's cp
                 var fCp = CONNECTOR_MANAGER.connectionPointGetById(fCpId);
                 Log.info("onMouseUp() + STATE_CONNECTOR_MOVE_POINT : fCP is " + fCp + " and fCpId is " +  fCpId);
-                //var fig = stack.figureSelectById(fCp.parentId);
+                //var fig = STACK.figureSelectById(fCp.parentId);
 
                 var con = CONNECTOR_MANAGER.connectorGetById(selCp.parentId);
 
@@ -1573,7 +1573,7 @@ function onMouseMove(ev){
                 Log.debug('onMouseMove() - STATE_NONE + mousePressed = STATE_SELECTING_MULTIPLE');
             }
             else{
-                if(stack.figureIsOver(x,y)){ //over a figure
+                if(STACK.figureIsOver(x,y)){ //over a figure
                     canvas.style.cursor = 'move';
                     Log.debug('onMouseMove() - STATE_NONE - mouse cursor = move (over figure)');
                 }
@@ -1639,7 +1639,7 @@ function onMouseMove(ev){
                     else{
                         /*move figure only if no handle is selected*/
                         canvas.style.cursor = 'move';
-                        var translateMatrix = generateMoveMatrix(stack.figureGetById(selectedFigureId), x, y);
+                        var translateMatrix = generateMoveMatrix(STACK.figureGetById(selectedFigureId), x, y);
                         var cmdTranslateFigure = new TranslateFigureCommand(selectedFigureId, translateMatrix);
                         History.addUndo(cmdTranslateFigure);
                         cmdTranslateFigure.execute();
@@ -1657,7 +1657,7 @@ function onMouseMove(ev){
                 }
                 else{
                     /*move figure only if no handle is selected*/
-                    var tmpFigId = stack.figureGetByXY(x, y); //pick first figure from (x, y)
+                    var tmpFigId = STACK.figureGetByXY(x, y); //pick first figure from (x, y)
                     if(tmpFigId != -1){
                         canvas.style.cursor = 'move';                            
                         Log.info("onMouseMove() + STATE_FIGURE_SELECTED + over a figure = change cursor");
@@ -1670,7 +1670,7 @@ function onMouseMove(ev){
             }
             
             //            //CURSOR
-            //            var tmpFigId = stack.figureGetByXY(x, y); //pick first figure from (x, y)
+            //            var tmpFigId = STACK.figureGetByXY(x, y); //pick first figure from (x, y)
             //            
             //            if(selectedFigureId == tmpFigId){ //over a figure or dragging it
             //                canvas.style.cursor = 'move';
@@ -1710,7 +1710,7 @@ function onMouseMove(ev){
             //                    /*move figure only if no handle is selected*/
             //                    if(selectedFigureId != -1){
             //                        //Log.info("onMouseMove() + STATE_FIGURE_SELECTED - move selected figure");
-            //                        var fig = stack.figureGetById(selectedFigureId);
+            //                        var fig = STACK.figureGetById(selectedFigureId);
             //                        var moveMatrix = generateMoveMatrix(fig, x, y);
             //                        //                if(!Matrix.equals(moveMatrix, Matrix.IDENTITY)){
             //                        fig.transform(moveMatrix);
@@ -1758,7 +1758,7 @@ function onMouseMove(ev){
                     else{ //not over any handle -so it must be translating
                         Log.info('onMouseMove() - STATE_GROUP_SELECTED + mouse pressed + NOT over a Handle');
                         canvas.style.cursor = 'move';
-                        var mTranslate = generateMoveMatrix(stack.groupGetById(selectedGroupId), x, y);
+                        var mTranslate = generateMoveMatrix(STACK.groupGetById(selectedGroupId), x, y);
                         var cmdTranslateGroup = new TranslateGroupCommand(selectedGroupId, mTranslate);
                         cmdTranslateGroup.execute();
                         History.addUndo(cmdTranslateGroup);
@@ -1774,7 +1774,7 @@ function onMouseMove(ev){
                 else if(CONNECTOR_MANAGER.connectorGetByXY(x, y) != -1){
                     //nothing for now
                 }
-                else if(stack.figureIsOver(x,y)){
+                else if(STACK.figureIsOver(x,y)){
                     canvas.style.cursor = 'move';
                 }
                 else{
@@ -1784,7 +1784,7 @@ function onMouseMove(ev){
             
             
             //GROUPS
-            //            if(stack.figureIsOver(x,y)){ //over a figure or dragging it
+            //            if(STACK.figureIsOver(x,y)){ //over a figure or dragging it
             //                canvas.style.cursor = 'move';
             //                Log.debug('onMouseMove() - STATE_GROUP_SELECTED - mouse cursor = move');
             //            }
@@ -1800,7 +1800,7 @@ function onMouseMove(ev){
             //            if(mousePressed == true && lastMove != null && selectedGroupId != -1
             //                && HandleManager.handleGetSelected() == null ){
             //                //Log.info("onMouseMove() + STATE_FIGURE_SELECTED - move selected figure");
-            //                var g = stack.groupGetById(selectedGroupId);
+            //                var g = STACK.groupGetById(selectedGroupId);
             //                var moveMatrix = generateMoveMatrix(g, x, y);
             //                g.transform(moveMatrix);
             //                redraw = true;
@@ -2036,7 +2036,7 @@ function connectorPickSecond(x, y, ev){
     {
         //first point
         var rStartPoint = con.turningPoints[0].clone();
-        var rStartFigure = stack.figureGetAsFirstFigureForConnector(con.id);
+        var rStartFigure = STACK.figureGetAsFirstFigureForConnector(con.id);
         if(rStartFigure){
             Log.info(":) WE HAVE A START FIGURE id = " + rStartFigure.id);
         }
@@ -2050,7 +2050,7 @@ function connectorPickSecond(x, y, ev){
         if(r_fCpId != -1){            
             var r_figureConnectionPoint = CONNECTOR_MANAGER.connectionPointGetById(r_fCpId);
             Log.info("End Figure's ConnectionPoint present id = " + r_fCpId);
-            rEndFigure = stack.figureGetById(r_figureConnectionPoint.parentId);
+            rEndFigure = STACK.figureGetById(r_figureConnectionPoint.parentId);
             Log.info(":) WE HAVE AN END FIGURE id = " + rEndFigure.id);
         }
         else{
@@ -2288,7 +2288,7 @@ function draw(){
     //alert('Paint 1')
     reset();
     //alert('Paint 2')
-    stack.paint(ctx);
+    STACK.paint(ctx);
     
     minimap.updateMinimap();
 //    Log.groupEnd();
@@ -2307,13 +2307,13 @@ function action(action){
     switch(action){
         
         case 'undo':
-            Log.info("main.js->action()->Undo. Nr of actions in the stack: " + History.COMMANDS.length);
+            Log.info("main.js->action()->Undo. Nr of actions in the STACK: " + History.COMMANDS.length);
             History.undo();
             redraw = true;
             break;
             
 //        case 'redo':
-//            Log.info("main.js->action()->Redo. Nr of actions in the stack: " + History.COMMANDS.length);
+//            Log.info("main.js->action()->Redo. Nr of actions in the STACK: " + History.COMMANDS.length);
 //            History.redo();
 //            redraw = true;
 //            break;
@@ -2321,7 +2321,7 @@ function action(action){
         case 'group':
             /*After we pressed Ctrl-G any temporary group will became permanent*/
             if(selectedGroupId != -1){
-                var group = stack.groupGetById(selectedGroupId);
+                var group = STACK.groupGetById(selectedGroupId);
                 if(!group.permanent){ //group only temporary groups
                     var cmdGroup = new GroupFiguresCommand(selectedGroupId);
                     cmdGroup.execute();
@@ -2338,7 +2338,7 @@ function action(action){
         
         case 'ungroup':
             if(selectedGroupId != -1){
-                var group = stack.groupGetById(selectedGroupId);
+                var group = STACK.groupGetById(selectedGroupId);
                 if(group.permanent){ //split only permanent groups
                     var cmdUngroup = new UngroupFiguresCommand(selectedGroupId);
                     cmdUngroup.execute();
@@ -2370,8 +2370,8 @@ function action(action){
         case 'rotate90':
         case 'rotate90A':
             if(selectedFigureId){
-                //alert("Selected figure index: " + stack.figureSelectedIndex);
-                var figure = stack.figureGetById(selectedFigureId);
+                //alert("Selected figure index: " + STACK.figureSelectedIndex);
+                var figure = STACK.figureGetById(selectedFigureId);
                 var bounds = figure.getBounds();
                 var dx = bounds[0] + (bounds[2] - bounds[0]) / 2
                 var dy = bounds[1] + (bounds[3] - bounds[1]) / 2
@@ -2479,8 +2479,8 @@ function action(action){
 
         case 'grow':
             if(selectedFigureId != -1){
-                //alert("Selected figure index: " + stack.figureSelectedIndex);
-                var figure = stack.figureGetById(selectedFigureId);
+                //alert("Selected figure index: " + STACK.figureSelectedIndex);
+                var figure = STACK.figureGetById(selectedFigureId);
                 var bounds = figure.getBounds();
                 var dx = bounds[0] + (bounds[2] - bounds[0]) / 2
                 var dy = bounds[1] + (bounds[3] - bounds[1]) / 2
@@ -2515,8 +2515,8 @@ function action(action){
 
         case 'shrink':
             if(selectedFigureId != -1){
-                //alert("Selected figure index: " + stack.figureSelectedIndex);
-                var figure = stack.figureGetById(selectedFigureId);
+                //alert("Selected figure index: " + STACK.figureSelectedIndex);
+                var figure = STACK.figureGetById(selectedFigureId);
                 var bounds = figure.getBounds();
                 var dx = bounds[0] + (bounds[2] - bounds[0]) / 2
                 var dy = bounds[1] + (bounds[3] - bounds[1]) / 2
@@ -2550,10 +2550,10 @@ function action(action){
             
         case 'duplicate':
             if(selectedFigureId != -1){
-                var createdFigure = stack.figureGetById(selectedFigureId).clone();
+                var createdFigure = STACK.figureGetById(selectedFigureId).clone();
                 createdFigure.transform(Matrix.translationMatrix(10,10));
-                stack.figureAdd(createdFigure);
-                stack.figureSelect(stack.figures.length-1);
+                STACK.figureAdd(createdFigure);
+                STACK.figureSelect(STACK.figures.length-1);
                 createdFigure=null;
                 getCanvas().style.cursor="default";
                 redraw = true;
@@ -2565,14 +2565,14 @@ function action(action){
                 var cmdBack = new ZOrderFigureCommand(selectedFigureId, 0);
                 cmdBack.execute();
                 History.addUndo(cmdBack);
-                //stack.setPosition(selectedFigureId, 0);
+                //STACK.setPosition(selectedFigureId, 0);
                 redraw = true;
             }
             break;
 
         case 'front':
             if(selectedFigureId != -1){
-                var cmdFront = new ZOrderFigureCommand(selectedFigureId, stack.figures.length-1);
+                var cmdFront = new ZOrderFigureCommand(selectedFigureId, STACK.figures.length-1);
                 cmdFront.execute();
                 History.addUndo(cmdFront);                
                 redraw = true;
@@ -2581,7 +2581,7 @@ function action(action){
 
         case 'moveback':
             if(selectedFigureId != -1){
-                var cmdMoveBack = new ZOrderFigureCommand(selectedFigureId, stack.idToIndex[selectedFigureId] - 1);
+                var cmdMoveBack = new ZOrderFigureCommand(selectedFigureId, STACK.idToIndex[selectedFigureId] - 1);
                 cmdMoveBack.execute();
                 History.addUndo(cmdMoveBack);
                 redraw = true;
@@ -2590,7 +2590,7 @@ function action(action){
 
         case 'moveforward':
             if(selectedFigureId != -1){
-                var cmdMoveForward = new ZOrderFigureCommand(selectedFigureId, stack.idToIndex[selectedFigureId] + 1);
+                var cmdMoveForward = new ZOrderFigureCommand(selectedFigureId, STACK.idToIndex[selectedFigureId] + 1);
                 cmdMoveForward.execute();
                 History.addUndo(cmdMoveForward);
                 redraw = true;

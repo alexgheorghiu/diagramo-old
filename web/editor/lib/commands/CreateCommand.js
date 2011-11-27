@@ -35,12 +35,12 @@ CreateCommand.prototype = {
                 state = STATE_FIGURE_CREATE;
                 value[1].noAddUndo = true;
                 onMouseDown(value[1]);
-                stack.figureGetById(selectedFigureId).figureId = this.objectId;
-                stack.figureGetById(selectedFigureId).id = this.objectId;
+                STACK.figureGetById(selectedFigureId).figureId = this.objectId;
+                STACK.figureGetById(selectedFigureId).id = this.objectId;
                 selectedFigureId = this.objectId;
             }
             else {
-                stack.figureRemoveById(value);
+                STACK.figureRemoveById(value);
                 selectedFigureId = -1;
                 state = STATE_NONE;
             }

@@ -34,8 +34,8 @@ CreateFigureCommand.prototype = {
         //TODO: maybe we should try to recreate it with same ID (in case further undo will recreate objects linked to this)
         this.figureId = createdFigure.id;
         
-        //add to stack
-        stack.figureAdd(createdFigure);
+        //add to STACK
+        STACK.figureAdd(createdFigure);
         
         //make this the selected figure
         selectedFigureId = createdFigure.id;
@@ -50,7 +50,7 @@ CreateFigureCommand.prototype = {
     
     /**This method should be called every time the Command should be undone*/
     undo : function(){ 
-        stack.figureRemoveById(this.figureId);
+        STACK.figureRemoveById(this.figureId);
         state = STATE_NONE;
     }
 }

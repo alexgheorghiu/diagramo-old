@@ -8,7 +8,7 @@ function GroupFiguresCommand(groupId){
     this.groupId = groupId;
     
     /**Figures ids that belong to this group*/
-    this.figuresIds = stack.figureGetIdsByGroupId(groupId);
+    this.figuresIds = STACK.figureGetIdsByGroupId(groupId);
     
     this.firstExecute = true;
     
@@ -23,7 +23,7 @@ GroupFiguresCommand.prototype = {
     execute : function(){
         
         if(this.firstExecute){ //first execute
-            stack.groupGetById(this.groupId).permanent = true; //transform this group into a permanent one
+            STACK.groupGetById(this.groupId).permanent = true; //transform this group into a permanent one
             
             this.firstExecute = false;
         } 
@@ -35,7 +35,7 @@ GroupFiguresCommand.prototype = {
 
             //add figures to group
             for(var i=0; i < this.figuresIds.length; i++){
-                var f = stack.figureGetById(this.figuresIds[i]);
+                var f = STACK.figureGetById(this.figuresIds[i]);
                 f.groupId = g.id;
             }
             
@@ -43,8 +43,8 @@ GroupFiguresCommand.prototype = {
             g.rotationCoords.push(new Point(bounds[0]+(bounds[2]-bounds[0])/2, bounds[1] + (bounds[3] - bounds[1]) / 2));
             g.rotationCoords.push(new Point(bounds[0]+(bounds[2]-bounds[0])/2, bounds[1]));
 
-            //save group to stack
-            stack.groups.push(g);
+            //save group to STACK
+            STACK.groups.push(g);
         }
         
         state = STATE_GROUP_SELECTED;
@@ -54,7 +54,7 @@ GroupFiguresCommand.prototype = {
     
     /**This method should be called every time the Command should be undone*/
     undo : function(){
-        stack.groupDestroy(this.groupId);
+        STACK.groupDestroy(this.groupId);
         
         selectedGroupId = -1;
         state = STATE_NONE;
