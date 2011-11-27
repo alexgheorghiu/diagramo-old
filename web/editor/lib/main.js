@@ -12,7 +12,9 @@ var debugSolutions = null;
  **/
 var visualDebug = true; 
 
-/**Activate or deactivate the undo feature**/
+/**Activate or deactivate the undo feature
+ *@deprecated
+ ***/
 var doUndo = true; 
 
 /**Usually an instance of a Command (see /lib/commands/*.js)*/
@@ -38,17 +40,27 @@ var CNTRL_PRESSED = false;
 /**A variable that tells us if SHIFT is pressed*/
 var SHIFT_PRESSED = false;
 
-/**Current connector. It is null if no connector selected*/
+/**Current connector. It is null if no connector selected
+ * @deprecated
+ * TODO: we should base ONLY on selectedConnectorId
+ **/
 var connector = null;
 
-/**Connector type*/
+
+/**Connector type
+ * TODO: this should not be present here but retrieved from Connector object
+ **/
 var connectorType = '';
 
 document.onselectstart = stopselection;
 
 
 
-/**Supposelly stop any selection from happening*/
+/**Supposelly stop any selection from happening
+ *@deprecated
+ *TODO: as with IE9 we have proper DOM event support....maybe we should use that
+ *and get rid of window.event
+ **/
 function stopselection(ev){
     if(!ev){
         ev = window.event;
@@ -159,7 +171,7 @@ function getContext(){
         return canvas.getContext("2d");
     }
     else{
-        alert('You need Safari or Firefox 1.5+ to see this demo.');
+        alert('You need a HTML5 web browser. Any Safari,Firefox, Chrome or Explorer supports this.');
     }
 }
 
