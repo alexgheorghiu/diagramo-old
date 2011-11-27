@@ -2,6 +2,7 @@ This is Alex's current mental stack
 
 Current stack:
 
+* delete command (at least for figure and group)
 * connectors - create action & others
 * redraw boolean value does not seems to be really used !?!?!
 * add development-rules.txt to wiki

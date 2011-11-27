@@ -1,5 +1,7 @@
 /* 
  * This is triggered when a figure was rotated
+ * @this {RotateFigureCommand} 
+ * @constructor
  * @author Alex Gheorghiu <alex@scriptoid.com>
  */
 function RotateFigureCommand(figureId, matrix, reverseMatrix){

@@ -1,5 +1,7 @@
 /* 
  * This is triggered when a figure was scaled/expanded
+ * @this {ScaleGroupCommand} 
+ * @constructor
  * @author Alex Gheorghiu <alex@scriptoid.com>
  */
 function ScaleGroupCommand(groupId, matrix, reverseMatrix){

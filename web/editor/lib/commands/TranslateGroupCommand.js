@@ -1,5 +1,7 @@
 /* 
  * This is triggered when a figure was moved
+ * @this {TranslateGroupCommand} 
+ * @constructor
  * @author Alex Gheorghiu <alex@scriptoid.com>
  * @param {Integer} groupId - the id of the figure translated
  * @param {Array} matrix - the transformation matrix of translation

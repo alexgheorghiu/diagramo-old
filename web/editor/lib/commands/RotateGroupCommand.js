@@ -1,5 +1,7 @@
 /* 
  * This is triggered when a group was rotated
+ * @this {RotateGroupCommand} 
+ * @constructor
  * @author Alex Gheorghiu <alex@scriptoid.com>
  */
 function RotateGroupCommand(groupId, matrix, reverseMatrix){

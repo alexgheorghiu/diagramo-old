@@ -6,6 +6,8 @@
  * @this {CreateFigureCommand} 
  * @constructor
  * @param {Function} factoryFunction - the function that will create the {Figure}. It will be local copy (of original pointer)
+ * @param {Number} x - the x coordinates
+ * @param {Number} y - the x coordinates
  * @author Alex <alex@scriptoid.com>
  */
 function CreateFigureCommand(factoryFunction, x, y){

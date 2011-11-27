@@ -5,6 +5,7 @@
  * @param property {Null}
  * @param previousValue {Figure}/{Connector}/{Group} the item being deleted
  * @param currentValue {Event} the event that caused the delete
+ * @deprecated
  */
 function DeleteCommand(objectId, typeOfObject, property, previousValue, currentValue){
     this.objectId = objectId;

@@ -5,6 +5,7 @@
  * @param property {Null}
  * @param previousValue {Array} of turning points
  * @param currentValue {Array} of turning points
+ * @deprecated
  */
 function ConnectorHandleCommand(objectId, typeOfObject, property, previousValue, currentValue){
     this.objectId = objectId;

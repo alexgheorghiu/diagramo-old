@@ -7,8 +7,8 @@
  * @constructor
  * @author Alex <alex@scriptoid.com>
  */
-function Command(objectId, typeOfObject, property, previousValue, currentValue){
-    this.oType = 'RotateFigureCommand';
+function Command(){
+    this.oType = 'Command';
     
     /**Any sequence of many mergeable actions that can be packed (merged into a single) by the history.
      *Example: all figure moves can be merges into a single command*/

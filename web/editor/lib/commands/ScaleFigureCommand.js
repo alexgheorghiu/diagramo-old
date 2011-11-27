@@ -1,5 +1,7 @@
 /* 
  * This is triggered when a figure was scaled/expanded
+ * @this {ScaleFigureCommand} 
+ * @constructor
  * @author Alex Gheorghiu <alex@scriptoid.com>
  */
 function ScaleFigureCommand(figureId, matrix, reverseMatrix){

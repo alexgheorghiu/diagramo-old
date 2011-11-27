@@ -1,5 +1,7 @@
 /* 
  * This is triggered when a figure was translated
+ * @this {TranslateFigureCommand} 
+ * @constructor
  * @param {Integer} figureId - the id of the figure translated
  * @param {Array} matrix - the transformation matrix of translation
  * @author Alex Gheorghiu <alex@scriptoid.com>
