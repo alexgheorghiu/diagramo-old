@@ -495,34 +495,11 @@ function onKeyDown(ev){
             switch(state){
 
                 case STATE_FIGURE_SELECTED: //delete a figure ONLY when the figure is selected
-                    if(selectedFigureId > -1){
-                        //remove figure
-
-                        if(!ev.noAddUndo && doUndo){//only add an action, if we are not currently undo/redoing an action
-                            var undo = new DeleteCommand(selectedFigureId, History.OBJECT_FIGURE, null, STACK.figureGetById(selectedFigureId),ev)
-
-                            History.addUndo(undo);
-                        }
-                        
-                        STACK.figureRemoveById(selectedFigureId);
-                        
-                        
-                        //remove glues
-                        var xCPs = CONNECTOR_MANAGER.connectionPointGetAllByParent(selectedFigureId);
-                        for(var k=0; k<xCPs.length; k++){
-                            CONNECTOR_MANAGER.glueRemoveAllByFirstId(xCPs[k].id);
-                            
-                        }
-                        
-                        //remove connection points
-                        CONNECTOR_MANAGER.connectionPointRemoveAllByParent(selectedFigureId);
-                        selectedFigureId = -1;
-                        setUpEditPanel(canvasProps);
-                        state = STATE_NONE;
-                        redraw = true;
-                        
-                    //                        alert('Delete done');
-                    }
+                    if(selectedFigureId != -1){
+                        var cmdDelFig = new DeleteFigureCommand(selectedFigureId);
+                        cmdDelFig.execute();
+                        History.addUndo(cmdDelFig);
+                    }                    
                     break;
 
                 case STATE_CONNECTOR_SELECTED:
@@ -544,19 +521,11 @@ function onKeyDown(ev){
                     break;
                     
                 case STATE_GROUP_SELECTED:
-                    var figures = STACK.figureGetByGroupId(selectedGroupId);
-                    if(!ev.noAddUndo && doUndo){//only add an action, if we are not currently undo/redoing an action
-                        var undo = new DeleteCommand(selectedGroupId, History.OBJECT_GROUP, null, figures, STACK.groupGetById(selectedGroupId).permanent)
-
-                        History.addUndo(undo);
+                    if(selectedGroupId != -1){
+                        var cmdDelGrp = new DeleteGroupCommand(selectedGroupId);
+                        cmdDelGrp.execute();
+                        History.addUndo(cmdDelGrp);
                     }
-                    var figures = STACK.figureGetByGroupId(selectedGroupId);
-                    STACK.groupDestroy(selectedGroupId);
-                    for(var i = 0; i < figures.length; i++){
-                        STACK.figureRemoveById(figures[i].id);
-                    }
-                    selectedGroupId = -1;
-                    state = STATE_NONE;
 
                     break;
             }

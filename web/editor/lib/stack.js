@@ -54,9 +54,10 @@ Stack.prototype = {
     /**Creates a {Group} based on a set of figure IDs
      * Group is created by 1. creating a Group and 2. setting Figure's groupId property to the new id of the Group
      *@param {Array} figureIds - all the ids of {Figure}s
+     *@param {Number} groupId - the id of the {Group} (optional) 
      *@return {Number} - the id of newly created Group
      **/
-    groupCreate:function (figureIds){
+    groupCreate:function (figureIds, groupId){
 
         //we should allow to create more than one temporary group
         for(var i=0; i<this.groups.length; i++){
@@ -66,7 +67,7 @@ Stack.prototype = {
         }
         
         //create group
-        var g = new Group();
+        var g = new Group(groupId);
 
         //add figures to group
         for(var i=0; i < figureIds.length; i++){

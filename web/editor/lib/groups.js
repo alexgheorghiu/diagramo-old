@@ -9,9 +9,16 @@
  * @this {Group}
  * @author Alex, Zack Newsham zack_newsham@yahoo.co.uk
  */
-function Group(){
+function Group(id){
+    
     /**Group's id*/
-    this.id = STACK.generateId();
+    if(id){
+        this.id = id;
+    }
+    else{
+        this.id = STACK.generateId();
+    }
+    
     
     /**By default all groups are temporary....so it's up to you make them permanent*/
     this.permanent = false;

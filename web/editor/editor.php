@@ -70,6 +70,11 @@ if(is_numeric($_REQUEST['diagramId'])){
         <script type="text/javascript" src="./lib/commands/RotateGroupCommand.js?<?=time()?>"></script>
         <script type="text/javascript" src="./lib/commands/ScaleGroupCommand.js?<?=time()?>"></script>
         <script type="text/javascript" src="./lib/commands/ZOrderFigureCommand.js?<?=time()?>"></script>
+        <script type="text/javascript" src="./lib/commands/GroupFiguresCommand.js?<?=time()?>"></script>
+        <script type="text/javascript" src="./lib/commands/UngroupFiguresCommand.js?<?=time()?>"></script>
+        <script type="text/javascript" src="./lib/commands/DeleteFigureCommand.js?<?=time()?>"></script>
+        <script type="text/javascript" src="./lib/commands/DeleteGroupCommand.js?<?=time()?>"></script>
+        
         <script type="text/javascript" src="./lib/commands/CreateFigureCommand.js?<?=time()?>"></script>
         <script type="text/javascript" src="./lib/commands/TranslateGroupCommand.js?<?=time()?>"></script>
         <script type="text/javascript" src="./lib/commands/CanvasResizeCommand.js?<?=time()?>"></script>
@@ -77,8 +82,6 @@ if(is_numeric($_REQUEST['diagramId'])){
         <script type="text/javascript" src="./lib/commands/ConnectorHandleCommand.js?<?=time()?>"></script>
         <script type="text/javascript" src="./lib/commands/CreateCommand.js?<?=time()?>"></script>
         <script type="text/javascript" src="./lib/commands/DeleteCommand.js?<?=time()?>"></script>
-        <script type="text/javascript" src="./lib/commands/GroupFiguresCommand.js?<?=time()?>"></script>
-        <script type="text/javascript" src="./lib/commands/UngroupFiguresCommand.js?<?=time()?>"></script>
         <script type="text/javascript" src="./lib/commands/MatrixCommand.js?<?=time()?>"></script>
         <script type="text/javascript" src="./lib/commands/PropertyCommand.js?<?=time()?>"></script>
 
