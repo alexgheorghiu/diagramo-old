@@ -64,6 +64,14 @@ Connector.TYPE_STRAIGHT = 'straight';
 /**Jagged connector type*/
 Connector.TYPE_JAGGED = 'jagged';
 
+/**Round connector type. Orthogonal angles are smoothed*/
+Connector.TYPE_ROUND = 'round';
+
+/**Round connector type. The connector is drawn as a curve*/
+Connector.TYPE_ROUND = 'organic';
+
+
+
 /**Normal end connector style*/
 Connector.STYLE_NORMAL = "Normal";
 
@@ -233,6 +241,7 @@ Connector.prototype = {
         //paint connector's line
         context.moveTo(this.turningPoints[0].x, this.turningPoints[0].y);
         for(var i=1; i< this.turningPoints.length; i++){
+            //start style
             if(this.startStyle == Connector.STYLE_EMPTY_TRIANGLE && i == 1){ //special case
                 //get the angle of the start line
                 var angle = Util.getAngle(this.turningPoints[0],this.turningPoints[1]);
@@ -241,6 +250,8 @@ Connector.prototype = {
                 //move to new start
                 context.moveTo(newPoint.x, newPoint.y);
             }
+            
+            //end style
             if(this.endStyle == Connector.STYLE_EMPTY_TRIANGLE && i == this.turningPoints.length -1){ //special case 
                 //get the angle of the final line
                 var angle = Util.getAngle(this.turningPoints[i-1],this.turningPoints[i]);
