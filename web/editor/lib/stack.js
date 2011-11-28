@@ -631,6 +631,12 @@ Stack.prototype = {
                 var logGroup = this.groupGetById(selectedGroupId);
                 context.fillText("permanent: : " + logGroup.permanent, 0, 10 * pos++);
             }
+            context.fillText("selectedConnectorId: : " + selectedConnectorId, 0, 10 * pos++);
+            if(selectedConnectorId != -1){
+                var connector = CONNECTOR_MANAGER.connectorGetById(selectedConnectorId);
+                context.fillText("connector type: : " + connector.type, 0, 10 * pos++);
+            }
+                
             context.restore();
         }
         
@@ -739,18 +745,18 @@ Stack.prototype = {
             }
             
             //paint the legend
-            var dY = 20;
+            pos += 4;
             for(var solName in colors){
                 context.save();
-                context.strokeText(solName, 0, dY);
+                context.strokeText(solName, 0, 10 * pos);
                 context.strokeStyle = colors[solName];
                 context.beginPath();
-                context.moveTo(50, dY);
-                context.lineTo(150, dY);
+                context.moveTo(50, 10 * pos);
+                context.lineTo(150, 10 * pos);
                 //context.endPath();
                 context.stroke();
                 context.restore();
-                dY += 20;
+                pos += 2;
             }
             context.restore();
             

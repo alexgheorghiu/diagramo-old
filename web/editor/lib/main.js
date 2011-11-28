@@ -514,17 +514,9 @@ function onKeyDown(ev){
                 case STATE_CONNECTOR_SELECTED:
                     Log.group("Delete connector");
                     if(selectedConnectorId != -1){
-                        Log.info("Found connector : id=" + selectedConnectorId);
-                        var con = CONNECTOR_MANAGER.connectorGetById(selectedConnectorId);
-                        if(!ev.noAddUndo && doUndo){//only add an action, if we are not currently undo/redoing an action
-                            var undo = new DeleteCommand(selectedConnectorId, History.OBJECT_CONNECTOR, null, con, null);
-                            History.addUndo(undo);
-                        }
-                        CONNECTOR_MANAGER.connectorRemoveById(selectedConnectorId, true);
-                        selectedConnectorId = -1;
-                        setUpEditPanel(canvasProps);
-                        state = STATE_NONE;
-                        redraw = true;
+                        var cmdDelCon = new DeleteConnectorCommand(selectedConnectorId);
+                        cmdDelCon.execute();
+                        History.addUndo(cmdDelCon);                                                
                     }
                     Log.groupEnd();
                     break;                                    
@@ -1650,10 +1642,7 @@ function connectorPickFirst(x, y, ev){
     var conId = CONNECTOR_MANAGER.connectorCreate(new Point(x, y),new Point(x+10,y+10) /*fake cp*/, connectorType);
     selectedConnectorId = conId;
     var con = CONNECTOR_MANAGER.connectorGetById(conId);
-    if(ev != null && !ev.noAddUndo && doUndo){
-        currentMoveUndo = new CreateCommand(selectedConnectorId, History.OBJECT_CONNECTOR, connectorType, null, ev)
-        History.addUndo(currentMoveUndo);
-    }
+    
 
     //TRY TO GLUE IT
     //1.get CP of the connector
@@ -1674,16 +1663,7 @@ function connectorPickFirst(x, y, ev){
 
         var g = CONNECTOR_MANAGER.glueCreate(fCp.id, conCps[0].id);
         Log.info("First glue created : " + g);
-    //alert('First glue ' + g);
-    //lets create an undo with composite id
-
-    /*we have already added an undo object, this is not needed
-         *if(ev != null && doUndo){//if this is a new action, not a "redone" action add a new Undo
-            History.addUndo(new Action([g.id1,g.id2], History.OBJECT_GLUE, History.ACTION_CONNECT, null, g.id1, null));
-        }
-        else if(doUndo){//otherwise, an undo already exists, and we must incrememnt the ponter
-            //History.CURRENT_POINTER ++;
-        }*/
+        //alert('First glue ' + g);
     }
     state = STATE_CONNECTOR_PICK_SECOND;
     Log.groupEnd();

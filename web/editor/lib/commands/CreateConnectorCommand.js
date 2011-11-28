@@ -38,5 +38,8 @@ CreateConnectorCommand.prototype = {
     /**This method should be called every time the Command should be undone*/
     undo : function(){ 
         CONNECTOR_MANAGER.connectorRemoveById(this.connectorId, true);
+        
+        state = STATE_NONE;
+        selectedConnectorId = -1;
     }
 }
