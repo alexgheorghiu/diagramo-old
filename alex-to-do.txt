@@ -8,3 +8,4 @@ Current stack:
 * redraw boolean value does not seems to be really used !?!?!
 * add development-rules.txt to wiki
 * Text's clone not implemented ?!
+* noAddUndo property must disappear

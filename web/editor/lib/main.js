@@ -501,6 +501,15 @@ function onKeyDown(ev){
                         History.addUndo(cmdDelFig);
                     }                    
                     break;
+                    
+                case STATE_GROUP_SELECTED:
+                    if(selectedGroupId != -1){
+                        var cmdDelGrp = new DeleteGroupCommand(selectedGroupId);
+                        cmdDelGrp.execute();
+                        History.addUndo(cmdDelGrp);
+                    }
+
+                    break;    
 
                 case STATE_CONNECTOR_SELECTED:
                     Log.group("Delete connector");
@@ -518,16 +527,7 @@ function onKeyDown(ev){
                         redraw = true;
                     }
                     Log.groupEnd();
-                    break;
-                    
-                case STATE_GROUP_SELECTED:
-                    if(selectedGroupId != -1){
-                        var cmdDelGrp = new DeleteGroupCommand(selectedGroupId);
-                        cmdDelGrp.execute();
-                        History.addUndo(cmdDelGrp);
-                    }
-
-                    break;
+                    break;                                    
             }
             break;
 
@@ -1168,112 +1168,6 @@ function onMouseUp(ev){
             mousePressed = false;
             HandleManager.handleSelectedIndex = -1; //reset only the handler....the Group is still selected
             
-            //            //GROUPS
-            //            if(currentMoveUndo != null && HandleManager.handleGetSelected() == null){
-            //                var f = STACK.groupGetById(selectedGroupId);
-            //                if(f.getBounds()[0] != currentMoveUndo.previousValue[0][2]
-            //                    || f.getBounds()[1] != currentMoveUndo.previousValue[1][2])
-            //                    {
-            //                    currentMoveUndo.currentValue = [Matrix.translationMatrix(f.getBounds()[0] - currentMoveUndo.previousValue[0][2], f.getBounds()[1] - currentMoveUndo.previousValue[1][2])];
-            //                    currentMoveUndo.previousValue = [Matrix.translationMatrix(currentMoveUndo.previousValue[0][2] - f.getBounds()[0], currentMoveUndo.previousValue[1][2] - f.getBounds()[1])];                    
-            //                }
-            //            }
-            //            //lots of things that can happen here, so quite complicated
-            //            if(HandleManager.handleGetSelected() != null){ //deselect current handle
-            //                var figure = HandleManager.shape;
-            //                var bounds = figure.getBounds();
-            //
-            //                //get the angle of the original shape, prior to any action
-            //                var oldRotCoords = currentMoveUndo.previousValue;
-            //                var newRotCoords = figure.rotationCoords;
-            //
-            //                var oldAngle = Util.getAngle(oldRotCoords[0], oldRotCoords[1],0.001); //exact angle will return .001 different sometimes, this rounds.
-            //                var newAngle = Util.getAngle(newRotCoords[0], newRotCoords[1],0.001);
-            //
-            //
-            //                if(oldAngle != newAngle && currentMoveUndo != null && doUndo){//if action is rotation, opposite action is easy, translate, rotate, translate back.
-            //                    currentMoveUndo.previousValue = [Matrix.translationMatrix(-oldRotCoords[0].x,-oldRotCoords[0].y),Matrix.rotationMatrix(oldAngle-newAngle),Matrix.translationMatrix(oldRotCoords[0].x,oldRotCoords[0].y)];
-            //                    currentMoveUndo.currentValue = [Matrix.translationMatrix(-oldRotCoords[0].x,-oldRotCoords[0].y),Matrix.rotationMatrix(newAngle-oldAngle),Matrix.translationMatrix(oldRotCoords[0].x,oldRotCoords[0].y)];
-            //                }
-            //                else{//if not, difficult
-            //
-            //                    //get the exact angle for rotating, if we arent rotating, we must be scaling
-            //                    oldAngle = Util.getAngle(oldRotCoords[0], oldRotCoords[1]);
-            //                    newAngle = Util.getAngle(newRotCoords[0], newRotCoords[1]);
-            //                    var scaleX = 1;
-            //                    var scaleY = 1;
-            //                    var translationForwardMatrix = Matrix.translationMatrix(0, 0);
-            //                    var translationBackMatrix = Matrix.translationMatrix(0, 0);
-            //
-            //                    var oldBounds = currentMoveUndo.currentValue;//we save bounds (pre rotated to be at an angle of 0) here upon starting to drag a handle
-            //
-            //
-            //                    //rotate the current figure back to the 0 axis, to get correct representation of width and height
-            //                    var trans = Matrix.translationMatrix(-HandleManager.shape.rotationCoords[0].x,-HandleManager.shape.rotationCoords[0].y);
-            //
-            //                    HandleManager.shape.transform(trans);
-            //                    trans[0][2] = -trans[0][2];
-            //                    trans[1][2] = -trans[1][2];
-            //                    HandleManager.shape.transform(Matrix.rotationMatrix(-newAngle));
-            //                    HandleManager.shape.transform(trans);
-            //                    trans[0][2] = -trans[0][2];
-            //                    trans[1][2] = -trans[1][2];
-            //
-            //                    var newBounds = HandleManager.shape.getBounds();
-            //
-            //                    //rotate the figure back into its normal position
-            //                    HandleManager.shape.transform(trans);
-            //                    trans[0][2] = -trans[0][2];
-            //                    trans[1][2] = -trans[1][2];
-            //                    HandleManager.shape.transform(Matrix.rotationMatrix(newAngle));
-            //                    HandleManager.shape.transform(trans);
-            //
-            //                    //we need a record of the non translated, rotated bounds, in order to scale correctly later
-            //                    HandleManager.shape.transform(Matrix.rotationMatrix(-newAngle));
-            //                    var untranslatedBounds = HandleManager.shape.getBounds();
-            //                    HandleManager.shape.transform(Matrix.rotationMatrix(newAngle));
-            //
-            //                    //get the old and new widths and heights;
-            //                    var oldWidth = (oldBounds[2]-oldBounds[0])/2;
-            //                    var newWidth = (newBounds[2]-newBounds[0])/2;
-            //                    var oldHeight = (oldBounds[3]-oldBounds[1])/2;
-            //                    var newHeight = (newBounds[3]-newBounds[1])/2;
-            //
-            //                    //set the scale proprtions
-            //                    scaleX = oldWidth/newWidth;
-            //                    scaleY = oldHeight/newHeight;
-            //                    var handle = HandleManager.handleGetSelected();
-            //
-            //                    //if we are scaling the left/top we need to move the right/bottom to the 0 position
-            //                    if(handle.type == 'w' || handle.type == 'nw' || handle.type == 'sw'){
-            //                        translationForwardMatrix[0][2] = -untranslatedBounds[2];
-            //                        translationBackMatrix[0][2] = untranslatedBounds[2];
-            //                    }
-            //                    else {
-            //                        translationForwardMatrix[0][2] = -untranslatedBounds[0];
-            //                        translationBackMatrix[0][2] = untranslatedBounds[0];
-            //                    }
-            //                    if(handle.type == 'n' || handle.type == 'nw' || handle.type == 'ne'){
-            //                        translationForwardMatrix[1][2] = -untranslatedBounds[3];
-            //                        translationBackMatrix[1][2] = untranslatedBounds[3];
-            //                    }
-            //                    else {
-            //                        translationForwardMatrix[1][2] = -untranslatedBounds[1];
-            //                        translationBackMatrix[1][2] = untranslatedBounds[1];
-            //                    }
-            //
-            //                    //save the set of transformations
-            //                    if(doUndo && currentMoveUndo != null){
-            //                        currentMoveUndo.previousValue = [Matrix.rotationMatrix(-newAngle),translationForwardMatrix,Matrix.scaleMatrix(scaleX,scaleY),translationBackMatrix,Matrix.rotationMatrix(newAngle)];
-            //                        currentMoveUndo.currentValue = [Matrix.rotationMatrix(-newAngle),translationForwardMatrix,Matrix.scaleMatrix(1/scaleX,1/scaleY),translationBackMatrix,Matrix.rotationMatrix(newAngle)];
-            //                    }
-            //                }
-            //            }
-            //            HandleManager.handleSelectedIndex = -1;
-            //            if(doUndo && currentMoveUndo != null){
-            //                History.addUndo(currentMoveUndo);
-            //            }
-            //            currentMoveUndo = null;
             break;
 
         case STATE_SELECTING_MULTIPLE:
