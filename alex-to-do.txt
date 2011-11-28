@@ -4,7 +4,11 @@ Current stack:
 
 * [x] delete command (at least for figure and group)
 * [x] create command (at least for figure and group)
-* connectors - create action & others
+* connectors 
+    - create action
+    - alter 
+        - connect
+        - alter path
 * redraw boolean value does not seems to be really used !?!?!
 * add development-rules.txt to wiki
 * Text's clone not implemented ?!

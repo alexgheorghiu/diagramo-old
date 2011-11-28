@@ -82,8 +82,6 @@ if(is_numeric($_REQUEST['diagramId'])){
         <script type="text/javascript" src="./lib/commands/CanvasResizeCommand.js?<?=time()?>"></script>
         <script type="text/javascript" src="./lib/commands/ConnectCommand.js?<?=time()?>"></script>
         <script type="text/javascript" src="./lib/commands/ConnectorHandleCommand.js?<?=time()?>"></script>
-        <!-- <script type="text/javascript" src="./lib/commands/CreateCommand.js?<?=time()?>"></script> -->
-        <script type="text/javascript" src="./lib/commands/DeleteCommand.js?<?=time()?>"></script>
         <script type="text/javascript" src="./lib/commands/MatrixCommand.js?<?=time()?>"></script>
         <script type="text/javascript" src="./lib/commands/PropertyCommand.js?<?=time()?>"></script>
 
