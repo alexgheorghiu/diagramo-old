@@ -3,6 +3,7 @@ This is Alex's current mental stack
 Current stack:
 
 * delete command (at least for figure and group)
+    if I have 2 figures from a group liked by a connector....and I deleted the group...the connector stays.....hmmm
 * connectors - create action & others
 * redraw boolean value does not seems to be really used !?!?!
 * add development-rules.txt to wiki
