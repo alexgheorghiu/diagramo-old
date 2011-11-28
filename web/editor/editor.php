@@ -74,6 +74,7 @@ if(is_numeric($_REQUEST['diagramId'])){
         <script type="text/javascript" src="./lib/commands/UngroupFiguresCommand.js?<?=time()?>"></script>
         <script type="text/javascript" src="./lib/commands/DeleteFigureCommand.js?<?=time()?>"></script>
         <script type="text/javascript" src="./lib/commands/DeleteGroupCommand.js?<?=time()?>"></script>
+        <script type="text/javascript" src="./lib/commands/CreateConnectorCommand.js?<?=time()?>"></script>
         
         <script type="text/javascript" src="./lib/commands/CreateFigureCommand.js?<?=time()?>"></script>
         <script type="text/javascript" src="./lib/commands/TranslateGroupCommand.js?<?=time()?>"></script>

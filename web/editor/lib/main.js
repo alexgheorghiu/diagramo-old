@@ -804,57 +804,6 @@ function onMouseDown(ev){
 
             }                
             
-            //            
-            //            
-            //            
-            //            
-            //            if(fId != -1 && STACK.figureGetById(fId).groupId != -1){ //Clicked the figure from a group
-            //                state = STATE_GROUP_SELECTED;
-            //                selectedGroupId = STACK.figureGetById(fId).groupId;
-            //                selectedFigureId = -1;
-            //                var g = STACK.groupGetById(selectedFigureId);
-            //                redraw = true;
-            //                if(doUndo){
-            //                    currentMoveUndo = new MatrixCommand(selectedFigureId, History.OBJECT_FIGURE, History.MATRIX, Matrix.translationMatrix(g.getBounds()[0],g.getBounds()[1]), null);
-            //                }
-            //                HandleManager.shapeSet(g);
-            //                state = STATE_GROUP_SELECTED;
-            //                break;
-            //            }
-            //            
-            //            //clicked another fgure ?
-            //            if(fId != -1 && fId != selectedFigureId){ //select figure, if we havent already got it selected
-            //                selectedFigureId = fId;
-            //                HandleManager.clear();
-            //                var f = STACK.figureGetById(fId);
-            //                setUpEditPanel(f);
-            //                redraw = true;
-            //                if(doUndo){
-            //                    currentMoveUndo = new MatrixCommand(fId, History.OBJECT_FIGURE, History.MATRIX, Matrix.translationMatrix(f.getBounds()[0],f.getBounds()[1]), null);
-            //                }
-            //            }
-            //            else if(fId == selectedFigureId && fId != -1){ //same figure
-            //                var f = STACK.figureGetById(fId);
-            //                if(doUndo){
-            //                    currentMoveUndo = new MatrixCommand(fId, History.OBJECT_FIGURE, History.MATRIX, Matrix.translationMatrix(f.getBounds()[0],f.getBounds()[1]), null);
-            //                }
-            //            }
-            //            
-            //            else if(fId != selectedFigureId){
-            ////                Log.info("onMouseDown() + STATE_FIGURE_SELECTED --> deselect any figure");
-            ////                selectedFigureId = -1;
-            ////                setUpEditPanel(canvasProps);
-            ////
-            ////                state = STATE_NONE;
-            ////                redraw = true;
-            ////                currentMoveUndo = null;
-            ////                state = STATE_SELECTING_MULTIPLE;
-            ////                selectionArea.points[0] = new Point(x,y);
-            ////                selectionArea.points[1] = new Point(x,y);
-            ////                selectionArea.points[2] = new Point(x,y);
-            ////                selectionArea.points[3] = new Point(x,y);//the selectionArea has no size until we start dragging the mouse
-            ////            
-            //            }
             break;
 
         case STATE_GROUP_SELECTED:
@@ -952,75 +901,6 @@ function onMouseDown(ev){
                 Log.info('onMouseDown() + STATE_GROUP_SELECTED  + mouse on empty => STATE_NONE');
             }
             
-            //            if(!selectedGroup.contains(x,y) && HandleManager.handleGet(x,y) == null){
-            //                if(selectedGroup.permanent == false && doUndo){
-            //                    History.addUndo(new GroupCommand(selectedGroupId,History.OBJECT_GROUP, false, STACK.figureGetIdsByGroupId(selectedGroupId),false));
-            //                    STACK.groupDestroy(selectedGroupId);
-            //                }
-            //                selectedGroupId = -1;
-            //                state = STATE_NONE;
-            //                Log.info('onMouseDown() + STATE_GROUP_SELECTED  + outside click => STATE_NONE');
-            //                break;
-            //            }
-            //
-            //            Log.info('onMouseDown() + STATE_GROUP_SELECTED  + somewhere  there...');
-            //
-            //            var fId = STACK.figureGetByXY(x, y);
-            //            var gId = selectedGroupId;
-            //            if(fId != -1 && STACK.figureGetById(fId).groupId != -1){
-            //                //we have selected a figure, could be part of our group or a different group, but is in a group
-            //                gId = STACK.figureGetById(fId).groupId;
-            //            }
-            //            else if(HandleManager.handleGet(x,y) != null){
-            //                //we are dragging a handle, so set gid to -1, to skip a future if
-            //                gId = -1;
-            //            }
-            //            else if(fId != -1){
-            //                //we have an figureId, but no groupId, we are in the wrong place!
-            //                state = STATE_FIGURE_SELECTED;
-            //                break;
-            //            }
-            //
-            //            
-            //            if(gId != -1){
-            //                // we have a group, set the selectedGroupId, and create an undo object
-            //                selectedGroupId = gId;
-            //                //HandleManager.clear();
-            //                var g = STACK.groupGetById(gId);
-            //                redraw = true;
-            //                if(doUndo){
-            //                    currentMoveUndo = new MatrixCommand(gId, History.OBJECT_GROUP, History.MATRIX, Matrix.translationMatrix(g.getBounds()[0],g.getBounds()[1]), null);
-            //                }
-            //                state = STATE_GROUP_SELECTED;
-            //            }
-            //            else if(HandleManager.handleGet(x, y) != null){
-            //                //select a handle
-            //                Log.info("onMouseDown() + STATE_FIGURE_SELECTED - handle selected");
-            //                HandleManager.handleSelectXY(x,y);
-            //
-            //                var oldRot = [HandleManager.shape.rotationCoords[0].clone(),HandleManager.shape.rotationCoords[1].clone()];
-            //                var angle = Util.getAngle(HandleManager.shape.rotationCoords[0], HandleManager.shape.rotationCoords[1],0.00001);
-            //                var trans = Matrix.translationMatrix(-HandleManager.shape.rotationCoords[0].x,-HandleManager.shape.rotationCoords[0].y);
-            //                if(angle!= 0){
-            //                    HandleManager.shape.transform(trans);
-            //                    HandleManager.shape.transform(Matrix.rotationMatrix(-angle));
-            //                    trans[0][2] = -trans[0][2];
-            //                    trans[1][2] = -trans[1][2];
-            //                    HandleManager.shape.transform(trans);
-            //                    trans[0][2] = -trans[0][2];
-            //                    trans[1][2] = -trans[1][2];
-            //                }
-            //                if(doUndo){
-            //                    currentMoveUndo = new MatrixCommand(HandleManager.shape.id,History.OBJECT_GROUP,History.MATRIX, oldRot, HandleManager.shape.getBounds());
-            //                }
-            //                if(angle!= 0){
-            //                    HandleManager.shape.transform(trans);
-            //                    HandleManager.shape.transform(Matrix.rotationMatrix(angle));
-            //                    trans[0][2] = -trans[0][2];
-            //                    trans[1][2] = -trans[1][2];
-            //                    HandleManager.shape.transform(trans);
-            //                }
-            //            }
             break;
 
         
@@ -1238,12 +1118,7 @@ function onMouseUp(ev){
                     //TODO: add code
                     CONNECTOR_MANAGER.connectorAdjustByConnectionPoint(conCps[1].id);
                 }
-                if(!ev.noAddUndo && doUndo == true){//if this is a new action, not a "redone" action add a new Undo
-                    History.addUndo(new ConnectCommand([g.id1,g.id2], History.OBJECT_GLUE, null, g.id1, null));
-                }
-                else if(doUndo == true){//otherwise, an undo already exists, and we must incrememnt the ponter
-                    History.CURRENT_POINTER ++;
-                }
+                           
 
             }
             else{ //not over a figure's CP
@@ -1257,9 +1132,12 @@ function onMouseUp(ev){
                     CONNECTOR_MANAGER.connectorAdjustByConnectionPoint(conCps[1].id);
                 }
             }
-            if(!ev.noAddUndo){
-                currentMoveUndo.currentValue = [currentMoveUndo.currentValue, ev];
-            }
+            
+
+            //store undo command
+            var cmdCreateCon = new CreateConnectorCommand(selectedConnectorId);
+            History.addUndo(cmdCreateCon);
+            
 
             state = STATE_CONNECTOR_SELECTED;
             setUpEditPanel(con);
@@ -1544,57 +1422,6 @@ function onMouseMove(ev){
                 }
             }
             
-            //            //CURSOR
-            //            var tmpFigId = STACK.figureGetByXY(x, y); //pick first figure from (x, y)
-            //            
-            //            if(selectedFigureId == tmpFigId){ //over a figure or dragging it
-            //                canvas.style.cursor = 'move';
-            //                //Log.info('onMouseMove() - STATE_FIGURE_SELECTED - mouse cursor = move');
-            //            }
-            //            else if(HandleManager.handleGet(x,y) != null){ //over a handle?. Handles should appear only for selected figures
-            //                
-            //                if(HandleManager.shape.id == selectedFigureId){
-            //                    canvas.style.cursor = HandleManager.handleGet(x,y).getCursor();
-            //                    Log.info('onMouseMove() - STATE_FIGURE_SELECTED - mouse cursor = ' + canvas.style.cursor);
-            //                }
-            //            }
-            //            else{ //default cursor
-            //                canvas.style.cursor = 'default';
-            //                //Log.info('onMouseMove() - STATE_FIGURE_SELECTED - mouse cursor = default');
-            //            }
-            //
-            //
-            //            //ACTION
-            //            
-            //            if(mousePressed == true && lastMove != null ){ //if dragging
-            //                Log.info('onMouseMove() + STATE_FIGURE_SELECTED - dragging');
-            //                
-            //                var handle = HandleManager.handleGet(x,y);
-            //                
-            //                /*if we have a handle action*/
-            //                if(handle != null){
-            //                    Log.info("onMouseMove() + STATE_FIGURE_SELECTED - trigger a handler action");
-            //                    var handle = HandleManager.handleGetSelected();
-            //                    //alert('Handle action');
-            //                    handle.action(lastMove,x,y);
-            //                    redraw = true;
-            //                }
-            //                else{
-            //                    Log.info("onMouseMove() + STATE_FIGURE_SELECTED - no handle selected");
-            //                    
-            //                    /*move figure only if no handle is selected*/
-            //                    if(selectedFigureId != -1){
-            //                        //Log.info("onMouseMove() + STATE_FIGURE_SELECTED - move selected figure");
-            //                        var fig = STACK.figureGetById(selectedFigureId);
-            //                        var moveMatrix = generateMoveMatrix(fig, x, y);
-            //                        //                if(!Matrix.equals(moveMatrix, Matrix.IDENTITY)){
-            //                        fig.transform(moveMatrix);
-            //                        redraw = true;
-            //                    }
-            //                }            
-            //                
-            //            }//end if dragging
-            
             break;
 
 
@@ -1655,40 +1482,7 @@ function onMouseMove(ev){
                 else{
                     canvas.style.cursor = 'default';
                 }
-            }
-            
-            
-            //GROUPS
-            //            if(STACK.figureIsOver(x,y)){ //over a figure or dragging it
-            //                canvas.style.cursor = 'move';
-            //                Log.debug('onMouseMove() - STATE_GROUP_SELECTED - mouse cursor = move');
-            //            }
-            //            else if(HandleManager.handleGet(x,y) != null){ //over a handle?. Handles should appear only for selected figures
-            //                canvas.style.cursor = HandleManager.handleGet(x,y).getCursor();
-            //            }
-            //            else{ //default cursor
-            //                canvas.style.cursor = 'default';
-            //                Log.debug('onMouseMove() - STATE_GROUP_SELECTED - mouse cursor = default');
-            //            }
-            //
-            //            /*move group only if no handle is selected*/
-            //            if(mousePressed == true && lastMove != null && selectedGroupId != -1
-            //                && HandleManager.handleGetSelected() == null ){
-            //                //Log.info("onMouseMove() + STATE_FIGURE_SELECTED - move selected figure");
-            //                var g = STACK.groupGetById(selectedGroupId);
-            //                var moveMatrix = generateMoveMatrix(g, x, y);
-            //                g.transform(moveMatrix);
-            //                redraw = true;
-            //            }
-            //
-            //            /*if we have a handle action*/
-            //            if(mousePressed==true && lastMove != null && HandleManager.handleGetSelected()!=null){
-            //                //Log.info("onMouseMove() + STATE_FIGURE_SELECTED - trigger a handler action");
-            //                var handle = HandleManager.handleGetSelected();
-            //                //alert('Handle action');
-            //                handle.action(lastMove,x,y);
-            //                redraw = true;
-            //            }
+            }                       
 
             break;
 
@@ -1894,6 +1688,7 @@ function connectorPickFirst(x, y, ev){
     state = STATE_CONNECTOR_PICK_SECOND;
     Log.groupEnd();
 }
+
 
 /**Pick the second connector we can get at (x,y) position
  *@param {Number} x - the x position 
