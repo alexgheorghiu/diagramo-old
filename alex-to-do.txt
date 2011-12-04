@@ -15,3 +15,4 @@ Current stack:
 * add development-rules.txt to wiki
 * Text's clone not implemented ?!
 * noAddUndo property must disappear
+* undo of Properties and canvas (kinda finish all the undo issues)
