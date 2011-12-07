@@ -1,6 +1,6 @@
 /* 
- * This is triggered when you delete a figure
- * @this {DeleteFigureCommand} 
+ * This is triggered when you delete a connector
+ * @this {DeleteConnectorCommand} 
  * @constructor
  * @author Alex Gheorghiu <alex@scriptoid.com>
  */
@@ -30,9 +30,11 @@ DeleteConnectorCommand.prototype = {
             //---------SAVE DATA FOR UNDO------------
             //store connector
             this.connector = CONNECTOR_MANAGER.connectorGetById(this.connectorId);
+            
             //store connector's connectionpoints
             this.connectionpoints = CONNECTOR_MANAGER.connectionPointGetAllByParentIdAndType(this.connectorId, ConnectionPoint.TYPE_CONNECTOR);
-            //store glues?
+            
+            //store glues
             this.glues = CONNECTOR_MANAGER.glueGetBySecondConnectionPointId(this.connectorId);
             
             
@@ -56,9 +58,17 @@ DeleteConnectorCommand.prototype = {
     /**This method should be called every time the Command should be undone*/
     undo : function(){        
         if(this.connector){
+            //add back the connecor
             CONNECTOR_MANAGER.connectors.push(this.connector);
+            
+            //add back the connection points
             CONNECTOR_MANAGER.connectionPoints = CONNECTOR_MANAGER.connectionPoints.concat(this.connectionpoints);
+            
+            //add back the glues
             CONNECTOR_MANAGER.glues  = CONNECTOR_MANAGER.glues.concat(this.glues);
+            
+            
+            redraw = true;
         }
     }
 }

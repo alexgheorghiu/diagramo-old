@@ -7,10 +7,15 @@ Current stack:
 * connectors - create action & others
 * [x] delete command (at least for figure and group)
 * connectors 
-    - create action
+    - [x]create action
+    - [x]delete action
     - alter 
-        - connect
+        - (in progress) connect
+           --- onMouseDown  -> save connector
+            |_ onMouseMove -> alter it visually in real time
+            |_ onMouseUp -> store undo command + state = none
         - alter path
+        
 * redraw boolean value does not seems to be really used !?!?!
 * add development-rules.txt to wiki
 * Text's clone not implemented ?!

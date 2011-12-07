@@ -1,7 +1,7 @@
 /** 
  * As Connector is not a single action command
- * we will store only the "already ready" made connector.
- * This is (sadly :( ) not a true create command
+ * we will store only the "already ready" made connector. (IT will take place when
+ * on (main: onMouseUp + STATE_CONNECTOR_PICK_SECOND state)
  * 
  * @this {CreateConnectorCommand} 
  * @constructor
@@ -17,14 +17,6 @@ function CreateConnectorCommand(connectorId){
     
     this.connectorId = connectorId;
 
-//    //store connector
-//    this.connector = CONNECTOR_MANAGER.connectorGetById(this.connectorId);
-//    
-//    //store connector's connectionpoints
-//    this.connectionpoints = CONNECTOR_MANAGER.connectionPointGetAllByParentIdAndType(this.connectorId, ConnectionPoint.TYPE_CONNECTOR);
-//    
-//    //store glues?
-//    this.glues = CONNECTOR_MANAGER.glueGetBySecondConnectionPointId(this.connectorId);
 }
 
 

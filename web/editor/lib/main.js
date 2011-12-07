@@ -907,6 +907,19 @@ function onMouseDown(ev){
 
 
         case STATE_CONNECTOR_SELECTED:
+            /*
+             *Description:
+             *If we have a connector selected and we press mouse here is what is happening:
+             *- mouse down over a connection point?
+             *      - select connection point 
+             *      - set state to STATE_CONNECTOR_MOVE_POINT 
+             *      (and wait mouse move to alter and mouse up to finish the modification)
+             *      - store original state of the connector (to be able to create the undo command later)
+             *- mouse down over a handler?
+             *      - select handle
+             *      
+             * TODO: implement it
+             **/
             var cps = CONNECTOR_MANAGER.connectionPointGetAllByParent(selectedConnectorId);
             var start = cps[0];
             var end = cps[1];
@@ -1139,6 +1152,10 @@ function onMouseUp(ev){
         
 
         case STATE_CONNECTOR_MOVE_POINT:
+            /**
+             *Description:
+             *TODO: add description
+             **/
             //selected ConnectionPoint
             var selCp = CONNECTOR_MANAGER.connectionPointGetById(selectedConnectionPointId);
             
@@ -1509,6 +1526,15 @@ function onMouseMove(ev){
 
 
         case STATE_CONNECTOR_SELECTED:
+            /*Description:
+             *In case you move the mouse and you have the connector selected:
+             *  - if adjusting the endpoints
+             *      - alter the shape of connector in real time (gluing and unglued it, etc)
+             *      (EXTRA option: do as little changes as possible to existing shape
+             *  - if adjusting the handlers
+             *      - alter the shape of connector in real time
+             **/
+            
             //alert('Move but we have a connector');
             //change cursor to move if over a connector's CP
             //var connector = CONNECTOR_MANAGER.connectorGetById(selectedConnectorId);
@@ -1574,6 +1600,11 @@ function onMouseMove(ev){
 
 
         case STATE_CONNECTOR_MOVE_POINT:
+            /**
+             *Description: 
+             *Adjust on real time - WYSIWYG
+             *TODO: add description*/
+            Log.info("Easy easy easy....it's fragile");
             if(mousePressed){ //only if we are dragging
                 var con = CONNECTOR_MANAGER.connectorGetById(selectedConnectorId);
                 var cps = CONNECTOR_MANAGER.connectionPointGetAllByParent(selectedConnectorId);
