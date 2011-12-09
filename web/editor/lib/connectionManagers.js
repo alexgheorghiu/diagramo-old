@@ -964,14 +964,17 @@ ConnectorManager.prototype = {
 
 
 
-    /**This function returns a "temp" connector between 2 points
+    /**This function returns a "temp" connector between 2 points. This function does
+     *not depends on any actual {Figure} is more like the general algorithm used by the application
+     *to shape a {Connector}
      *@param {Number} type - Connector.TYPE_STRAIGHT or Connector.TYPE_JAGGED
      *@param {Point} startPoint - the start {Point}
      *@param {Point} endPoint - the end {Point}
      *@param {Array} sBounds - the starting bounds (of a Figure) as [left, top, right, bottom] - area we should avoid
      *@param {Array} eBounds - the ending bounds (of a Figure) as [left, top, right, bottom] - area we shoudl avoid
      *
-     *@retun {Array} - in a form ('solution', [point1, point2, ...])
+     *@retun {Array} - in a form ('solution', [point1, point2, ...]). Solution is the solution code we get and 
+     *the array of points are actually the turning points of the connector
      *@author Alex Gheorghiu <alex@scriptoid.com>
      **/
     connector2Points: function(type,  startPoint, endPoint, sBounds, eBounds ){
