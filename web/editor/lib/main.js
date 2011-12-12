@@ -1114,107 +1114,13 @@ function onMouseUp(ev){
         
 
         case STATE_CONNECTOR_MOVE_POINT:
-//            /**
-//             *Description:
-//             *TODO: add description
-//             **/
-//            //selected ConnectionPoint
-//            var selCp = CONNECTOR_MANAGER.connectionPointGetById(selectedConnectionPointId);
-//            
-//            //selected ConnectionPoints (that belong to selected Connector)
-//            var conCps = CONNECTOR_MANAGER.connectionPointGetAllByParent(selCp.parentId);
-//
-//            var conPoint = selCp;
-//            var matrix = Matrix.translationMatrix(conPoint.point.x - currentMoveUndo.previousValue[0][2], 
-//                conPoint.point.y - currentMoveUndo.previousValue[1][2]);
-//            if(doUndo){
-//                currentMoveUndo.currentValue = [matrix];
-//                currentMoveUndo.previousValue = [Matrix.translationMatrix(currentMoveUndo.previousValue[0][2] - conPoint.point.x,
-//                    currentMoveUndo.previousValue[1][2] - conPoint.point.y)];
-//                History.addUndo(currentMoveUndo);
-//            }
-//            
-//            //change back color
-//            conCps[0].color = ConnectionPoint.NORMAL_COLOR;
-//            conCps[1].color = ConnectionPoint.NORMAL_COLOR;
-//
-//
-//            //Test to see if the CP was UNGLUED to another figure
-//            var glues = CONNECTOR_MANAGER.glueGetBySecondConnectionPointId(selectedConnectionPointId);
-//            if(glues.length == 1){ //ok it is connected and it should be ony one Glue
-//                //pick first one
-//                var fCpId = glues[0].id1; //Figure's ConnectionPoint id
-//                var fCp = CONNECTOR_MANAGER.connectionPointGetById(fCpId); //Figure's ConnectionPoint
-//                if(!fCp.point.near(x,y, 3)){ //if we dragged the CP beyound the range of figure's cp
-//                    CONNECTOR_MANAGER.glueRemoveByIds(fCpId , selectedConnectionPointId);
-//                    Log.info('Glue removed');
-//                }
-//            }
-//
-//            //Test to see if the CP was GLUED to another figure
-//            //see if over a figure's CP
-//            var fCpId = CONNECTOR_MANAGER.connectionPointGetByXY(x, y, ConnectionPoint.TYPE_FIGURE); //find figure's CP
-//            if(fCpId != -1){ //we are over a figure's cp
-//                var fCp = CONNECTOR_MANAGER.connectionPointGetById(fCpId);
-//                Log.info("onMouseUp() + STATE_CONNECTOR_MOVE_POINT : fCP is " + fCp + " and fCpId is " +  fCpId);
-//                //var fig = STACK.figureSelectById(fCp.parentId);
-//
-//                var con = CONNECTOR_MANAGER.connectorGetById(selCp.parentId);
-//
-//                /*Test to see if we droped into the same figure (just moved inside figure CP's range)
-//                 *This means that no unglue event occured so we only need to snap back*/
-//                var existingGlues = CONNECTOR_MANAGER.glueGetAllByIds(fCpId, selectedConnectionPointId);
-//                if(existingGlues.length > 0){ //same figure
-//                    Log.info("Snap back to old figure (not a new glue)");
-//                    //ok we are still linked to old Figure...so snap back to it
-//                    if(conCps[0].id == selectedConnectionPointId){//start cp
-//                        conCps[0].point.x = fCp.point.x;
-//                        conCps[0].point.y = fCp.point.y;
-//
-//                        con.turningPoints[0].x = fCp.point.x;
-//                        con.turningPoints[0].y = fCp.point.y;
-//                    } else{ //end cp
-//                        conCps[1].point.x = fCp.point.x;
-//                        conCps[1].point.y = fCp.point.y;
-//
-//                        con.turningPoints[con.turningPoints.length - 1].x = fCp.point.x;
-//                        con.turningPoints[con.turningPoints.length - 1].y = fCp.point.y;
-//                    }
-//                }
-//                else{ //new figure
-//                    Log.info("Snap back to new figure (plus add a new glue)");
-//                    //ok we are still linked to old Figure...so snap back to it
-//                    if(conCps[0].id == selectedConnectionPointId){//start cp
-//                        conCps[0].point.x = fCp.point.x;
-//                        conCps[0].point.y = fCp.point.y;
-//
-//                        con.turningPoints[0].x = fCp.point.x;
-//                        con.turningPoints[0].y = fCp.point.y;
-//                    } else{ //end cp
-//                        conCps[1].point.x = fCp.point.x;
-//                        conCps[1].point.y = fCp.point.y;
-//
-//                        con.turningPoints[con.turningPoints.length - 1].x = fCp.point.x;
-//                        con.turningPoints[con.turningPoints.length - 1].y = fCp.point.y;
-//                    }
-//
-//                    //add a glue
-//                    var g = CONNECTOR_MANAGER.glueCreate(fCpId, selectedConnectionPointId)
-//                    if(!ev.noAddUndo && doUndo == true){//if this is a new action, not a "redone" action add a new Undo
-//                        currentMoveUndo = new ConnectCommand([g.id1,g.id2], History.OBJECT_GLUE, null, g.id1, null);
-//                        History.addUndo(currentMoveUndo);
-//                    }
-//                    else if(doUndo == true){//otherwise, an undo already exists, and we must incrememnt the ponter
-//                        History.CURRENT_POINTER ++;
-//                    }
-//                }
-//            }
-//            else{
-//            //update if we moved away
-//            //CONNECTOR_MANAGER.connectorAdjustByConnectionPoint(selectedConnectionPointId);
-//            }
-//            CONNECTOR_MANAGER.connectorAdjustByConnectionPoint(selectedConnectionPointId);
+            /**
+             *Description:
+             *Simply alter the connector until mouse will be released 
+             **/
             
+            //reset all {ConnectionPoint}s' color
+            CONNECTOR_MANAGER.connectionPointsResetColor();
             
             state = STATE_CONNECTOR_SELECTED; //back to selected connector
             selectedConnectionPointId = -1; //but deselect the connection point
@@ -1571,30 +1477,7 @@ function onMouseMove(ev){
              *TODO: add description*/
             Log.info("Easy easy easy....it's fragile");
             if(mousePressed){ //only if we are dragging
-                var con = CONNECTOR_MANAGER.connectorGetById(selectedConnectorId);
-                var cps = CONNECTOR_MANAGER.connectionPointGetAllByParent(selectedConnectorId);
                 
-                //MANAGE COLOR
-                //update cursor if over a figure's cp
-                var fCpId = CONNECTOR_MANAGER.connectionPointGetByXY(x,y, ConnectionPoint.TYPE_FIGURE);
-                if(fCpId != -1){
-                    canvas.style.cursor = 'default';
-                    if(cps[0].id == selectedConnectionPointId){
-                        cps[0].color = ConnectionPoint.OVER_COLOR;
-                    }
-                    else{
-                        cps[1].color = ConnectionPoint.OVER_COLOR;
-                    }
-                }
-                else{
-                    canvas.style.cursor = 'move';
-                    if(cps[0].id == selectedConnectionPointId){
-                        cps[0].color = ConnectionPoint.NORMAL_COLOR;
-                    }
-                    else{
-                        cps[1].color = ConnectionPoint.NORMAL_COLOR;
-                    }
-                }
 
 
                 /*update connector - but not unglue/glue it (Unglue and glue is handle in onMouseUp)
@@ -1766,13 +1649,42 @@ function connectorPickSecond(x, y, ev){
 
 
 /**
+ *Alter the {Connector}  in real time
+ *@param {Number} connectionPointId - the id of the current dragged {ConnectionPoint} 
+ *@param {Number} x - the x position 
+ *@param {Number} y - the y position 
+ *@param {Event} ev - the event triggered
  **/
 function connectorMovePoint(connectionPointId, x, y, ev){
     Log.group("main: connectorMovePoint");
-    
+
+
     //current connector
     var con = CONNECTOR_MANAGER.connectorGetById(selectedConnectorId) 
     var cps = CONNECTOR_MANAGER.connectionPointGetAllByParent(con.id);
+    
+    
+    //MANAGE COLOR
+    //update cursor if over a figure's cp
+    var fCpId = CONNECTOR_MANAGER.connectionPointGetByXY(x,y, ConnectionPoint.TYPE_FIGURE);
+    if(fCpId != -1){
+        //canvas.style.cursor = 'default';
+        if(cps[0].id == selectedConnectionPointId){
+            cps[0].color = ConnectionPoint.OVER_COLOR;
+        }
+        else{
+            cps[1].color = ConnectionPoint.OVER_COLOR;
+        }
+    }
+    else{
+        //canvas.style.cursor = 'move';
+        if(cps[0].id == selectedConnectionPointId){
+            cps[0].color = ConnectionPoint.NORMAL_COLOR;
+        }
+        else{
+            cps[1].color = ConnectionPoint.NORMAL_COLOR;
+        }
+    }
     
     //variables used in finding solution
     var rStartPoint = con.turningPoints[0].clone();
@@ -1874,6 +1786,8 @@ function connectorMovePoint(connectionPointId, x, y, ev){
             var fCp = CONNECTOR_MANAGER.connectionPointGetById(fCpId);        
             var g = CONNECTOR_MANAGER.glueCreate(fCp.id, secondConPoint.id);
         } 
+    } else{
+        throw "main:connectorMovePoint() - this should never happen";
     }   
     
     

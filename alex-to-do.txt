@@ -12,7 +12,7 @@ Current stack:
     - alter 
         - (in progress) connect
            --- onMouseDown  -> save connector
-            |_ onMouseMove -> alter it visually in real time
+            |_ onMouseMove -> (done) alter it visually in real time
             |_ onMouseUp -> store undo command + state = none
         - alter path
         
