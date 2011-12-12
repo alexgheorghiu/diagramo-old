@@ -1096,55 +1096,17 @@ function onMouseUp(ev){
             
             
         case STATE_CONNECTOR_PICK_SECOND:
-            //get current connector
-            var con = CONNECTOR_MANAGER.connectorGetById(selectedConnectorId);
-
-            //get it's CPs
-            var conCps = CONNECTOR_MANAGER.connectionPointGetAllByParent(con.id);
-
-            //snap to a figure?
-            var fCpId = CONNECTOR_MANAGER.connectionPointGetByXY(x, y, ConnectionPoint.TYPE_FIGURE); //find figure's CP
-            if(fCpId != -1){ //we are over a figure's cp
-                var fCp = CONNECTOR_MANAGER.connectionPointGetById(fCpId);
-                Log.info("Second ConnectionPoint is: " + fCp);
-
-                conCps[1].point.x = fCp.point.x;
-                conCps[1].point.y = fCp.point.y;
-
-                con.turningPoints[con.turningPoints.length - 1].x = fCp.point.x;
-                con.turningPoints[con.turningPoints.length - 1].y = fCp.point.y;
-
-                fCp.color = ConnectionPoint.NORMAL_COLOR; //change back the color
-                conCps[1].color = ConnectionPoint.NORMAL_COLOR; //change back the color
-
-                var g = CONNECTOR_MANAGER.glueCreate(fCp.id, conCps[1].id);
-
-                if(con.type == Connector.TYPE_JAGGED){
-                    //TODO: add code
-                    CONNECTOR_MANAGER.connectorAdjustByConnectionPoint(conCps[1].id);
-                }
-                           
-
-            }
-            else{ //not over a figure's CP
-                conCps[1].point.x = x;
-                conCps[1].point.y = y;
-
-                con.turningPoints[con.turningPoints.length - 1].x = x;
-                con.turningPoints[con.turningPoints.length - 1].y = y;
-
-                if(con.type == Connector.TYPE_JAGGED){
-                    CONNECTOR_MANAGER.connectorAdjustByConnectionPoint(conCps[1].id);
-                }
-            }
-            
 
             //store undo command
             var cmdCreateCon = new CreateConnectorCommand(selectedConnectorId);
             History.addUndo(cmdCreateCon);
             
-
+            //reset all {ConnectionPoint}s' color
+            CONNECTOR_MANAGER.connectionPointsResetColor();
+            
+            //select the current connector
             state = STATE_CONNECTOR_SELECTED;
+            var con = CONNECTOR_MANAGER.connectorGetById(selectedConnectorId);
             setUpEditPanel(con);
             redraw = true;
             break;
@@ -1701,13 +1663,14 @@ function connectorPickFirst(x, y, ev){
 }
 
 
-/**Pick the second connector we can get at (x,y) position
+/**Pick the second {ConnectorPoint}  we can get at (x,y) position
  *@param {Number} x - the x position 
  *@param {Number} y - the y position 
  *@param {Event} ev - the event triggered
  **/
 function connectorPickSecond(x, y, ev){
     Log.group("main: connectorPickSecond");
+    
     //current connector
     var con = CONNECTOR_MANAGER.connectorGetById(selectedConnectorId) //it should be the last one
     var cps = CONNECTOR_MANAGER.connectionPointGetAllByParent(con.id);
@@ -1715,7 +1678,7 @@ function connectorPickSecond(x, y, ev){
     //TODO: remove 
     //play with algorithm
     {
-        //first point
+        //start point
         var rStartPoint = con.turningPoints[0].clone();
         var rStartFigure = STACK.figureGetAsFirstFigureForConnector(con.id);
         if(rStartFigure){
@@ -1724,13 +1687,19 @@ function connectorPickSecond(x, y, ev){
         else{
             Log.info(":( WE DO NOT HAVE A START FIGURE");
         }
+        
+        //end point
         var rEndPoint = new Point(x, y);
         var rEndFigure = null;
         
-        var r_fCpId = CONNECTOR_MANAGER.connectionPointGetByXY(x, y, ConnectionPoint.TYPE_FIGURE); //find figure's CP
+        var r_fCpId = CONNECTOR_MANAGER.connectionPointGetByXY(x, y, ConnectionPoint.TYPE_FIGURE); //find figure's CP at (x,y)
         if(r_fCpId != -1){            
             var r_figureConnectionPoint = CONNECTOR_MANAGER.connectionPointGetById(r_fCpId);
             Log.info("End Figure's ConnectionPoint present id = " + r_fCpId);
+            
+            //As we found the connection point by a vicinity (so not exactly x,y match) we will adjust the end point too
+            rEndPoint = r_figureConnectionPoint.point.clone();
+            
             rEndFigure = STACK.figureGetById(r_figureConnectionPoint.parentId);
             Log.info(":) WE HAVE AN END FIGURE id = " + rEndFigure.id);
         }
@@ -1746,7 +1715,8 @@ function connectorPickSecond(x, y, ev){
     
     //end remove block
 
-    //change FCP (figure connection points) color
+    //COLOR MANAGEMENT FOR {ConnectionPoint} 
+    //Find any {ConnectionPoint} from a figure at (x,y). Change FCP (figure connection points) color
     var fCpId = CONNECTOR_MANAGER.connectionPointGetByXY(x, y, ConnectionPoint.TYPE_FIGURE); //find figure's CP
 
     if(fCpId != -1){
@@ -1764,45 +1734,28 @@ function connectorPickSecond(x, y, ev){
         }
     }
 
-    //update point
-    if(con.type == Connector.TYPE_STRAIGHT){
-        //update last connection point
-        cps[1].point.x = x;
-        cps[1].point.y = y;
-
-        //update last turning point
-        con.turningPoints[1].x = x;
-        con.turningPoints[1].y = y;
+    
+    var secConPoint = CONNECTOR_MANAGER.connectionPointGetSecondForConnector(selectedConnectorId);
+    //adjust connector
+    Log.info("connectorPickSecond() -> Solution: " + debugSolutions[0][2]);
+    
+    con.turningPoints = Point.cloneArray(debugSolutions[0][2]);
+    //CONNECTOR_MANAGER.connectionPointGetFirstForConnector(selectedConnectorId).point = con.turningPoints[0].clone();
+    secConPoint.point = con.turningPoints[con.turningPoints.length-1].clone();
+        
+        
+        
+    //GLUES MANAGEMENT
+    //remove all previous glues to {Connector}'s second {ConnectionPoint}
+    CONNECTOR_MANAGER.glueRemoveAllBySecondId(secConPoint.id);
+    
+    //recreate new glues if available
+    var fCpId = CONNECTOR_MANAGER.connectionPointGetByXY(x, y, ConnectionPoint.TYPE_FIGURE); //find figure's CP
+    if(fCpId != -1){ //we are over a figure's cp
+        var fCp = CONNECTOR_MANAGER.connectionPointGetById(fCpId);        
+        var g = CONNECTOR_MANAGER.glueCreate(fCp.id, CONNECTOR_MANAGER.connectionPointGetSecondForConnector(selectedConnectorId).id);
     }
-    else if(con.type == Connector.TYPE_JAGGED){
-
-        //WE WILL DRAW A FAKE CONNECTOR - that will be adjusted once mouse released
-
-        //WE WILL FULLY RECONSTRUCT THE turningPoints vector
-        var lastIndex = con.turningPoints.length - 1;
-
-        //update last connection point
-        cps[1].point.x = x;
-        cps[1].point.y = y;
-
-
-        //update last turning point
-        con.turningPoints[lastIndex].x = x;
-        con.turningPoints[lastIndex].y = y;
-
-        //now add 2 more intermediate points to make it look jagged
-        var first = con.turningPoints[0];
-        var last = con.turningPoints[lastIndex];
-
-        //
-        var tp1 = new Point( (first.x + last.x)/2, first.y);
-        var tp2 = new Point( (first.x + last.x)/2, last.y);
-
-        con.turningPoints = [first, tp1, tp2, last];
-    //con.turningPoints = Point.cloneArray(debugSolutions[0][2]);
-
-    //Log.info("Now the jagged con has " + con.turningPoints.length + " points" + con.turningPoints);
-    }
+    
     
     Log.groupEnd();
 }
