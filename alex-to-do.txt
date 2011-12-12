@@ -10,10 +10,7 @@ Current stack:
     - [x]create action
     - [x]delete action
     - alter 
-        - (in progress) connect
-           --- onMouseDown  -> save connector
-            |_ onMouseMove -> (done) alter it visually in real time
-            |_ onMouseUp -> store undo command + state = none
+        - (in progress) connect           
         - alter path
         
 * redraw boolean value does not seems to be really used !?!?!
