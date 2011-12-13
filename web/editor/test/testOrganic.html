@@ -30,7 +30,7 @@
             var s2_1 = [[50, 50], [50, 30], [125, 30], [125, 150], [200, 150], [200, 130]];
             var s2_2 = [[100, 50], [80, 50], [80, 100], [180, 100], [180, 150], [160, 150]];
             var s2_3 = [[50, 50], [50, 30], [150, 30], [150, 130], [100, 130], [100, 110]];
-            var s2_4 = [[100, 50], [80, 50], [80, 150], [200, 150], [200, 100], [150, 100]];
+            var s2_4 = [[100, 100], [80, 100], [80, 50], [200, 50], [200, 150], [150, 150]];
             var s2_5 = [[100, 100], [100, 80], [50, 80], [50, 180], [150, 180], [150, 160]];
             var s2_6 = [[100, 50], [80, 50], [80, 150], [180, 150], [180, 130], [160, 130]];
             
@@ -60,7 +60,7 @@
                 ctx.strokeStyle = "rgb(0,0,30)";
                 ctx.strokeRect(0, 0, 300, 300);
                 paintPoly(ctx, sol);
-                paintOrganic2(ctx, sol);
+                paintOrganic(ctx, sol);
             }
             
             function paintPoly(ctx, poly){
@@ -105,13 +105,16 @@
                 
                 var points = [];
                 
-                //add controll points in the middle of each segment
-                for(var i=0; i < poly.length-1; i++){
+		points.push(poly[0]);
+		
+                //add controll points in the middle of each segment (except first and last)
+                for(var i=1; i < poly.length-2; i++){
                     points.push(poly[i]);
                     var cp = [ (poly[i][0] + poly[i+1][0]) / 2, (poly[i][1] + poly[i+1][1]) / 2];
                     paint_point(ctx, 'black', cp);
                     points.push(cp);
-                }   
+                }
+		points.push(poly[poly.length-2]);		
                 points.push(poly[poly.length-1]);
                 
                 
@@ -120,20 +123,16 @@
                 //draw  
                 ctx.beginPath();
                 
-                //first line
+                //move into position
                 ctx.moveTo(points[0][0], points[0][1]);
-                ctx.lineTo(points[1][0], points[1][1]);
+
                 
-                //curves (using middle segments as start and end point and initial turning points as controll points
-                for(var i=1; i < points.length-2; i=i+2){
+                //start drawing cubic curves by grouping 3 points together
+                for(var i=2; i < points.length; i=i+2){
                     //ctx.moveTo(points[i][0], points[i][1]);
-                    ctx.quadraticCurveTo( points[i+1][0], points[i+1][1], points[i+2][0], points[i+2][1] );
+                    ctx.quadraticCurveTo( points[i-1][0], points[i-1][1], points[i][0], points[i][1] );
                 }
-                
-                //last line
-                ctx.lineTo(points[points.length-1][0], points[points.length-1][1]);
-                
-                //ctx.closePath()
+
                 ctx.stroke();
                 ctx.restore();
             }

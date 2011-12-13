@@ -244,14 +244,17 @@ Connector.prototype = {
                 //add new controll points
                 var points = [];
                 
+                points.push(this.turningPoints[0].clone());
+                
                 //add controll points in the middle of each segment
-                for(var i=0; i < this.turningPoints.length-1; i++){
+                for(var i=1; i < this.turningPoints.length-2; i++){
                     points.push(this.turningPoints[i].clone());
                     var cp = new Point( (this.turningPoints[i].x + this.turningPoints[i+1].x) / 2,
                                         (this.turningPoints[i].y + this.turningPoints[i+1].y) / 2);
                     //paint_point(ctx, 'black', cp);
                     points.push(cp);
                 }   
+                points.push(this.turningPoints[this.turningPoints.length-2].clone());                
                 points.push(this.turningPoints[this.turningPoints.length-1].clone());                
                 
                 //paint
@@ -259,16 +262,15 @@ Connector.prototype = {
                 
                 //first line
                 context.moveTo(points[0].x, points[0].y);
-                context.lineTo(points[1].x, points[1].y);
+                
                 
                 //curves (using middle segments as start and end point and initial turning points as controll points
-                for(var i=1; i < points.length-2; i=i+2){
+                for(var i=2; i < points.length; i=i+2){
                     //ctx.moveTo(points[i][0], points[i][1]);
-                    context.quadraticCurveTo( points[i+1].x, points[i+1].y, points[i+2].x, points[i+2].y );
+                    context.quadraticCurveTo( points[i-1].x, points[i-1].y, points[i].x, points[i].y );
                 }
                 
                 //last line
-                context.lineTo(points[points.length-1].x, points[points.length-1].y);
                 context.stroke();
                 break;
                 
