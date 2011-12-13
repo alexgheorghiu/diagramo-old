@@ -6,6 +6,13 @@
 
         <script type="text/javascript">
             /**
+             *@see http://stackoverflow.com/questions/1257168/how-do-i-create-a-bezier-curve-to-represent-a-smoothed-polyline
+             *@see http://www.codeproject.com/KB/graphics/BezierSpline.aspx Draw a Smooth Curve through a Set of 2D Points with Bezier Primitives
+             *"Paul de Casteljau, a brilliant engineer at Citroen"
+             *@see http://stackoverflow.com/questions/8369488/splitting-a-bezier-curve
+             *@see http://devmag.org.za/2011/04/05/bzier-curves-a-tutorial/
+             *@see http://devmag.org.za/2011/06/23/bzier-path-algorithms/
+             *@see http://drdobbs.com/cpp/184403417 (Forward Difference Calculation of Bezier Curves)
              *@see http://www.timotheegroleau.com/Flash/articles/cubic_bezier_in_flash.htm
              *@see http://www.algorithmist.net/bezier3.html
              *@see http://www.caffeineowl.com/graphics/2d/vectorial/bezierintro.html
@@ -53,7 +60,7 @@
                 ctx.strokeStyle = "rgb(0,0,30)";
                 ctx.strokeRect(0, 0, 300, 300);
                 paintPoly(ctx, sol);
-                paintOrganic(ctx, sol);
+                paintOrganic2(ctx, sol);
             }
             
             function paintPoly(ctx, poly){
@@ -73,6 +80,7 @@
             }
             
             function paint_point(ctx, color,  point){
+                //return;
                 ctx.save();
                 switch(color){
                     case 'red':
@@ -83,7 +91,7 @@
                         ctx.strokeStyle = "rgb(0, 0,0)";
                         break;
                 }                
-                ctx.strokeRect(point[0]- 3 , point[1] - 3, 6, 6);
+                ctx.strokeRect(point[0]- 2 , point[1] - 2, 4, 4);
                 ctx.restore();
             }
             
@@ -92,14 +100,13 @@
             function paintOrganic(ctx, poly){
                 ctx.save();
                 ctx.strokeStyle = "rgb(0,200,0)";
-                ctx.beginPath();
-                ctx.moveTo(poly[0][0], poly[0][1]);
+                
+                //ctx.moveTo(poly[0][0], poly[0][1]);
                 
                 var points = [];
                 
-                //add controll points
-                points.push(poly[0]);
-                for(var i=1; i < poly.length-1; i++){
+                //add controll points in the middle of each segment
+                for(var i=0; i < poly.length-1; i++){
                     points.push(poly[i]);
                     var cp = [ (poly[i][0] + poly[i+1][0]) / 2, (poly[i][1] + poly[i+1][1]) / 2];
                     paint_point(ctx, 'black', cp);
@@ -110,16 +117,68 @@
                 
                 
                 
-                //draw                
-                for(var i=0; i < points.length-2; i=i+2){
-                    ctx.moveTo(points[i][0], points[i][1]);
+                //draw  
+                ctx.beginPath();
+                
+                //first line
+                ctx.moveTo(points[0][0], points[0][1]);
+                ctx.lineTo(points[1][0], points[1][1]);
+                
+                //curves (using middle segments as start and end point and initial turning points as controll points
+                for(var i=1; i < points.length-2; i=i+2){
+                    //ctx.moveTo(points[i][0], points[i][1]);
                     ctx.quadraticCurveTo( points[i+1][0], points[i+1][1], points[i+2][0], points[i+2][1] );
                 }
+                
+                //last line
+                ctx.lineTo(points[points.length-1][0], points[points.length-1][1]);
                 
                 //ctx.closePath()
                 ctx.stroke();
                 ctx.restore();
             }
+            
+            
+            function paintOrganic2(ctx, poly){
+                
+                var derivatives = [];
+                
+                var a = 0.7;
+                
+                derivatives.push( divide(minus(poly[1], poly[0]), a) );
+                for(i=1; i<poly.length; i++){
+                    derivatives.push( divide( minus(poly[i], poly[i-1]), a ) );
+                }
+                
+                ctx.save();
+                ctx.strokeStyle = "rgb(0,200,0)";
+                
+                for(i=0; i<poly.length-1; i++){
+                    var start = poly[i];
+                    var end = poly[i+1];
+                    var cp1 = plus ( start , divide(derivatives[i],3) );
+                    var cp2 = minus( end ,  divide(derivatives[i+1],3) );
+                    ctx.beginPath();
+                    ctx.moveTo(start[0], start[1]);
+                    ctx.bezierCurveTo(cp1[0], cp1[1], cp2[0], cp2[1], end[0], end[1]);    
+                    ctx.stroke();
+                }
+                ctx.restore();
+            }
+            
+            function plus(p1, p2){
+                return [p1[0] + p2[0], p1[1] + p2[1]];
+            }
+            
+            function minus(p1, p2){
+                return [p1[0] - p2[0], p1[1] - p2[1]];
+            }
+            
+            function divide(p, nr){
+                return [p[0]/nr, p[1]/nr];
+            }
+            
+            
         </script>
     </head>
     <body onload="init()">

@@ -461,6 +461,9 @@ ConnectorManager.prototype = {
                 solutions.push( ['straight', 'straight', points] );
                 break;
                 
+            case Connector.TYPE_ORGANIC:
+                //do nothing....just flow with JAGGED...for now
+                
             case Connector.TYPE_JAGGED:
                 var startExitPoint = null;
                 var endExitPoint = null;

@@ -18,3 +18,4 @@ Current stack:
 * Text's clone not implemented ?!
 * noAddUndo property must disappear
 * undo of Properties and canvas (kinda finish all the undo issues)
+* aproximate high degree by a "bezier path" (split it into smaller degree paths)

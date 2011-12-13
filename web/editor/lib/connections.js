@@ -64,11 +64,12 @@ Connector.TYPE_STRAIGHT = 'straight';
 /**Jagged connector type*/
 Connector.TYPE_JAGGED = 'jagged';
 
-/**Round connector type. Orthogonal angles are smoothed*/
+/**Round connector type. Orthogonal angles are smoothed. 
+ *TODO: Not implemented*/
 Connector.TYPE_ROUND = 'round';
 
 /**Round connector type. The connector is drawn as a curve*/
-Connector.TYPE_ROUND = 'organic';
+Connector.TYPE_ORGANIC = 'organic';
 
 
 
@@ -227,6 +228,7 @@ Connector.prototype = {
     },
 
 
+    
     /**Paints the connector
      *@param {Context} context - the 2D context of the canvas
      *@author Alex, Zack
@@ -235,57 +237,91 @@ Connector.prototype = {
         context.save();
         
         this.style.setupContext(context);
-        
-        context.beginPath();
 
-        //paint connector's line
-        context.moveTo(this.turningPoints[0].x, this.turningPoints[0].y);
-        for(var i=1; i< this.turningPoints.length; i++){
-            //start style
-            if(this.startStyle == Connector.STYLE_EMPTY_TRIANGLE && i == 1){ //special case
-                //get the angle of the start line
-                var angle = Util.getAngle(this.turningPoints[0],this.turningPoints[1]);
-                //by alex: var newPoint = Util.getEndPoint(this.turningPoints[0], Connector.ARROW_SIZE * Math.sin(Math.PI/180 * Connector.ARROW_ANGLE * 2), angle);
-                var newPoint = Util.getEndPoint(this.turningPoints[0], Connector.ARROW_SIZE * Math.cos(Math.PI/180 * Connector.ARROW_ANGLE), angle);
-                //move to new start
-                context.moveTo(newPoint.x, newPoint.y);
-            }
-            
-            //end style
-            if(this.endStyle == Connector.STYLE_EMPTY_TRIANGLE && i == this.turningPoints.length -1){ //special case 
-                //get the angle of the final line
-                var angle = Util.getAngle(this.turningPoints[i-1],this.turningPoints[i]);
-                //by alex: var newPoint = Util.getEndPoint(this.turningPoints[i], -Connector.ARROW_SIZE*Math.sin(Math.PI/180*Connector.ARROW_ANGLE*2), angle)
-                var newPoint = Util.getEndPoint(this.turningPoints[i], -Connector.ARROW_SIZE * Math.cos(Math.PI/180 * Connector.ARROW_ANGLE), angle)
-                //line to new end
-                context.lineTo(newPoint.x, newPoint.y);
-            }
-            else{
-                context.lineTo(this.turningPoints[i].x, this.turningPoints[i].y);
-            }
-        }
-        context.stroke();
-        
-        //paint debug points
-        if(this.visualDebug){
-            context.beginPath();
-            for(var i=0; i< this.turningPoints.length; i++){
-                context.moveTo(this.turningPoints[i].x, this.turningPoints[i].y);
-                context.arc(this.turningPoints[i].x, this.turningPoints[i].y, 3, 0, Math.PI*2, false);
+        switch(this.type){
+            case Connector.TYPE_ORGANIC:
                 
-                //context.strokeText('' + Util.round(this.turningPoints[i].x,2) + ',' + Util.round(this.turningPoints[i].y,2), this.turningPoints[i].x + 5, this.turningPoints[i].y - 5);
-            }
-            context.stroke();
+                //add new controll points
+                var points = [];
+                
+                //add controll points in the middle of each segment
+                for(var i=0; i < this.turningPoints.length-1; i++){
+                    points.push(this.turningPoints[i].clone());
+                    var cp = new Point( (this.turningPoints[i].x + this.turningPoints[i+1].x) / 2,
+                                        (this.turningPoints[i].y + this.turningPoints[i+1].y) / 2);
+                    //paint_point(ctx, 'black', cp);
+                    points.push(cp);
+                }   
+                points.push(this.turningPoints[this.turningPoints.length-1].clone());                
+                
+                //paint
+                context.beginPath();
+                
+                //first line
+                context.moveTo(points[0].x, points[0].y);
+                context.lineTo(points[1].x, points[1].y);
+                
+                //curves (using middle segments as start and end point and initial turning points as controll points
+                for(var i=1; i < points.length-2; i=i+2){
+                    //ctx.moveTo(points[i][0], points[i][1]);
+                    context.quadraticCurveTo( points[i+1].x, points[i+1].y, points[i+2].x, points[i+2].y );
+                }
+                
+                //last line
+                context.lineTo(points[points.length-1].x, points[points.length-1].y);
+                context.stroke();
+                break;
+                
+            case Connector.TYPE_STRAIGHT:
+            case Connector.TYPE_JAGGED:
+                context.beginPath();
+
+                //paint connector's line
+                context.moveTo(this.turningPoints[0].x, this.turningPoints[0].y);
+        
+                for(var i=1; i< this.turningPoints.length; i++){
+                    //start style
+                    if(this.startStyle == Connector.STYLE_EMPTY_TRIANGLE && i == 1){ //special case
+                        //get the angle of the start line
+                        var angle = Util.getAngle(this.turningPoints[0],this.turningPoints[1]);
+                        //by alex: var newPoint = Util.getEndPoint(this.turningPoints[0], Connector.ARROW_SIZE * Math.sin(Math.PI/180 * Connector.ARROW_ANGLE * 2), angle);
+                        var newPoint = Util.getEndPoint(this.turningPoints[0], Connector.ARROW_SIZE * Math.cos(Math.PI/180 * Connector.ARROW_ANGLE), angle);
+                        //move to new start
+                        context.moveTo(newPoint.x, newPoint.y);
+                    }
             
-            //paint coordinates
-            context.save();
-            for(var i=0; i< this.turningPoints.length; i++){
-                context.fillText('(' + Util.round(this.turningPoints[i].x, 3) + ', ' + Util.round(this.turningPoints[i].y, 3) + ')', this.turningPoints[i].x + 5, this.turningPoints[i].y - 5);
-            }
-            context.restore();
+                    //end style
+                    if(this.endStyle == Connector.STYLE_EMPTY_TRIANGLE && i == this.turningPoints.length -1){ //special case 
+                        //get the angle of the final line
+                        var angle = Util.getAngle(this.turningPoints[i-1],this.turningPoints[i]);
+                        //by alex: var newPoint = Util.getEndPoint(this.turningPoints[i], -Connector.ARROW_SIZE*Math.sin(Math.PI/180*Connector.ARROW_ANGLE*2), angle)
+                        var newPoint = Util.getEndPoint(this.turningPoints[i], -Connector.ARROW_SIZE * Math.cos(Math.PI/180 * Connector.ARROW_ANGLE), angle)
+                        //line to new end
+                        context.lineTo(newPoint.x, newPoint.y);
+                    }
+                    else{
+                        context.lineTo(this.turningPoints[i].x, this.turningPoints[i].y);
+                    }
+                }
+                context.stroke();
+                break;
         }
         
+        
+        
+        this.paintVisualDebug();
 
+        this.paintStart(context);
+        this.paintEnd(context);
+
+        this.paintText(context);
+        
+        
+        context.restore();
+    },
+
+
+    paintStart : function(context){
         //paint start style
         var path = null;
         if(this.startStyle == Connector.STYLE_ARROW){
@@ -318,9 +354,9 @@ Connector.prototype = {
             
             context.restore();
         }
-
-        path = null;
-
+    },
+    
+    paintEnd : function(context){
         //paint end style
         var path = null;
         if(this.endStyle == Connector.STYLE_ARROW){
@@ -352,8 +388,37 @@ Connector.prototype = {
 
             context.restore();
         }
-
-
+    },
+    
+    
+    paintVisualDebug : function (context){
+        //paint debug points
+        if(this.visualDebug){
+            context.beginPath();
+            for(var i=0; i< this.turningPoints.length; i++){
+                context.moveTo(this.turningPoints[i].x, this.turningPoints[i].y);
+                context.arc(this.turningPoints[i].x, this.turningPoints[i].y, 3, 0, Math.PI*2, false);
+                
+            //context.strokeText('' + Util.round(this.turningPoints[i].x,2) + ',' + Util.round(this.turningPoints[i].y,2), this.turningPoints[i].x + 5, this.turningPoints[i].y - 5);
+            }
+            context.stroke();
+            
+            //paint coordinates
+            context.save();
+            for(var i=0; i< this.turningPoints.length; i++){
+                context.fillText('(' + Util.round(this.turningPoints[i].x, 3) + ', ' + Util.round(this.turningPoints[i].y, 3) + ')', this.turningPoints[i].x + 5, this.turningPoints[i].y - 5);
+            }
+            context.restore();
+        }
+    },
+    
+    
+    /**Paints the text of the connector
+     *@param {Context} context - the 2D context of the canvas
+     *@private 
+     *@author Alex
+     **/
+    paintText : function(context){
         if(this.middleText.str != ''){
             
             //TODO: not so smart to paint the background of the text
@@ -372,10 +437,7 @@ Connector.prototype = {
             context.fillStyle = oldFill;
             this.middleText.paint(context);
         }
-        
-        context.restore();
     },
-
 
 
     
@@ -394,8 +456,8 @@ Connector.prototype = {
             for(var i=0; i<this.turningPoints.length; i++){
                 this.turningPoints[i].transform(matrix);
             }
-            //this.startText.transform(matrix);
-            //this.endText.transform(matrix);
+        //this.startText.transform(matrix);
+        //this.endText.transform(matrix);
         }
 
     },
@@ -540,7 +602,7 @@ Connector.prototype = {
                         }
                     }
                     this.turningPoints.push(startPoint);
-                break;
+                    break;
                 case 1://we have already done something to the startPoint, changing the end point should resolve the issue
                     endPoints.push(endPoint);
                     if(endAngle==0 || endAngle==Math.PI){ //we were going N/S, now we want to go E/W
@@ -559,7 +621,7 @@ Connector.prototype = {
                             endPoint = new Point(endPoint.x,endConnectionFigure.getBounds()[1]-20);
                         }
                     }
-                break;
+                    break;
             }
             
             startCounter++;
@@ -577,7 +639,7 @@ Connector.prototype = {
             && !Util.lineIntersectsRectangle(new Point(startPoint.x,endPoint.y), new Point(endPoint.x,endPoint.y), startConnectionFigure.getBounds())
             && !Util.lineIntersectsRectangle(new Point(startPoint.x,startPoint.y), new Point(startPoint.x,endPoint.y), endConnectionFigure.getBounds())
             && !Util.lineIntersectsRectangle(new Point(startPoint.x,startPoint.y), new Point(startPoint.x,endPoint.y), startConnectionFigure.getBounds()))
-        {
+            {
             this.turningPoints.push(new Point(startPoint.x,endPoint.y));
         }
         else {//if(!Util.lineIntersectsRectangle(new Point(endPoint.x,startPoint.y), new Point(endPoint.x,endPoint.y), endConnectionFigure.getBounds()) && !Util.lineIntersectsRectangle(new Point(endPoint.x,startPoint.y), new Point(endPoint.x,endPoint.y), startConnectionFigure.getBounds())){
@@ -756,7 +818,7 @@ Connector.prototype = {
             this.turningPoints[index].x = tempConPoint.point.x;
             this.turningPoints[index].y = tempConPoint.point.y;
 
-            /*TODO: it seems that the code bellow is not working fine...clone is wrong?
+        /*TODO: it seems that the code bellow is not working fine...clone is wrong?
             this.turningPoints[index] = new Point(tempConPoint.point.x,tempConPoint.point.y);
             */
 
@@ -771,7 +833,7 @@ Connector.prototype = {
             tempConPoint.transform(matrix);
             
             //are we starting from beginning or end, so we will detect the interval and direction
-           var start,end,direction;
+            var start,end,direction;
             if(point.equals(this.turningPoints[0])){//if the point is the starting Point
                 //Log.info("It is the starting point");
                 
@@ -807,7 +869,7 @@ Connector.prototype = {
                     && this.turningPoints[i].x == oldX //same x
                     && this.turningPoints[i] != CONNECTOR_MANAGER.connectionPointGetAllByParent(this.id)[0].point 
                     && this.turningPoints[i] != CONNECTOR_MANAGER.connectionPointGetAllByParent(this.id)[1].point )
-                {
+                    {
                     oldX = this.turningPoints[i].x;
                     oldY = this.turningPoints[i].y;
                     this.turningPoints[i].x = this.turningPoints[i-direction].x;
@@ -816,7 +878,7 @@ Connector.prototype = {
                     && this.turningPoints[i].y == oldY 
                     && this.turningPoints[i] != CONNECTOR_MANAGER.connectionPointGetAllByParent(this.id)[0].point 
                     && this.turningPoints[i] != CONNECTOR_MANAGER.connectionPointGetAllByParent(this.id)[1].point )
-                {
+                    {
                     oldX = this.turningPoints[i].x;
                     oldY = this.turningPoints[i].y;
                     this.turningPoints[i].y = this.turningPoints[i-direction].y;
@@ -904,7 +966,7 @@ Connector.prototype = {
                 } else{
                     Log.error("Connector:middle() - this should never happen " + this.turningPoints[index] + " " + this.turningPoints[index + 1]
                         + " nr of points " + this.turningPoints.length
-                    );
+                        );
                 }
 
             }
@@ -918,7 +980,7 @@ Connector.prototype = {
      *@author Alex Gheorghiu <alex@scriptoid.com>
      **/
     updateMiddleText: function(){
-//        Log.info("updateMiddleText called");
+        //        Log.info("updateMiddleText called");
         var middlePoint = this.middle();
 
         if(middlePoint != null){
@@ -963,7 +1025,7 @@ Connector.prototype = {
         }
         r += '"';
         r += this.style.toSVG();
-//        r += ' style="fill: #none; stroke:#ADADAD;" ';
+        //        r += ' style="fill: #none; stroke:#ADADAD;" ';
         r += '/>';
 
         //2. paint the start/end
@@ -1141,7 +1203,7 @@ ConnectionPoint.prototype = {
      **/
     equals:function(anotherConnectionPoint){
 
-      return this.id == anotherConnectionPoint.id
+        return this.id == anotherConnectionPoint.id
         && this.point.equals(anotherConnectionPoint.point)
         && this.parentId == anotherConnectionPoint.parentId
         && this.type == anotherConnectionPoint.type
@@ -1289,9 +1351,9 @@ Glue.prototype = {
         }
 
         return this.id1 == anotherGlue.id1
-            && this.id2 == anotherGlue.id2
-            && this.type1 == anotherGlue.type1
-            && this.type2 == anotherGlue.type2;
+        && this.id2 == anotherGlue.id2
+        && this.type1 == anotherGlue.type1
+        && this.type2 == anotherGlue.type2;
     },
 
     /**String representation of the Glue

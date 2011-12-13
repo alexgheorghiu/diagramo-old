@@ -446,6 +446,9 @@ if(is_numeric($_REQUEST['diagramId'])){
 
             <img class="separator" src="assets/images/toolbar_separator.gif" border="0" width="1" height="16"/>
             <a href="javascript:action('connector-jagged');" title="Jagged connector"><img src="assets/images/icon_connector_jagged.gif" border="0"/></a>
+            
+            <img class="separator" src="assets/images/toolbar_separator.gif" border="0" width="1" height="16"/>
+            <a href="javascript:action('connector-organic');" title="Organic connector"><img src="assets/images/icon_connector_organic.gif" border="0" alt="Organic"/></a>
 
             <img class="separator" src="assets/images/toolbar_separator.gif" border="0" width="1" height="16"/>
             <a href="javascript:action('group');" title="Group (Ctrl-G)"><img src="assets/images/group.gif" border="0"/></a>

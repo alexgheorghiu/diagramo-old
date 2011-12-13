@@ -2034,6 +2034,13 @@ function action(action){
             connectorType = Connector.TYPE_STRAIGHT;
             redraw = true;
             break;
+            
+        case 'connector-organic':
+            selectedFigureId = -1;            
+            state  = STATE_CONNECTOR_PICK_FIRST;
+            connectorType = Connector.TYPE_ORGANIC;
+            redraw = true;
+            break;
 
         case 'rotate90':
         case 'rotate90A':
