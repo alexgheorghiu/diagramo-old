@@ -240,38 +240,104 @@ Connector.prototype = {
 
         switch(this.type){
             case Connector.TYPE_ORGANIC:
-                
-                //add new controll points
-                var points = [];
-                
-                points.push(this.turningPoints[0].clone());
-                
-                //add controll points in the middle of each segment
-                for(var i=1; i < this.turningPoints.length-2; i++){
-                    points.push(this.turningPoints[i].clone());
-                    var cp = new Point( (this.turningPoints[i].x + this.turningPoints[i+1].x) / 2,
-                                        (this.turningPoints[i].y + this.turningPoints[i+1].y) / 2);
-                    //paint_point(ctx, 'black', cp);
-                    points.push(cp);
-                }   
-                points.push(this.turningPoints[this.turningPoints.length-2].clone());                
-                points.push(this.turningPoints[this.turningPoints.length-1].clone());                
-                
-                //paint
+                /*
+                 *As we do not have  way to represent a n grade Bezier we will approximate it visually
+                 *Usually we will have between 4 and 6 turning points
+                 */
+               
+               
                 context.beginPath();
-                
-                //first line
-                context.moveTo(points[0].x, points[0].y);
-                
-                
-                //curves (using middle segments as start and end point and initial turning points as controll points
-                for(var i=2; i < points.length; i=i+2){
-                    //ctx.moveTo(points[i][0], points[i][1]);
-                    context.quadraticCurveTo( points[i-1].x, points[i-1].y, points[i].x, points[i].y );
+                //Log.group("Organic");
+                //Log.info("Nr. of turning points" + this.turningPoints.length);
+                context.moveTo(this.turningPoints[0].x, this.turningPoints[0].y);
+               
+                //Log.info("Nr of  points: " + this.turningPoints.length);
+                switch(this.turningPoints.length){
+                    case 4:                        
+                        /*Find draw a cubic curve between all 4 points*/
+                        context.bezierCurveTo(this.turningPoints[1].x, this.turningPoints[1].y,
+                            this.turningPoints[2].x, this.turningPoints[2].y,
+                            this.turningPoints[3].x, this.turningPoints[3].y);                                                  
+                        break;
+                    case 5:
+                        /*Find first collinear point (next to start or end), draw a line to it
+                         *and then a cubic out of the 5 left */
+                        
+                        var pos = -1;
+                        for(var i=1; i < this.turningPoints.length-1; i++){
+                            if(Util.collinearity(this.turningPoints[i-1], this.turningPoints[i], this.turningPoints[i+1])){
+                                pos = i;
+                                break;
+                            }
+                        }
+                        //Log.info("Position of collinear point: " + pos);
+                        //Log.info("Points: " + this.turningPoints);
+                        
+                        if(pos == 1){ //just skip it (visually)                             
+                            context.bezierCurveTo(this.turningPoints[2].x, this.turningPoints[2].y,
+                                this.turningPoints[3].x, this.turningPoints[3].y,
+                                this.turningPoints[4].x, this.turningPoints[4].y);  
+                                
+                        }
+                        else if(pos == 3){ //just skipt it (visually)
+                            context.bezierCurveTo(this.turningPoints[1].x, this.turningPoints[1].y,
+                                this.turningPoints[2].x, this.turningPoints[2].y,
+                                this.turningPoints[4].x, this.turningPoints[4].y); 
+                        }
+                        else if(pos == -1){ //default case. 
+                            /*Add a middle point for each segment except first and last segment.
+                             *Draw quads between points
+                             **/
+                            var points = [];
+
+                            points.push(this.turningPoints[0].clone());
+
+                            //add controll points in the middle of each segment
+                            for(var i=1; i < this.turningPoints.length-2; i++){
+                                points.push(this.turningPoints[i].clone());
+                                var cp = new Point( (this.turningPoints[i].x + this.turningPoints[i+1].x) / 2,
+                                                    (this.turningPoints[i].y + this.turningPoints[i+1].y) / 2);
+                                points.push(cp);
+                            }   
+                            points.push(this.turningPoints[this.turningPoints.length-2].clone());                
+                            points.push(this.turningPoints[this.turningPoints.length-1].clone());                
+
+                            //paint
+                            context.beginPath();
+
+                            //first line
+                            context.moveTo(points[0].x, points[0].y);
+
+                            //curves (using middle segments as start and end point and initial turning points as controll points
+                            for(var i=2; i < points.length; i=i+2){
+                                //ctx.moveTo(points[i][0], points[i][1]);
+                                context.quadraticCurveTo( points[i-1].x, points[i-1].y, points[i].x, points[i].y );
+                            }
+                            
+                            //context.moveTo(points[points.length - 1].x, points[points.length - 1].y);
+                        }
+                        else{
+                            throw "Connector:paint() - case 5 issue";
+                        }
+
+                        break;
+                        
+                    case 6:
+                        /**Find middle of connector and draw 2 cubic curves*/
+                        var middle = new Point( (this.turningPoints[2].x + this.turningPoints[3].x) / 2,
+                                        (this.turningPoints[2].y + this.turningPoints[3].y) / 2);
+                                        
+                        context.bezierCurveTo(this.turningPoints[1].x, this.turningPoints[1].y,
+                         this.turningPoints[2].x, this.turningPoints[2].y,
+                         middle.x, middle.y);  
+                         
+                        context.bezierCurveTo(this.turningPoints[3].x, this.turningPoints[3].y,
+                         this.turningPoints[4].x, this.turningPoints[4].y,
+                         this.turningPoints[5].x, this.turningPoints[5].y);   
+                        break;
                 }
-                
-                //last line
                 context.stroke();
+                Log.groupEnd();
                 break;
                 
             case Connector.TYPE_STRAIGHT:

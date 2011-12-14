@@ -251,14 +251,14 @@ var Util = {
      *@author Alex
      **/
     collinearity: function(p1, p2, p3){
-            // check for vertical line
-            if (p1.x == p2.x) {
-                return p3.x == p1.x;
-            } else { // usual (not vertical) line can be represented as y = a * x + b
-                var a = (p2.y - p1.y) / (p2.x - p1.x);
-                var b = p1.y - a * p1.x;
-                return p3.y == a * p3.x + b;
-            }
+        // check for vertical line
+        if (p1.x == p2.x) {
+            return p3.x == p1.x;
+        } else { // usual (not vertical) line can be represented as y = a * x + b
+            var a = (p2.y - p1.y) / (p2.x - p1.x);
+            var b = p1.y - a * p1.x;
+            return p3.y == a * p3.x + b;
+        }
     },
 
 
