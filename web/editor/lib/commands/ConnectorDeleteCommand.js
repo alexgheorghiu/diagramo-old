@@ -1,11 +1,11 @@
 /* 
  * This is triggered when you delete a connector
- * @this {DeleteConnectorCommand} 
+ * @this {ConnectorDeleteCommand} 
  * @constructor
  * @author Alex Gheorghiu <alex@scriptoid.com>
  */
-function DeleteConnectorCommand(connectorId){
-    this.oType = 'DeleteConnectorCommand';
+function ConnectorDeleteCommand(connectorId){
+    this.oType = 'ConnectorDeleteCommand';
     
     /**Any sequence of many mergeable actions can be packed by the history*/
     this.mergeable = false;
@@ -22,7 +22,7 @@ function DeleteConnectorCommand(connectorId){
 }
 
 
-DeleteConnectorCommand.prototype = {
+ConnectorDeleteCommand.prototype = {
     
     /**This method got called every time the Command must execute*/
     execute : function(){  

@@ -1,16 +1,16 @@
 /* 
  * This is triggered when a figure was scaled/expanded
- * @this {ScaleFigureCommand} 
+ * @this {GroupScaleCommand} 
  * @constructor
  * @author Alex Gheorghiu <alex@scriptoid.com>
  */
-function ScaleFigureCommand(figureId, matrix, reverseMatrix){
-    this.oType = 'ScaleFigureCommand';
+function GroupScaleCommand(groupId, matrix, reverseMatrix){
+    this.oType = 'GroupScaleCommand';
     
     /**Any sequence of many mergeable actions can be packed by the history*/
     this.mergeable = true;
     
-    this.figureId = figureId;
+    this.groupId = groupId;
         
     this.matrix = matrix;           
     this.reverseMatrix = reverseMatrix;
@@ -18,20 +18,18 @@ function ScaleFigureCommand(figureId, matrix, reverseMatrix){
 }
 
 
-ScaleFigureCommand.prototype = {
+GroupScaleCommand.prototype = {
     
     /**This method got called every time the Command must execute*/
     execute : function(){  
-        var fig = STACK.figureGetById(this.figureId);                
-        fig.transform(this.matrix);        
+        var group = STACK.groupGetById(this.groupId);                
+        group.transform(this.matrix);        
     },
     
     
     /**This method should be called every time the Command should be undone*/
     undo : function(){        
-        var fig = STACK.figureGetById(this.figureId);
-        fig.transform(this.reverseMatrix);
+        var group = STACK.groupGetById(this.groupId);                
+        group.transform(this.reverseMatrix);        
     }
 }
-
-

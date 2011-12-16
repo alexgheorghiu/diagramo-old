@@ -3,12 +3,12 @@
  * we will store only the "already ready" made connector. (IT will take place when
  * on (main: onMouseUp + STATE_CONNECTOR_PICK_SECOND state)
  * 
- * @this {CreateConnectorCommand} 
+ * @this {ConnectorCreateCommand} 
  * @constructor
  * @author Alex <alex@scriptoid.com>
  */
-function CreateConnectorCommand(connectorId){
-    this.oType = 'CreateConnectorCommand';
+function ConnectorCreateCommand(connectorId){
+    this.oType = 'ConnectorCreateCommand';
     
     /**Any sequence of many mergeable actions can be packed by the history*/
     this.mergeable = false;
@@ -20,7 +20,7 @@ function CreateConnectorCommand(connectorId){
 }
 
 
-CreateConnectorCommand.prototype = {
+ConnectorCreateCommand.prototype = {
     /**This method got called every time the Command must execute*/
     execute : function(){
         throw "Should not be implemented";

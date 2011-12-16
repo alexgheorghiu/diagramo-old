@@ -89,11 +89,11 @@ Handle.prototype = {
     actionFigure : function(lastMove, newX, newY){
         var m = this.actionShape(lastMove, newX, newY);
         if(m[0] == 'rotate'){
-            var cmdRotate = new RotateFigureCommand(HandleManager.shape.id, m[1], m[2]);
+            var cmdRotate = new FigureRotateCommand(HandleManager.shape.id, m[1], m[2]);
             cmdRotate.execute();
             History.addUndo(cmdRotate);
         } else if(m[0] == 'scale'){
-            var cmdScale = new ScaleFigureCommand(HandleManager.shape.id, m[1], m[2]);
+            var cmdScale = new FigureScaleCommand(HandleManager.shape.id, m[1], m[2]);
             cmdScale.execute();
             History.addUndo(cmdScale);                
         }
@@ -103,11 +103,11 @@ Handle.prototype = {
     actionGroup : function(lastMove, newX, newY){
         var m = this.actionShape(lastMove, newX, newY);
         if(m[0] == 'rotate'){
-            var cmdRotate = new RotateGroupCommand(HandleManager.shape.id, m[1], m[2]);
+            var cmdRotate = new GroupRotateCommand(HandleManager.shape.id, m[1], m[2]);
             cmdRotate.execute();
             History.addUndo(cmdRotate);
         } else if(m[0] == 'scale'){
-            var cmdScale = new ScaleGroupCommand(HandleManager.shape.id, m[1], m[2]);
+            var cmdScale = new GroupScaleCommand(HandleManager.shape.id, m[1], m[2]);
             cmdScale.execute();
             History.addUndo(cmdScale);                
         }

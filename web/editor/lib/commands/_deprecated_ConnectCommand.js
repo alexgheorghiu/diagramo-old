@@ -11,6 +11,7 @@
  * @param currentValue {Object} - current object value
  * @author Zack Newsham zack_newsham@yahoo.co.uk
  * @author Alex <alex@scriptoid.com>
+ * @deprecated
  */
 function ConnectCommand(objectId, typeOfObject, property, previousValue, currentValue){
     this.objectId = objectId;

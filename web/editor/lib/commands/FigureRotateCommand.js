@@ -1,11 +1,11 @@
 /* 
  * This is triggered when a figure was rotated
- * @this {RotateFigureCommand} 
+ * @this {FigureRotateCommand} 
  * @constructor
  * @author Alex Gheorghiu <alex@scriptoid.com>
  */
-function RotateFigureCommand(figureId, matrix, reverseMatrix){
-    this.oType = 'RotateFigureCommand';
+function FigureRotateCommand(figureId, matrix, reverseMatrix){
+    this.oType = 'FigureRotateCommand';
     
     /**Any sequence of many mergeable actions can be packed by the history*/
     this.mergeable = true;
@@ -18,7 +18,7 @@ function RotateFigureCommand(figureId, matrix, reverseMatrix){
 }
 
 
-RotateFigureCommand.prototype = {
+FigureRotateCommand.prototype = {
     
     /**This method got called every time the Command must execute*/
     execute : function(){  

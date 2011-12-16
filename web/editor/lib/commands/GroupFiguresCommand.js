@@ -1,10 +1,10 @@
 /**
  * It will group a set of figures
- * @this {GroupFiguresCommand} 
+ * @this {GroupCreateCommand} 
  * @constructor
  * @param groupId {Numeric} - the id of the group
  */
-function GroupFiguresCommand(groupId){
+function GroupCreateCommand(groupId){
     this.groupId = groupId;
     
     /**Figures ids that belong to this group*/
@@ -12,10 +12,10 @@ function GroupFiguresCommand(groupId){
     
     this.firstExecute = true;
     
-    this.oType = "GroupFiguresCommand";            
+    this.oType = "GroupCreateCommand";            
 }
 
-GroupFiguresCommand.prototype = {
+GroupCreateCommand.prototype = {
     
     /**This method got called every time the Command must execute.
      *The problem is that is a big difference between first execute and a "redo" execute

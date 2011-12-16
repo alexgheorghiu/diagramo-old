@@ -1,13 +1,13 @@
 /* 
  * This is triggered when you delete a Group.
- * When you do that it will trigger many DeleteFigureCommands so
+ * When you do that it will trigger many FigureDeleteCommands so
  * this Command is a composite command.
- * @this {DeleteGroupCommand} 
+ * @this {GroupDeleteCommand} 
  * @constructor
  * @author Alex Gheorghiu <alex@scriptoid.com>
  */
-function DeleteGroupCommand(groupId){
-    this.oType = 'DeleteGroupCommand';
+function GroupDeleteCommand(groupId){
+    this.oType = 'GroupDeleteCommand';
     
     /**Any sequence of many mergeable actions can be packed by the history*/
     this.mergeable = false;
@@ -23,7 +23,7 @@ function DeleteGroupCommand(groupId){
 }
 
 
-DeleteGroupCommand.prototype = {
+GroupDeleteCommand.prototype = {
     
     /**This method got called every time the Command must execute*/
     execute : function(){  
@@ -33,7 +33,7 @@ DeleteGroupCommand.prototype = {
             
             var figuresIds = STACK.figureGetIdsByGroupId(this.groupId);
             for(var i=0; i<figuresIds.length; i++){
-                var tmpDelFig = new DeleteFigureCommand(figuresIds[i]);
+                var tmpDelFig = new FigureDeleteCommand(figuresIds[i]);
                 tmpDelFig.execute();
                 this.deletedFiguresCommands.push(tmpDelFig);
             }

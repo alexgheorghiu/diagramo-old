@@ -64,27 +64,33 @@ if(is_numeric($_REQUEST['diagramId'])){
         <script type="text/javascript" src="./lib/minimap.js?<?=time()?>"></script>
 
         <script type="text/javascript" src="./lib/commands/History.js?<?=time()?>"></script>
-        <script type="text/javascript" src="./lib/commands/TranslateFigureCommand.js?<?=time()?>"></script>
-        <script type="text/javascript" src="./lib/commands/RotateFigureCommand.js?<?=time()?>"></script>
-        <script type="text/javascript" src="./lib/commands/ScaleFigureCommand.js?<?=time()?>"></script>
-        <script type="text/javascript" src="./lib/commands/RotateGroupCommand.js?<?=time()?>"></script>
-        <script type="text/javascript" src="./lib/commands/ScaleGroupCommand.js?<?=time()?>"></script>
-        <script type="text/javascript" src="./lib/commands/ZOrderFigureCommand.js?<?=time()?>"></script>
-        <script type="text/javascript" src="./lib/commands/GroupFiguresCommand.js?<?=time()?>"></script>
-        <script type="text/javascript" src="./lib/commands/UngroupFiguresCommand.js?<?=time()?>"></script>
-        <script type="text/javascript" src="./lib/commands/DeleteFigureCommand.js?<?=time()?>"></script>
-        <script type="text/javascript" src="./lib/commands/DeleteGroupCommand.js?<?=time()?>"></script>
-        <script type="text/javascript" src="./lib/commands/CreateConnectorCommand.js?<?=time()?>"></script>
-        <script type="text/javascript" src="./lib/commands/DeleteConnectorCommand.js?<?=time()?>"></script>
         
-        <script type="text/javascript" src="./lib/commands/CreateFigureCommand.js?<?=time()?>"></script>
-        <script type="text/javascript" src="./lib/commands/TranslateGroupCommand.js?<?=time()?>"></script>
-        <script type="text/javascript" src="./lib/commands/CanvasResizeCommand.js?<?=time()?>"></script>
+        <script type="text/javascript" src="./lib/commands/FigureCreateCommand.js?<?=time()?>"></script>
+        <script type="text/javascript" src="./lib/commands/FigureTranslateCommand.js?<?=time()?>"></script>
+        <script type="text/javascript" src="./lib/commands/FigureRotateCommand.js?<?=time()?>"></script>
+        <script type="text/javascript" src="./lib/commands/FigureScaleCommand.js?<?=time()?>"></script>
+        <script type="text/javascript" src="./lib/commands/FigureZOrderCommand.js?<?=time()?>"></script>
+        <script type="text/javascript" src="./lib/commands/FigureDeleteCommand.js?<?=time()?>"></script>
+        
+        <script type="text/javascript" src="./lib/commands/GroupRotateCommand.js?<?=time()?>"></script>
+        <script type="text/javascript" src="./lib/commands/GroupScaleCommand.js?<?=time()?>"></script>        
+        <script type="text/javascript" src="./lib/commands/GroupCreateCommand.js?<?=time()?>"></script>
+        <script type="text/javascript" src="./lib/commands/GroupDestroyCommand.js?<?=time()?>"></script>        
+        <script type="text/javascript" src="./lib/commands/GroupDeleteCommand.js?<?=time()?>"></script>
+        <script type="text/javascript" src="./lib/commands/GroupTranslateCommand.js?<?=time()?>"></script>
+        
+        <script type="text/javascript" src="./lib/commands/ConnectorCreateCommand.js?<?=time()?>"></script>
+        <script type="text/javascript" src="./lib/commands/ConnectorDeleteCommand.js?<?=time()?>"></script>                        
+        
         <script type="text/javascript" src="./lib/commands/ConnectCommand.js?<?=time()?>"></script>
         <script type="text/javascript" src="./lib/commands/ConnectorHandleCommand.js?<?=time()?>"></script>
-        <script type="text/javascript" src="./lib/commands/MatrixCommand.js?<?=time()?>"></script>
+        
         <script type="text/javascript" src="./lib/commands/PropertyCommand.js?<?=time()?>"></script>
-
+        
+        <script type="text/javascript" src="./lib/commands/CanvasResizeCommand.js?<?=time()?>"></script>
+        <script type="text/javascript" src="./lib/commands/MatrixCommand.js?<?=time()?>"></script>
+        
+        
         <script type="text/javascript" src="./assets/javascript/json2.js"></script>
         <script type="text/javascript" src="./assets/javascript/jquery-1.4.2.min.js"></script>
         <script type="text/javascript" src="./assets/javascript/ajaxfileupload.js"></script>

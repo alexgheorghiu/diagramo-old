@@ -3,15 +3,15 @@
  * how to handle action
  * 
  * 
- * @this {CreateFigureCommand} 
+ * @this {FigureCreateCommand} 
  * @constructor
  * @param {Function} factoryFunction - the function that will create the {Figure}. It will be local copy (of original pointer)
  * @param {Number} x - the x coordinates
  * @param {Number} y - the x coordinates
  * @author Alex <alex@scriptoid.com>
  */
-function CreateFigureCommand(factoryFunction, x, y){
-    this.oType = 'CreateFigureCommand';
+function FigureCreateCommand(factoryFunction, x, y){
+    this.oType = 'FigureCreateCommand';
     
     /**Any sequence of many mergeable actions can be packed by the history*/
     this.mergeable = false;
@@ -23,7 +23,7 @@ function CreateFigureCommand(factoryFunction, x, y){
 }
 
 
-CreateFigureCommand.prototype = {
+FigureCreateCommand.prototype = {
     /**This method got called every time the Command must execute*/
     execute : function(){
         if(this.firstExecute){

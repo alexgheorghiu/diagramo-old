@@ -1,19 +1,19 @@
 /**
  * Object that is used to undo actions when figures are moved from front to back
- * @this {ZOrderFigureCommand} 
+ * @this {FigureZOrderCommand} 
  * @constructor
  * @param figureId {Number} - {Figure}'s id
  * @param newPosition {Number} index
  */
-function ZOrderFigureCommand(figureId, newPosition){
+function FigureZOrderCommand(figureId, newPosition){
     this.figureId = figureId;
-    this.oType = "ZOrderFigureCommand";
+    this.oType = "FigureZOrderCommand";
     
     this.oldPosition = STACK.idToIndex[figureId];
     this.newPosition = newPosition;
 }
 
-ZOrderFigureCommand.prototype = {
+FigureZOrderCommand.prototype = {
     /**This method got called every time the Command must execute*/
     execute : function(){
         if(this.oldPosition + 1 == this.newPosition || this.oldPosition - 1 == this.newPosition){

@@ -1,11 +1,11 @@
 /* 
  * This is triggered when you delete a figure
- * @this {DeleteFigureCommand} 
+ * @this {FigureDeleteCommand} 
  * @constructor
  * @author Alex Gheorghiu <alex@scriptoid.com>
  */
-function DeleteFigureCommand(figureId){
-    this.oType = 'DeleteFigureCommand';
+function FigureDeleteCommand(figureId){
+    this.oType = 'FigureDeleteCommand';
     
     /**Any sequence of many mergeable actions can be packed by the history*/
     this.mergeable = false;
@@ -19,7 +19,7 @@ function DeleteFigureCommand(figureId){
 }
 
 
-DeleteFigureCommand.prototype = {
+FigureDeleteCommand.prototype = {
     
     /**This method got called every time the Command must execute*/
     execute : function(){  

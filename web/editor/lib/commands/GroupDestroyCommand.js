@@ -1,19 +1,19 @@
 /**
  * Object that is used to undo actions when figures are grouped or ungrouped
- * @this {UngroupFiguresCommand} 
+ * @this {GroupDestroyCommand} 
  * @constructor
  * @param groupId {Numeric} - the id of the group
  */
-function UngroupFiguresCommand(groupId){
+function GroupDestroyCommand(groupId){
     this.groupId = groupId;
     
     this.figuresIds = STACK.figureGetIdsByGroupId(groupId);
     
     this.firstExecute = true;
-    this.oType = "UngroupFiguresCommand";            
+    this.oType = "GroupDestroyCommand";            
 }
 
-UngroupFiguresCommand.prototype = {
+GroupDestroyCommand.prototype = {
     
     /**Split group apart*/
     execute : function(){

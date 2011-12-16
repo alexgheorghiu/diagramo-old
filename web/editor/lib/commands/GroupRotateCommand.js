@@ -1,11 +1,11 @@
 /* 
- * This is triggered when a figure was scaled/expanded
- * @this {ScaleGroupCommand} 
+ * This is triggered when a group was rotated
+ * @this {GroupRotateCommand} 
  * @constructor
  * @author Alex Gheorghiu <alex@scriptoid.com>
  */
-function ScaleGroupCommand(groupId, matrix, reverseMatrix){
-    this.oType = 'ScaleGroupCommand';
+function GroupRotateCommand(groupId, matrix, reverseMatrix){
+    this.oType = 'GroupRotateCommand';
     
     /**Any sequence of many mergeable actions can be packed by the history*/
     this.mergeable = true;
@@ -18,7 +18,7 @@ function ScaleGroupCommand(groupId, matrix, reverseMatrix){
 }
 
 
-ScaleGroupCommand.prototype = {
+GroupRotateCommand.prototype = {
     
     /**This method got called every time the Command must execute*/
     execute : function(){  
@@ -33,3 +33,4 @@ ScaleGroupCommand.prototype = {
         group.transform(this.reverseMatrix);        
     }
 }
+

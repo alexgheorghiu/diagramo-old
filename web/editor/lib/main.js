@@ -504,7 +504,7 @@ function onKeyDown(ev){
                     
                 case STATE_GROUP_SELECTED:
                     if(selectedGroupId != -1){
-                        var cmdDelGrp = new DeleteGroupCommand(selectedGroupId);
+                        var cmdDelGrp = new GroupDeleteCommand(selectedGroupId);
                         cmdDelGrp.execute();
                         History.addUndo(cmdDelGrp);
                     }
@@ -514,7 +514,7 @@ function onKeyDown(ev){
                 case STATE_CONNECTOR_SELECTED:
                     Log.group("Delete connector");
                     if(selectedConnectorId != -1){
-                        var cmdDelCon = new DeleteConnectorCommand(selectedConnectorId);
+                        var cmdDelCon = new ConnectorDeleteCommand(selectedConnectorId);
                         cmdDelCon.execute();
                         History.addUndo(cmdDelCon);                                                
                     }
@@ -701,7 +701,7 @@ function onMouseDown(ev){
             if(createFigureFunction){
                 Log.info("onMouseDown() + STATE_FIGURE_CREATE--> new state STATE_FIGURE_SELECTED");
                 
-                var cmdCreateFig = new CreateFigureCommand(createFigureFunction, x, y);
+                var cmdCreateFig = new FigureCreateCommand(createFigureFunction, x, y);
                 cmdCreateFig.execute();
                 History.addUndo(cmdCreateFig);
                 
@@ -1098,7 +1098,7 @@ function onMouseUp(ev){
         case STATE_CONNECTOR_PICK_SECOND:
 
             //store undo command
-            var cmdCreateCon = new CreateConnectorCommand(selectedConnectorId);
+            var cmdCreateCon = new ConnectorCreateCommand(selectedConnectorId);
             History.addUndo(cmdCreateCon);
             
             //reset all {ConnectionPoint}s' color
@@ -1270,7 +1270,7 @@ function onMouseMove(ev){
                         /*move figure only if no handle is selected*/
                         canvas.style.cursor = 'move';
                         var translateMatrix = generateMoveMatrix(STACK.figureGetById(selectedFigureId), x, y);
-                        var cmdTranslateFigure = new TranslateFigureCommand(selectedFigureId, translateMatrix);
+                        var cmdTranslateFigure = new FigureTranslateCommand(selectedFigureId, translateMatrix);
                         History.addUndo(cmdTranslateFigure);
                         cmdTranslateFigure.execute();
                         redraw = true;
@@ -1338,7 +1338,7 @@ function onMouseMove(ev){
                         Log.info('onMouseMove() - STATE_GROUP_SELECTED + mouse pressed + NOT over a Handle');
                         canvas.style.cursor = 'move';
                         var mTranslate = generateMoveMatrix(STACK.groupGetById(selectedGroupId), x, y);
-                        var cmdTranslateGroup = new TranslateGroupCommand(selectedGroupId, mTranslate);
+                        var cmdTranslateGroup = new GroupTranslateCommand(selectedGroupId, mTranslate);
                         cmdTranslateGroup.execute();
                         History.addUndo(cmdTranslateGroup);
                         redraw = true;
@@ -1991,7 +1991,7 @@ function action(action){
             if(selectedGroupId != -1){
                 var group = STACK.groupGetById(selectedGroupId);
                 if(!group.permanent){ //group only temporary groups
-                    var cmdGroup = new GroupFiguresCommand(selectedGroupId);
+                    var cmdGroup = new GroupCreateCommand(selectedGroupId);
                     cmdGroup.execute();
                     History.addUndo(cmdGroup);
                     Log.info("main.js->action()->Group. New group made permanent. Group id = " + selectedGroupId);
@@ -2008,7 +2008,7 @@ function action(action){
             if(selectedGroupId != -1){
                 var group = STACK.groupGetById(selectedGroupId);
                 if(group.permanent){ //split only permanent groups
-                    var cmdUngroup = new UngroupFiguresCommand(selectedGroupId);
+                    var cmdUngroup = new GroupDestroyCommand(selectedGroupId);
                     cmdUngroup.execute();
                     History.addUndo(cmdUngroup);
                     Log.info("main.js->action()->Ungroup. New group made permanent. Group id = " + selectedGroupId);
@@ -2083,13 +2083,13 @@ function action(action){
         case 'up': //decrease Y                                   
             switch(state){
                 case STATE_FIGURE_SELECTED:
-                    var cmdFigUp = new TranslateFigureCommand(selectedFigureId, Matrix.UP);
+                    var cmdFigUp = new FigureTranslateCommand(selectedFigureId, Matrix.UP);
                     History.addUndo(cmdFigUp);
                     cmdFigUp.execute();
                     redraw = true;
                     break;
                 case STATE_GROUP_SELECTED:
-                    var cmdGrpUp = new TranslateGroupCommand(selectedGroupId, Matrix.UP);
+                    var cmdGrpUp = new GroupTranslateCommand(selectedGroupId, Matrix.UP);
                     History.addUndo(cmdGrpUp);
                     cmdGrpUp.execute();
                     redraw = true;
@@ -2101,14 +2101,14 @@ function action(action){
         case 'down':
             switch(state){
                 case STATE_FIGURE_SELECTED:
-                    var cmdFigDown = new TranslateFigureCommand(selectedFigureId, Matrix.DOWN);
+                    var cmdFigDown = new FigureTranslateCommand(selectedFigureId, Matrix.DOWN);
                     History.addUndo(cmdFigDown);
                     cmdFigDown.execute();
                     redraw = true;
                     break;
                     
                 case STATE_GROUP_SELECTED:
-                    var cmdGrpDown = new TranslateGroupCommand(selectedGroupId, Matrix.DOWN);
+                    var cmdGrpDown = new GroupTranslateCommand(selectedGroupId, Matrix.DOWN);
                     History.addUndo(cmdGrpDown);
                     cmdGrpDown.execute();
                     redraw = true;
@@ -2119,14 +2119,14 @@ function action(action){
         case 'right':
             switch(state){
                 case STATE_FIGURE_SELECTED:
-                    var cmdFigRight = new TranslateFigureCommand(selectedFigureId, Matrix.RIGHT);
+                    var cmdFigRight = new FigureTranslateCommand(selectedFigureId, Matrix.RIGHT);
                     History.addUndo(cmdFigRight);
                     cmdFigRight.execute();
                     redraw = true;
                     break;
                     
                 case STATE_GROUP_SELECTED:
-                    var cmdGrpRight = new TranslateGroupCommand(selectedGroupId, Matrix.RIGHT);
+                    var cmdGrpRight = new GroupTranslateCommand(selectedGroupId, Matrix.RIGHT);
                     History.addUndo(cmdGrpRight);
                     cmdGrpRight.execute();
                     redraw = true;
@@ -2137,14 +2137,14 @@ function action(action){
         case 'left':
             switch(state){
                 case STATE_FIGURE_SELECTED:
-                    var cmdFigLeft = new TranslateFigureCommand(selectedFigureId, Matrix.LEFT);
+                    var cmdFigLeft = new FigureTranslateCommand(selectedFigureId, Matrix.LEFT);
                     History.addUndo(cmdFigLeft);
                     cmdFigLeft.execute();
                     redraw = true;
                     break;
                     
                 case STATE_GROUP_SELECTED:
-                    var cmdGrpLeft = new TranslateGroupCommand(selectedGroupId, Matrix.LEFT);
+                    var cmdGrpLeft = new GroupTranslateCommand(selectedGroupId, Matrix.LEFT);
                     History.addUndo(cmdGrpLeft);
                     cmdGrpLeft.execute();
                     redraw = true;
@@ -2237,7 +2237,7 @@ function action(action){
 
         case 'back':
             if(selectedFigureId != -1){
-                var cmdBack = new ZOrderFigureCommand(selectedFigureId, 0);
+                var cmdBack = new FigureZOrderCommand(selectedFigureId, 0);
                 cmdBack.execute();
                 History.addUndo(cmdBack);
                 //STACK.setPosition(selectedFigureId, 0);
@@ -2247,7 +2247,7 @@ function action(action){
 
         case 'front':
             if(selectedFigureId != -1){
-                var cmdFront = new ZOrderFigureCommand(selectedFigureId, STACK.figures.length-1);
+                var cmdFront = new FigureZOrderCommand(selectedFigureId, STACK.figures.length-1);
                 cmdFront.execute();
                 History.addUndo(cmdFront);                
                 redraw = true;
@@ -2256,7 +2256,7 @@ function action(action){
 
         case 'moveback':
             if(selectedFigureId != -1){
-                var cmdMoveBack = new ZOrderFigureCommand(selectedFigureId, STACK.idToIndex[selectedFigureId] - 1);
+                var cmdMoveBack = new FigureZOrderCommand(selectedFigureId, STACK.idToIndex[selectedFigureId] - 1);
                 cmdMoveBack.execute();
                 History.addUndo(cmdMoveBack);
                 redraw = true;
@@ -2265,7 +2265,7 @@ function action(action){
 
         case 'moveforward':
             if(selectedFigureId != -1){
-                var cmdMoveForward = new ZOrderFigureCommand(selectedFigureId, STACK.idToIndex[selectedFigureId] + 1);
+                var cmdMoveForward = new FigureZOrderCommand(selectedFigureId, STACK.idToIndex[selectedFigureId] + 1);
                 cmdMoveForward.execute();
                 History.addUndo(cmdMoveForward);
                 redraw = true;

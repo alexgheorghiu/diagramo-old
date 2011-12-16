@@ -1,13 +1,13 @@
 /* 
  * This is triggered when a figure was translated
- * @this {TranslateFigureCommand} 
+ * @this {FigureTranslateCommand} 
  * @constructor
  * @param {Integer} figureId - the id of the figure translated
  * @param {Array} matrix - the transformation matrix of translation
  * @author Alex Gheorghiu <alex@scriptoid.com>
  */
-function TranslateFigureCommand(figureId, matrix){
-    this.oType = 'TranslateFigureCommand';
+function FigureTranslateCommand(figureId, matrix){
+    this.oType = 'FigureTranslateCommand';
     
     /**Any sequence of many mergeable actions can be packed by the history*/
     this.mergeable = true;
@@ -30,7 +30,7 @@ function TranslateFigureCommand(figureId, matrix){
 }
 
 
-TranslateFigureCommand.prototype = {
+FigureTranslateCommand.prototype = {
     
     /**This method got called every time the Command must execute*/
     execute : function(){  

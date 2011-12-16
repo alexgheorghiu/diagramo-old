@@ -1,13 +1,13 @@
 /* 
  * This is triggered when a figure was moved
- * @this {TranslateGroupCommand} 
+ * @this {GroupTranslateCommand} 
  * @constructor
  * @author Alex Gheorghiu <alex@scriptoid.com>
  * @param {Integer} groupId - the id of the figure translated
  * @param {Array} matrix - the transformation matrix of translation
  */
-function TranslateGroupCommand(groupId, matrix){
-    this.oType = 'TranslateGroupCommand';
+function GroupTranslateCommand(groupId, matrix){
+    this.oType = 'GroupTranslateCommand';
     
     /**Any sequence of many mergeable actions can be packed by the history*/
     this.mergeable = true;
@@ -29,7 +29,7 @@ function TranslateGroupCommand(groupId, matrix){
 }
 
 
-TranslateGroupCommand.prototype = {
+GroupTranslateCommand.prototype = {
     
     /**This method got called every time the Command must execute*/
     execute : function(){  
