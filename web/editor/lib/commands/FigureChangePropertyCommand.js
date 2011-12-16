@@ -1,25 +1,24 @@
 /**
  * Object that is used to undo actions when the property editor is used
- * @this {PropertyCommand} 
+ * @this {FigureChangePropertyCommand} 
  * @constructor
- * @param objectId {Numeric} -  the id of the object
- * @param typeOfObject {Numberic} -  the type of the object as number (ex: History.OBJECT_FIGURE)
+ * @param figureId {Numeric} -  the id of the object
  * @param property {String} - property name that is being edited on the figure
  * @param previousValue {Object} - the value to set the property to
  * @param currentValue {Object} - the value to set the property to
+ * @author Alex
  */
-function PropertyCommand(objectId, typeOfObject, property, previousValue, currentValue){
-    this.objectId = objectId;
-    this.typeOfObject = typeOfObject;
+function FigureChangePropertyCommand(figureId, property, previousValue, currentValue){
+    this.figureId = figureId;
     this.property = property;
     this.previousValue = previousValue;
     this.currentValue = currentValue;
-    this.oType = "Property Action";
+    this.oType = "FigureChangePropertyCommand";
 }
 
-PropertyCommand.prototype = {
+FigureChangePropertyCommand.prototype = {
     /**This method got called every time the Command must execute*/
-    redo : function(){
+    execute : function(){
         this._doAction(this.currentValue);
     },
     
@@ -30,20 +29,8 @@ PropertyCommand.prototype = {
     },
     
     _doAction:function(value){
-        var shape = null;
-        switch(this.typeOfObject){
-            case History.OBJECT_FIGURE:
-                shape = STACK.figureGetById(this.objectId);
-                break;
-            case History.OBJECT_CONNECTOR:
-                shape = CONNECTOR_MANAGER.connectorGetById(this.objectId);
-                break;
-            case History.OBJECT_GROUP:
-                shape = STACK.groupGetById(this.objectId);
-                break;
-        }
-        
-        
+        var shape = STACK.figureGetById(this.figureId);
+
         var propertyObject = shape;
         var propertyAccessors = this.property.split(".");
         for(var i = 0; i<propertyAccessors.length-1; i++){

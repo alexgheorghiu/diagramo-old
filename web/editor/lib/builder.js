@@ -84,19 +84,15 @@ Builder.constructCanvasPropertiesPanel = function(DOMObject, canvasProps){
         
         Log.group("builder.js->constructCanvasPropertiesPanel()->Canvas update");
         //Log.info('Nr of actions in Undo system: ' + History.ACTIONS.length);
-        //Did the width change?
-        if(doUndo && canvasProps.getWidth() != inputWidth.value){            
-            var undo = new CanvasResizeCommand(canvasProps, History.OBJECT_STATIC, "Width", canvasProps.getWidth(), inputWidth.value);
+        //Did we change width or height?
+        if(canvasProps.getWidth() != inputWidth.value || canvasProps.getHeight() != inputHeight.value){            
+            var undo = new CanvasResizeCommand(canvasProps);
             canvasProps.width = inputWidth.value;
-            History.addUndo(undo);
-        }
-        
-        //Did the height change?
-        if(doUndo && canvasProps.getHeight() != inputHeight.value){            
-            var undo = new CanvasResizeCommand(canvasProps, History.OBJECT_STATIC, "Height", canvasProps.getHeight(), inputHeight.value);
             canvasProps.height = inputHeight.value;
             History.addUndo(undo);
         }
+        
+
         //Log.info('Nr of actions in Undo system: ' + History.ACTIONS.length);
         Log.groupEnd();
         

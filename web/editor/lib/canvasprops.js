@@ -48,6 +48,11 @@ CanvasProps.prototype = {
     
     constructor : CanvasProps,
     
+    /**Just clone the damn thing :)*/
+    clone : function(){
+       return new CanvasProps(this.width, this.height);
+    },
+    
     /**Get width of the canvas*/
     getWidth:function(){
         return this.width;

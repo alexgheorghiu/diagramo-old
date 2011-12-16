@@ -211,29 +211,13 @@ function updateFigure(figureId, property, newValue){
     //Log.group("main.js-->updateFigure");
     //Log.info("updateFigure() figureId: " + figureId + " property: " + property + ' new value: ' + newValue);
     
-    /*Try to guess the object type*/
-    var objType = null;
     var obj = STACK.figureGetById(figureId); //try to find it inside {Figure}s
-    
-    if(obj){ //try to find it inside {Connector}s
-        objType = History.OBJECT_FIGURE;        
-    }
-    else{ //no in Figures
-        obj = CONNECTOR_MANAGER.connectorGetById(figureId); //search in Connectors
-        //Log.info("updateFigure(): it's a connector 1");
-        
-        if(obj){ //see if it's a Canvas
-            objType = History.OBJECT_CONNECTOR;            
-        }
-        else{ //no in connectors
-            if(figureId == "canvasProps"){
-                obj = canvasProps;
-            //Log.info("updateFigure(): it's the canvas");
-            }
-        }
-    }
 
-    
+
+    //TODO: this horror must dissapear
+    if(!obj){
+        obj = CONNECTOR_MANAGER.connectorGetById(figureId);
+    }
 
     var objSave = obj; //keep a reference to initial shape
 
@@ -280,8 +264,8 @@ function updateFigure(figureId, property, newValue){
         
         if(newValue != obj[propGet]()){ //update ONLY if new value differ from the old one
             //Log.info('updateFigure() : penultimate propSet: ' +  propSet);
-            if(doUndo && obj[propGet]() != newValue){
-                var undo = new PropertyCommand(figureId, objType, property, obj[propGet](), newValue)
+            if(obj[propGet]() != newValue){
+                var undo = new FigureChangePropertyCommand(figureId, property, obj[propGet](), newValue)
                 History.addUndo(undo);
             }
             //Log.info('updateFigure() : call setXXX on object: ' +  propSet + " new value: " + newValue);
@@ -291,8 +275,8 @@ function updateFigure(figureId, property, newValue){
     }
     else{
         if(obj[propName] != newValue){ //try to change it ONLY if new value is different than the last one
-            if(doUndo && obj[propName] != newValue){
-                var undo = new PropertyCommand(figureId, objType, property, obj[propName], newValue)
+            if(obj[propName] != newValue){
+                var undo = new FigureChangePropertyCommand(figureId, property, obj[propName], newValue)
                 History.addUndo(undo);
             }
             obj[propName] = newValue;
@@ -496,7 +480,7 @@ function onKeyDown(ev){
 
                 case STATE_FIGURE_SELECTED: //delete a figure ONLY when the figure is selected
                     if(selectedFigureId != -1){
-                        var cmdDelFig = new DeleteFigureCommand(selectedFigureId);
+                        var cmdDelFig = new FigureDeleteCommand(selectedFigureId);
                         cmdDelFig.execute();
                         History.addUndo(cmdDelFig);
                     }                    

@@ -2,17 +2,10 @@ This is Alex's current mental stack
 
 Current stack:
 
-* delete command (at least for figure and group)
-    if I have 2 figures from a group liked by a connector....and I deleted the group...the connector stays.....hmmm
-* connectors - create action & others
-* [x] delete command (at least for figure and group)
-* connectors 
-    - [x]create action
-    - [x]delete action
-    - alter 
-        - (in progress) connect           
-        - alter path
-        
+* [x]CanvasResize  & 
+    PropertyCommand 
+        + alter connector's text gives errors
+        + on change text the updateFigure() is called....either change name or create a new function
 * redraw boolean value does not seems to be really used !?!?!
 * add development-rules.txt to wiki
 * Text's clone not implemented ?!
