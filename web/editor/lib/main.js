@@ -910,98 +910,81 @@ function onMouseDown(ev){
             /*
              *Description:
              *If we have a connector selected and we press mouse here is what is happening:
-             *- mouse down over a connection point?
+             *- mouse down over a connection point? (trat first current connector)
              *      - select connection point 
              *      - set state to STATE_CONNECTOR_MOVE_POINT 
-             *      (and wait mouse move to alter and mouse up to finish the modification)
+             *      (and wait mouseMove to alter and mouseUp to finish the modification)
              *      - store original state of the connector (to be able to create the undo command later)
              *- mouse down over a handler?
              *      - select handle
-             *      
-             * TODO: implement it
+             *- mouse down over a connector?
+             *      - same connector (do nothing)
+             *      - different connector?      
+             *- mouse down over a figure? (maybe in the future...to reduce nr. of clicks)      
              **/
+                        
             var cps = CONNECTOR_MANAGER.connectionPointGetAllByParent(selectedConnectorId);
             var start = cps[0];
             var end = cps[1];
+            
+            //did we click any of the connection points?
             if(start.point.near(x, y, 3)){
-                var g = CONNECTOR_MANAGER.glueGetBySecondConnectionPointId(start.id);
-                
                 Log.info("Picked the start point");
                 selectedConnectionPointId = start.id;
-                if(g.length != 0 && doUndo == true){//CONNECTOR_MANAGER.connectorGetById(selectedConnectorId).turningPoints[0]
-                    currentMoveUndo = new MatrixCommand(selectedConnectionPointId, History.OBJECT_CONNECTION_POINT , [g[0].id1,g[0].id2], Matrix.translationMatrix(start.point.x,start.point.y),null);
-                }
-                else if(doUndo == true) {
-                    currentMoveUndo = new MatrixCommand(selectedConnectionPointId, History.OBJECT_CONNECTION_POINT , null, Matrix.translationMatrix(start.point.x,start.point.y),null);
-                }
                 state = STATE_CONNECTOR_MOVE_POINT;
-                HTMLCanvas.style.cursor = 'move';
+                HTMLCanvas.style.cursor = 'default';
+                
+                //this acts like clone of the connector
+                var undoCmd = new ConnectorAlterCommand(selectedConnectorId); 
+                History.addUndo(undoCmd);
             }
             else if(end.point.near(x, y, 3)){
-                var g = CONNECTOR_MANAGER.glueGetBySecondConnectionPointId(end.id);
-
                 Log.info("Picked the end point");
                 selectedConnectionPointId = end.id;
-                if(g.length != 0 && doUndo == true){//CONNECTOR_MANAGER.connectorGetById(selectedConnectorId).turningPoints[CONNECTOR_MANAGER.connectorGetById(selectedConnectorId).turningPoints.length - 1]
-                    currentMoveUndo = new MatrixCommand(selectedConnectionPointId, History.OBJECT_CONNECTION_POINT, [g[0].id1,g[0].id2], Matrix.translationMatrix(end.point.x,end.point.y),null);
-                }
-                else if(doUndo == true){
-                    currentMoveUndo = new MatrixCommand(selectedConnectionPointId, History.OBJECT_CONNECTION_POINT, null, Matrix.translationMatrix(end.point.x,end.point.y),null);
-                }
                 state = STATE_CONNECTOR_MOVE_POINT;
-                HTMLCanvas.style.cursor = 'move';
+                HTMLCanvas.style.cursor = 'default';
+                
+                //this acts like clone of the connector
+                var undoCmd = new ConnectorAlterCommand(selectedConnectorId); 
+                History.addUndo(undoCmd);
             }
-            else{ //no connection point selection
-
-                var newCId = selectedConnectorId;
-                if(HandleManager.handleGet(x,y) == null){//we only get a new connector, if we are not currently
-                    //over the current connectors handles
-                    newCId = CONNECTOR_MANAGER.connectorGetByXY(x, y); //did we picked another connector?
-                }
-                if(newCId == -1){
-                    Log.info('No other connector selected. Deselect all connectors');
-                    selectedConnectorId = -1;
-                    state = STATE_NONE;
-                    setUpEditPanel(canvasProps);
-                    redraw = true;
-
-                //START: Quick Select FIGURE
-                //                    var fId = STACK.figureGetByXY(x, y);
-                //                    if(fId != -1){ //select figure
-                //                        Log.info("onMouseDown() + STATE_CONNECTOR_SELECTED - quick select a figure, new state (STATE_FIGURE_SELECTED)");
-                //                        selectedFigureId = fId;
-                //                        var f = STACK.figureGetById(fId);
-                //                        setUpEditPanel(f);
-                //                        mousePressed = false;
-                //                        state = STATE_FIGURE_SELECTED;
-                //                    }
-                //END: Quick Select FIGURE
-                }
-                else if(newCId == selectedConnectorId){ //did we picked the same connector?
-                    //do nothing - it's the same connector
-                    Log.info("onMouseDown(): Nothing, it's the same connector");
-                } else{
-                    Log.info('onMouseDown(): Select another connector');
-                    selectedConnectorId = newCId;
-                    setUpEditPanel(CONNECTOR_MANAGER.connectorGetById(selectedConnectorId));
-                    state = STATE_CONNECTOR_SELECTED;
-                    redraw = true;
-                }
-                if(HandleManager.handleGet(x, y) != null){ //select handle
-                    Log.info("onMouseDown() + STATE_FIGURE_SELECTED - handle selected");
+            else{ //no connection point selected
+                
+                //see if handler selected
+                if(HandleManager.handleGet(x,y) != null){
+                    Log.info("onMouseDown() + STATE_CONNECTOR_SELECTED - handle selected");
                     HandleManager.handleSelectXY(x,y);
                     
+                    //TODO: just copy/paste code ....this acts like clone of the connector
+                    var undoCmd = new ConnectorAlterCommand(selectedConnectorId); 
+                    History.addUndo(undoCmd);
                 }
-
-            //canvas.style.cursor = 'default';
-            //state  = STATE_NONE;
-            }
-
-            break;
+                else{
+                    //did we select another connector?
+                    var newConId = CONNECTOR_MANAGER.connectorGetByXY(x, y); //did we picked another connector?
+                    switch(newConId){
+                        case -1: //nothing else selected....deselect all
+                            selectedConnectorId = -1;
+                            state = STATE_NONE;
+                            setUpEditPanel(canvasProps);
+                            redraw = true;
+                            break;
+                        case selectedConnectorId: //same connector...do nothing
+                            break;
+                        default: //another connector
+                            selectedConnectorId = newConId;
+                            setUpEditPanel(CONNECTOR_MANAGER.connectorGetById(selectedConnectorId));
+                            state = STATE_CONNECTOR_SELECTED;
+                            redraw = true;                            
+                    }//end switch
+                    
+                }                                                    
+            }                        
+            break; //end case STATE_CONNECTOR_SELECTED 
 
             
         default:
-    //alert("onMouseDown() - switch default - state is " + state);
+            //alert("onMouseDown() - switch default - state is " + state);
     }
 
     draw();
@@ -1456,11 +1439,11 @@ function onMouseMove(ev){
                     }
                 }
                 
-                //store the Command in History
-                if(difference && doUndo){
-                    currentMoveUndo = new ConnectorHandleCommand(selectedConnectorId, History.OBJECT_CONNECTOR, null, oldTurns, newTurns);
-                    History.addUndo(currentMoveUndo);
-                }
+//                //store the Command in History
+//                if(difference && doUndo){
+//                    currentMoveUndo = new ConnectorHandleCommand(selectedConnectorId, History.OBJECT_CONNECTOR, null, oldTurns, newTurns);
+//                    History.addUndo(currentMoveUndo);
+//                }
                     
                 redraw = true;
             }
@@ -1478,24 +1461,10 @@ function onMouseMove(ev){
             Log.info("Easy easy easy....it's fragile");
             if(mousePressed){ //only if we are dragging
                 
-
-
                 /*update connector - but not unglue/glue it (Unglue and glue is handle in onMouseUp)
                  *as we want the glue-unglue to produce only when mouse is released*/   
                 connectorMovePoint(selectedConnectionPointId, x, y, ev);
-//                if(cps[0].id == selectedConnectionPointId){ //start
-//                    //alert('start');
-//                    cps[0].point.x = x;
-//                    cps[0].point.y = y;
-//                    con.turningPoints[0].x = x;
-//                    con.turningPoints[0].y = y;
-//                } else{ //end
-//                    //alert('end');
-//                    cps[1].point.x = x;
-//                    cps[1].point.y = y;
-//                    con.turningPoints[con.turningPoints.length - 1].x = x;
-//                    con.turningPoints[con.turningPoints.length - 1].y = y;
-//                }
+
                 redraw = true;
             }
             break;

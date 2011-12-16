@@ -1262,9 +1262,30 @@ ConnectionPoint.loadArray = function(v){
     return newConnectionPoints;
 }
 
+/**Clones an array of {ConnectionPoint}s
+ *@param {Array} v - the array of {ConnectionPoint}s
+ *@return an {Array} of {ConnectionPoint}s
+ **/
+ConnectionPoint.cloneArray = function(v){
+    var newConnectionPoints = [];
+    for(var i=0; i< v.length; i++){
+        newConnectionPoints.push(v[i].clone());
+    }
+    return newConnectionPoints;
+}
+
+
 ConnectionPoint.prototype = {
     constructor : ConnectionPoint,
 
+    
+    /**Clone current {ConnectionPoint}
+     **/
+    clone: function(){
+        //parentId,point,id, type
+        return new ConnectionPoint(this.parentId, this.point.clone(), this.id, this.type );
+    },
+    
     /**Compares to another ConnectionPoint
      *@param {ConnectionPoint} anotherConnectionPoint - the other connection point
      *@return {Boolean} - true if equals, false otherwise
@@ -1350,15 +1371,15 @@ ConnectionPoint.prototype = {
  *
  *@constructor
  *@this {Glue}
- *@param {Number} cp1 - the id of the first {ConnectionPoint} (usually from a {Figure})
- *@param {Number} cp2 - the id of the second {ConnectionPoint} (usualy from a {Connector})
+ *@param {Number} cp1Id - the id of the first {ConnectionPoint} (usually from a {Figure})
+ *@param {Number} cp2Id - the id of the second {ConnectionPoint} (usualy from a {Connector})
  **/
-function Glue(cp1,cp2){
+function Glue(cp1Id,cp2Id){
     /**First shape's id (usually from a {Figure})*/
-    this.id1 = cp1;    
+    this.id1 = cp1Id;    
     
     /**Second shape's id (usualy from a {Connector})*/
-    this.id2 = cp2;
+    this.id2 = cp2Id;
 
     /*By default all the Glues are created with the first number as Figure's id and second number as
      *Connector's id. In the future glues can be used to glue other types as well*/
@@ -1405,9 +1426,28 @@ Glue.loadArray = function(v){
     return newGlues;
 }
 
+/**Clones an array of points
+ *@param {Array} v - the array of {Glue}s
+ *@return an {Array} of {Glue}s
+ **/
+Glue.cloneArray = function(v){
+    var newGlues = [];
+    for(var i=0; i< v.length; i++){
+        newGlues.push(v[i].clone());
+    }
+    return newGlues;
+}
+
 Glue.prototype = {
     
     constructor : Glue,
+    
+    
+    /**Clone current {Glue}
+     **/
+    clone: function(){
+        return new Glue(this.id1, this.id2);
+    },
     
     /**Compares to another Glue
      *@param {Glue} anotherGlue -  - the other glue
