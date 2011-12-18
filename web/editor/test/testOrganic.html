@@ -6,6 +6,8 @@
 
         <script type="text/javascript">
             /**
+             *http://www.w3.org/Graphics/SVG/IG/resources/svgprimer.html#path_Q
+             *http://math.stackexchange.com/questions/92246/aproximate-n-grade-bezier-through-cubic-and-or-quadratic-bezier-curves
              *@see http://stackoverflow.com/questions/1257168/how-do-i-create-a-bezier-curve-to-represent-a-smoothed-polyline
              *@see http://www.codeproject.com/KB/graphics/BezierSpline.aspx Draw a Smooth Curve through a Set of 2D Points with Bezier Primitives
              *"Paul de Casteljau, a brilliant engineer at Citroen"
@@ -34,10 +36,13 @@
             var s2_5 = [[100, 100], [100, 80], [50, 80], [50, 180], [150, 180], [150, 160]];
             var s2_6 = [[100, 50], [80, 50], [80, 150], [180, 150], [180, 130], [160, 130]];
             
+            var alex1 = [[100, 200], [120, 50], [200, 50], [220, 100], [270, 130]];
+            
             var solutions = [];
             solutions.push(s0_0, s0_1, s0_2, s0_3);
             solutions.push(s1_1, s1_2, s1_3, s1_4);
             solutions.push(s2_1, s2_2, s2_3, s2_4, s2_5, s2_6);
+            solutions.push(alex1);
             
             function init(){
                 var ctx = document.getElementById("pinza").getContext("2d");
@@ -60,7 +65,7 @@
                 ctx.strokeStyle = "rgb(0,0,30)";
                 ctx.strokeRect(0, 0, 300, 300);
                 paintPoly(ctx, sol);
-                paintOrganic(ctx, sol);
+                paintOrganic3(ctx, sol);
             }
             
             function paintPoly(ctx, poly){
@@ -89,6 +94,10 @@
                         
                     case 'black':
                         ctx.strokeStyle = "rgb(0, 0,0)";
+                        break;
+                        
+                    case 'green':
+                        ctx.strokeStyle = "rgb(0, 200,0)";
                         break;
                 }                
                 ctx.strokeRect(point[0]- 2 , point[1] - 2, 4, 4);
@@ -164,6 +173,55 @@
                 }
                 ctx.restore();
             }
+            
+            function mirrorAWithRespectToB(a, b){
+                return [2 * b[0] - a[0], 2 * b[1] - a[1] ];
+            }
+            
+            
+            function paintOrganic3(ctx, poly){
+                ctx.save();
+                ctx.beginPath();
+                
+                //move into position
+                ctx.moveTo(poly[0][0], poly[0][1]);
+                
+                if(poly.length == 3){
+                    ctx.quadraticCurveTo( poly[1][0], poly[1][1], poly[2][0], poly[2][1] );
+                }
+                else if(poly.length == 4){
+                    ctx.bezierCurveTo( poly[1][0], poly[1][1], poly[2][0], poly[2][1], poly[3][0], poly[3][1] );
+                }
+                else if(poly.length == 5){
+                    ctx.bezierCurveTo( poly[1][0], poly[1][1], poly[2][0], poly[2][1], poly[3][0], poly[3][1] );
+                    var B = mirrorAWithRespectToB(poly[1], poly[2]);
+                    var W1 = mirrorAWithRespectToB(poly[2], poly[3]);
+                    var W2 = mirrorAWithRespectToB(B, W1);
+                    paint_point(ctx, 'green', B);
+                    paint_point(ctx, 'green', W1);
+                    paint_point(ctx, 'green', W2);
+                    ctx.bezierCurveTo( W1[0], W1[1], W2[0], W2[1], poly[4][0], poly[4][1]);                                        
+                }
+                else if(poly.length == 6){
+//                    ctx.bezierCurveTo( poly[1][0], poly[1][1], poly[2][0], poly[2][1], poly[3][0], poly[3][1] );
+//                    var B = mirrorAWithRespectToB(poly[1], poly[2]);
+//                    var W1 = mirrorAWithRespectToB(poly[2], poly[3]);
+//                    var W2 = mirrorAWithRespectToB(B, W1);
+//                    paint_point(ctx, 'green', B);
+//                    paint_point(ctx, 'green', W1);
+//                    paint_point(ctx, 'green', W2);
+//                    ctx.bezierCurveTo( W1[0], W1[1], W2[0], W2[1], poly[4][0], poly[4][1]);                                        
+//                    
+//                    var B_ = mirrorAWithRespectToB(W1, W2);
+//                    var W1_ = mirrorAWithRespectToB(W2, poly[4]);
+//                    var W2_ = mirrorAWithRespectToB(B_, W1_);
+//                    ctx.bezierCurveTo( W1_[0], W1_[1], W2_[0], W2_[1], poly[5][0], poly[5][1]);        
+                }
+                
+                ctx.stroke();
+                ctx.restore();  
+            }
+            
             
             function plus(p1, p2){
                 return [p1[0] + p2[0], p1[1] + p2[1]];
