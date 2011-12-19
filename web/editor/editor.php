@@ -86,7 +86,7 @@ if(is_numeric($_REQUEST['diagramId'])){
         <script type="text/javascript" src="./lib/commands/ConnectorAlterCommand.js?<?=time()?>"></script>
         <script type="text/javascript" src="./lib/commands/ConnectorHandleCommand.js?<?=time()?>"></script>
         
-        <script type="text/javascript" src="./lib/commands/FigureChangePropertyCommand.js?<?=time()?>"></script>
+        <script type="text/javascript" src="./lib/commands/ShapeChangePropertyCommand.js?<?=time()?>"></script>
         
         <script type="text/javascript" src="./lib/commands/CanvasResizeCommand.js?<?=time()?>"></script>
         <script type="text/javascript" src="./lib/commands/MatrixCommand.js?<?=time()?>"></script>

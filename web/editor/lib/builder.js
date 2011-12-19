@@ -26,13 +26,13 @@ Builder.load = function(o){
 }
 
 /**
- *Creates the property panel for a figure
+ *Creates the property panel for a shape {Figure} or {Connector}
  *@param {DOMObject} DOMObject - the div of the properties panel
- *@param {Figure} figure - the figure for which the properties will be displayed
+ *@param {Figure} shape - the figure for which the properties will be displayed
  **/
-Builder.contructPropertiesPanel = function(DOMObject, figure){
-    for(var i=0; i<figure.properties.length; i++){
-        figure.properties[i].injectInputArea(DOMObject,figure.id);
+Builder.contructPropertiesPanel = function(DOMObject, shape){
+    for(var i=0; i<shape.properties.length; i++){
+        shape.properties[i].injectInputArea(DOMObject, shape.id);
     }
 }
 
@@ -286,7 +286,7 @@ BuilderProperty.prototype = {
         div.children[0].appendChild(check);
         check.onclick = function(figureId,property){
                             return function(){
-                                updateFigure(figureId, property, this.checked)
+                                updateShape(figureId, property, this.checked)
                             }
                         }(figureId, this.property);
                         
@@ -298,11 +298,11 @@ BuilderProperty.prototype = {
      *The text got updated when you leave the input area
      *
      *@param {HTMLElement} DOMObject - the div of the properties panel
-     *@param {Number} figureId - the id of the figure we are using    
+     *@param {Number} shapeId - the id of the {Figure} or {Connector} we are using    
      **/
-    generateTextCode:function(DOMObject,figureId){
+    generateTextCode:function(DOMObject,shapeId){
         var uniqueId = new Date().getTime();
-        var value = this.getValue(figureId);
+        var value = this.getValue(shapeId);
 
         var div = document.createElement("div");
         div.className = "textLine";
@@ -318,11 +318,11 @@ BuilderProperty.prototype = {
         div.appendChild(document.createElement("br"));
         div.appendChild(text);
 
-        text.onchange = function(figureId,property){
+        text.onchange = function(shapeId,property){
             return function(){
-                updateFigure(figureId, property, this.value)
+                updateShape(shapeId, property, this.value)
             }
-        }(figureId, this.property);
+        }(shapeId, this.property);
 
 
         text.onmouseout = text.onchange;
@@ -358,7 +358,7 @@ BuilderProperty.prototype = {
         text.onchange = function(figureId,property){
             return function(){
                 Log.info("Builder.generateSingleTextCode() value: " + this.value);
-                updateFigure(figureId, property, this.value)
+                updateShape(figureId, property, this.value)
             }
         }(figureId, this.property);
 
@@ -403,7 +403,7 @@ BuilderProperty.prototype = {
         var selProperty = this.property; //save it in a separate variable as if refered by (this) it will refert to the 'select' DOM Object
         select.onchange = function(){
             //alert('Font size triggered. Figure id : ' + figureId + ' property: ' + selProperty + ' new value' + this.options[this.selectedIndex].value);
-            updateFigure(figureId, selProperty, this.options[this.selectedIndex].value);
+            updateShape(figureId, selProperty, this.options[this.selectedIndex].value);
         };
 
         DOMObject.appendChild(div);
@@ -439,7 +439,7 @@ BuilderProperty.prototype = {
         var propExposedToAnonymous = this.property;
         $('#colorpickerHolder'+uniqueId).change(function() {
             Log.info('generateColorCode(): figureId: ' + figureId + 'type: ' + this.type + ' name: ' + this.name + ' property: ' + this.property);
-            updateFigure(figureId, propExposedToAnonymous, $('#colorpickerHolder'+uniqueId).val());
+            updateShape(figureId, propExposedToAnonymous, $('#colorpickerHolder'+uniqueId).val());
         });
     },
     
@@ -447,15 +447,21 @@ BuilderProperty.prototype = {
 
     /**We use this to return a value based on the figure and the property string,
      *similar to Javas Class.forname...sort of anyway
-     *We need this because passing direct references to simple data types (including strings) only passes the value, not a reference to that value
+     *We need this because passing direct references to simple data types (including strings) 
+     *only passes the value, not a reference to that value
      *
      *@param{Number} figureId - the id of the shape {Figure} or {Connector} we are using, could also be the canvas (figureId = 'a')
      */
     getValue:function(figureId){
+        //Is it a Figure? 
         var obj = STACK.figureGetById(figureId);
+        
+        //Is it a Connector ?
         if(obj == null){ //ok so it's not a Figure...so it should be a Connector
             obj = CONNECTOR_MANAGER.connectorGetById(figureId);
         }                
+        
+        //Is it the Canvas?
         if(obj == null){
             if(figureId == "canvas"){
                 obj = canvas;

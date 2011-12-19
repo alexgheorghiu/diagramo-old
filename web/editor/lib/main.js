@@ -201,22 +201,22 @@ function setFigureSet(id){
 
 
 /**Update an object (Figure or Connector)
- *@param {Number} figureId - the id of the updating object
+ *@param {Number} shapeId - the id of the updating object
  *@param {String} property - (or an {Array} of {String}s). The 'id' under which the property is stored
  *TODO: is there any case where we are using property as an array ?
  *@param {String} newValue - the new value of the property
  *@author Zack, Alex
  **/
-function updateFigure(figureId, property, newValue){
+function updateShape(shapeId, property, newValue){
     //Log.group("main.js-->updateFigure");
-    //Log.info("updateFigure() figureId: " + figureId + " property: " + property + ' new value: ' + newValue);
+    //Log.info("updateShape() figureId: " + figureId + " property: " + property + ' new value: ' + newValue);
     
-    var obj = STACK.figureGetById(figureId); //try to find it inside {Figure}s
+    var obj = STACK.figureGetById(shapeId); //try to find it inside {Figure}s
 
 
     //TODO: this horror must dissapear
     if(!obj){
-        obj = CONNECTOR_MANAGER.connectorGetById(figureId);
+        obj = CONNECTOR_MANAGER.connectorGetById(shapeId);
     }
 
     var objSave = obj; //keep a reference to initial shape
@@ -242,8 +242,8 @@ function updateFigure(figureId, property, newValue){
 
     //the property name
     var propName = props[props.length -1];
-    //Log.info("updateFigure(): last property: " + propName);
-    //Log.info("updateFigure(): last object in hierarchy: " + obj.oType);
+    //Log.info("updateShape(): last property: " + propName);
+    //Log.info("updateShape(): last object in hierarchy: " + obj.oType);
 
 
     /*Now we are located at Figure level or somewhere in a primitive or another object.
@@ -263,12 +263,13 @@ function updateFigure(figureId, property, newValue){
          */
         
         if(newValue != obj[propGet]()){ //update ONLY if new value differ from the old one
-            //Log.info('updateFigure() : penultimate propSet: ' +  propSet);
+            //Log.info('updateShape() : penultimate propSet: ' +  propSet);
             if(obj[propGet]() != newValue){
-                var undo = new FigureChangePropertyCommand(figureId, property, obj[propGet](), newValue)
+                var undo = new ShapeChangePropertyCommand(shapeId, property, newValue)
+                undo.execute();
                 History.addUndo(undo);
             }
-            //Log.info('updateFigure() : call setXXX on object: ' +  propSet + " new value: " + newValue);
+            //Log.info('updateShape() : call setXXX on object: ' +  propSet + " new value: " + newValue);
             //            obj[propSet](figure,newValue);
             obj[propSet](newValue);
         }
@@ -276,7 +277,8 @@ function updateFigure(figureId, property, newValue){
     else{
         if(obj[propName] != newValue){ //try to change it ONLY if new value is different than the last one
             if(obj[propName] != newValue){
-                var undo = new FigureChangePropertyCommand(figureId, property, obj[propName], newValue)
+                var undo = new ShapeChangePropertyCommand(shapeId, property, newValue)
+                undo.execute();
                 History.addUndo(undo);
             }
             obj[propName] = newValue;
@@ -285,7 +287,7 @@ function updateFigure(figureId, property, newValue){
 
     //connector's text special case
     if(objSave instanceof Connector && propName == 'str'){
-        //Log.info("updateFigure(): it's a connector 2");
+        //Log.info("updateShape(): it's a connector 2");
         objSave.updateMiddleText();
     }
     
@@ -314,7 +316,7 @@ function setUpEditPanel(shape){
             case 'CanvasProps':
                 Builder.constructCanvasPropertiesPanel(propertiesPanel, shape);
                 break;
-            default:
+            default: //both Figure and Connector
                 Builder.contructPropertiesPanel(propertiesPanel, shape);
         }
     }
