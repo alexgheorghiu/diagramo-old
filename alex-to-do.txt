@@ -7,9 +7,10 @@ Current stack:
     - able to load/create them with a specific size
     - able to "freeze" their size once loaded (resize will not affect them)
 
-* [x] SVG images are not painted inside the cavas
+*  SVG images are not painted inside the cavas
     - [x] SVG in SVG rendered 
     - [x] SVG in SVG rendered as <img> (thumb)
+    - network1 SVG does not scale in FF8.0 but it does in IE9
 * image not working in (saved) SVG
 * redraw boolean value does not seems to be really used !?!?!
 * add development-rules.txt to wiki
