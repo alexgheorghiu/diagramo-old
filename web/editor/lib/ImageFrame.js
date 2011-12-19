@@ -47,7 +47,7 @@ function ImageFrame(url, x, y, scale, frameWidth, frameHeight){
         this.constraints = true;
     }
     else{
-        this.frameWidth = ImageFrame.DEFAULT_WIDTH;
+        //this.frameWidth = ImageFrame.DEFAULT_WIDTH;
         //throw "ImageFrame.js->constructor()->frameWidth not set";
     }
 
@@ -58,7 +58,7 @@ function ImageFrame(url, x, y, scale, frameWidth, frameHeight){
         this.constraints = true;
     }
     else{
-        this.frameHeight = ImageFrame.DEFAULT_HEIGHT;
+        //this.frameHeight = ImageFrame.DEFAULT_HEIGHT;
         //throw "ImageFrame.js->constructor()->frameHeight not set";
     }
     
@@ -203,11 +203,12 @@ ImageFrame.prototype = {
 
                     //in case no frame set use image's dimensions
                     if(anImageFrame.constraints){
-                    //nothing, we will keep current width and height
+                        //nothing, we will keep current width and height
+                        Log.info("Constrains present");
                     }
                     else{
                         Log.info("Original image loaded. Image height: " + anImageFrame.image.height + " width: " + anImageFrame.image.width)
-                        if(!anImageFrame.scale){ //if not scale use loaded image sizes
+                        if(!anImageFrame.constraints){ //if no constraints than load the image naturally
                             anImageFrame.frameHeight = anImageFrame.image.height;
                             anImageFrame.frameWidth = anImageFrame.image.width;
                         }

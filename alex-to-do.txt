@@ -2,6 +2,11 @@ This is Alex's current mental stack
 
 Current stack:
 
+* images
+    - able to load/create them with their original size
+    - able to load/create them with a specific size
+    - able to "freeze" their size once loaded (resize will not affect them)
+
 * [x] SVG images are not painted inside the cavas
     - [x] SVG in SVG rendered 
     - [x] SVG in SVG rendered as <img> (thumb)
