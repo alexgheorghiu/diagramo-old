@@ -47,7 +47,8 @@ function ImageFrame(url, x, y, scale, frameWidth, frameHeight){
         this.constraints = true;
     }
     else{
-        throw "ImageFrame.js->constructor()->frameWidth not set";
+        this.frameWidth = ImageFrame.DEFAULT_WIDTH;
+        //throw "ImageFrame.js->constructor()->frameWidth not set";
     }
 
     
@@ -57,7 +58,8 @@ function ImageFrame(url, x, y, scale, frameWidth, frameHeight){
         this.constraints = true;
     }
     else{
-        throw "ImageFrame.js->constructor()->frameHeight not set";
+        this.frameHeight = ImageFrame.DEFAULT_HEIGHT;
+        //throw "ImageFrame.js->constructor()->frameHeight not set";
     }
     
     /**Trigger or not the scalling of the image, after transformations*/

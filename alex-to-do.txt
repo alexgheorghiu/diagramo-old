@@ -2,9 +2,9 @@ This is Alex's current mental stack
 
 Current stack:
 
-* SVG images are not painted inside the cavas :(
-    - SVG in SVG rendered
-    - SVG in SVG rendered as <img> (thumb)
+* [x] SVG images are not painted inside the cavas
+    - [x] SVG in SVG rendered 
+    - [x] SVG in SVG rendered as <img> (thumb)
 * image not working in (saved) SVG
 * redraw boolean value does not seems to be really used !?!?!
 * add development-rules.txt to wiki
