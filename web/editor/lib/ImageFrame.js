@@ -32,7 +32,7 @@ function ImageFrame(url, x, y, scale, frameWidth, frameHeight){
      *  * - - - * (x+20, y)
      * (x, y)
      *  
-     *So when the text is transformed we will only transform the vector and get the new angle (if needed)
+     *So when the image is transformed we will only transform the vector and get the new angle (if needed)
      *from it*/
     this.vector = [new Point(x,y),new Point(x,y-20), new Point(x+20, y)];
     
@@ -50,7 +50,7 @@ function ImageFrame(url, x, y, scale, frameWidth, frameHeight){
     
     /**The the frame height*/
     this.frameHeight = frameHeight;
-            if(frameHeight){        
+    if(frameHeight){        
         this.constraints = true;
     }
     
@@ -164,13 +164,12 @@ ImageFrame.prototype = {
                 url : anImageFrame.url,
                 debug : anImageFrame.debug,
                 style : anImageFrame.style,
-                oType : anImageFrame.oType,
+                oType : anImageFrame.oType
             }
         }(this);        
     },
     
     
-    //    
     /**
      *This will load the image asynchronously
      *@param {String} url - the URL used to load image from
@@ -199,8 +198,11 @@ ImageFrame.prototype = {
                     //nothing, we will keep current width and height
                     }
                     else{
-                        anImageFrame.frameHeight = anImageFrame.image.height;
-                        anImageFrame.frameWidth = anImageFrame.image.width;
+                        Log.info("Original image loaded. Image height: " + anImageFrame.image.height + " width: " + anImageFrame.image.width)
+                        if(!anImageFrame.scale){ //if not scale use loaded image sizes
+                            anImageFrame.frameHeight = anImageFrame.image.height;
+                            anImageFrame.frameWidth = anImageFrame.image.width;
+                        }
                     }
 
                     //force a repain - ouch!
@@ -215,6 +217,8 @@ ImageFrame.prototype = {
                     Log.error("Error with image. URL: " + anImageFrame.url + " loaded: " + anImageFrame.loaded);
                 }
             } (this);
+            
+            //trigger loading
             this.image.src = url;
         }
     },

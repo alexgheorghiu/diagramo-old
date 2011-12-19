@@ -3,7 +3,7 @@ This is Alex's current mental stack
 Current stack:
 
 * image make it work
-    - if image scaled and then reloaded, the new size is lost (FF 4.0.1)
+    - [x]if image scaled and then reloaded, the new size is lost (FF 4.0.1)
     - images does not show in thumbnails/myDiagrams (FF 4.0.1)
 * image not working in (saved) SVG
 * redraw boolean value does not seems to be really used !?!?!
