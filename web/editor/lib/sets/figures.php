@@ -11,9 +11,9 @@ $files = scandir($dirName);
 
 foreach($files as $file){
     if($file != '.' && $file != '..'){
-        if(in_array($file, array('network', 'experimental')) ){ //skip this as experimental
-            continue;
-        }
+//        if(in_array($file, array('network', 'experimental')) ){ //skip this as experimental
+//            continue;
+//        }
         
         $fullPath = $dirName . '/' . $file;
         if(is_dir($fullPath)){

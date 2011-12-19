@@ -522,7 +522,7 @@ if(is_numeric($_REQUEST['diagramId'])){
                     }
                 </script>
                 
-                <div style="display:none;" id="experimental">
+                <div style="display:inline;" id="experimental">
                     <table border="0" cellpadding="0" cellspacing="0" width="120">
                         <tr>
                             <td><a href="javascript:createFigure(figure_Stop);"><img src="assets/images/figures/na.png" border="0" alt="figure_Stop" /></a></td>
