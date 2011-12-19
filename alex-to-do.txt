@@ -2,10 +2,8 @@ This is Alex's current mental stack
 
 Current stack:
 
-* [x]CanvasResize  & 
-    PropertyCommand 
-        + alter connector's text gives errors
-        + on change text the updateFigure() is called....either change name or create a new function
+* image make it work
+* image not working in (saved) SVG
 * redraw boolean value does not seems to be really used !?!?!
 * add development-rules.txt to wiki
 * Text's clone not implemented ?!
