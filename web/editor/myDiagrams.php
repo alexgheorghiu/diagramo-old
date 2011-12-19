@@ -124,12 +124,14 @@ function firstName($email){
                     <? for ($i=0; $i < count($myDiagrams); $i++) {
                          $myDiagram = $myDiagrams[$i];
                         //$svgLink = $url . '/diagram/' . $myDiagrams->hash . '.svg';
-                        $svgLink = sprintf('./raster.php?hash=%s&type=svg', $myDiagram->hash);
+                        $svgLink = sprintf('./raster.php?hash=%s&type=png', $myDiagram->hash);
                     ?>
                         <tr>
                             <td align="center">
-                                <a href="./editor.php?diagramId=<?=$myDiagram->id ?>">                                                                    
-                                    <img style="background-color: white; border: 1px solid #CCCCCC;" width="100" height="100" src="<?=$svgLink?>"/>
+                                <a href="./editor.php?diagramId=<?=$myDiagram->id ?>">               
+                                    <object type="image/svg+xml" data="<?=$svgLink?>" width="100" >
+                                        <img style="background-color: white; border: 1px solid #CCCCCC;" width="100" height="100" src="<?=$svgLink?>"/>
+                                    </object>
                                 </a>
                             </td>
                             <td style="border-bottom: 1px solid white;" align="left" ><a href="./editor.php?diagramId=<?=$myDiagram->id ?>"><span class="formLabel"><?=$myDiagram->title ?></span></a></td>

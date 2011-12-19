@@ -46,12 +46,18 @@ function ImageFrame(url, x, y, scale, frameWidth, frameHeight){
     if(frameWidth){
         this.constraints = true;
     }
+    else{
+        throw "ImageFrame.js->constructor()->frameWidth not set";
+    }
 
     
     /**The the frame height*/
     this.frameHeight = frameHeight;
     if(frameHeight){        
         this.constraints = true;
+    }
+    else{
+        throw "ImageFrame.js->constructor()->frameHeight not set";
     }
     
     /**Trigger or not the scalling of the image, after transformations*/
