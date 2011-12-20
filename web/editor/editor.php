@@ -505,7 +505,7 @@ if(is_numeric($_REQUEST['diagramId'])){
                             if(counter % 3 == 0){
                                 document.write('<tr>');
                             }
-                            document.write('<td><a href="javascript:createFigure(figure_'+figure.figureFunction+');"><img src="lib/sets/'+set+'/'+figure.image+'" border="0" alt="###" /></a></td>');
+                            document.write('<td><a href="javascript:createFigure(figure_'+figure.figureFunction+');"><img src="lib/sets/'+set+'/'+figure.image+'" border="0" alt="'+ figure.figureFunction + '" /></a></td>');
                             counter ++;
                             if(counter % 3 == 0){
                                 document.write('</tr>');
