@@ -318,6 +318,11 @@ ImageFrame.prototype = {
             //update the frameset
             this.frameHeight *= vRatio;
             this.frameWidth *= hRatio;
+            
+            //now we have constraints
+            if(vRatio != 1 || hRatio != 1){
+                this.constraints = true;
+            }
         }
     },
     

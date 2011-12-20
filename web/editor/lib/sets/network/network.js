@@ -44,7 +44,7 @@ function figure_Network2(x, y)
 //    var url = "/assets/images/logo.gif";
     var url = "/editor/lib/sets/network/airport.svg";
     
-    var ifig = new ImageFrame(url, x, y, true);
+    var ifig = new ImageFrame(url, x, y, false);
     ifig.debug = true;
     f.addPrimitive(ifig);
     f.properties.push(new BuilderProperty('URL', 'primitives.0.url', BuilderProperty.TYPE_TEXT));
