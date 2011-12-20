@@ -2,7 +2,8 @@ figureSets["experimental"] = [
     {figureFunction: "SimpleImage", image: "image_32.gif"},
     {figureFunction: "ImageFrame", image: "page.png"},
     {figureFunction: "Settings", image: "page.png"},
-    {figureFunction: "Tango", image: "page.png"}
+    {figureFunction: "Tango", image: "page.png"},
+    {figureFunction: "Organic", image: "page.png"}
 ]
 
 /**
@@ -199,6 +200,32 @@ function figure_Tango(x, y)
 //    img.src = '/test/svg/arcs.svg';
 //    var url = "/assets/images/logo.gif";
     var url = "/editor/lib/sets/experimental/tango.svg";
+    
+    var ifig = new ImageFrame(url, x, y, true, 200, 200);
+    ifig.debug = true;
+    f.addPrimitive(ifig);
+    f.properties.push(new BuilderProperty('URL', 'primitives.0.url', BuilderProperty.TYPE_TEXT));
+    
+    f.finalise();
+    return f;
+}
+
+
+function figure_Organic(x, y)
+{
+    var f = new Figure("Organic");
+    f.style.fillStyle = figure_defaultFillStyle;
+    f.style.strokeStyle = figure_defaultStrokeStyle;
+//    f.properties.push(new BuilderProperty('Fill Style', 'style.fillStyle', BuilderProperty.TYPE_COLOR));
+//    f.properties.push(new BuilderProperty('Line Width', 'style.lineWidth',BuilderProperty.TYPE_LINE_WIDTH));
+    
+
+//    var img = new Image();
+    //img.src = 'http://scriptoid.com/assets/images/hotmug/small_logo.gif';
+//    img.src = '/assets/images/logo.gif';
+//    img.src = '/test/svg/arcs.svg';
+//    var url = "/assets/images/logo.gif";
+    var url = "/editor/lib/sets/experimental/organic.svg";
     
     var ifig = new ImageFrame(url, x, y, true, 200, 200);
     ifig.debug = true;

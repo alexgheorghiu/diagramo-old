@@ -12,6 +12,7 @@ Current stack:
     - [x] SVG in SVG rendered as <img> (thumb)
     - network1 SVG does not scale in FF8.0 but it does in IE9
     - experimental/tango looks good but is not properly rendered
+    - it seems SVGs made by Adobe Illustrator render fine
 
 * image not working in (saved) SVG
 * redraw boolean value does not seems to be really used !?!?!
