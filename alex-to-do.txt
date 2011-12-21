@@ -9,14 +9,12 @@ Current stack:
 
 *  SVG images
     - SVGs are not scaled. they behave as raster images :(
-    - wrong rendered in final SVG :( ONLY for Inkscape stuff
-    - a rectangle with margin not properly diplayd
+    - [x] wrong rendered in final SVG :( ONLY for Inkscape stuff
+    - a rectangle with margin not properly displayed
 
-    - images are not painted inside the cavas
     - [x] SVG in SVG rendered 
     - [x] SVG in SVG rendered as <img> (thumb)
     - network1 SVG does not scale in FF8.0 but it does in IE9
-    - experimental/tango looks good but is not properly rendered
     - it seems SVGs made by Adobe Illustrator render fine
 
 * image not working in (saved) SVG
