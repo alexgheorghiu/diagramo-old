@@ -7,7 +7,12 @@ Current stack:
     - able to load/create them with a specific size
     - able to "freeze" their size once loaded (resize will not affect them)
 
-*  SVG images are not painted inside the cavas
+*  SVG images
+    - rendered SVG must be better formatted to easy debug problems 
+    - SVGs are not scaled. they behave as raster images :(
+    - wrong rendered in final SVG :(
+
+    - images are not painted inside the cavas
     - [x] SVG in SVG rendered 
     - [x] SVG in SVG rendered as <img> (thumb)
     - network1 SVG does not scale in FF8.0 but it does in IE9

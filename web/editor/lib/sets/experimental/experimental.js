@@ -240,7 +240,7 @@ function figure_Organic(x, y)
 
 function figure_Inkscape(x, y)
 {
-    var f = new Figure("Organic");
+    var f = new Figure("Inkscape");
     f.style.fillStyle = figure_defaultFillStyle;
     f.style.strokeStyle = figure_defaultStrokeStyle;
 //    f.properties.push(new BuilderProperty('Fill Style', 'style.fillStyle', BuilderProperty.TYPE_COLOR));
@@ -252,7 +252,7 @@ function figure_Inkscape(x, y)
 //    img.src = '/assets/images/logo.gif';
 //    img.src = '/test/svg/arcs.svg';
 //    var url = "/assets/images/logo.gif";
-    var url = "/editor/lib/sets/experimental/inkscape-plain-svg.svg";
+    var url = "/editor/lib/sets/experimental/rectangle.svg";
     
     var ifig = new ImageFrame(url, x, y, true, 200, 200);
     ifig.debug = true;
