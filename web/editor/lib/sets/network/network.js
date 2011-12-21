@@ -1,9 +1,9 @@
 figureSets["network"] = [
-    {figureFunction: "Network1", image: "video-display.png"},
+    {figureFunction: "Terminal", image: "video-display.png"},
     {figureFunction: "Network2", image: "video-display.png"}
 ]
 
-function figure_Network1(x, y)
+function figure_Terminal(x, y)
 {
     var f = new Figure("PC");
     f.style.fillStyle = figure_defaultFillStyle;
@@ -17,7 +17,7 @@ function figure_Network1(x, y)
 //    img.src = '/assets/images/logo.gif';
 //    img.src = '/test/svg/arcs.svg';
 //    var url = "/assets/images/logo.gif";
-    var url = "/editor/lib/sets/network/video-display.svg";
+    var url = "/editor/lib/sets/network/video-display-ai.svg";
     
     var ifig = new ImageFrame(url, x, y, true);
     ifig.debug = true;

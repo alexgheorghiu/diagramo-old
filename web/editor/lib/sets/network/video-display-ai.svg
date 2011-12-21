@@ -16,7 +16,7 @@
 	</sodipodi:namedview>
 <g id="layer1" inkscape:groupmode="layer" inkscape:label="Layer 1">
 	
-		<radialGradient id="path2452_1_" cx="-206.2109" cy="16.981" r="58.9768" gradientTransform="matrix(2.0226 0 0 -0.9699 295.311 -16.5933)" gradientUnits="userSpaceOnUse">
+		<radialGradient id="path2452_1_" cx="-206.2822" cy="17.1763" r="58.9771" gradientTransform="matrix(2.0226 0 0 -0.9699 295.458 -16.403)" gradientUnits="userSpaceOnUse">
 		<stop  offset="0" style="stop-color:#000000"/>
 		<stop  offset="1" style="stop-color:#000000;stop-opacity:0"/>
 	</radialGradient>
@@ -29,72 +29,51 @@
 		<path id="path2407" sodipodi:cx="-35.658386" sodipodi:cy="29.716238" sodipodi:rx="9.3944187" sodipodi:ry="3.9395950" sodipodi:type="arc" fill="#ADB0AA" stroke="#4B4D4A" d="
 		M-59.35-30.173c0,14.635-28.291,26.498-63.19,26.498c-34.9,0-63.191-11.863-63.191-26.498l0,0
 		c0-14.635,28.291-26.498,63.191-26.498C-87.641-56.671-59.35-44.808-59.35-30.173z"/>
-	<linearGradient id="path1825_1_" gradientUnits="userSpaceOnUse" x1="-317.1582" y1="387.084" x2="-317.1582" y2="392.2945">
-		<stop  offset="0" style="stop-color:#7B7F7A"/>
-		<stop  offset="1" style="stop-color:#7B7F7A;stop-opacity:0"/>
-	</linearGradient>
 	
-		<path id="path1825" sodipodi:cx="-35.658386" sodipodi:cy="29.716238" sodipodi:rx="9.3944187" sodipodi:ry="3.9395950" sodipodi:type="arc" fill="none" stroke="url(#path1825_1_)" stroke-width="1.1571" d="
+		<path id="path1825" sodipodi:cx="-35.658386" sodipodi:cy="29.716238" sodipodi:rx="9.3944187" sodipodi:ry="3.9395950" sodipodi:type="arc" fill="none" stroke="#4B4D4A" stroke-width="1.1571" d="
 		M-65.523-32.406c0,12.112-25.526,21.927-57.017,21.927c-31.491,0-57.02-9.814-57.02-21.927l0,0
 		c0-12.112,25.529-21.933,57.02-21.933C-91.05-54.339-65.523-44.519-65.523-32.406z"/>
-	<linearGradient id="path2983_1_" gradientUnits="userSpaceOnUse" x1="-316.6226" y1="386.2578" x2="-316.5746" y2="389.5377">
-		<stop  offset="0" style="stop-color:#FFFFFF"/>
-		<stop  offset="1" style="stop-color:#FFFFFF;stop-opacity:0"/>
-	</linearGradient>
 	
-		<path id="path2983" sodipodi:cx="-35.658386" sodipodi:cy="29.716238" sodipodi:rx="9.3944187" sodipodi:ry="3.9395950" sodipodi:type="arc" fill="none" stroke="url(#path2983_1_)" stroke-width="1.1833" d="
+		<path id="path2983" sodipodi:cx="-35.658386" sodipodi:cy="29.716238" sodipodi:rx="9.3944187" sodipodi:ry="3.9395950" sodipodi:type="arc" fill="none" stroke="#4B4D4A" stroke-width="1.1833" d="
 		M-70.037-39.935c0,12.48-23.693,22.598-52.924,22.598s-52.924-10.117-52.924-22.598l0,0c0-12.48,23.693-22.596,52.924-22.596
 		S-70.037-52.415-70.037-39.935z"/>
 	
-		<linearGradient id="rect2699_1_" gradientUnits="userSpaceOnUse" x1="-199.3301" y1="153.0693" x2="-199.8614" y2="76.6792" gradientTransform="matrix(1.8163 0 0 -1.2789 240.7007 101.2038)">
+		<linearGradient id="rect2699_1_" gradientUnits="userSpaceOnUse" x1="-199.1328" y1="153.2441" x2="-199.6641" y2="76.854" gradientTransform="matrix(1.8163 0 0 -1.2789 240.3327 101.4239)">
 		<stop  offset="0" style="stop-color:#585956"/>
 		<stop  offset="1" style="stop-color:#BBBEB8"/>
 	</linearGradient>
 	<rect id="rect2699" x="-152.155" y="-75.353" fill="url(#rect2699_1_)" width="60.804" height="42.814"/>
 	
-		<linearGradient id="rect2404_1_" gradientUnits="userSpaceOnUse" x1="-229.6323" y1="226.4297" x2="-53.585" y2="50.8022" gradientTransform="matrix(1.1299 0 0 -0.8851 47.8311 -22.5996)">
+		<linearGradient id="rect2404_1_" gradientUnits="userSpaceOnUse" x1="-229.8911" y1="226.0791" x2="-53.8503" y2="50.4581" gradientTransform="matrix(1.1299 0 0 -0.8851 48.1329 -22.9019)">
 		<stop  offset="0" style="stop-color:#DDE1D9"/>
 		<stop  offset="1" style="stop-color:#CACDC6"/>
 	</linearGradient>
-	<linearGradient id="rect2404_2_" gradientUnits="userSpaceOnUse" x1="-271.1094" y1="415.1182" x2="-248.9633" y2="389.2539">
-		<stop  offset="0" style="stop-color:#8F8F8F"/>
-		<stop  offset="1" style="stop-color:#494949"/>
-	</linearGradient>
-	<path id="rect2404" sodipodi:nodetypes="cssssssss" fill="url(#rect2404_1_)" stroke="url(#rect2404_2_)" d="M-235.502-253.65
-		H-9.578c6.129,0,10.924,3.925,11.213,9.426l8.959,172.051c0.395,7.514-6.063,13.584-13.59,13.584h-239.088
+	<path id="rect2404" sodipodi:nodetypes="cssssssss" fill="url(#rect2404_1_)" stroke="#4B4D4A" d="M-235.502-253.65H-9.578
+		c6.129,0,10.924,3.925,11.213,9.426l8.959,172.051c0.395,7.514-6.063,13.584-13.59,13.584h-239.088
 		c-7.528,0-13.981-6.07-13.591-13.584l8.96-172.051C-246.442-249.426-243.033-253.65-235.502-253.65z"/>
 	
-		<linearGradient id="path2377_1_" gradientUnits="userSpaceOnUse" x1="-154.3638" y1="71.4297" x2="-173.4308" y2="231.2238" gradientTransform="matrix(1.1741 0 0 -0.9454 62.6418 2.7578)">
+		<linearGradient id="path2377_1_" gradientUnits="userSpaceOnUse" x1="-154.0972" y1="71.7002" x2="-173.1648" y2="231.4992" gradientTransform="matrix(1.1741 0 0 -0.9454 62.3224 3.0109)">
 		<stop  offset="0" style="stop-color:#5B5B97"/>
 		<stop  offset="1" style="stop-color:#1B1B43"/>
 	</linearGradient>
 	
 		<path id="path2377" sodipodi:nodetypes="ccccc" fill="url(#path2377_1_)" stroke="#000079" stroke-width="0.5" stroke-linejoin="round" d="
 		M-226.559-236.095l-8.355,148.289h212.889l-8.973-147.658L-226.559-236.095z"/>
-	<linearGradient id="path2393_1_" gradientUnits="userSpaceOnUse" x1="-277.793" y1="249.209" x2="-277.793" y2="258.0497">
-		<stop  offset="0" style="stop-color:#000000"/>
-		<stop  offset="1" style="stop-color:#000000;stop-opacity:0"/>
-	</linearGradient>
 	
-		<path id="path2393" sodipodi:nodetypes="cc" fill="none" stroke="url(#path2393_1_)" stroke-width="0.9962" stroke-linecap="round" stroke-opacity="0.2484" d="
+		<path id="path2393" sodipodi:nodetypes="cc" fill="none" stroke="#000000" stroke-width="0.9962" stroke-linecap="round" stroke-opacity="0.2484" d="
 		M-241.582-71.766H-3.279"/>
-	<linearGradient id="path2397_1_" gradientUnits="userSpaceOnUse" x1="-263.8018" y1="407.4951" x2="-246.5255" y2="365.2991">
-		<stop  offset="0" style="stop-color:#FFFFFF"/>
-		<stop  offset="1" style="stop-color:#FFFFFF;stop-opacity:0"/>
-	</linearGradient>
-	
-		<path id="path2397" sodipodi:nodetypes="cssssssss" fill="none" stroke="url(#path2397_1_)" stroke-width="1" stroke-opacity="0.7006" d="
-		M-236.622-246.852l227.655-0.256c1.91-0.003,3.764,1.596,3.914,4.391L4.111-75.878C4.498-68.771,0.479-63.87-6.643-63.87h-232.219
+	<path id="path2397" sodipodi:nodetypes="cssssssss" fill="none" stroke="#000000" stroke-opacity="0.7006" d="M-236.622-246.852
+		l227.655-0.256c1.91-0.003,3.764,1.596,3.914,4.391L4.111-75.878C4.498-68.771,0.479-63.87-6.643-63.87h-232.219
 		c-7.121,0-10.714-4.9-10.33-12.008l8.907-164.759C-240.025-245.456-239.167-246.848-236.622-246.852z"/>
 	
-		<linearGradient id="path2443_1_" gradientUnits="userSpaceOnUse" x1="-195.0615" y1="273.7598" x2="-156.6716" y2="105.0868" gradientTransform="matrix(1.239 0 0 -0.896 80.7622 -18.0477)">
+		<linearGradient id="path2443_1_" gradientUnits="userSpaceOnUse" x1="-195.2104" y1="273.3359" x2="-156.8224" y2="104.6715" gradientTransform="matrix(1.239 0 0 -0.896 80.9511 -18.4142)">
 		<stop  offset="0" style="stop-color:#FFFFFF"/>
 		<stop  offset="1" style="stop-color:#FCFCFF;stop-opacity:0"/>
 	</linearGradient>
 	<path id="path2443" sodipodi:nodetypes="ccccc" opacity="0.5314" fill="url(#path2443_1_)" enable-background="new    " d="
 		M-224.536-233.133l-5.396,120.208c74.289-16.152,103.73-70.578,196.096-88.435l-1.084-31.326L-224.536-233.133z"/>
 	
-		<linearGradient id="path2709_1_" gradientUnits="userSpaceOnUse" x1="-86.2881" y1="173.9287" x2="-78.0824" y2="174.5565" gradientTransform="matrix(1.3312 0 0 -0.6584 95.7236 -113.7327)">
+		<linearGradient id="path2709_1_" gradientUnits="userSpaceOnUse" x1="-86.0635" y1="174.5488" x2="-77.8577" y2="175.1766" gradientTransform="matrix(1.3312 0 0 -0.6584 95.4217 -113.3326)">
 		<stop  offset="0" style="stop-color:#909090"/>
 		<stop  offset="1" style="stop-color:#BEBEBE;stop-opacity:0"/>
 	</linearGradient>
@@ -103,7 +82,7 @@
 		M-7.352-228.416c0.014,2.052-3.35,3.721-7.502,3.724c-4.15,0.007-7.527-1.655-7.54-3.708c0-0.006,0-0.013,0-0.016
 		c0-2.056,3.351-3.725,7.508-3.728c4.151-0.003,7.521,1.659,7.534,3.711C-7.352-228.43-7.352-228.423-7.352-228.416z"/>
 	
-		<linearGradient id="path2719_1_" gradientUnits="userSpaceOnUse" x1="-85.7979" y1="155.6133" x2="-77.5957" y2="156.2408" gradientTransform="matrix(1.3312 0 0 -0.6584 95.8369 -111.6273)">
+		<linearGradient id="path2719_1_" gradientUnits="userSpaceOnUse" x1="-85.5737" y1="156.2324" x2="-77.3715" y2="156.8599" gradientTransform="matrix(1.3312 0 0 -0.6584 95.535 -111.2271)">
 		<stop  offset="0" style="stop-color:#909090"/>
 		<stop  offset="1" style="stop-color:#BEBEBE;stop-opacity:0"/>
 	</linearGradient>
@@ -112,7 +91,7 @@
 		M-6.59-214.254c0.014,2.056-3.35,3.724-7.501,3.728s-7.528-1.655-7.534-3.711c0-0.003,0-0.01,0-0.016
 		c-0.007-2.053,3.35-3.722,7.502-3.725c4.157-0.007,7.527,1.655,7.533,3.708C-6.59-214.264-6.59-214.257-6.59-214.254z"/>
 	
-		<linearGradient id="path2723_1_" gradientUnits="userSpaceOnUse" x1="-85.3066" y1="138.2207" x2="-77.1073" y2="138.848" gradientTransform="matrix(1.3312 0 0 -0.6584 95.9511 -109.6273)">
+		<linearGradient id="path2723_1_" gradientUnits="userSpaceOnUse" x1="-85.0825" y1="138.8379" x2="-76.8825" y2="139.4652" gradientTransform="matrix(1.3312 0 0 -0.6584 95.6493 -109.2271)">
 		<stop  offset="0" style="stop-color:#909090"/>
 		<stop  offset="1" style="stop-color:#BEBEBE;stop-opacity:0"/>
 	</linearGradient>
@@ -121,7 +100,7 @@
 		M-5.828-200.801c0.014,2.056-3.35,3.724-7.501,3.728s-7.527-1.655-7.527-3.711c0-0.003,0-0.01,0-0.016
 		c-0.013-2.053,3.35-3.721,7.501-3.725c4.152-0.006,7.527,1.655,7.527,3.708C-5.828-200.812-5.828-200.805-5.828-200.801z"/>
 	
-		<linearGradient id="path2727_1_" gradientUnits="userSpaceOnUse" x1="-84.8179" y1="120.8262" x2="-76.615" y2="121.4537" gradientTransform="matrix(1.3312 0 0 -0.6584 96.0644 -107.6273)">
+		<linearGradient id="path2727_1_" gradientUnits="userSpaceOnUse" x1="-84.5938" y1="121.4424" x2="-76.3916" y2="122.0699" gradientTransform="matrix(1.3312 0 0 -0.6584 95.7625 -107.2271)">
 		<stop  offset="0" style="stop-color:#909090"/>
 		<stop  offset="1" style="stop-color:#BEBEBE;stop-opacity:0"/>
 	</linearGradient>
@@ -130,7 +109,7 @@
 		M-5.059-187.349c0.006,2.056-3.35,3.724-7.502,3.728c-4.158,0.003-7.527-1.655-7.534-3.711c0-0.003,0-0.01,0-0.016
 		c-0.013-2.053,3.351-3.721,7.501-3.725c4.152-0.006,7.527,1.655,7.535,3.708C-5.059-187.358-5.059-187.352-5.059-187.349z"/>
 	
-		<linearGradient id="path2731_1_" gradientUnits="userSpaceOnUse" x1="-84.3296" y1="103.4336" x2="-76.1253" y2="104.0612" gradientTransform="matrix(1.3312 0 0 -0.6584 96.1786 -105.6273)">
+		<linearGradient id="path2731_1_" gradientUnits="userSpaceOnUse" x1="-84.1055" y1="104.0479" x2="-75.9004" y2="104.6756" gradientTransform="matrix(1.3312 0 0 -0.6584 95.8768 -105.2271)">
 		<stop  offset="0" style="stop-color:#909090"/>
 		<stop  offset="1" style="stop-color:#BEBEBE;stop-opacity:0"/>
 	</linearGradient>
