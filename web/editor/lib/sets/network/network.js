@@ -1,5 +1,5 @@
 figureSets["network"] = [
-    {figureFunction: "Terminal", image: "video-display.png"},
+    {figureFunction: "Terminal", image: "video-display-32.png"},
     {figureFunction: "Network2", image: "video-display.png"}
 ]
 
