@@ -17,6 +17,12 @@ Current stack:
     - network1 SVG does not scale in FF8.0 but it does in IE9
     - it seems SVGs made by Adobe Illustrator render fine
 
+* network package (try SVG)
+    - list of needed icons
+    - can I use Tango library?
+    - extend missing icons through more Tango icons
+    
+    
 * image not working in (saved) SVG
 * redraw boolean value does not seems to be really used !?!?!
 * add development-rules.txt to wiki
