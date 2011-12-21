@@ -65,8 +65,11 @@ var INDENTATION = 0;
  **/
 function toSVG(){
     var canvas = getCanvas();
+    //@see http://www.w3schools.com/svg/svg_example.asp
     var v2 = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>';
-    v2 += "\n" + '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="' + canvas.width +'" height="' + canvas.height + '" viewBox="0 0 ' + canvas.width + ' ' + canvas.height + '" version="1.1">';
+    v2 += "\n" + '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="' 
+        + canvas.width +'" height="' + canvas.height 
+        + '" viewBox="0 0 ' + canvas.width + ' ' + canvas.height + '" version="1.1">';
     INDENTATION++;
     v2 += STACK.toSVG();
     v2 += CONNECTOR_MANAGER.toSVG();

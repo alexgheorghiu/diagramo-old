@@ -8,9 +8,9 @@ Current stack:
     - able to "freeze" their size once loaded (resize will not affect them)
 
 *  SVG images
-    - rendered SVG must be better formatted to easy debug problems 
     - SVGs are not scaled. they behave as raster images :(
-    - wrong rendered in final SVG :(
+    - wrong rendered in final SVG :( ONLY for Inkscape stuff
+    - a rectangle with margin not properly diplayd
 
     - images are not painted inside the cavas
     - [x] SVG in SVG rendered 

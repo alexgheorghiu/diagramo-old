@@ -439,6 +439,7 @@ ImageFrame.prototype = {
                 <image x="20" y="20" width="300" height="80" xlink:href="http://diagramo.com/assets/images/logo.gif" />
             </svg>
         </g>
+    @see http://tutorials.jenkov.com/svg/g-element.html ("SVG: g element")
      **/
     toSVG : function (){
         var svg = ''; 
@@ -449,7 +450,7 @@ ImageFrame.prototype = {
 
             svg += "\n" + repeat("\t", INDENTATION) + '<g transform="rotate (' + angle + ', ' + this.vector[0].x  + ', ' + this.vector[0].y + ')">';
             INDENTATION++;
-            svg += "\n" + repeat("\t", INDENTATION) + '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">';
+//            svg += "\n" + repeat("\t", INDENTATION) + '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">';
 
 
             Log.group("A paint");
@@ -472,12 +473,12 @@ ImageFrame.prototype = {
             var imageX = this.vector[0].x - imgScaledWidth / 2;
             var imageY = this.vector[0].y - imgScaleHeight / 2;
 
-            INDENTATION++;
+//            INDENTATION++;
             svg += "\n" + repeat("\t", INDENTATION) + '<image x="' + imageX + '" y="' + imageY +'" width="' + imgScaledWidth +  '" height="' + imgScaleHeight + '" xlink:href="' + this.getUrl() + '" />';
-            INDENTATION--;
+//            INDENTATION--;
             Log.groupEnd();
 
-            svg += "\n" + repeat("\t", INDENTATION) +  '</svg>';
+//            svg += "\n" + repeat("\t", INDENTATION) +  '</svg>';
             INDENTATION--;
             svg += "\n" + repeat("\t", INDENTATION) +  '</g>';
         }    
