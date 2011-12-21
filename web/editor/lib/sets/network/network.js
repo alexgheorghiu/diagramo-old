@@ -19,10 +19,23 @@ function figure_Terminal(x, y)
 //    var url = "/assets/images/logo.gif";
     var url = "/editor/lib/sets/network/video-display-ai.svg";
     
-    var ifig = new ImageFrame(url, x, y, true);
+    var ifig = new ImageFrame(url, x, y, true, 200, 200);
     ifig.debug = true;
     f.addPrimitive(ifig);
-    f.properties.push(new BuilderProperty('URL', 'primitives.0.url', BuilderProperty.TYPE_TEXT));
+    //f.properties.push(new BuilderProperty('URL', 'primitives.0.url', BuilderProperty.TYPE_TEXT));
+    
+    
+    
+    f.properties.push(new BuilderProperty('Text', 'primitives.1.str', BuilderProperty.TYPE_TEXT));
+    f.properties.push(new BuilderProperty('Text Size', 'primitives.1.size', BuilderProperty.TYPE_TEXT_FONT_SIZE));
+    f.properties.push(new BuilderProperty('Font', 'primitives.1.font', BuilderProperty.TYPE_TEXT_FONT_FAMILY));
+    f.properties.push(new BuilderProperty('Alignment', 'primitives.1.align', BuilderProperty.TYPE_TEXT_FONT_ALIGNMENT));
+    f.properties.push(new BuilderProperty('Text Color', 'primitives.1.style.fillStyle', BuilderProperty.TYPE_COLOR));
+    
+    var t2 = new Text(figure_defaultFigureTextStr, x, y + 100, figure_defaultFigureTextFont, figure_defaultFigureTextSize);
+    t2.style.fillStyle = figure_defaultFillTextStyle;
+
+    f.addPrimitive(t2);
     
     f.finalise();
     return f;
