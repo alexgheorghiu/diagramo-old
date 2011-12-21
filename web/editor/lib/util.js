@@ -625,3 +625,16 @@ function isNumeric(input){
    return (input - 0) == input && (input.length > 0 || input != "");
 }
 
+/**Repeats a string for several time and return the concatenated result
+ *@param {String} str - the string
+ *@param  {Integer} count - the number of time the string should be repeated
+ *@return {String}
+ **/
+function repeat(str, count){
+    var res = '';
+    for(var i=0;i<count;i++){
+        res += str;
+    }
+    
+    return res;
+}

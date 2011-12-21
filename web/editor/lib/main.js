@@ -55,6 +55,27 @@ var connectorType = '';
 document.onselectstart = stopselection;
 
 
+/**Used to generate nice formatted SVG files */
+var INDENTATION = 0;
+
+/**Export the Canvas as SVG. It will descend to whole graph of objects and ask
+ *each one to convert to SVG (and use the proper indentation)
+ *Note: Placed out of editor.php so we can safelly add '<?...' string
+ *@author Alex
+ **/
+function toSVG(){
+    var canvas = getCanvas();
+    var v2 = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>';
+    v2 += "\n" + '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="' + canvas.width +'" height="' + canvas.height + '" viewBox="0 0 ' + canvas.width + ' ' + canvas.height + '" version="1.1">';
+    INDENTATION++;
+    v2 += STACK.toSVG();
+    v2 += CONNECTOR_MANAGER.toSVG();
+    INDENTATION--;
+    v2 += "\n" + '</svg>';
+    
+    return v2;
+}
+            
 
 /**Supposelly stop any selection from happening
  *@deprecated

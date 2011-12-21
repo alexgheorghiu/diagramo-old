@@ -769,12 +769,12 @@ Stack.prototype = {
     /**Convert all STACK to SVG representation
      *@return {String} - the SVG string representation*/
     toSVG : function(){
-        var svg = ' ';
+        var svg = '';
 
         for (var i=0; i<this.figures.length; i++) {
             svg += this.figures[i].toSVG();
         }
-
+        
         return svg;
     }
 }

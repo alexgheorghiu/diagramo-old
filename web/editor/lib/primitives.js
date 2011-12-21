@@ -189,7 +189,7 @@ Point.prototype = {
     toSVG: function(){
         var r = '';
 
-        r += '<circle cx="' + this.x + '" cy="' + this.y + '" r="' + 1 + '"' ;
+        r += "\n" + repeat("\t", INDENTATION) + '<circle cx="' + this.x + '" cy="' + this.y + '" r="' + 1 + '"' ;
         r += this.style.toSVG();
         r += '/>'
 
@@ -409,7 +409,7 @@ Line.prototype = {
     /**Render the SVG fragment for this primitive*/
     toSVG:function(){
         //<line x1="0" y1="0" x2="300" y2="300" style="stroke:rgb(99,99,99);stroke-width:2"/>
-        var result = '<line x1="' + this.startPoint.x + '" y1="' + this.startPoint.y + '" x2="' + this.endPoint.x  + '" y2="' + this.endPoint.y + '"';
+        var result = "\n" + repeat("\t", INDENTATION) + '<line x1="' + this.startPoint.x + '" y1="' + this.startPoint.y + '" x2="' + this.endPoint.x  + '" y2="' + this.endPoint.y + '"';
         result += this.style.toSVG();
         result += " />"
         return  result;
@@ -575,7 +575,7 @@ Polyline.prototype = {
     /**Render the SVG fragment for this primitive*/
     toSVG:function(){
         //<polyline points="0,0 0,20 20,20 20,40 40,40 40,60" style="fill:white;stroke:red;stroke-width:2"/>
-        var result = '<polyline points="';
+        var result = "\n" + repeat("\t", INDENTATION) + '<polyline points="';
         for(var i=0; i < this.points.length; i++){
             result += this.points[i].x + ',' + this.points[i].y + ' ';
         }
@@ -762,7 +762,7 @@ Polygon.prototype = {
     /**Render the SVG fragment for this primitive*/
     toSVG:function(){
         //<polygon points="220,100 300,210 170,250" style="fill:#cccccc; stroke:#000000;stroke-width:1"/>
-        var result = '<polygon points="';
+        var result = "\n" + repeat("\t", INDENTATION) + '<polygon points="';
         for(var i=0; i < this.points.length; i++){
             result += this.points[i].x + ',' + this.points[i].y + ' ';
         }
@@ -1063,7 +1063,7 @@ QuadCurve.prototype = {
     toSVG:function(){
         //<path d="M200,300 Q400,50 600,300 T1000,300" fill="none" stroke="red" stroke-width="5"  />
 
-        var result = '<path d="M';
+        var result = "\n" + repeat("\t", INDENTATION) + '<path d="M';
         result += this.startPoint.x + ',' + this.endPoint.y;
         result += ' Q' + this.controlPoint.x + ',' + this.controlPoint.y;
         result += ' ' + this.endPoint.x + ',' + this.endPoint.y;
@@ -1257,7 +1257,7 @@ CubicCurve.prototype = {
         //<path d="M100,200 C100,100 250,100 250,200" />
 
 
-        var result = '<path d="M';
+        var result = "\n" + repeat("\t", INDENTATION) +  '<path d="M';
         result += this.startPoint.x + ',' + this.endPoint.y;
         result += ' C' + this.controlPoint1.x + ',' + this.controlPoint1.y;
         result += ' ' + this.controlPoint2.x + ',' + this.controlPoint2.y;
@@ -1576,7 +1576,7 @@ Arc.prototype = {
      *@author Alex <alex@scriptoid.com>
      **/
     toSVG: function(){
-        var r = '<path d="';
+        var r = "\n" + repeat("\t", INDENTATION) + '<path d="';
         r += ' M' + this.curves[0].startPoint.x  + ',' + this.curves[0].startPoint.y
         for(var i=0; i<this.curves.length; i++){
             r += ' Q' + this.curves[i].controlPoint.x  + ',' + this.curves[i].controlPoint.y
@@ -1757,7 +1757,7 @@ Ellipse.prototype = {
      *@author Alex Gheorghiu <scriptoid.com>
      **/
     toSVG: function(){
-        var result = '<path d="M';
+        var result = "\n" + repeat("\t", INDENTATION) +  '<path d="M';
         result += this.topLeftCurve.startPoint.x + ',' + this.topLeftCurve.startPoint.y;
 
         //top left curve
@@ -2221,7 +2221,7 @@ Path.prototype = {
      */
     toSVG: function(){
 
-        var result = '<path d="';
+        var result = "\n" + repeat("\t", INDENTATION) + '<path d="';
         var previousPrimitive = null;
         for(var i=0; i<this.primitives.length; i++){
 
@@ -2674,6 +2674,7 @@ Figure.prototype = {
 
     toSVG: function(){
         var tempSVG = '';
+        tempSVG += "\n" + repeat("\t", INDENTATION) +  "<!--Figure start-->";
         for(var i = 0; i<this.primitives.length; i++ ){
             var primitive  = this.primitives[i];
 
@@ -2694,6 +2695,7 @@ Figure.prototype = {
             //restore primitives style
             primitive.style = oldStyle;
         }
+        tempSVG += "\n" + repeat("\t", INDENTATION) +  "<!--Figure end-->" + "\n";
 
         return tempSVG;
     }

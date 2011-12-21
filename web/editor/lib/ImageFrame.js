@@ -447,8 +447,9 @@ ImageFrame.prototype = {
             var angle = this.getAngle() * 180 / Math.PI;
             //            var angle = this.getAngle() * 180 / Math.PI;
 
-            svg += '<g transform="rotate (' + angle + ', ' + this.vector[0].x  + ', ' + this.vector[0].y + ')">';
-            svg += '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">';
+            svg += "\n" + repeat("\t", INDENTATION) + '<g transform="rotate (' + angle + ', ' + this.vector[0].x  + ', ' + this.vector[0].y + ')">';
+            INDENTATION++;
+            svg += "\n" + repeat("\t", INDENTATION) + '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">';
 
 
             Log.group("A paint");
@@ -471,13 +472,14 @@ ImageFrame.prototype = {
             var imageX = this.vector[0].x - imgScaledWidth / 2;
             var imageY = this.vector[0].y - imgScaleHeight / 2;
 
-
-            svg += '<image x="' + imageX + '" y="' + imageY +'" width="' + imgScaledWidth +  '" height="' + imgScaleHeight + '" xlink:href="' + this.getUrl() + '" />';
-
+            INDENTATION++;
+            svg += "\n" + repeat("\t", INDENTATION) + '<image x="' + imageX + '" y="' + imageY +'" width="' + imgScaledWidth +  '" height="' + imgScaleHeight + '" xlink:href="' + this.getUrl() + '" />';
+            INDENTATION--;
             Log.groupEnd();
 
-            svg += '</svg>';
-            svg += '</g>';
+            svg += "\n" + repeat("\t", INDENTATION) +  '</svg>';
+            INDENTATION--;
+            svg += "\n" + repeat("\t", INDENTATION) +  '</g>';
         }    
 
         return svg;

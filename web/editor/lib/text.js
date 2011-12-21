@@ -547,7 +547,7 @@ Text.prototype = {
 //        if(this.align)
 
         //general text tag
-        var result = '<text y="' + (this.vector[0].y - height/2) + '" ';
+        var result = "\n" + repeat("\t", INDENTATION) + '<text y="' + (this.vector[0].y - height/2) + '" ';
         result += ' transform="rotate(' + angle + ' ' + this.vector[0].x + ' ,' + this.vector[0].y + ')" ';
         result += ' font-family="' + this.font + '" ';
         result += ' font-size="' + this.size + '" ';
@@ -563,6 +563,8 @@ Text.prototype = {
         result += ' text-anchor="' + alignment + '" ';
         result +=  '>';
 
+        INDENTATION++;
+
         //any line of text (tspan tags)
         var lines = this.str.split("\n");
         for(var i=0; i< lines.length; i++){
@@ -572,18 +574,20 @@ Text.prototype = {
             }
             
             //alert('Size: ' + this.size + ' ' + (typeof this.size) + ' lineSpacing:' + this.lineSpacing + ' dy: ' + dy);
-            result += '<tspan x="' + (this.vector[0].x + offsetX) + '" dy="' + dy  + '">' + this.escapeString(lines[i]) + '</tspan>'
+            result += "\n" + repeat("\t", INDENTATION) + '<tspan x="' + (this.vector[0].x + offsetX) + '" dy="' + dy  + '">' + this.escapeString(lines[i]) + '</tspan>'
         } //end for
         
+        INDENTATION--;
+        
         //result += this.str;
-        result += '</text>';
+        result += "\n" + repeat("\t", INDENTATION) + '</text>';
 
         if(this.debug){
-            result += '<circle cx="' + this.vector[0].x + '" cy="' + this.vector[0].y + '" r="3" style="stroke: #FF0000; fill: yellow;" '
+            result += "\n" + repeat("\t", INDENTATION) + '<circle cx="' + this.vector[0].x + '" cy="' + this.vector[0].y + '" r="3" style="stroke: #FF0000; fill: yellow;" '
             + ' transform="rotate(' + angle + ' ' + this.vector[0].x + ' ,' + this.vector[0].y + ')" '
             + '/>';
         
-            result += '<circle cx="' + this.vector[0].x + '" cy="' + (this.vector[0].y - height/2) + '" r="3" style="stroke: #FF0000; fill: green;" '
+            result += "\n" + repeat("\t", INDENTATION) + '<circle cx="' + this.vector[0].x + '" cy="' + (this.vector[0].y - height/2) + '" r="3" style="stroke: #FF0000; fill: green;" '
             + ' transform="rotate(' + angle + ' ' + this.vector[0].x + ' ,' + this.vector[0].y + ')" '
             + ' />';
         }

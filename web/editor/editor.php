@@ -107,16 +107,7 @@ if(is_numeric($_REQUEST['diagramId'])){
 
         
         <script type="text/javascript">
-            /**Export the Canvas as SVG*/
-            function toSVG(){
-                var canvas = getCanvas();
-                var v2 = '<svg width="' + canvas.width +'" height="' + canvas.height + '" viewBox="0 0 ' + canvas.width + ' ' + canvas.height + '" xmlns="http://www.w3.org/2000/svg" version="1.1">';
-                v2 += STACK.toSVG();
-                v2 += CONNECTOR_MANAGER.toSVG();
-                v2 += '</svg>';
-
-                return v2;
-            }
+            
 
              /** Save current diagram
              *See:
