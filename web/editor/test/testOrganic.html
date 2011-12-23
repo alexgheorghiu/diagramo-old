@@ -232,9 +232,13 @@
             }
             
             function divide(p, nr){
+                if(nr == 0) { throw "Division by zero not allowed (yet :)"}
                 return [p[0]/nr, p[1]/nr];
             }
             
+            function multiply(p, nr){
+                return [p[0]*nr, p[1]*nr];
+            }
             
         </script>
     </head>
