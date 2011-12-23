@@ -17,11 +17,12 @@
             /**Computes Bernstain*/
             function B(i,n,u){
                 //if(n < i) throw "Wrong";
-                return fact(n) / (fact(i) * fact(n-i))* Math.pow(u, i) * Math.pow(1-u, n-1);
+                return fact(n) / (fact(i) * fact(n-i))* Math.pow(u, i) * Math.pow(1-u, n-i);
             }
             
-            var points = [[100, 100], [200, 100], [200, 200], [300, 200]];
-            
+            var points = [[100, 100], [200, 100], [200, 200], [300, 200], [300, 100]];
+             var s2_6 = [[100, 50], [80, 50], [80, 150], [180, 150], [180, 130], [160, 130]];
+             
             function P(u, points){
                 var r = [0,0];
                 var n = points.length-1;
@@ -32,7 +33,7 @@
                 return r;
             }
             
-            function sample(step){
+            function sample(points, step){
                 var temp = [];
                 for(var t=0;t<=1; t=t+step){
                     var p = P(t, points);
@@ -52,7 +53,7 @@
                         
                     case 'black':
                         ctx.strokeStyle = "rgb(0, 0,0)";
-                        ctx.strokeRect(point[0]- 2 , point[1] - 2, 4, 4);
+                        ctx.strokeRect(point[0]- 1 , point[1] - 1, 2, 2);
                         break;
                         
                     case 'green':
@@ -63,21 +64,40 @@
                 ctx.restore();
             }
             
+            function paint_points(ctx, points, color){
+                ctx.save();
+                //controll points
+                for(var i=0;i<points.length; i++){
+                    paint_point(ctx, color, points[i]);
+                }
+                ctx.restore();
+            }
+            
+            function paint_curve(ctx, points, step){
+                ctx.save();
+                //curve points
+                var pts = sample(points, step);
+                
+//                for(var i=0;i<pts.length; i++){
+//                    paint_point(ctx, "black", pts[i]);
+//                }
+                
+                //line
+                ctx.moveTo(pts[0][0], pts[0][1]);
+                for(var i=1;i<pts.length; i++){
+                    ctx.lineTo(pts[i][0], pts[i][1]);
+                }
+                ctx.stroke();
+                ctx.restore();
+            }
+            
             function init(){
                 var ctx = document.getElementById("pinza").getContext("2d");
                
                 
+                paint_points(ctx, s2_6, "red");                
                 
-                
-                for(var i=0;i<points.length; i++){
-                    paint_point(ctx, "red", points[i]);
-                }
-                
-                var pts = sample(0.1);
-                alert(pts.length + pts);
-                for(var i=0;i<pts.length; i++){
-                    paint_point(ctx, "black", pts[i]);
-                }
+                paint_curve(ctx, s2_6, 0.01);
             }
             
         </script>
