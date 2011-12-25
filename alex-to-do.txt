@@ -18,7 +18,7 @@ Current stack:
     - network1 SVG does not scale in FF8.0 but it does in IE9
     - it seems SVGs made by Adobe Illustrator render fine
 
-* basic network package (try SVG)
+* basic network package (try SVG) (see HighContrast SVG)
     - list of needed icons
         1 person [tango: system-users.svg ]
         2 switch
