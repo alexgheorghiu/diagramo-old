@@ -5,7 +5,11 @@ figureSets["experimental"] = [
     {figureFunction: "Tango", image: "page.png"},
     {figureFunction: "Organic", image: "page.png"},
     {figureFunction: "Inkscape", image: "page.png"},
-    {figureFunction: "Airport", image: "page.png"}
+    {figureFunction: "Airport", image: "page.png"},
+    {figureFunction: "200by200SVG", image: "page.png"},
+    {figureFunction: "200by200PNG", image: "page.png"},
+    {figureFunction: "3Figures", image: "page.png"},
+    {figureFunction: "3FiguresNoSize", image: "page.png"}
 ]
 
 /**
@@ -281,6 +285,112 @@ function figure_Airport(x, y)
     var url = "/editor/lib/sets/experimental/airport.svg";
     
     var ifig = new ImageFrame(url, x, y, true, 200, 200);
+    ifig.debug = true;
+    f.addPrimitive(ifig);
+    f.properties.push(new BuilderProperty('URL', 'primitives.0.url', BuilderProperty.TYPE_TEXT));
+    
+    f.finalise();
+    return f;
+}
+
+
+function figure_200by200SVG(x, y)
+{
+    var f = new Figure("200by200SVG");
+    f.style.fillStyle = figure_defaultFillStyle;
+    f.style.strokeStyle = figure_defaultStrokeStyle;
+//    f.properties.push(new BuilderProperty('Fill Style', 'style.fillStyle', BuilderProperty.TYPE_COLOR));
+//    f.properties.push(new BuilderProperty('Line Width', 'style.lineWidth',BuilderProperty.TYPE_LINE_WIDTH));
+    
+
+//    var img = new Image();
+    //img.src = 'http://scriptoid.com/assets/images/hotmug/small_logo.gif';
+//    img.src = '/assets/images/logo.gif';
+//    img.src = '/test/svg/arcs.svg';
+//    var url = "/assets/images/logo.gif";
+    var url = "/editor/lib/sets/experimental/200by200.svg";
+    
+    var ifig = new ImageFrame(url, x, y, true, 100, 100);
+    ifig.debug = true;
+    f.addPrimitive(ifig);
+    f.properties.push(new BuilderProperty('URL', 'primitives.0.url', BuilderProperty.TYPE_TEXT));
+    
+    f.finalise();
+    return f;
+}
+
+
+function figure_200by200PNG(x, y)
+{
+    var f = new Figure("200by200PNG");
+    f.style.fillStyle = figure_defaultFillStyle;
+    f.style.strokeStyle = figure_defaultStrokeStyle;
+//    f.properties.push(new BuilderProperty('Fill Style', 'style.fillStyle', BuilderProperty.TYPE_COLOR));
+//    f.properties.push(new BuilderProperty('Line Width', 'style.lineWidth',BuilderProperty.TYPE_LINE_WIDTH));
+    
+
+//    var img = new Image();
+    //img.src = 'http://scriptoid.com/assets/images/hotmug/small_logo.gif';
+//    img.src = '/assets/images/logo.gif';
+//    img.src = '/test/svg/arcs.svg';
+//    var url = "/assets/images/logo.gif";
+    var url = "/editor/lib/sets/experimental/200by200.png";
+    
+    var ifig = new ImageFrame(url, x, y, true, 100, 100);
+    ifig.debug = true;
+    f.addPrimitive(ifig);
+    f.properties.push(new BuilderProperty('URL', 'primitives.0.url', BuilderProperty.TYPE_TEXT));
+    
+    f.finalise();
+    return f;
+}
+
+
+/**
+ *Study the viewBox on/off size on/off effect on rendering of SVG images
+ **/
+function figure_3Figures(x, y)
+{
+    var f = new Figure("3FiguresSVG");
+    f.style.fillStyle = figure_defaultFillStyle;
+    f.style.strokeStyle = figure_defaultStrokeStyle;
+//    f.properties.push(new BuilderProperty('Fill Style', 'style.fillStyle', BuilderProperty.TYPE_COLOR));
+//    f.properties.push(new BuilderProperty('Line Width', 'style.lineWidth',BuilderProperty.TYPE_LINE_WIDTH));
+    
+
+//    var img = new Image();
+    //img.src = 'http://scriptoid.com/assets/images/hotmug/small_logo.gif';
+//    img.src = '/assets/images/logo.gif';
+//    img.src = '/test/svg/arcs.svg';
+//    var url = "/assets/images/logo.gif";
+    var url = "/editor/lib/sets/experimental/3figures.svg";
+    
+    var ifig = new ImageFrame(url, x, y, true, 100, 100);
+    ifig.debug = true;
+    f.addPrimitive(ifig);
+    f.properties.push(new BuilderProperty('URL', 'primitives.0.url', BuilderProperty.TYPE_TEXT));
+    
+    f.finalise();
+    return f;
+}
+
+function figure_3FiguresNoSize(x, y)
+{
+    var f = new Figure("3FiguresSVG");
+    f.style.fillStyle = figure_defaultFillStyle;
+    f.style.strokeStyle = figure_defaultStrokeStyle;
+//    f.properties.push(new BuilderProperty('Fill Style', 'style.fillStyle', BuilderProperty.TYPE_COLOR));
+//    f.properties.push(new BuilderProperty('Line Width', 'style.lineWidth',BuilderProperty.TYPE_LINE_WIDTH));
+    
+
+//    var img = new Image();
+    //img.src = 'http://scriptoid.com/assets/images/hotmug/small_logo.gif';
+//    img.src = '/assets/images/logo.gif';
+//    img.src = '/test/svg/arcs.svg';
+//    var url = "/assets/images/logo.gif";
+    var url = "/editor/lib/sets/experimental/3figures.svg";
+    
+    var ifig = new ImageFrame(url, x, y, true, 100, 100);
     ifig.debug = true;
     f.addPrimitive(ifig);
     f.properties.push(new BuilderProperty('URL', 'primitives.0.url', BuilderProperty.TYPE_TEXT));

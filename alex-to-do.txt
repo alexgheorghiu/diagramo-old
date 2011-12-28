@@ -2,9 +2,10 @@ This is Alex's current mental stack
 
 Current stack:
 
-* Do SVG really scale or can we use PNG at a higher resolution and scale down?
-    In IE and Chrome the difference are great....in FF is the same as if the SVG is
-    first converted to raster and scaled :(
+SVG conclusion
+--------------
+ - SVG images are scaled nice in IE9 and Chrome but not in FF
+ - drawImage for SVG not working in Opera 11.60 !!!!!
 
 * images
     - able to load/create them with their original size
