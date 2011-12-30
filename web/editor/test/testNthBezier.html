@@ -4,36 +4,87 @@
         <title></title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <script type="text/javascript">
-            /**Computes factorial*/
-            function fact(k){
-                if(k==0 || k==1){
-                    return 1;
-                }
-                else{
-                    return k * fact(k-1);
+            function Bezier(){
+                
+            }
+            
+            Bezier.prototype = {
+                constructor : Bezier,
+                
+                transform : function(matrix){
+                    
+                },
+                
+                paint : function(ctx){
+                    
+                },
+                
+                equals : function(anotherBezier){
+                    
+                },
+                
+                clone : function(){
+                    
+                },
+                
+                near : function(x, y, radius){
+                    
+                },
+                
+                contains: function(x, y){
+                    
+                },
+                
+                toString: function(){
+                    
+                },
+                
+                getPoints:function(){
+                    
+                },
+
+                getBounds:function(){
+                    
+                },
+                
+                toSVG: function(){
+                    
                 }
             }
             
-            /**Computes Bernstain*/
-            function B(i,n,u){
-                //if(n < i) throw "Wrong";
-                return fact(n) / (fact(i) * fact(n-i))* Math.pow(u, i) * Math.pow(1-u, n-i);
-            }
             
             var points = [[100, 100], [200, 100], [200, 200], [300, 200], [300, 100]];
-             var s2_6 = [[100, 50], [80, 50], [80, 150], [180, 150], [180, 130], [160, 130], [160, 30] /*,  [200, 10]*/];
-             
-            function P(u, points){
-                var r = [0,0];
-                var n = points.length-1;
-                for(var i=0; i <= n; i++){
-                    r[0] += points[i][0] * B(i, n, u);
-                    r[1] += points[i][1] * B(i, n, u);
-                }                
-                return r;
-            }
+            var s2_6 = [[100, 50], [80, 50], [80, 150], [180, 150], [180, 130], [160, 130], [160, 30] /*,  [200, 10]*/];
             
-            function sample(points, step){
+            /**computes the drawing points for the Bezier curve*/
+            function bezierPoints(points, step){
+                
+                /**Computes factorial*/
+                function fact(k){
+                    if(k==0 || k==1){
+                        return 1;
+                    }
+                    else{
+                        return k * fact(k-1);
+                    }
+                }
+            
+                /**Computes Bernstain*/
+                function B(i,n,u){
+                    //if(n < i) throw "Wrong";
+                    return fact(n) / (fact(i) * fact(n-i))* Math.pow(u, i) * Math.pow(1-u, n-i);
+                }                            
+             
+                function P(u, points){
+                    var r = [0,0];
+                    var n = points.length-1;
+                    for(var i=0; i <= n; i++){
+                        r[0] += points[i][0] * B(i, n, u);
+                        r[1] += points[i][1] * B(i, n, u);
+                    }                
+                    return r;
+                }
+                
                 var temp = [];
                 for(var t=0;t<=1; t=t+step){
                     var p = P(t, points);
@@ -41,6 +92,7 @@
                 }
                 return temp;
             }
+            
             
             function paint_point(ctx, color,  point){
                 //return;
@@ -73,19 +125,13 @@
                 ctx.restore();
             }
             
-            function paint_curve(ctx, points, step){
+            /**Generic paint curve method*/
+            function paint_curve(ctx, points){
                 ctx.save();
-                //curve points
-                var pts = sample(points, step);
-                
-//                for(var i=0;i<pts.length; i++){
-//                    paint_point(ctx, "black", pts[i]);
-//                }
-                
-                //line
-                ctx.moveTo(pts[0][0], pts[0][1]);
-                for(var i=1;i<pts.length; i++){
-                    ctx.lineTo(pts[i][0], pts[i][1]);
+
+                ctx.moveTo(points[0][0], points[0][1]);
+                for(var i=1;i<points.length; i++){
+                    ctx.lineTo(points[i][0], points[i][1]);
                 }
                 ctx.stroke();
                 ctx.restore();
@@ -94,10 +140,10 @@
             function init(){
                 var ctx = document.getElementById("pinza").getContext("2d");
                
-                
+                var bPoints = bezierPoints(s2_6, 0.01);
                 paint_points(ctx, s2_6, "red");                
                 
-                paint_curve(ctx, s2_6, 0.01);
+                paint_curve(ctx, bPoints);
             }
             
         </script>
