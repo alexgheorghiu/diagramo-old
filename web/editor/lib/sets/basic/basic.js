@@ -32,17 +32,6 @@ var figure_defaultStrokeStyle = "#000000";
 var figure_defaultFillStyle = "#ffffff";
 var figure_defaultFillTextStyle = "#000000";
 
-//function figure_CanvasImage(x, y){
-//    var f = new Figure("Image");
-//    var img = new CanvasImage(x, y, "");
-//    f.properties.push(new BuilderProperty('URL','primitives.0.URL', BuilderProperty.TYPE_SINGLE_TEXT));
-//    f.properties.push(new BuilderProperty('File','primitives.0.File', BuilderProperty.TYPE_IMAGE_UPLOAD));
-//    f.properties.push(new BuilderProperty('Encoded','primitives.0.encoded', BuilderProperty.TYPE_TEXT));
-//    f.properties.push(new BuilderProperty('Scaleing','primitives.0.fixed', BuilderProperty.TYPE_IMAGE_FILL));
-//    f.addPrimitive(img);
-//    f.finalise();
-//    return f;
-//}
 
 function figure_Polyline(x, y)
 {
