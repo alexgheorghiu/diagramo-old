@@ -34,7 +34,7 @@ SVG conclusion
         [x] 8 laptop
         [x] 9 desktop [tango]
         [x] 10 lock
-        11 pda
+        [x] 11 pda
         12 phone
         [x] 13 printer [tango]
         14 database
@@ -42,8 +42,11 @@ SVG conclusion
         16 wireless router [tango: network-wireless.svg ]
     - can I use Tango library?
     - extend missing icons through more Tango icons
+
 http://www.opensecurityarchitecture.org/cms/library/icon-library    
-    
+http://www.clker.com/
+http://www.shutterstock.com/    
+
 * image not working in (saved) SVG
 * redraw boolean value does not seems to be really used !?!?!
 * add development-rules.txt to wiki
