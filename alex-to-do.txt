@@ -37,8 +37,8 @@ SVG conclusion
         [x] 11 pda
         [x] 12 phone
         [x] 13 printer [tango]
-        14 database
-        15 ups
+        [x] 14 database
+        [x] 15 ups
         16 wireless router [tango: network-wireless.svg ]
     - can I use Tango library?
     - extend missing icons through more Tango icons
