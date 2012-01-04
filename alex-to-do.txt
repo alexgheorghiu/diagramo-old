@@ -35,7 +35,7 @@ SVG conclusion
         [x] 9 desktop [tango]
         [x] 10 lock
         [x] 11 pda
-        12 phone
+        [x] 12 phone
         [x] 13 printer [tango]
         14 database
         15 ups
