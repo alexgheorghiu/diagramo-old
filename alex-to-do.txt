@@ -25,7 +25,7 @@ SVG conclusion
 * basic network package (try SVG) (see HighContrast SVG)
     - list of needed icons
         [x] 1 person [tango: system-users.svg ]
-        2 switch
+        [x] 2 switch
         3 router
         4 cloud
         [x] 5 server [tango: network-server.svg ]
