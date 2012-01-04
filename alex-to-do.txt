@@ -22,26 +22,6 @@ SVG conclusion
     - network1 SVG does not scale in FF8.0 but it does in IE9
     - it seems SVGs made by Adobe Illustrator render fine
 
-* basic network package (try SVG) (see HighContrast SVG)
-    - list of needed icons
-        [x] 1 person [tango: system-users.svg ]
-        [x] 2 switch
-        [x] 3 router
-        [x] 4 cloud
-        [x] 5 server [tango: network-server.svg ]
-        [x] 6 firewall
-        [x] 7 building
-        [x] 8 laptop
-        [x] 9 desktop [tango]
-        [x] 10 lock
-        [x] 11 pda
-        [x] 12 phone
-        [x] 13 printer [tango]
-        [x] 14 database
-        [x] 15 ups
-        16 wireless router [tango: network-wireless.svg ]
-    - can I use Tango library?
-    - extend missing icons through more Tango icons
 
 http://www.opensecurityarchitecture.org/cms/library/icon-library    
 http://www.clker.com/
