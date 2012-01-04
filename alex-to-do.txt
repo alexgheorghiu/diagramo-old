@@ -26,7 +26,7 @@ SVG conclusion
     - list of needed icons
         [x] 1 person [tango: system-users.svg ]
         [x] 2 switch
-        3 router
+        [x] 3 router
         4 cloud
         [x] 5 server [tango: network-server.svg ]
         6 firewall
