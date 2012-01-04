@@ -1,44 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 15.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" id="svg2327" xmlns:svg="http://www.w3.org/2000/svg"
-	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="29.5px" height="36px"
-	 viewBox="0 0 29.5 36" enable-background="new 0 0 29.5 36" xml:space="preserve">
-<linearGradient id="path2086_1_" gradientUnits="userSpaceOnUse" x1="161.7598" y1="-84.0435" x2="165.3601" y2="-91.0704" gradientTransform="matrix(1.4424 0 0 -1.4937 -224.2566 -124.2303)">
-	<stop  offset="0" style="stop-color:#CAD0C6"/>
-	<stop  offset="0.5" style="stop-color:#EAECE9"/>
-	<stop  offset="1" style="stop-color:#C5CBC0"/>
-</linearGradient>
-<linearGradient id="path2086_2_" gradientUnits="userSpaceOnUse" x1="33.7505" y1="129.8359" x2="30.6981" y2="133.4599">
-	<stop  offset="0" style="stop-color:#6F716D"/>
-	<stop  offset="1" style="stop-color:#9EA09C"/>
-</linearGradient>
-<path id="path2086" fill="url(#path2086_1_)" stroke="url(#path2086_2_)" stroke-width="3.5577" d="M4.658,16.225v-5.739
-	c0-5.878,3.94-8.558,9.798-8.484c5.89,0.074,9.778,2.631,9.778,8.578l-0.01,5.646h-3.594v-4.167
-	c-0.096-1.447,0.401-6.292-6.134-6.292c-6.58,0-6.193,4.863-6.169,6.321v4.139H4.658z"/>
-<linearGradient id="rect1314_1_" gradientUnits="userSpaceOnUse" x1="153.96" y1="-85.9248" x2="171.0647" y2="-85.9248" gradientTransform="matrix(1.4724 0 0 -1.6048 -224.5249 -112.7499)">
-	<stop  offset="0" style="stop-color:#FFF7B0"/>
-	<stop  offset="0.21" style="stop-color:#FFEC41"/>
-	<stop  offset="0.84" style="stop-color:#E2CC00"/>
-	<stop  offset="1" style="stop-color:#C3AF00"/>
-</linearGradient>
-<linearGradient id="rect1314_2_" gradientUnits="userSpaceOnUse" x1="46.1304" y1="97.708" x2="23.1713" y2="113.7063">
-	<stop  offset="0" style="stop-color:#7D6400"/>
-	<stop  offset="1" style="stop-color:#BE9700"/>
-</linearGradient>
-<path id="rect1314" fill="url(#rect1314_1_)" stroke="url(#rect1314_2_)" stroke-width="3.5577" stroke-linecap="round" stroke-linejoin="round" d="
-	M5.976,16.301h17.813c2.195,0,3.975,1.548,3.975,3.459v10.756c0,1.91-1.779,3.459-3.975,3.459H5.976C3.78,33.975,2,32.426,2,30.516
-	V19.76C2,17.85,3.78,16.301,5.976,16.301z"/>
-<linearGradient id="rect6903_1_" gradientUnits="userSpaceOnUse" x1="25.4072" y1="114.498" x2="45.3754" y2="103.373">
-	<stop  offset="0" style="stop-color:#FFFFFF"/>
-	<stop  offset="1" style="stop-color:#FFFFFF;stop-opacity:0.4948"/>
-</linearGradient>
-<path id="rect6903" fill="none" stroke="url(#rect6903_1_)" stroke-width="3.5577" stroke-linecap="round" stroke-linejoin="round" stroke-opacity="0.6011" d="
-	M5.8,18.036h18.171c1.193,0,2.16,0.967,2.16,2.161v9.854c0,1.193-0.967,2.16-2.16,2.16H5.8c-1.193,0-2.161-0.967-2.161-2.16v-9.854
-	C3.639,19.003,4.606,18.036,5.8,18.036z"/>
-<path id="rect11343" fill="#FFFFFF" d="M5.314,10.804c0.195-4.353,1.405-7.63,9.477-7.908C9.564,3.633,6.722,5.159,6.722,9.709
-	l-0.13,5.64H5.314V10.804L5.314,10.804z"/>
-<path id="path2478" fill="none" stroke="#FDCA01" stroke-width="3.5577" d="M5.065,22.057l19.81,0.154"/>
-<path id="path2482" fill="none" stroke="#FDCA01" stroke-width="3.5577" d="M5.026,25.551l19.812,0.154"/>
-<path id="path2486" fill="none" stroke="#FDCA01" stroke-width="3.5577" d="M5.026,29.237l19.812,0.154"/>
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="24.5px" height="31.7px" viewBox="1 0 24.5 31.7" enable-background="new 1 0 24.5 31.7" xml:space="preserve">
+<title>Redpad lock</title>
+<title>Layer 1</title>
+<g>
+	<path id="rect2723" fill="#A7A873" stroke="#050505" d="M13.322,1C8.577,1,4.757,4.811,4.757,9.543v9.493h2.379V9.543
+		c0-3.418,2.759-6.17,6.186-6.17s6.186,2.751,6.186,6.17v9.493h2.379V9.543C21.886,4.811,18.066,1,13.322,1z"/>
+	<path fill="#EAEA1B" stroke="#000000" d="M24.643,28.619c0,1.702-1.667,3.082-3.722,3.082H5.722C3.667,31.7,2,30.32,2,28.619V17.32
+		c0-1.702,1.667-3.081,3.722-3.081h15.198c2.056,0,3.722,1.379,3.722,3.081V28.619z"/>
+</g>
 </svg>

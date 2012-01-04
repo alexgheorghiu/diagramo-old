@@ -380,8 +380,8 @@ function figure_Desktop(x, y){
 function figure_Lock(x, y){
     /*As we do not know the size of the image (util it is loaded and is too late)
      * we need to specify the size of it*/
-    var imageWidth = 29.5;
-    var imageHeight = 36;
+    var imageWidth = 24.5;
+    var imageHeight = 31.7;
    
     
     var f = new Figure("Lock");
