@@ -27,9 +27,9 @@ SVG conclusion
         [x] 1 person [tango: system-users.svg ]
         [x] 2 switch
         [x] 3 router
-        4 cloud
+        [x] 4 cloud
         [x] 5 server [tango: network-server.svg ]
-        6 firewall
+        [x] 6 firewall
         7 building
         8 laptop
         [x] 9 desktop [tango]
