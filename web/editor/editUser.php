@@ -37,6 +37,7 @@ $user = $delegate->userGetById($_REQUEST['userId']);
     <!--Copyright 2010 Scriptoid s.r.l-->
     <head>
         <title>Users - Diagramo</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=9" />
         <link rel="stylesheet" media="screen" type="text/css" href="assets/css/style.css" />
         <script type="text/javascript">
             function confirmation(message){

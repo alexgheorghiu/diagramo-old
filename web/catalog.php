@@ -33,6 +33,7 @@ $publicDiagrams = $d->diagramGetPublic(ROWS * COLS * $page, ROWS * COLS * ($page
 
     <head>
         <title><? echo $title; ?></title>
+        <meta http-equiv="X-UA-Compatible" content="IE=9" />
         <meta name="description" content="<? echo $description; ?>" />
         <meta name="keywords" content="<? echo $keywords; ?>" />
         <meta name="distribution" content="Global" />

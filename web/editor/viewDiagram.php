@@ -36,6 +36,7 @@ if(!$diagram->public){
     <!--Copyright 2010 Scriptoid s.r.l-->
     <head>
         <title><?$diagram->title?></title>
+        <meta http-equiv="X-UA-Compatible" content="IE=9" />
         <link rel="stylesheet" media="screen" type="text/css" href="http://<?=WEBADDRESS?>/assets/css/style.css" />
     </head>
     <body>

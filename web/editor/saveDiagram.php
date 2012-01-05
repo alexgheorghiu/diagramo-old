@@ -25,6 +25,7 @@ if (!isset($_SESSION['userId'])) {
 <html>
     <head>
         <title>Diagramo - Save diagram</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=9" />
         <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
         <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
         <link href="./assets/css/style.css" type="text/css" rel="stylesheet"/>

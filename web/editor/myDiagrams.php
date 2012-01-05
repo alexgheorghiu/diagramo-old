@@ -38,6 +38,7 @@ function firstName($email){
     <!--Copyright 2010 Scriptoid s.r.l-->
     <head>
         <title>My diagrams - Diagramo</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=9" />
         <link rel="stylesheet" media="screen" type="text/css" href="assets/css/style.css" />
         <script type="text/javascript">
             function confirmation(message){
