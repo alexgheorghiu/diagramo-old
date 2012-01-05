@@ -1,9 +1,13 @@
-figureSets["statemachine"] = [
-    {figureFunction: "Start", image: "start.png"},
-    {figureFunction: "End", image: "end.png"},
-    {figureFunction: "State", image: "state.png"},
-    {figureFunction: "Note", image: "note.png"}
-]
+figureSets["statemachine"] = {
+    name : 'UML: State machine',
+    description : 'A set of figures needed to draw state diagrams',
+    figures: [
+        {figureFunction: "Start", image: "start.png"},
+        {figureFunction: "End", image: "end.png"},
+        {figureFunction: "State", image: "state.png"},
+        {figureFunction: "Note", image: "note.png"}
+    ]
+}
 
 
 function figure_Start(x,y)

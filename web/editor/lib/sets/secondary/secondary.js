@@ -1,11 +1,15 @@
-figureSets["secondary"] = [
-    {figureFunction: "Page", image: "page.png"},
-    {figureFunction: "PageLowerCornerFolded", image: "page_lower_corner_folded.png"},
-    {figureFunction: "PageUpperCornerFolded", image: "page_upper_corner_folded.png"},
-    {figureFunction: "SemiCircleDown", image: "semi_circle_down.png"},
-    {figureFunction: "SemiCircleUp", image: "semi_circle_up.png"},
-    {figureFunction: "Triangle", image: "triangle.png"}
-]
+figureSets["secondary"] = {
+    name : 'Secondary',
+    description : 'The second basic set of figures',
+    figures: [
+        {figureFunction: "Page", image: "page.png"},
+        {figureFunction: "PageLowerCornerFolded", image: "page_lower_corner_folded.png"},
+        {figureFunction: "PageUpperCornerFolded", image: "page_upper_corner_folded.png"},
+        {figureFunction: "SemiCircleDown", image: "semi_circle_down.png"},
+        {figureFunction: "SemiCircleUp", image: "semi_circle_up.png"},
+        {figureFunction: "Triangle", image: "triangle.png"}
+    ]
+}
 
 function figure_Page(x,y)
 {

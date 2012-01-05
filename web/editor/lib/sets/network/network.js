@@ -1,22 +1,25 @@
-figureSets["network"] = [
-    {figureFunction: "Person", image: "1_person.png"},
-    {figureFunction: "Switch", image: "2_switch.png"},    
-    {figureFunction: "Router", image: "3_router.png"},    
-    {figureFunction: "Cloud", image: "4_cloud.png"},    
-    {figureFunction: "Server", image: "5_server.png"},
-    {figureFunction: "Firewall", image: "6_firewall.png"},
-    {figureFunction: "Building", image: "7_building.png"},
-    {figureFunction: "Laptop", image: "8_laptop.png"},
-    {figureFunction: "Desktop", image: "9_desktop.png"},
-    {figureFunction: "Lock", image: "10_lock.png"},
-    {figureFunction: "PDA", image: "11_pda.png"},
-    {figureFunction: "Phone", image: "12_phone.png"},
-    {figureFunction: "Printer", image: "13_printer.png"},
-    {figureFunction: "Database", image: "14_database.png"},
-    {figureFunction: "UPS", image: "15_ups.png"},
-    {figureFunction: "Wireless", image: "16_wireless_router.png"}
-]
-
+figureSets["network"] = { 
+    name : 'Network',
+    description : 'A tiny set of network related figures',
+    figures:[
+        {figureFunction: "Person", image: "1_person.png"},
+        {figureFunction: "Switch", image: "2_switch.png"},    
+        {figureFunction: "Router", image: "3_router.png"},    
+        {figureFunction: "Cloud", image: "4_cloud.png"},    
+        {figureFunction: "Server", image: "5_server.png"},
+        {figureFunction: "Firewall", image: "6_firewall.png"},
+        {figureFunction: "Building", image: "7_building.png"},
+        {figureFunction: "Laptop", image: "8_laptop.png"},
+        {figureFunction: "Desktop", image: "9_desktop.png"},
+        {figureFunction: "Lock", image: "10_lock.png"},
+        {figureFunction: "PDA", image: "11_pda.png"},
+        {figureFunction: "Phone", image: "12_phone.png"},
+        {figureFunction: "Printer", image: "13_printer.png"},
+        {figureFunction: "Database", image: "14_database.png"},
+        {figureFunction: "UPS", image: "15_ups.png"},
+        {figureFunction: "Wireless", image: "16_wireless_router.png"}
+    ]
+}
 function figure_Person(x, y)
 {
     var f = new Figure("Person");

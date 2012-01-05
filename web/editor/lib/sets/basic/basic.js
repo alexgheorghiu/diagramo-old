@@ -1,18 +1,22 @@
 /**Figure set declaration*/
-figureSets["basic"] = [
-    {figureFunction: "RoundedRectangle", image: "rounded_rectangle.png"},
-    {figureFunction: "Rectangle", image: "rectangle.png"},
-    {figureFunction: "Square", image: "square.png"},
-    {figureFunction: "Circle", image: "circle.png"},
-    {figureFunction: "Diamond", image: "diamond.png"},
-    {figureFunction: "Parallelogram", image: "parallelogram.png"},
-    {figureFunction: "Ellipse", image: "ellipse.png"},
-    {figureFunction: "RightTriangle", image: "right_triangle.png"},
-    {figureFunction: "Pentagon", image: "pentagon.png"},
-    {figureFunction: "Hexagon", image: "hexagon.png"},
-    {figureFunction: "Octogon", image: "octogon.png"},
-    {figureFunction: "Text", image: "text.png"}
-];
+figureSets["basic"] = {
+    name: 'Basic',
+    description : 'A basic set of figures',
+    figures: [
+        {figureFunction: "RoundedRectangle", image: "rounded_rectangle.png"},
+        {figureFunction: "Rectangle", image: "rectangle.png"},
+        {figureFunction: "Square", image: "square.png"},
+        {figureFunction: "Circle", image: "circle.png"},
+        {figureFunction: "Diamond", image: "diamond.png"},
+        {figureFunction: "Parallelogram", image: "parallelogram.png"},
+        {figureFunction: "Ellipse", image: "ellipse.png"},
+        {figureFunction: "RightTriangle", image: "right_triangle.png"},
+        {figureFunction: "Pentagon", image: "pentagon.png"},
+        {figureFunction: "Hexagon", image: "hexagon.png"},
+        {figureFunction: "Octogon", image: "octogon.png"},
+        {figureFunction: "Text", image: "text.png"}
+    ]
+};
 
 var figure_defaultFigureSegmentSize = 70;
 var figure_defaultFigureSegmentShortSize = 40;

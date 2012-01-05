@@ -479,24 +479,26 @@ if(is_numeric($_REQUEST['diagramId'])){
             <div id="figures">
                 <select style="width: 120px;" onchange="setFigureSet(this.options[this.selectedIndex].value)">
                     <script>
-                        for(var set in figureSets){
-                            document.write('<option value="' + set + '">' + set + '</option>');
+                        for(var setName in figureSets){
+                            var set = figureSets[setName];
+                            document.write('<option value="' + setName + '">' + set['name'] + '</option>');
                         }
                     </script>
 
                 </select>
                 <script>
                     var first = true;
-                    for(var set in figureSets){
-                        document.write('<div id="' + set + '" ' + (!first ? 'style="display: none"' : '')+'>');
+                    for(var setName in figureSets){
+                        document.write('<div id="' + setName + '" ' + (!first ? 'style="display: none"' : '')+'>');
                         document.write('<table border="0" cellpadding="0" cellspacing="0" width="120">');
                         var counter = 0;
-                        for(var figure in figureSets[set]){
-                            figure = figureSets[set][figure];
+                        var set = figureSets[setName];
+                        for(var figure in set['figures']){
+                            figure = set['figures'][figure];
                             if(counter % 3 == 0){
                                 document.write('<tr>');
                             }
-                            document.write('<td align="center"><a href="javascript:createFigure(figure_'+figure.figureFunction+');"><img src="lib/sets/'+set+'/'+figure.image+'" border="0" alt="'+ figure.figureFunction + '" /></a></td>');
+                            document.write('<td align="center"><a href="javascript:createFigure(figure_'+figure.figureFunction+');"><img src="lib/sets/'+setName+'/'+figure.image+'" border="0" alt="'+ figure.figureFunction + '" /></a></td>');
                             counter ++;
                             if(counter % 3 == 0){
                                 document.write('</tr>');

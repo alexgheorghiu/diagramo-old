@@ -1,16 +1,20 @@
-figureSets["experimental"] = [
-    {figureFunction: "SimpleImage", image: "image_32.gif"},
-    {figureFunction: "ImageFrame", image: "page.png"},
-    {figureFunction: "Settings", image: "page.png"},
-    {figureFunction: "Tango", image: "page.png"},
-    {figureFunction: "Organic", image: "page.png"},
-    {figureFunction: "Inkscape", image: "page.png"},
-    {figureFunction: "Airport", image: "page.png"},
-    {figureFunction: "200by200SVG", image: "page.png"},
-    {figureFunction: "200by200PNG", image: "page.png"},
-    {figureFunction: "3Figures", image: "page.png"},
-    {figureFunction: "3FiguresNoSize", image: "page.png"}
-]
+figureSets["experimental"] = {
+    name : 'Experimental',
+    description : 'An experimental set of figures. Use it on your own risk',
+    figures : [
+        {figureFunction: "SimpleImage", image: "image_32.gif"},
+        {figureFunction: "ImageFrame", image: "page.png"},
+        {figureFunction: "Settings", image: "page.png"},
+        {figureFunction: "Tango", image: "page.png"},
+        {figureFunction: "Organic", image: "page.png"},
+        {figureFunction: "Inkscape", image: "page.png"},
+        {figureFunction: "Airport", image: "page.png"},
+        {figureFunction: "200by200SVG", image: "page.png"},
+        {figureFunction: "200by200PNG", image: "page.png"},
+        {figureFunction: "3Figures", image: "page.png"},
+        {figureFunction: "3FiguresNoSize", image: "page.png"}
+    ]
+}
 
 /**
  *"..i have changed in the basic.js file and added the following function
