@@ -31,7 +31,7 @@ password (localhost & root access) just use '' (empty) value.
 define('DB_USER_PASS', 'diagramo');
 
 /**Store the version of the editor. Usefull in bugs and software update*/
-define('VERSION', '2.0b1');
+define('VERSION', '2.1b1');
 
 
 #debug information
