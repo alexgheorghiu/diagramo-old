@@ -45,10 +45,7 @@ if(!$diagram->public){
         <div><?=$diagram->description?></div>
         <p/>
         <div id="container">
-            <object type="image/svg+xml" data="/<?=sanitize($diagram->title)?>_<?=$diagram->hash?>.svg" width="800" height="600">
-                <img src="/<?=sanitize($diagram->title)?>_<?=$diagram->hash?>.png" width="800" height="600" border="1"/>
-            </object>
-            
+            <img src="/<?=sanitize($diagram->title)?>_<?=$diagram->hash?>.png" width="800" height="600" border="1"/>            
         </div>
         <div>
             <a href="/<?=sanitize($diagram->title)?>_<?=$diagram->hash?>.svg">Download SVG</a> | 
