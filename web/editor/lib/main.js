@@ -635,6 +635,7 @@ function onMouseDown(ev){
     var x = coords[0];
     var y = coords[1];
     lastClick = [x,y];
+//    Log.info("onMouseDown at (" + x + "," + y + ")");
     //alert('lastClick: ' + lastClick + ' state: ' + state);
 
     mousePressed = true;
@@ -1862,12 +1863,15 @@ function generateMoveMatrix(fig, x,y){
 }
 
 
-/**Computes the bounds of the canvas*/
+/**Computes the bounds of the canvas
+ **@return {Array} of {Integer} - [xStart, yStart, xEnd, yEnd]
+ **/
 function getCanvasBounds(){
     var canvasMinX = $("#a").offset().left;
     var canvasMaxX = canvasMinX + $("#a").width();
+    
     var canvasMinY = $("#a").offset().top;
-    var canvasMaxY = canvasMinX + $("#a").height();
+    var canvasMaxY = canvasMinY + $("#a").height();
 
     return [canvasMinX, canvasMinY, canvasMaxX, canvasMaxY];
 }
@@ -1883,10 +1887,14 @@ function getBodyXY(ev){
 /**
  *Extracts the X and Y from an event (for canvas)
  *@param {Event} ev - the event
+ *@return {Array} of {Integer} - []
  **/
 function getCanvasXY(ev){
     var position = [];
     var canvasBounds = getCanvasBounds();
+//    Log.group("main.js->getCanvasXY()");
+//    Log.info("Canvas bounds: [" + canvasBounds + ']');
+    
     var tempPageX = null;
     var tempPageY = null;
     
@@ -1897,17 +1905,19 @@ function getCanvasXY(ev){
         }
     }
     else{ //normal Desktop
-        tempPageX = ev.pageX;
-        tempPageY = ev.pageY;                
+        tempPageX = ev.pageX; //Retrieves the x-coordinate of the mouse pointer relative to the top-left corner of the document.
+        tempPageY = ev.pageY; //Retrieves the y-coordinate of the mouse pointer relative to the top-left corner of the document.          
+//        Log.info("ev.pageX:" + ev.pageX + " ev.pageY:" + ev.pageY);
     }
     
     if(tempPageX >= canvasBounds[0] && tempPageX <= canvasBounds[2]
         && tempPageY >= canvasBounds[1] && tempPageY <= canvasBounds[3])
-        {
-        //alert('Inside canvas');
+    {
+//        Log.info('Inside canvas');
         position = [tempPageX - $("#a").offset().left, tempPageY - $("#a").offset().top];
-    //alert("getXT : " + position);
+        //alert("getXT : " + position);
     }
+//    Log.groupEnd();
 
     return position;
 }

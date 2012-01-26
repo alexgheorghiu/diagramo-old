@@ -367,8 +367,13 @@ Text.prototype = {
         context.font = this.size + "px " + this.font;
         context.textAlign = this.align;
         for(var i=0; i<lines.length; i++){
-            context.fillText(lines[i], this.vector[0].x+offsetX,
-                (this.vector[0].y - this.getNormalHeight() / 2 + (i+1) * this.size + i * this.lineSpacing)+offsetY);
+//            Log.info("Line: " + lines[i] + " this.vector[0].x=" + this.vector[0].x + " offsetX=" + offsetX + " this.vector[0].y=" + this.vector[0].y + " offsetY=" + offsetY 
+//            + " this.getNormalHeight()=" + this.getNormalHeight() + " this.size=" + this.size + " this.lineSpacing=" + this.lineSpacing);
+            context.fillText(
+                lines[i], 
+                this.vector[0].x + offsetX,
+                (this.vector[0].y - this.getNormalHeight() / 2 + (i+1) * this.size + i * this.lineSpacing) + offsetY 
+            );
             //context.fillText(lines[i], this.vector[0].x, txtOffsetY * noLinesTxt);
             //context.fillText(linesText[i], -this.vector[0].x, txtOffsetY * noLinesTxt);
             noLinesTxt = noLinesTxt + 1;
