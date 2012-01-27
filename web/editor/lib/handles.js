@@ -16,13 +16,13 @@ function Handle(type){
 
     /*These are stupidly initialized to 0 but they should not be present at all...
      *anyway they got set to the proper values in HandleManager::handleGetAll() function*/
-    
+
     /**The center of the circle (x coordinates)*/
     this.x = 0;
-    
+
     /**The center of the circle (y coordinates)*/
     this.y = 0;
-    
+
     /**Used by Connector handles, to not display redundant handles (i.e. when they are on the same line)*/
     this.visible = true;
 }
@@ -67,9 +67,9 @@ Handle.loadArray = function(v){
 Handle.RADIUS = 3;
 
 Handle.prototype = {
-    
+
     constructor : Handle,
-    
+
     /**Compares to another Handle
      *@param {Handle} group -  - the other glue
      *@return {Boolean} - true if equals, false otherwise
@@ -95,7 +95,7 @@ Handle.prototype = {
         } else if(m[0] == 'scale'){
             var cmdScale = new FigureScaleCommand(HandleManager.shape.id, m[1], m[2]);
             cmdScale.execute();
-            History.addUndo(cmdScale);                
+            History.addUndo(cmdScale);
         }
     },
 
@@ -109,7 +109,7 @@ Handle.prototype = {
         } else if(m[0] == 'scale'){
             var cmdScale = new GroupScaleCommand(HandleManager.shape.id, m[1], m[2]);
             cmdScale.execute();
-            History.addUndo(cmdScale);                
+            History.addUndo(cmdScale);
         }
     },
 
@@ -123,15 +123,15 @@ Handle.prototype = {
      **/
     actionShape: function(lastMove, newX, newY){
         var matrixes = [];
-        
+
         var figBounds = HandleManager.shape.getBounds();
-        
+
         var transX = 0; //the amount of translation on Ox
         var transY = 0; //the amount of translation on Oy
         var scaleX = 1; //the scale percentage on Ox
         var scaleY = 1; //the scale percentage on Oy
         var arc = false;
-        
+
         //see if we have a resize and prepare the figure by moving it back to Origin and "unrotate" it
         if(this.type == 'r'){
             //rotationCoords[0] is always the center of the shape, we clone it as when we do -rotationCoords[0].x, it is set to 0.
@@ -144,23 +144,23 @@ Handle.prototype = {
             //            HandleManager.shape.transform(Matrix.translationMatrix(-center.x, -center.y))
             //            HandleManager.shape.transform(Matrix.rotationMatrix(rotAngle))
             //            HandleManager.shape.transform(Matrix.translationMatrix(center.x, center.y));
-            
+
             var equivTransfMatrix = Matrix.mergeTransformations(
-                Matrix.translationMatrix(-center.x, -center.y), 
-                Matrix.rotationMatrix(rotAngle), 
+                Matrix.translationMatrix(-center.x, -center.y),
+                Matrix.rotationMatrix(rotAngle),
                 Matrix.translationMatrix(center.x,center.y)
                 );
-                    
-            
+
+
             //TODO: make somehow to compute the inverse of it.
             //@see http://en.wikipedia.org/wiki/Transformation_matrix#Rotation to find inverses
 
             var inverseTransfMatrix = Matrix.mergeTransformations(
-                Matrix.translationMatrix(-center.x, -center.y), 
-                Matrix.rotationMatrix(-rotAngle), 
+                Matrix.translationMatrix(-center.x, -center.y),
+                Matrix.rotationMatrix(-rotAngle),
                 Matrix.translationMatrix(center.x,center.y)
                 );
-            
+
             matrixes = ['rotate', equivTransfMatrix, inverseTransfMatrix];
         }
         else{ //if not "rotate" (figure), "updown", "leftright" (connector)
@@ -170,7 +170,7 @@ Handle.prototype = {
             //save initial figure's center
             var oldCenter = HandleManager.shape.rotationCoords[0].clone();
 
-            
+
 
             //move the new [x,y] to the "un-rotated" and "un-translated" space
             var p = new Point(newX,newY);
@@ -185,9 +185,9 @@ Handle.prototype = {
             handlerPoint.transform(Matrix.translationMatrix(-oldCenter.x,-oldCenter.y));
             handlerPoint.transform(Matrix.rotationMatrix(-angle));
             handlerPoint.transform(Matrix.translationMatrix(oldCenter.x,oldCenter.y));
-            
-            
-            
+
+
+
             switch(this.type){
                 case 'n':
                     /*move the xOy coodinates at the bottom of the figure and then scale*/
@@ -258,11 +258,11 @@ Handle.prototype = {
                     }
                     break;
             }//end switch
-            
-            
-            
-            
-            
+
+
+
+
+
             /*By default the NW, NE, SW and SE are scalling keeping the ratio
              *but you can use SHIFT to cause a free (no keep ratio) change
              *So, if no SHIFT pressed we force a "keep ration" resize
@@ -279,14 +279,14 @@ Handle.prototype = {
                 }
             }
 
-            
+
             //move the figure to origine and "unrotate" it
             var matrixToOrigin = Matrix.mergeTransformations(
                 Matrix.translationMatrix(-oldCenter.x,-oldCenter.y),
                 Matrix.rotationMatrix(-angle),
                 Matrix.translationMatrix(oldCenter.x,oldCenter.y)
                 );
-                
+
             //            HandleManager.shape.transform(Matrix.translationMatrix(-oldCenter.x,-oldCenter.y));
             //            HandleManager.shape.transform(Matrix.rotationMatrix(-angle));
             //            HandleManager.shape.transform(Matrix.translationMatrix(oldCenter.x,oldCenter.y));
@@ -301,37 +301,37 @@ Handle.prototype = {
             //            HandleManager.shape.transform(Matrix.translationMatrix(-oldCenter.x,-oldCenter.y));
             //            HandleManager.shape.transform(Matrix.rotationMatrix(angle));
             //            HandleManager.shape.transform(Matrix.translationMatrix(oldCenter.x,oldCenter.y));
-            //             HandleManager.shape.transform(directMatrix);            
-            
+            //             HandleManager.shape.transform(directMatrix);
+
             //scale matrix
             var scaleMatrix = Matrix.mergeTransformations(
                 Matrix.translationMatrix(-transX, -transY),
                 Matrix.scaleMatrix(scaleX, scaleY),
                 Matrix.translationMatrix(transX, transY)
                 );
-                
+
             var unscaleMatrix = Matrix.mergeTransformations(
                 Matrix.translationMatrix(-transX, -transY),
                 Matrix.scaleMatrix(1/scaleX, 1/scaleY),
                 Matrix.translationMatrix(transX, transY)
                 );
-                        
+
             //move and rotate the figure back to its original coordinates
             var matrixBackFromOrigin = Matrix.mergeTransformations(
                 Matrix.translationMatrix(-oldCenter.x,-oldCenter.y),
                 Matrix.rotationMatrix(angle),
                 Matrix.translationMatrix(oldCenter.x,oldCenter.y)
                 );
-               
+
             var directMatrix = Matrix.mergeTransformations(matrixToOrigin, scaleMatrix, matrixBackFromOrigin);
             var reverseMatrix = Matrix.mergeTransformations(matrixToOrigin, unscaleMatrix, matrixBackFromOrigin);
-             
-             
+
+
             matrixes = ['scale', directMatrix, reverseMatrix];
-             
-            
+
+
         } //end else
-        
+
         return matrixes;
     },
 
@@ -348,9 +348,9 @@ Handle.prototype = {
                 var index;
                 //find the two turning points this handle is in between
                 for(var i = 1; i < HandleManager.shape.turningPoints.length-1; i++){
-                    if(HandleManager.shape.turningPoints[i-1].y == HandleManager.shape.turningPoints[i].y 
-                        && HandleManager.shape.turningPoints[i].y == this.y 
-                        && Math.min(HandleManager.shape.turningPoints[i].x, HandleManager.shape.turningPoints[i-1].x) <= this.x 
+                    if(HandleManager.shape.turningPoints[i-1].y == HandleManager.shape.turningPoints[i].y
+                        && HandleManager.shape.turningPoints[i].y == this.y
+                        && Math.min(HandleManager.shape.turningPoints[i].x, HandleManager.shape.turningPoints[i-1].x) <= this.x
                         && Math.max(HandleManager.shape.turningPoints[i].x, HandleManager.shape.turningPoints[i-1].x) >= this.x)
                         {
                         index = i;
@@ -365,9 +365,9 @@ Handle.prototype = {
                 var index;
                 //find the two turning points this handle is in between
                 for(var i = 1; i < HandleManager.shape.turningPoints.length-1; i++){
-                    if(HandleManager.shape.turningPoints[i-1].x == HandleManager.shape.turningPoints[i].x 
-                        && HandleManager.shape.turningPoints[i].x == this.x 
-                        && Math.min(HandleManager.shape.turningPoints[i].y, HandleManager.shape.turningPoints[i-1].y) <= this.y 
+                    if(HandleManager.shape.turningPoints[i-1].x == HandleManager.shape.turningPoints[i].x
+                        && HandleManager.shape.turningPoints[i].x == this.x
+                        && Math.min(HandleManager.shape.turningPoints[i].y, HandleManager.shape.turningPoints[i-1].y) <= this.y
                         && Math.max(HandleManager.shape.turningPoints[i].y, HandleManager.shape.turningPoints[i-1].y) >= this.y)
                         {
                         index = i;
@@ -409,14 +409,14 @@ Handle.prototype = {
      **/
     paint : function(context){
         context.save();
-        
+
         //fill the handler
         context.beginPath();
         context.arc(this.x, this.y, Handle.RADIUS, 0, Math.PI*2, false);
         context.fillStyle = "rgb(0,255,0)";
         context.closePath();
         context.fill();
-        
+
         //stroke the handler
         context.beginPath();
         context.arc(this.x, this.y, Handle.RADIUS, 0, Math.PI*2, false);
@@ -424,14 +424,14 @@ Handle.prototype = {
         context.closePath();
         context.stroke();
 
-        
+
         if(this.type == 'r'){
             var line = new Line(new Point(this.x,this.y), new Point(HandleManager.handles[1].x,HandleManager.handles[1].y))
             line.style.dashLength = 3;
             line.style.strokeStyle="grey";
             line.paint(context);
         }
-        
+
         context.restore();
     },
 
@@ -445,7 +445,7 @@ Handle.prototype = {
         return p.near(x,y, Handle.RADIUS);
     },
 
-    
+
     /**
      *Get a handle bounds
      **/
@@ -454,7 +454,7 @@ Handle.prototype = {
     },
 
 
-    /** 
+    /**
      *Transform the Handle through a matrix
      *@param {Matrix} matrix - the matrix that will perform the transformation
      **/
@@ -464,7 +464,7 @@ Handle.prototype = {
         this.x=p.x;
         this.y=p.y;
     },
-    
+
 
     /**Get the specific cursor for this handle. Cursor is ONLY a visual clue for
      *  the user to know how to move his mouse.
@@ -481,7 +481,7 @@ Handle.prototype = {
      * @author Zack Newsham <zack_newsham@yahoo.co.uk>
      * @author Alex Gheorghiu <alex@scriptoid.com>
      **/
-    
+
     getCursor:function(){
         if(HandleManager.shape instanceof Connector){
             if(this.visible == false){
@@ -501,7 +501,7 @@ Handle.prototype = {
             if(this.type == 'r'){
                 return 'move';
             }
-        
+
             var figureBounds = HandleManager.shape.getBounds(); //get figure's bounds
             var figureCenter = new Point(figureBounds[0] + ((figureBounds[2]-figureBounds[0])/2),
                 (figureBounds[1] + ((figureBounds[3] - figureBounds[1])/2)) ); //get figure's center
@@ -567,7 +567,7 @@ HandleManager.selectRect = null;
 HandleManager.handleSelectedIndex = -1;
 
 /**Distance from shape where to draw the handles*/
-HandleManager.handleOffset = 10;
+HandleManager.handleOffset = 0;//JS: I want handles to be on figure corners, because then we can correctly see figure with no stroke (was 10)
 
 /**Get selected handle or null if no handler selected*/
 HandleManager.handleGetSelected = function(){
@@ -589,29 +589,29 @@ HandleManager.shapeSet = function(shape){
     //2. setup/add handles for this figure
     if(shape instanceof Connector) {
         HandleManager.selectRect = null;
-        
+
         //we don't want to affect the start or end points
         for(var i=1; i<shape.turningPoints.length-2; i++){
             var h;
-            
+
             /*
              *Create a new handle ONLY if previous, current and next turning points are not colinear
              **/
-            if( 
+            if(
                 /*Previous points are not colinear and next points are either non colinear or last 2 coincide (this case appear when dragging)*/
                 (
                     ! Util.collinearity(HandleManager.shape.turningPoints[i-1], HandleManager.shape.turningPoints[i], HandleManager.shape.turningPoints[i+1])
-                    && 
+                    &&
                     ( !Util.collinearity(HandleManager.shape.turningPoints[i], HandleManager.shape.turningPoints[i+1], HandleManager.shape.turningPoints[i+2])
                         || HandleManager.shape.turningPoints[i+1].equals(HandleManager.shape.turningPoints[i+2]) )
                     )
-            
+
                 ||
                 /*Previous points are non colinear or last 2 of them coincide and next points are not colinear*/
                 (
                     (! Util.collinearity(HandleManager.shape.turningPoints[i-1], HandleManager.shape.turningPoints[i], HandleManager.shape.turningPoints[i+1])
                         || HandleManager.shape.turningPoints[i-1].equals(HandleManager.shape.turningPoints[i]) )
-                    && 
+                    &&
                     !Util.collinearity(HandleManager.shape.turningPoints[i], HandleManager.shape.turningPoints[i+1], HandleManager.shape.turningPoints[i+2])
                     )
                 ){
@@ -693,7 +693,12 @@ HandleManager.shapeSet = function(shape){
 
         handle = new Handle("r"); //Rotation
         handle.x = bounds[0]+(bounds[2]-bounds[0])/2;
-        handle.y = bounds[1] - HandleManager.handleOffset * 1.5;
+        //JS: because handleOffset is 0, we still need to see rotation handle
+        if (HandleManager.handleOffset!=0){
+          handle.y = bounds[1] - HandleManager.handleOffset * 1.5;
+        }else{
+          handle.y = bounds[1] - 15;
+        }
         HandleManager.handles.push(handle);
 
 
