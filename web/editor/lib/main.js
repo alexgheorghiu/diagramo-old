@@ -800,8 +800,9 @@ function onMouseDown(ev){
                                 // we will allways have at least two figures here, so create a group
                                 selectedGroupId = STACK.groupCreate(figuresToAdd);
                                 state = STATE_GROUP_SELECTED;
-                                Log.info('onMouseDown() + STATE_FIGURE_SELECTED  + min. 2 figures => STATE_GROUP_SELECTED');
+                                setUpEditPanel(null);
                                 redraw = true;
+                                Log.info('onMouseDown() + STATE_FIGURE_SELECTED  + min. 2 figures => STATE_GROUP_SELECTED');
                             }else{
                                 var f = STACK.figureGetById(fId);
                                 if(f.groupId != -1){ // belongs to a group, so select it
@@ -1387,13 +1388,15 @@ function onMouseMove(ev){
                         redraw = true;
                     }
                     else{ //not over any handle -so it must be translating
-                        Log.info('onMouseMove() - STATE_GROUP_SELECTED + mouse pressed + NOT over a Handle');
-                        canvas.style.cursor = 'move';
-                        var mTranslate = generateMoveMatrix(STACK.groupGetById(selectedGroupId), x, y);
-                        var cmdTranslateGroup = new GroupTranslateCommand(selectedGroupId, mTranslate);
-                        cmdTranslateGroup.execute();
-                        History.addUndo(cmdTranslateGroup);
-                        redraw = true;
+                        if (!SHIFT_PRESSED){
+                            Log.info('onMouseMove() - STATE_GROUP_SELECTED + mouse pressed + NOT over a Handle');
+                            canvas.style.cursor = 'move';
+                            var mTranslate = generateMoveMatrix(STACK.groupGetById(selectedGroupId), x, y);
+                            var cmdTranslateGroup = new GroupTranslateCommand(selectedGroupId, mTranslate);
+                            cmdTranslateGroup.execute();
+                            History.addUndo(cmdTranslateGroup);
+                            redraw = true;
+                        }
                     }
                 }
             }
