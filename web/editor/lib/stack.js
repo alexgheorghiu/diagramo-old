@@ -669,24 +669,35 @@ Stack.prototype = {
         
         //paint handlers for selected shape
         if(state == STATE_FIGURE_SELECTED){ //FIGURE
-            var f = this.figureGetById(selectedFigureId)
+            var f = this.figureGetById(selectedFigureId);
             HandleManager.shapeSet(f);
             //alert('Paint handles');
             HandleManager.paint(context);
         }
         else if(state == STATE_CONNECTOR_SELECTED){ //CONNECTOR
-            var c = CONNECTOR_MANAGER.connectorGetById(selectedConnectorId)
+            var c = CONNECTOR_MANAGER.connectorGetById(selectedConnectorId);
             HandleManager.shapeSet(c);
             HandleManager.paint(context);
         }
         else if(state == STATE_GROUP_SELECTED){ //GROUP 
-            var g = this.groupGetById(selectedGroupId)
+            var g = this.groupGetById(selectedGroupId);
             HandleManager.shapeSet(g);
             HandleManager.paint(context);
         }
 
         
         if(state == STATE_SELECTING_MULTIPLE){
+            // if shift is pressed, then leave the selected figure or group drawn on screen and allow drawing region in same time
+            if(SHIFT_PRESSED){
+                if (selectedFigureId!=-1){
+                    var f = this.figureGetById(selectedFigureId);
+                    HandleManager.paint(context);
+                }
+                if (selectedGroupId!=-1){
+                    var g = this.groupGetById(selectedGroupId);
+                    HandleManager.paint(context);
+                }
+            }
             selectionArea.paint(context);
             Log.info(selectionArea.toString());
         }

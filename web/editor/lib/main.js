@@ -1116,6 +1116,24 @@ function onMouseUp(ev){
             Log.info('onMouseUp() selection area: ' + selectionArea);
             state = STATE_NONE;
             var figuresToAdd = [];
+            // if SHIFT pressed add the new selection to the already selected figures, so here add to array already selected ones
+            if(SHIFT_PRESSED){
+                if (selectedFigureId != -1){ //if one figure already selected add it
+                    figuresToAdd.push(selectedFigureId);
+                }
+                if(selectedGroupId!=-1){
+                    var selectedGroup = STACK.groupGetById(selectedGroupId);
+                    var groupFigures = STACK.figureGetByGroupId(selectedGroupId);
+                    for(var i=0; i<groupFigures.length; i++ ){
+                      figuresToAdd.push(groupFigures[i].id);
+                    }
+                    
+                    //destroy current group (if temporary)
+                    if(!selectedGroup.permanent){
+                        STACK.groupDestroy(selectedGroupId);
+                    }                    
+                }
+            }            
             for(var i = 0; i < STACK.figures.length; i++){
                 if(STACK.figures[i].groupId == -1){ //we only want ungrouped items
                     var points = STACK.figures[i].getPoints();
@@ -1320,14 +1338,24 @@ function onMouseMove(ev){
                         Log.info('onMouseMove() - STATE_FIGURE_SELECTED + drag - mouse cursor = ' + canvas.style.cursor);
                     }
                     else{
-                        /*move figure only if no handle is selected*/
-                        canvas.style.cursor = 'move';
-                        var translateMatrix = generateMoveMatrix(STACK.figureGetById(selectedFigureId), x, y);
-                        var cmdTranslateFigure = new FigureTranslateCommand(selectedFigureId, translateMatrix);
-                        History.addUndo(cmdTranslateFigure);
-                        cmdTranslateFigure.execute();
-                        redraw = true;
-                        Log.info("onMouseMove() + STATE_FIGURE_SELECTED + drag - move selected figure");
+                        if (!SHIFT_PRESSED){
+                            /*move figure only if no handle is selected*/
+                            canvas.style.cursor = 'move';
+                            var translateMatrix = generateMoveMatrix(STACK.figureGetById(selectedFigureId), x, y);
+                            var cmdTranslateFigure = new FigureTranslateCommand(selectedFigureId, translateMatrix);
+                            History.addUndo(cmdTranslateFigure);
+                            cmdTranslateFigure.execute();
+                            redraw = true;
+                            Log.info("onMouseMove() + STATE_FIGURE_SELECTED + drag - move selected figure");
+                        }else{
+                            state = STATE_SELECTING_MULTIPLE;
+                            selectionArea.points[0] = new Point(x,y);
+                            selectionArea.points[1] = new Point(x,y);
+                            selectionArea.points[2] = new Point(x,y);
+                            selectionArea.points[3] = new Point(x,y);//the selectionArea has no size until we start dragging the mouse
+                            redraw = true;
+                            Log.info('onMouseMove() - STATE_GROUP_SELECTED + mousePressed');
+                        }
                     }
                 }
             }
@@ -1396,6 +1424,14 @@ function onMouseMove(ev){
                             cmdTranslateGroup.execute();
                             History.addUndo(cmdTranslateGroup);
                             redraw = true;
+                        }else{
+                            state = STATE_SELECTING_MULTIPLE;
+                            selectionArea.points[0] = new Point(x,y);
+                            selectionArea.points[1] = new Point(x,y);
+                            selectionArea.points[2] = new Point(x,y);
+                            selectionArea.points[3] = new Point(x,y);//the selectionArea has no size until we start dragging the mouse
+                            redraw = true;
+                            Log.info('onMouseMove() - STATE_GROUP_SELECTED + mousePressed');
                         }
                     }
                 }
