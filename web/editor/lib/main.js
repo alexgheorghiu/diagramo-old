@@ -1156,6 +1156,7 @@ function onMouseUp(ev){
             if(figuresToAdd.length >= 2){ //if we selected at least 2 figures then we can create a group
                 selectedGroupId = STACK.groupCreate(figuresToAdd);
                 state = STATE_GROUP_SELECTED;
+                setUpEditPanel(null); //because of shift in this case we also need to reset the edit panel
                 Log.info('onMouseUp() + STATE_SELECTING_MULTIPLE  + min. 2 figures => STATE_GROUP_SELECTED');
             }
             else if (figuresToAdd.length == 1){ // if we only select one figure, then it is not a group, it's a simple selection
