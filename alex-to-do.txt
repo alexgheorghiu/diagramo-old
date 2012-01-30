@@ -2,6 +2,16 @@ This is Alex's current mental stack
 
 Current stack:
 
+* Daniel's error (#43)
+
+Logs:
+solutions[0] is undefined
+[Break On This Error] var firstSolution = solutions[0][2]; //pick first solution 
+
+onMouseDown() + STATE_FIGURE_SELECTED - change to STATE_NONE
+An invalid or illegal string was specified
+[Break On This Error] (this.vector[0].y - th...ze + i * this.lineSpacing) + offsetY 
+
 SVG conclusion
 --------------
  - SVG images are scaled nice in IE9 and Chrome but not in FF
