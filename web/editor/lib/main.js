@@ -738,8 +738,15 @@ function onMouseDown(ev){
              *      - did we click same figure? 
              *          - does current figure belong to a group? If yes, select that group
              *      - did we clicked another figure?
-             *          - does this new figure belong to a group? If, yes, select that group
-             * - if we click no nothing -> State none         
+             *          - if SHIFT is presset
+             *              single figure: create a new group of (selectedFigure + clicked figure)
+             *              belongs to a group: create a new group of (selectedFigure + parent group of clicked figure) 
+             *          - else (SHIFT not presset)
+             *              single figure: select that figure
+             *              belongs to a group: select that group
+             * - if we click no nothing -> 
+             *      - if SHIFT pressed  then State none  
+             *      - else just keep current state (maybe just missed what we needed)    
              *      
              */
             
@@ -788,21 +795,23 @@ function onMouseDown(ev){
                                 if (selectedFigureId != -1){ //add already selected figure
                                     figuresToAdd.push(selectedFigureId);
                                 }
+                                
                                 var f = STACK.figureGetById(fId);
-                                if(f.groupId != -1){ // if selected belongs to a group, then add whole group
+                                if(f.groupId != -1){ // if selected figure belongs to a group, then add whole group
                                     var groupFigures = STACK.figureGetByGroupId(f.groupId);
                                     for(var i=0; i<groupFigures.length; i++ ){
                                       figuresToAdd.push(groupFigures[i].id);
                                     }                                    
                                 }else{
-                                    figuresToAdd.push(fId); //add the selected figure
+                                    figuresToAdd.push(fId); //add ONLY clicked selected figure
                                 }
+                                
                                 // we will allways have at least two figures here, so create a group
                                 selectedGroupId = STACK.groupCreate(figuresToAdd);
                                 state = STATE_GROUP_SELECTED;
                                 setUpEditPanel(null);
                                 redraw = true;
-                                Log.info('onMouseDown() + STATE_FIGURE_SELECTED  + min. 2 figures => STATE_GROUP_SELECTED');
+                                Log.info('onMouseDown() + STATE_FIGURE_SELECTED + SHIFT  + min. 2 figures => STATE_GROUP_SELECTED');
                             }else{
                                 var f = STACK.figureGetById(fId);
                                 if(f.groupId != -1){ // belongs to a group, so select it
@@ -842,14 +851,31 @@ function onMouseDown(ev){
              * - if we clicked a Figure:
              *      - deselect current group
              *      - the figure is from same group? (do nothing)
+             *      
              *      - the figure is from different group? (select that group)
-             *          - if current group is temporary (destroy it)
+             *          - SHIFT is pressed
+             *              merge those 2 groups
+             *              if current group is temporary
+             *                  destroy it
+             *          - SHIFT not pressed
+             *              if current group is temporary
+             *                  destroy it
+             *              clicked group become new selected group    
+             *          
+             *          
              *      - the figure does not belong to any group? 
-             *           - select that figure
-             *           - if current group is temporary (destroy it)
+             *          - SHIFT is pressed
+             *              add figure to to group
+             *          - else (SHIFT not pressed)
+             *              if current group is temporary 
+             *                  destroy it
+             *              select that figure        
+             *              
              * - if we clicked on empty space
-             *      - if group was temporary, destroy it
-             *      - if group was permanent ...just deselect it (state none)  
+             *      -  SHIFT _NOT_ pressed
+             *          - current grup is temporary
+             *              delete it
+             *          - move to state none
              */
             
             //GROUPS
@@ -896,7 +922,7 @@ function onMouseDown(ev){
                       
                         selectedGroupId = STACK.groupCreate(figuresToAdd);
                       
-                        Log.info('onMouseDown() + STATE_GROUP_SELECTED  + add lonely figure to other');
+                        Log.info('onMouseDown() + STATE_GROUP_SELECTED + SHIFT  + add lonely figure to other');
                     }else{                    
                         //destroy current group (if temporary)
                         if(!selectedGroup.permanent){
@@ -918,10 +944,15 @@ function onMouseDown(ev){
                     if(fig.groupId != selectedGroupId){
                         if (SHIFT_PRESSED){
                             var figuresToAdd = [];
+                            
+                            
+                            //add figures from current group
                             var groupFigures = STACK.figureGetByGroupId(selectedGroupId);
                             for(var i=0; i<groupFigures.length; i++ ){
                                 figuresToAdd.push(groupFigures[i].id);
                             }
+                            
+                            //add figures from clicked group
                             groupFigures = STACK.figureGetByGroupId(fig.groupId);
                             for(var i=0; i<groupFigures.length; i++ ){
                                 figuresToAdd.push(groupFigures[i].id);
@@ -1114,14 +1145,24 @@ function onMouseUp(ev){
              **/
             Log.info('onMouseUp() + STATE_SELECTING_MULTIPLE => STATE_NONE');
             Log.info('onMouseUp() selection area: ' + selectionArea);
+            
             state = STATE_NONE;
+            
             var figuresToAdd = [];
-            // if SHIFT pressed add the new selection to the already selected figures, so here add to array already selected ones
+            
+            /* 
+             * If SHIFT pressed add the new selection to the already selected figures, 
+             * so here add to array already selected ones
+             */            
             if(SHIFT_PRESSED){
-                if (selectedFigureId != -1){ //if one figure already selected add it
+                
+                //if one figure already selected add it
+                if (selectedFigureId != -1){ 
                     figuresToAdd.push(selectedFigureId);
                 }
-                if(selectedGroupId!=-1){
+                
+                //if group already selected add it
+                if(selectedGroupId != -1){
                     var selectedGroup = STACK.groupGetById(selectedGroupId);
                     var groupFigures = STACK.figureGetByGroupId(selectedGroupId);
                     for(var i=0; i<groupFigures.length; i++ ){
@@ -1131,9 +1172,11 @@ function onMouseUp(ev){
                     //destroy current group (if temporary)
                     if(!selectedGroup.permanent){
                         STACK.groupDestroy(selectedGroupId);
-                    }                    
+                    }
                 }
-            }            
+            }
+
+            //add free figures (not belonging to any group) that fall in selection region
             for(var i = 0; i < STACK.figures.length; i++){
                 if(STACK.figures[i].groupId == -1){ //we only want ungrouped items
                     var points = STACK.figures[i].getPoints();
@@ -1153,6 +1196,7 @@ function onMouseUp(ev){
                 } //end if
             } //end for
                 
+            //See what to do with collected figures
             if(figuresToAdd.length >= 2){ //if we selected at least 2 figures then we can create a group
                 selectedGroupId = STACK.groupCreate(figuresToAdd);
                 state = STATE_GROUP_SELECTED;
@@ -1317,7 +1361,11 @@ function onMouseMove(ev){
              * We have a figure selected.  Here is what can happen:
              * - if the mouse is pressed
              *      - if over a Figure's Handler then execute Handler's action
-             *      - else (it is over the Figure) then move figure
+             *      - else (it is over the Figure)
+             *          if SHIFT _NOT_ pressed
+             *              then move figure
+             *          else (SHIFT pressed)
+             *              enter STATE_SELECTING_MULTIPLE state 
              * - if mouse is not pressed then change the cursor type to :
              *      - "move" if over a figure or connector
              *      - "handle" if over current figure's handle
@@ -1338,9 +1386,8 @@ function onMouseMove(ev){
                         redraw = true;
                         Log.info('onMouseMove() - STATE_FIGURE_SELECTED + drag - mouse cursor = ' + canvas.style.cursor);
                     }
-                    else{
-                        if (!SHIFT_PRESSED){
-                            /*move figure only if no handle is selected*/
+                    else{ /*no handle is selected*/
+                        if (!SHIFT_PRESSED){//just translate the figure                            
                             canvas.style.cursor = 'move';
                             var translateMatrix = generateMoveMatrix(STACK.figureGetById(selectedFigureId), x, y);
                             var cmdTranslateFigure = new FigureTranslateCommand(selectedFigureId, translateMatrix);
@@ -1348,14 +1395,14 @@ function onMouseMove(ev){
                             cmdTranslateFigure.execute();
                             redraw = true;
                             Log.info("onMouseMove() + STATE_FIGURE_SELECTED + drag - move selected figure");
-                        }else{
+                        }else{ //we are enter a figures selection sesssion
                             state = STATE_SELECTING_MULTIPLE;
                             selectionArea.points[0] = new Point(x,y);
                             selectionArea.points[1] = new Point(x,y);
                             selectionArea.points[2] = new Point(x,y);
                             selectionArea.points[3] = new Point(x,y);//the selectionArea has no size until we start dragging the mouse
                             redraw = true;
-                            Log.info('onMouseMove() - STATE_GROUP_SELECTED + mousePressed');
+                            Log.info('onMouseMove() - STATE_GROUP_SELECTED + mousePressed + SHIFT => STATE_SELECTING_MULTIPLE');
                         }
                     }
                 }
@@ -1391,7 +1438,11 @@ function onMouseMove(ev){
              * We have a group selected.  Here is what can happen:
              * - if the mouse is pressed
              *      - if over a Group's Handler then execute Handler's action
-             *      - else (it is over one of Group's Figures) then move whole group
+             *      - else (it is over one of Group's Figures):
+             *          if SHIFT _NOT_ pressed:
+             *              then move whole group
+             *          else (SHIFT pressed)
+             *              enter STATE_SELECTING_MULTIPLE state         
              * - if mouse is not pressed then change the cursor type to :
              *      - drag group?
              *      - cursor ? 
@@ -1432,7 +1483,7 @@ function onMouseMove(ev){
                             selectionArea.points[2] = new Point(x,y);
                             selectionArea.points[3] = new Point(x,y);//the selectionArea has no size until we start dragging the mouse
                             redraw = true;
-                            Log.info('onMouseMove() - STATE_GROUP_SELECTED + mousePressed');
+                            Log.info('onMouseMove() - STATE_GROUP_SELECTED + mousePressed + SHIFT => STATE_SELECTING_MULTIPLE');
                         }
                     }
                 }

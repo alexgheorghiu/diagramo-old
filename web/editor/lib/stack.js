@@ -684,20 +684,20 @@ Stack.prototype = {
             HandleManager.shapeSet(g);
             HandleManager.paint(context);
         }
-
-        
-        if(state == STATE_SELECTING_MULTIPLE){
-            // if shift is pressed, then leave the selected figure or group drawn on screen and allow drawing region in same time
+        else if(state == STATE_SELECTING_MULTIPLE){ //SELECTION
+            /* If shift is pressed, then leave the selected figure 
+             * or group drawn on screen and allow drawing region in same time*/
             if(SHIFT_PRESSED){
-                if (selectedFigureId!=-1){
+                if (selectedFigureId != -1){
                     var f = this.figureGetById(selectedFigureId);
                     HandleManager.paint(context);
                 }
-                if (selectedGroupId!=-1){
+                if (selectedGroupId != -1){
                     var g = this.groupGetById(selectedGroupId);
                     HandleManager.paint(context);
                 }
             }
+            
             selectionArea.paint(context);
             Log.info(selectionArea.toString());
         }
