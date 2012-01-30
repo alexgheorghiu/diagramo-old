@@ -1289,6 +1289,12 @@ function onMouseMove(ev){
     //    }
     var redraw = false;
     var coords = getCanvasXY(ev);
+    
+    if(coords == null){
+        Log.error("main.js onMouseMove() null coordinates");
+        return;
+    }
+    
     var x = coords[0];
     var y = coords[1];
     var canvas = getCanvas();
@@ -2036,10 +2042,10 @@ function getBodyXY(ev){
 /**
  *Extracts the X and Y from an event (for canvas)
  *@param {Event} ev - the event
- *@return {Array} of {Integer} - []
+ *@return {Array} of {Integer} - or null if event not inside the canvas
  **/
 function getCanvasXY(ev){
-    var position = [];
+    var position = null;
     var canvasBounds = getCanvasBounds();
 //    Log.group("main.js->getCanvasXY()");
 //    Log.info("Canvas bounds: [" + canvasBounds + ']');
