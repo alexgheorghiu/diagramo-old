@@ -426,6 +426,24 @@ ImageFrame.prototype = {
         return nBounds.getPoints();
     },
     
+    clone:function(){
+        var newImageFrame = {};
+        for (i in this) {
+            if (i == 'image'){
+                newImageFrame.image = new Image();
+                continue;
+            }
+            if (i == 'vector'){
+                newImageFrame[i] = Point.cloneArray(this[i]);
+                continue;
+            }
+            if (this[i] && typeof this[i] == "object") {
+                newImageFrame[i] = this[i].clone();
+            } else newImageFrame[i] = this[i];
+        }
+        newImageFrame.setUrl(newImageFrame.url);
+        return newImageFrame;
+    },
     
     /**
      *Export the image to SVG
