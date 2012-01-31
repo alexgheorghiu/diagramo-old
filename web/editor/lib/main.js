@@ -428,19 +428,8 @@ function onKeyPress(ev){
 
     switch(ev.charCode){
         case KEY.NUMPAD4: //Numpad 4
-            if(CNTRL_PRESSED && STACK.figureGetSelected()){ //clone a figure
-                /*TODO: right now the newly created figure belongs to the Group with Id = -1 (supposelly no group)
-                 *So this might not be a good ideea
-                 **/
-
-                /*Creates a clone of currently selected figure and
-                 * move it a little right (10 pixels) and down (10 pixels)
-                 * */
-                var createdFigure = STACK.figureGetSelected().clone();
-                STACK.figureAdd(createdFigure);
-                STACK.figureSelect(STACK.figures.length-1);
-                createdFigure.transform(Matrix.translationMatrix(10,10));
-                getCanvas().style.cursor="default";
+            if(CNTRL_PRESSED){ //clone a figure
+                action('duplicate');
             }
             break;
     }//end switch
@@ -459,7 +448,7 @@ function onKeyPress(ev){
  **/
 function onKeyDown(ev){
     
-    //Log.info("main.js->onKeyDown()->function call. Event = " + ev.type + " IE = " + IE ); //JS: comout because messes log on SHIFT
+    //Log.info("main.js->onKeyDown()->function call. Event = " + ev.type + " IE = " + IE ); //Janis: comout because messes log on SHIFT
     
     //1 - OLD IE browsers
     if(typeof ev == 'undefined' || ev == null){
@@ -477,7 +466,7 @@ function onKeyDown(ev){
     ev.KEY = ev.keyCode;
         
     
-    //Log.info("e.keyCode = " + ev.keyCode + " ev.KEY = " + ev.KEY); //JS: comout because messes log on SHIFT
+    //Log.info("e.keyCode = " + ev.keyCode + " ev.KEY = " + ev.KEY); //Janis: comout because messes log on SHIFT
     
     
     switch(ev.KEY){
@@ -585,6 +574,15 @@ function onKeyDown(ev){
         case KEY.U:
             if(CNTRL_PRESSED){
                 action('ungroup');
+            }
+            break;
+
+        case KEY.D:
+            //TODO: From Janis: Ctrl+D works in Firefox, but not in Chrome
+            //and in Firefox it is called in Key.NUMPAD4 case - onKeyPress(ev), not here
+            //so this case isn`t working at all, do we need this here?
+            if(CNTRL_PRESSED){
+                action('duplicate');
             }
             break;
 
@@ -738,14 +736,14 @@ function onMouseDown(ev){
              *      - did we click same figure? 
              *          - does current figure belong to a group? If yes, select that group
              *      - did we clicked another figure?
-             *          - if SHIFT is presset
+             *          - if SHIFT is pressed
              *              single figure: create a new group of (selectedFigure + clicked figure)
              *              belongs to a group: create a new group of (selectedFigure + parent group of clicked figure) 
-             *          - else (SHIFT not presset)
+             *          - else (SHIFT not pressed)
              *              single figure: select that figure
              *              belongs to a group: select that group
-             * - if we click no nothing -> 
-             *      - if SHIFT pressed  then State none  
+             * - if we click on nothing -> 
+             *      - if SHIFT pressed then State none
              *      - else just keep current state (maybe just missed what we needed)    
              *      
              */
@@ -944,7 +942,6 @@ function onMouseDown(ev){
                     if(fig.groupId != selectedGroupId){
                         if (SHIFT_PRESSED){
                             var figuresToAdd = [];
-                            
                             
                             //add figures from current group
                             var groupFigures = STACK.figureGetByGroupId(selectedGroupId);
@@ -1168,11 +1165,6 @@ function onMouseUp(ev){
                     for(var i=0; i<groupFigures.length; i++ ){
                       figuresToAdd.push(groupFigures[i].id);
                     }
-                    
-                    //destroy current group (if temporary)
-                    if(!selectedGroup.permanent){
-                        STACK.groupDestroy(selectedGroupId);
-                    }
                 }
             }
 
@@ -1195,7 +1187,15 @@ function onMouseUp(ev){
                     }
                 } //end if
             } //end for
-                
+
+            if(selectedGroupId!=-1){
+                var selectedGroup = STACK.groupGetById(selectedGroupId);
+                //destroy current group (if temporary)
+                if(!selectedGroup.permanent){
+                    STACK.groupDestroy(selectedGroupId);
+                }
+            }
+
             //See what to do with collected figures
             if(figuresToAdd.length >= 2){ //if we selected at least 2 figures then we can create a group
                 selectedGroupId = STACK.groupCreate(figuresToAdd);
@@ -1205,6 +1205,7 @@ function onMouseUp(ev){
             }
             else if (figuresToAdd.length == 1){ // if we only select one figure, then it is not a group, it's a simple selection
                 selectedFigureId = figuresToAdd[0];
+                selectedGroupId = -1;
                 state = STATE_FIGURE_SELECTED;
                 Log.info('onMouseUp() + STATE_SELECTING_MULTIPLE  + 1 figure => STATE_FIGURE_SELECTED');
             }
@@ -1401,7 +1402,7 @@ function onMouseMove(ev){
                             cmdTranslateFigure.execute();
                             redraw = true;
                             Log.info("onMouseMove() + STATE_FIGURE_SELECTED + drag - move selected figure");
-                        }else{ //we are enter a figures selection sesssion
+                        }else{ //we are entering a figures selection sesssion
                             state = STATE_SELECTING_MULTIPLE;
                             selectionArea.points[0] = new Point(x,y);
                             selectionArea.points[1] = new Point(x,y);
@@ -2368,15 +2369,50 @@ function action(action){
             break;
             
         case 'duplicate':
-            if(selectedFigureId != -1){
+            //TODO: From Janis: not working with network elements, they havent clone()
+            //DONE: From Janis: Handlers are not cloned
+            //TODO: From Janis: Connectors are not cloned
+            //DONE: From Janis: Undo isn`t working correctly after duplicate
+            
+            if(selectedFigureId != -1){ //duplicate one figure
                 var createdFigure = STACK.figureGetById(selectedFigureId).clone();
                 createdFigure.transform(Matrix.translationMatrix(10,10));
                 STACK.figureAdd(createdFigure);
-                STACK.figureSelect(STACK.figures.length-1);
-                createdFigure=null;
-                getCanvas().style.cursor="default";
-                redraw = true;
+                var cmdCreateFig = new FigureCreateCommand(null, createdFigure.x, createdFigure.y, createdFigure.id);
+                History.addUndo(cmdCreateFig);
+                selectedFigureId = createdFigure.id;
+                setUpEditPanel(createdFigure);
+                state = STATE_FIGURE_SELECTED;
             }
+            
+            if(selectedGroupId != -1){ //copies a group or multiple figures
+                /**
+                * the result of duplicating group is many separate figures, not the group, but these figures are selected as permanent group
+                * so incase the user will want to duplicate group as group, he just needs to group copied figures, which are already selected
+                **/
+                var createdFigure = null;
+                var cmdCreateFig = null;
+                var figuresToAdd = [];
+                var selectedGroup = STACK.groupGetById(selectedGroupId);
+                var groupFigures = STACK.figureGetByGroupId(selectedGroupId);
+                for(var i=0; i<groupFigures.length; i++ ){
+                    createdFigure = STACK.figureGetById(groupFigures[i].id).clone();
+                    createdFigure.transform(Matrix.translationMatrix(10,10));
+                    STACK.figureAdd(createdFigure);
+                    figuresToAdd.push(createdFigure.id);
+                    //TODO: From Janis: the undo will delete figures one by one, possibly we need to improove and delete all these figures with one undo
+                    cmdCreateFig = new FigureCreateCommand(null, createdFigure.x, createdFigure.y, createdFigure.id);
+                    History.addUndo(cmdCreateFig);                     
+                }
+                if(!selectedGroup.permanent){
+                    STACK.groupDestroy(selectedGroupId);
+                }
+                selectedGroupId = STACK.groupCreate(figuresToAdd);
+                state = STATE_GROUP_SELECTED;
+            }
+            createdFigure = null;
+            getCanvas().style.cursor="default";
+            redraw = true;
             break;
 
         case 'back':

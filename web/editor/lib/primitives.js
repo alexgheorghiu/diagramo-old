@@ -2393,6 +2393,7 @@ Figure.load = function(o){
  *@param {JSONObject} v - the JSON parsed object
  *@return {Array} of newly constructed {Figure}s
  *@author Alex Gheorghiu <alex@scriptoid.com>
+ *@author Janis Sejans <janis.sejans@towntech.lv>
  **/
 Figure.loadArray = function(v){
     var newFigures = [];
@@ -2491,15 +2492,23 @@ Figure.prototype = {
 
     /**TODO: this clone is not gonna be equal with the original
      *as it will have a different id
+     *Janis: REMOVE What this comment means? It should be equal and with different id. Fixed some stuff please review.
      **/
     clone:function(){
-        var ret = new Figure();
+        var ret = new Figure(this.name); //Janis: REMOVE fixed - if cloning square, then create square
         for (var i=0; i<this.primitives.length; i++){
             ret.addPrimitive(this.primitives[i].clone());
         }
-        ret.style = this.style
+        ret.properties = this.properties.slice(0); //Janis: REMOVE fixed - clone the properties array
+        ret.style = this.style.clone(); //Janis: REMOVE fixed - clone the style
         ret.rotationCoords[0]=this.rotationCoords[0].clone();
         ret.rotationCoords[1]=this.rotationCoords[1].clone();
+        
+        //get all conection points and add them to the figure
+        var cps = CONNECTOR_MANAGER.connectionPointGetAllByParent(this.id);
+        cps.forEach(function(ConnectionPoint, index, array){
+            CONNECTOR_MANAGER.connectionPointCreate(ret.id,ConnectionPoint.point,ConnectionPoint.TYPE_FIGURE);
+        });
         return ret;
     },
 

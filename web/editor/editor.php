@@ -463,6 +463,8 @@ if(is_numeric($_REQUEST['diagramId'])){
             <img class="separator" src="assets/images/toolbar_separator.gif" border="0" width="1" height="16"/>-->
 
             <a href="javascript:action('undo');" title="Undo (Ctrl-Z)"><img src="assets/images/arrow_undo.png" border="0"/></a>
+            <!-- TODO: From Janis: we have to create a nice icon for duplicate, currently this is the only command without an icon -->
+            <a href="javascript:action('duplicate');">Copy (Ctrl-D)</a>
             
             <!-- <a href="javascript:action('redo');" title="Redo (Ctrl-Y)"><img src="assets/images/arrow_redo.png" border="0"/></a> -->
             <!--

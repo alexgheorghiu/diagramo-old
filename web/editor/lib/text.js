@@ -70,6 +70,7 @@ function Text(string, x, y, font, size, outsideCanvas){
  *@param {JSONObject} o - the JSON parsed object
  *@return {Text} a newly constructed Text
  *@author Alex Gheorghiu <alex@scriptoid.com>
+ *@author Janis Sejans <janis.sejans@towntech.lv>
  **/
 Text.load = function(o){
     //TODO: update
@@ -482,7 +483,16 @@ Text.prototype = {
 
 
     clone: function(){
-        throw 'Text:clone - not implemented';
+        var newText = {};
+        for (i in this) {
+            if (i == 'vector'){
+                newText[i] = Point.cloneArray(this[i]);
+                continue;
+            }
+            if (this[i] && typeof this[i] == "object") {
+                newText[i] = this[i].clone();
+            } else newText[i] = this[i]
+        } return newText;
     },
 
 
