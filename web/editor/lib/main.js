@@ -174,7 +174,8 @@ var dragging = false;
 /**Holds a wrapper around canvas object*/
 var canvasProps = null; //
 
-
+/**Currently holds two elements the type: figure|group and the id*/
+var clipboardBuffer = [];
 
 /**Return current canvas.
  * Current canvas will ALWAYS have the 'a' as DOM id
@@ -578,14 +579,89 @@ function onKeyDown(ev){
             break;
 
         case KEY.D:
-            //TODO: From Janis: Ctrl+D works in Firefox, but not in Chrome
-            //and in Firefox it is called in Key.NUMPAD4 case - onKeyPress(ev), not here
-            //so this case isn`t working at all, do we need this here?
             if(CNTRL_PRESSED){
                 action('duplicate');
             }
             break;
 
+        case KEY.C:
+            if(CNTRL_PRESSED){
+                if(selectedFigureId != -1){
+                    clipboardBuffer[0] = "figure";
+                    clipboardBuffer[1] = selectedFigureId;
+                } else if(selectedGroupId != -1){
+                    clipboardBuffer[0] = "group";
+                    clipboardBuffer[1] = selectedGroupId;
+                } else {
+                    clipboardBuffer[0] = "";
+                    clipboardBuffer[1] = -1;
+                }
+            }
+            break;
+            
+        case KEY.V:
+            if(CNTRL_PRESSED){
+                /*Description:
+                 * If figure or group copied here is what can happen:
+                 * - if no selection -> STATE_NONE:
+                 *      - if figure copied then duplicate it
+                 *      - if group copied then check if it`s not permanent, becase then we have lost it, and if not, then duplicate it
+                 * - if figure selected (ONLY if figure copied):
+                 *      - if it is same figure as copied, then duplicate it
+                 *        also because the duplicate will become selected, add it to the clipboard thus allowing another paste
+                 *      - if it is another figure, then apply style to it
+                 * - if group selected:
+                 *      - if it is same group as copied, then duplicate it, in this case we can also duplicate permanent group
+                 *        also because the duplicate will become selected, add it to the clipboard thus allowing another paste
+                 *      - if it is another group, and if we have COPIED THE FIGURE, then apply its style to all group
+                 * 
+                 */                
+                if(clipboardBuffer[0]){// if something was copied
+                    switch(state){
+                        case STATE_NONE:
+                            if(clipboardBuffer[0] == "figure"){
+                                selectedFigureId = clipboardBuffer[1];
+                                action('duplicate');
+                            }else if(clipboardBuffer[0] == "group"){
+                                selectedGroupId = clipboardBuffer[1];
+                                if(STACK.groupGetById(selectedGroupId)){ //if this is true, then the group isn`t permanent
+                                    action('duplicate');    
+                                }
+                            }                            
+                            break;
+                        case STATE_FIGURE_SELECTED:
+                            if(clipboardBuffer[0] == "figure"){
+                                if(clipboardBuffer[1] == selectedFigureId){
+                                    action('duplicate');
+                                    //this means we add the copied to the clipboard, thus allowing another paste (it is ok, since the style is same)
+                                    clipboardBuffer[1] = selectedFigureId;
+                                }else{ //apply style
+                                    var copiedFigure = STACK.figureGetById(clipboardBuffer[1]);
+                                    var selectedFigure = STACK.figureGetById(selectedFigureId);
+                                    selectedFigure.applyAnotherFigureStyle(copiedFigure);
+                                }
+                            }
+                            break;
+                        case STATE_GROUP_SELECTED:
+                            if(clipboardBuffer[1] == selectedGroupId){
+                                action('duplicate');
+                                //this means we add the copied to the clipboard, thus allowing another paste (it is ok, since the style is same)
+                                clipboardBuffer[1] = selectedGroupId;
+                            }else{
+                                if(clipboardBuffer[0] == "figure"){ //if we have copied the figure, apply style to group
+                                    var copiedFigure = STACK.figureGetById(clipboardBuffer[1]);
+                                    var groupFigures = STACK.figureGetByGroupId(selectedGroupId);
+                                    for(var i=0; i<groupFigures.length; i++ ){
+                                        groupFigures[i].applyAnotherFigureStyle(copiedFigure);
+                                    }
+                                }
+                            }
+                            break;
+                    }
+                }
+            }
+            break;
+            
         case KEY.S:
             if(CNTRL_PRESSED){
                 //Log.info("CTRL-S pressed  ");
@@ -2369,10 +2445,7 @@ function action(action){
             break;
             
         case 'duplicate':
-            //TODO: From Janis: not working with network elements, they havent clone()
-            //DONE: From Janis: Handlers are not cloned
             //TODO: From Janis: Connectors are not cloned
-            //DONE: From Janis: Undo isn`t working correctly after duplicate
             
             //TODO: For Janis: Move this into a FigureCloneCommand(), see "back" command as an example
             if(selectedFigureId != -1){ //duplicate one figure
@@ -2410,6 +2483,7 @@ function action(action){
                     STACK.groupDestroy(selectedGroupId);
                 }
                 selectedGroupId = STACK.groupCreate(figuresToAdd);
+                setUpEditPanel(null);
                 state = STATE_GROUP_SELECTED;
             }
             createdFigure = null;
