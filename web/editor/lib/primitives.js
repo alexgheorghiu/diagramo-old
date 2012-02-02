@@ -2428,7 +2428,7 @@ Figure.prototype = {
     setText:function(text){
         for(var i=0; i<this.primitives.length; i++){
             if(this.primitives[i] instanceof Text){
-                this.primitives[i]=text;
+                this.primitives[i] = text;
             }
         }
     },
@@ -2490,10 +2490,6 @@ Figure.prototype = {
         this.rotationCoords[1] = new Point(this.rotationCoords[0].x, bounds[1]);
     },
 
-    /**TODO: this clone is not gonna be equal with the original
-     *as it will have a different id
-     *Janis: REMOVE What this comment means? It should be equal and with different id. Fixed some stuff please review.
-     **/
     clone:function(){
         var ret = new Figure(this.name); //Janis: REMOVE fixed - if cloning square, then create square
         for (var i=0; i<this.primitives.length; i++){
@@ -2512,6 +2508,26 @@ Figure.prototype = {
         return ret;
     },
 
+    /*apply/clone another figure style onto this figure
+     *@param{Figure} anotherFigure - another figure
+     *@author Janis Sejans <janis.sejans@towntech.lv>
+     *TODO: From Janis: we don`t have Undo for this operation
+     */
+    applyAnotherFigureStyle:function(anotherFigure){
+        this.style = anotherFigure.style.clone();
+        
+        var newText = this.getText(); //will contain new text object
+        //TODO: From Janis: there is some problem if applying text twice, the getText returns empty string, this means it is not properly cloned
+        if(newText instanceof Text){
+            var currTextStr = newText.getTextStr(); //remember text str
+            var currTextVector = newText.vector; //remember text vector
+            
+            newText = anotherFigure.getText().clone();
+            newText.setTextStr(currTextStr); //restore text str
+            newText.vector = currTextVector; //restore text vector
+            this.setText(newText);
+        }
+    },
 
     contains:function(x,y){
         var points=[];

@@ -154,13 +154,13 @@ Text.prototype = {
     
     constructor : Text,
     
-    gettextSize:function(){
+    getTextSize:function(){
         return this.size;
     },
 
     //we need to transform the connectionpoints when we change the size of the text
     //only used by the builder, for text figures (not figures with text)
-    settextSize:function(text, size){
+    setTextSize:function(size){
         var oldBounds = this.getNormalBounds().getBounds();
         var oldSize = this.size;
         this.size = size;
@@ -168,11 +168,11 @@ Text.prototype = {
 //        this._updateConnectionPoints(oldBounds, newBounds);
     },
 
-    gettext:function(){
+    getTextStr:function(){
         return this.str;
     },
 
-    settext:function(text, str){
+    setTextStr:function(str){
         var oldBounds = this.getNormalBounds().getBounds();
         this.str = str;
         var newBounds = this.getNormalBounds().getBounds();
