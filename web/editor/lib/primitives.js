@@ -2491,22 +2491,21 @@ Figure.prototype = {
     },
 
     clone:function(){
-        var ret = new Figure(this.name); //Janis: REMOVE fixed - if cloning square, then create square
+        var ret = new Figure(this.name);
         
         for (var i=0; i<this.primitives.length; i++){
             ret.addPrimitive(this.primitives[i].clone());
         }
-        ret.properties = this.properties.slice(0); //Janis: REMOVE fixed - clone the properties array
-        ret.style = this.style.clone(); //Janis: REMOVE fixed - clone the style
+        ret.properties = this.properties.slice(0);
+        ret.style = this.style.clone();
         ret.rotationCoords[0]=this.rotationCoords[0].clone();
         ret.rotationCoords[1]=this.rotationCoords[1].clone();
         
         //get all conection points and add them to the figure
         var cps = CONNECTOR_MANAGER.connectionPointGetAllByParent(this.id);
         
-        //alex: I preffer to use connectionPoint.point.clone() instead of connectionPoint.point to avoid side effects
         cps.forEach(
-            function(connectionPoint /*, index, array*/){
+            function(connectionPoint){
                 CONNECTOR_MANAGER.connectionPointCreate(ret.id,connectionPoint.point.clone(), ConnectionPoint.TYPE_FIGURE);
             }
         );

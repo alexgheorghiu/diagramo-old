@@ -2487,7 +2487,7 @@ function action(action){
                 state = STATE_GROUP_SELECTED;
             }
             createdFigure = null;
-            getCanvas().style.cursor="default";            
+            getCanvas().style.cursor="default";
             redraw = true;
             break;
 
