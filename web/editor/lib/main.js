@@ -1188,7 +1188,7 @@ function onMouseUp(ev){
                 } //end if
             } //end for
 
-            if(selectedGroupId!=-1){
+            if(selectedGroupId != -1){
                 var selectedGroup = STACK.groupGetById(selectedGroupId);
                 //destroy current group (if temporary)
                 if(!selectedGroup.permanent){
@@ -2374,6 +2374,7 @@ function action(action){
             //TODO: From Janis: Connectors are not cloned
             //DONE: From Janis: Undo isn`t working correctly after duplicate
             
+            //TODO: For Janis: Move this into a FigureCloneCommand(), see "back" command as an example
             if(selectedFigureId != -1){ //duplicate one figure
                 var createdFigure = STACK.figureGetById(selectedFigureId).clone();
                 createdFigure.transform(Matrix.translationMatrix(10,10));
@@ -2385,6 +2386,7 @@ function action(action){
                 state = STATE_FIGURE_SELECTED;
             }
             
+            //TODO: For Janis: Move this into a GroupCloneCommand(), see back command as an example
             if(selectedGroupId != -1){ //copies a group or multiple figures
                 /**
                 * the result of duplicating group is many separate figures, not the group, but these figures are selected as permanent group
@@ -2411,7 +2413,7 @@ function action(action){
                 state = STATE_GROUP_SELECTED;
             }
             createdFigure = null;
-            getCanvas().style.cursor="default";
+            getCanvas().style.cursor="default";            
             redraw = true;
             break;
 

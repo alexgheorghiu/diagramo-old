@@ -482,7 +482,22 @@ Text.prototype = {
     },
 
 
+    /**Creates a clone of current text*/
     clone: function(){
+        var cText = new Text(this.str, this.x, this.y, this.font, this.size, this.outsideCanvas);
+        cText.align = this.align;
+    
+        cText.valign = this.valign;
+        cText.vector = Point.cloneArray(this.vector);
+        cText.style = this.style.clone();
+
+        if(!cText.outsideCanvas){
+            cText.bounds = this.bounds.clone(); //It's a Polygon (so we can clone it)
+        }
+
+        return cText;
+        
+        /*
         var newText = {};
         for (i in this) {
             if (i == 'vector'){
@@ -493,6 +508,7 @@ Text.prototype = {
                 newText[i] = this[i].clone();
             } else newText[i] = this[i]
         } return newText;
+        */
     },
 
 

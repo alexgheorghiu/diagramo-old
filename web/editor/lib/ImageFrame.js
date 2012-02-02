@@ -426,9 +426,26 @@ ImageFrame.prototype = {
         return nBounds.getPoints();
     },
     
+    /**This function returns a deed clone of current {ImageFrame}
+     *@return {ImageFrame} - the cloned ImageFrame
+     **/
     clone:function(){
-        var newImageFrame = {};
-        for (i in this) {
+        //make a new object
+        var cImg = new ImageFrame();
+        
+        //copy what we can
+        cImg.frameHeight = this.frameHeight;
+        cImg.frameWidth = this.frameWidth;
+        cImg.keepRatio = this.keepRatio;
+        cImg.constraints = this.constraints;
+        cImg.vector = Point.cloneArray(this.vector) ;
+        
+        //reset the URL so that the cImg.image will be loaded with new URL
+        cImg.setUrl(this.url);
+        
+        /*TODO: must be removed
+        newImageFrame = {}; //any anonymous object does not have a type
+        for (i in this) { //a typeof will be more appropriate
             if (i == 'image'){
                 newImageFrame.image = new Image();
                 continue;
@@ -439,10 +456,14 @@ ImageFrame.prototype = {
             }
             if (this[i] && typeof this[i] == "object") {
                 newImageFrame[i] = this[i].clone();
-            } else newImageFrame[i] = this[i];
+            } 
+            else {
+                newImageFrame[i] = this[i];
+            }
         }
         newImageFrame.setUrl(newImageFrame.url);
-        return newImageFrame;
+        */
+        return cImg;
     },
     
     /**

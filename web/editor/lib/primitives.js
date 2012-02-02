@@ -2288,7 +2288,7 @@ Path.prototype = {
  * The Figure only delegate the painting to the composing shape.
  *
  * @constructor
- * @this {DashedArc}
+ * @this {Figure}
  * @param {String} name - the name of the figure
  *
  **/
@@ -2496,6 +2496,7 @@ Figure.prototype = {
      **/
     clone:function(){
         var ret = new Figure(this.name); //Janis: REMOVE fixed - if cloning square, then create square
+        
         for (var i=0; i<this.primitives.length; i++){
             ret.addPrimitive(this.primitives[i].clone());
         }
@@ -2506,9 +2507,14 @@ Figure.prototype = {
         
         //get all conection points and add them to the figure
         var cps = CONNECTOR_MANAGER.connectionPointGetAllByParent(this.id);
-        cps.forEach(function(ConnectionPoint, index, array){
-            CONNECTOR_MANAGER.connectionPointCreate(ret.id,ConnectionPoint.point,ConnectionPoint.TYPE_FIGURE);
-        });
+        
+        //alex: I preffer to use connectionPoint.point.clone() instead of connectionPoint.point to avoid side effects
+        cps.forEach(
+            function(connectionPoint /*, index, array*/){
+                CONNECTOR_MANAGER.connectionPointCreate(ret.id,connectionPoint.point.clone(), ConnectionPoint.TYPE_FIGURE);
+            }
+        );
+        
         return ret;
     },
 
