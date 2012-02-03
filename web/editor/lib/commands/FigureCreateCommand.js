@@ -8,10 +8,9 @@
  * @param {Function} factoryFunction - the function that will create the {Figure}. It will be local copy (of original pointer)
  * @param {Number} x - the x coordinates
  * @param {Number} y - the x coordinates
- * @param {Number} figureId - (optional) if figure already exists, then its id (needed for duplication command)
  * @author Alex <alex@scriptoid.com>
  */
-function FigureCreateCommand(factoryFunction, x, y, figureId){
+function FigureCreateCommand(factoryFunction, x, y){
     this.oType = 'FigureCreateCommand';
     
     /**Any sequence of many mergeable actions can be packed by the history*/
@@ -20,7 +19,7 @@ function FigureCreateCommand(factoryFunction, x, y, figureId){
     this.x = x; 
     this.y = y;
     this.firstExecute = true;
-    this.figureId = figureId;
+    this.figureId = null;
 }
 
 
