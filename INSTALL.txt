@@ -3,6 +3,22 @@ Diagramo - installation mini guide
 
 This files describes how to install the application on the server.
 
+********************************
+*************PREREQUISITE*******
+********************************
+
+
+Download Apache 2.0 with SSL (http://httpd.apache.org/download.cgi)
+Install it and see that http://localhost/ is working fine
+
+Download PHP5.2 from http://php.net
+Install php into c:\Tools\php5.2 folder (or wherever you like it)
+
+Download mySQL (5.1 GA) from http://mysql.org
+Install it and upon finishing install it disable "modify root password" checkbox
+so that you can access mySQL without a password.
+
+
 
 ********************************
 *************MYSQL**************
@@ -53,6 +69,13 @@ c. DEBUG and SERVICE has to be set to false:
 ***********PHP settings*********
 ********************************
 
+Use php.ini (if does not exists create one from php.ini-recommended)
+    
+
+0. Allow MySQL connection:
+    extension=php_mysql.dll
+    extension=php_mysqli.dll
+
 1. Allow short open tags
 ------------------------
 Also in /etc/apache2/php.ini see that the short_open_tag settings to have 'On' value:
@@ -80,11 +103,39 @@ d. Install Mail_Mime-1.8.1 to be able to send HTML
 ***********Apache settings******
 ********************************
 
-1. Apache's mode rewrite should be activated
----------------------------------------------
-Go to your httpd.conf file and see that  mod_rewrite got activated.
 
-    Ex: LoadModule rewrite_module modules/mod_rewrite.so
+0. Edit httpd.conf
+------------------
+
+    Uncomment:
+        LoadModule rewrite_module modules/mod_rewrite.so
+        LoadModule vhost_alias_module modules/mod_vhost_alias.so
+
+    Add:
+        LoadModule php5_module "c:/Tools/php5.2/php5apache2_2.dll"
+        AddType application/x-httpd-php .php
+
+    uncomment:
+        Include conf/extra/httpd-vhosts.conf
+
+
+    In /extra/httpd-vhosts.conf
+    add:
+        <VirtualHost *:80>
+            ServerName diagramo.test
+            ServerAlias *.diagramo.test
+            DocumentRoot c:/projects/webdiagrams/
+
+            <Directory c:/projects/webdiagrams/>
+                AllowOverride All
+                Order allow,deny
+                Allow from all
+                DirectoryIndex index.php index.html
+            </Directory>
+        </VirtualHost>
+
+
+    
 
 Note: Without this module activated you will not be able to properly share links/diagrams.
 
@@ -92,6 +143,14 @@ Note: Without this module activated you will not be able to properly share links
 ********************************
 ***********System***************
 ********************************
+
+0. Windows config
+------------------
+    In c:\Windows\System32\drivers\etc\hosts
+
+    add:
+        127.0.0.1	diagramo.test
+
 
 1. Allow apache to write in /diagrams/ folder
 ----------------------------------------------------
@@ -117,3 +176,10 @@ If you have java installed you should get something similar to:
 
 If you do not have Java installed you will not be able to use the export to PNG and
 JPG exports, although the export to SVG will still work.
+
+
+
+
+
+
+!!!Restart all and point browser to http://diagramo.test - it should work.
