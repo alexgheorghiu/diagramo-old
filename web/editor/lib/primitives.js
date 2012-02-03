@@ -2409,8 +2409,13 @@ Figure.prototype = {
     
     constructor: Figure,
     
-    /* used by the edit panel
+    /* TODO: Remove it!
+     * This is wrong as a Figure can have many Text figure inside and picking the first Text
+     * is simply wrong
+     * 
+     * Used by the edit panel
      * @return {Text} the text item
+     * @deprecated 
      */
     getText:function(){
         for(var i=0; i<this.primitives.length; i++){
@@ -2422,8 +2427,13 @@ Figure.prototype = {
         return '';
     },
 
-    /*set the text from edit panel
+    /*TODO: Remove it!
+     * This is wrong as a Figure can have many Text figure inside set all Text to same
+     * text is wrong
+     *
+     *Set the text from edit panel
      *@param{Text} text - text object
+     *@deprecated
      */
     setText:function(text){
         for(var i=0; i<this.primitives.length; i++){
@@ -2513,10 +2523,14 @@ Figure.prototype = {
         return ret;
     },
 
-    /*apply/clone another figure style onto this figure
+    /*
+     *TODO: this is based on getText which is a WRONG (my or Zack's fault I think)
+     *
+     *apply/clone another figure style onto this figure
      *@param{Figure} anotherFigure - another figure
      *@author Janis Sejans <janis.sejans@towntech.lv>
      *TODO: From Janis: we don`t have Undo for this operation
+     *@deprecated
      */
     applyAnotherFigureStyle:function(anotherFigure){
         this.style = anotherFigure.style.clone();

@@ -174,7 +174,9 @@ var dragging = false;
 /**Holds a wrapper around canvas object*/
 var canvasProps = null; //
 
-/**Currently holds two elements the type: figure|group and the id*/
+/**Currently holds two elements the type: figure|group and the id
+ *TODO: remove my comment. Nice idea Janis! In the future migh hold connector as type too.
+ **/
 var clipboardBuffer = [];
 
 /**Return current canvas.
@@ -611,6 +613,7 @@ function onKeyDown(ev){
                  *        also because the duplicate will become selected, add it to the clipboard thus allowing another paste
                  *      - if it is another figure, then apply style to it
                  * - if group selected:
+                 *      //TODO: for Janis see comments/description on GroupCloneCommands
                  *      - if it is same group as copied, then duplicate it, in this case we can also duplicate permanent group
                  *        also because the duplicate will become selected, add it to the clipboard thus allowing another paste
                  *      - if it is another group, and if we have COPIED THE FIGURE, then apply its style to all group
@@ -636,6 +639,7 @@ function onKeyDown(ev){
                                     //this means we add the copied to the clipboard, thus allowing another paste (it is ok, since the style is same)
                                     clipboardBuffer[1] = selectedFigureId;
                                 }else{ //apply style
+                                    //TODO: I do think style should be applied by users directly.
                                     var copiedFigure = STACK.figureGetById(clipboardBuffer[1]);
                                     var selectedFigure = STACK.figureGetById(selectedFigureId);
                                     selectedFigure.applyAnotherFigureStyle(copiedFigure);
@@ -648,6 +652,7 @@ function onKeyDown(ev){
                                 //this means we add the copied to the clipboard, thus allowing another paste (it is ok, since the style is same)
                                 clipboardBuffer[1] = selectedGroupId;
                             }else{
+                                //TODO: I do think style should be applied by users directly, even less to spread a figure's style to a whole group
                                 if(clipboardBuffer[0] == "figure"){ //if we have copied the figure, apply style to group
                                     var copiedFigure = STACK.figureGetById(clipboardBuffer[1]);
                                     var groupFigures = STACK.figureGetByGroupId(selectedGroupId);

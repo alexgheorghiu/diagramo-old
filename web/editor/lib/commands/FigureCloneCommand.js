@@ -25,10 +25,19 @@ FigureCloneCommand.prototype = {
     /**This method got called every time the Command must execute*/
     execute : function(){
         if(this.firstExecute){
+            //get old figure and clone it
             var createdFigure = STACK.figureGetById(this.parentFigureId).clone();
+            
+            //move it 10px low and 10px right
             createdFigure.transform(Matrix.translationMatrix(10,10));
+            
+            //store newly created figure
             STACK.figureAdd(createdFigure);
+            
+            //store newly created figure id
             this.figureId = createdFigure.id;
+            
+            //update diagram state
             selectedFigureId = this.figureId;
             setUpEditPanel(createdFigure);
             state = STATE_FIGURE_SELECTED;
