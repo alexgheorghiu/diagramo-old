@@ -66,6 +66,7 @@ if(is_numeric($_REQUEST['diagramId'])){
         <script type="text/javascript" src="./lib/commands/History.js?<?=time()?>"></script>
         
         <script type="text/javascript" src="./lib/commands/FigureCreateCommand.js?<?=time()?>"></script>
+        <script type="text/javascript" src="./lib/commands/FigureCloneCommand.js?<?=time()?>"></script>
         <script type="text/javascript" src="./lib/commands/FigureTranslateCommand.js?<?=time()?>"></script>
         <script type="text/javascript" src="./lib/commands/FigureRotateCommand.js?<?=time()?>"></script>
         <script type="text/javascript" src="./lib/commands/FigureScaleCommand.js?<?=time()?>"></script>
@@ -73,9 +74,10 @@ if(is_numeric($_REQUEST['diagramId'])){
         <script type="text/javascript" src="./lib/commands/FigureDeleteCommand.js?<?=time()?>"></script>
         
         <script type="text/javascript" src="./lib/commands/GroupRotateCommand.js?<?=time()?>"></script>
-        <script type="text/javascript" src="./lib/commands/GroupScaleCommand.js?<?=time()?>"></script>        
+        <script type="text/javascript" src="./lib/commands/GroupScaleCommand.js?<?=time()?>"></script>
         <script type="text/javascript" src="./lib/commands/GroupCreateCommand.js?<?=time()?>"></script>
-        <script type="text/javascript" src="./lib/commands/GroupDestroyCommand.js?<?=time()?>"></script>        
+        <script type="text/javascript" src="./lib/commands/GroupCloneCommand.js?<?=time()?>"></script>
+        <script type="text/javascript" src="./lib/commands/GroupDestroyCommand.js?<?=time()?>"></script>
         <script type="text/javascript" src="./lib/commands/GroupDeleteCommand.js?<?=time()?>"></script>
         <script type="text/javascript" src="./lib/commands/GroupTranslateCommand.js?<?=time()?>"></script>
         

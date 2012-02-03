@@ -5,6 +5,7 @@
  * @constructor
  * @param {Number} parentFigureId - the Id of parent {Figure}
  * @author Alex <alex@scriptoid.com>
+ * @author Janis Sejans <janis.sejans@towntech.lv>
  */
 function FigureCloneCommand(parentFigureId){
     this.oType = 'FigureCloneCommand';
@@ -24,15 +25,20 @@ FigureCloneCommand.prototype = {
     /**This method got called every time the Command must execute*/
     execute : function(){
         if(this.firstExecute){
-            //add code
-        
+            var createdFigure = STACK.figureGetById(this.parentFigureId).clone();
+            createdFigure.transform(Matrix.translationMatrix(10,10));
+            STACK.figureAdd(createdFigure);
+            this.figureId = createdFigure.id;
+            selectedFigureId = this.figureId;
+            setUpEditPanel(createdFigure);
+            state = STATE_FIGURE_SELECTED;
+            
             this.firstExecute = false;
         }
         else{ //redo
             throw "Not implemented";
         }
     },
-    
     
     /**This method should be called every time the Command should be undone*/
     undo : function(){ 

@@ -443,26 +443,6 @@ ImageFrame.prototype = {
         //reset the URL so that the cImg.image will be loaded with new URL
         cImg.setUrl(this.url);
         
-        /*TODO: must be removed
-        newImageFrame = {}; //any anonymous object does not have a type
-        for (i in this) { //a typeof will be more appropriate
-            if (i == 'image'){
-                newImageFrame.image = new Image();
-                continue;
-            }
-            if (i == 'vector'){
-                newImageFrame[i] = Point.cloneArray(this[i]);
-                continue;
-            }
-            if (this[i] && typeof this[i] == "object") {
-                newImageFrame[i] = this[i].clone();
-            } 
-            else {
-                newImageFrame[i] = this[i];
-            }
-        }
-        newImageFrame.setUrl(newImageFrame.url);
-        */
         return cImg;
     },
     

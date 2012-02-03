@@ -427,13 +427,13 @@ function onKeyPress(ev){
         return;
     }
 
-    switch(ev.charCode){
-        case KEY.NUMPAD4: //Numpad 4
-            if(CNTRL_PRESSED){ //clone a figure
-                action('duplicate');
-            }
-            break;
-    }//end switch
+    //switch(ev.charCode){
+    //    case KEY.NUMPAD4: //Numpad 4
+    //        if(CNTRL_PRESSED){ //clone a figure
+    //            action('duplicate');
+    //        }
+    //        break;
+    //}
 
 
     draw();
@@ -2447,47 +2447,18 @@ function action(action){
         case 'duplicate':
             //TODO: From Janis: Connectors are not cloned
             
-            //TODO: For Janis: Move this into a FigureCloneCommand(), see "back" command as an example
             if(selectedFigureId != -1){ //duplicate one figure
-                var createdFigure = STACK.figureGetById(selectedFigureId).clone();
-                createdFigure.transform(Matrix.translationMatrix(10,10));
-                STACK.figureAdd(createdFigure);
-                var cmdCreateFig = new FigureCreateCommand(null, createdFigure.x, createdFigure.y, createdFigure.id);
-                History.addUndo(cmdCreateFig);
-                selectedFigureId = createdFigure.id;
-                setUpEditPanel(createdFigure);
-                state = STATE_FIGURE_SELECTED;
+                var cmdDupl = new FigureCloneCommand(selectedFigureId);
+                cmdDupl.execute();
+                History.addUndo(cmdDupl);                
             }
             
-            //TODO: For Janis: Move this into a GroupCloneCommand(), see back command as an example
             if(selectedGroupId != -1){ //copies a group or multiple figures
-                /**
-                * the result of duplicating group is many separate figures, not the group, but these figures are selected as permanent group
-                * so incase the user will want to duplicate group as group, he just needs to group copied figures, which are already selected
-                **/
-                var createdFigure = null;
-                var cmdCreateFig = null;
-                var figuresToAdd = [];
-                var selectedGroup = STACK.groupGetById(selectedGroupId);
-                var groupFigures = STACK.figureGetByGroupId(selectedGroupId);
-                for(var i=0; i<groupFigures.length; i++ ){
-                    createdFigure = STACK.figureGetById(groupFigures[i].id).clone();
-                    createdFigure.transform(Matrix.translationMatrix(10,10));
-                    STACK.figureAdd(createdFigure);
-                    figuresToAdd.push(createdFigure.id);
-                    //TODO: From Janis: the undo will delete figures one by one, possibly we need to improove and delete all these figures with one undo
-                    cmdCreateFig = new FigureCreateCommand(null, createdFigure.x, createdFigure.y, createdFigure.id);
-                    History.addUndo(cmdCreateFig);                     
-                }
-                if(!selectedGroup.permanent){
-                    STACK.groupDestroy(selectedGroupId);
-                }
-                selectedGroupId = STACK.groupCreate(figuresToAdd);
-                setUpEditPanel(null);
-                state = STATE_GROUP_SELECTED;
+                var cmdDupl = new GroupCloneCommand(selectedGroupId);
+                cmdDupl.execute();
+                History.addUndo(cmdDupl);
             }
-            createdFigure = null;
-            getCanvas().style.cursor="default";
+            getCanvas().style.cursor = "default";
             redraw = true;
             break;
 
