@@ -1,5 +1,3 @@
-use diagramo;
-
 INSERT INTO `user` (`id`, `name`,`email`, `password`, `createdDate`)
     VALUES (1, 'Alex' , 'alex@scriptoid.com', MD5('alex'), '2010-06-02 10:34:23');
 

@@ -1,6 +1,14 @@
 <?php
 include "./editor/common/verbose.php";
 
+//Check if already installed
+if (!file_exists(dirname(__FILE__) . '/editor/common/settings.php') ) { //no settings file
+    print 'Application already installed';
+    header("Location: ./install/step1.php");
+    exit();
+}
+//End Check installation
+
 
 if (!isset($_SESSION)) {
     session_start();

@@ -16,6 +16,8 @@ documents/jsdoc-toolkit/out/
 documents/jsdoc-toolkit/test.bat
 documents/jsdoc-toolkit/test.log
 
+web/editor/common/settings.php
+
 build/
 dist/
 temp/

@@ -2,35 +2,4 @@ This is Alex's current mental stack
 
 Current stack:
 
-SVG conclusion
---------------
- - SVG images are scaled nice in IE9 and Chrome but not in FF
- - drawImage for SVG not working in Opera 11.60 !!!!!
-
-* images
-    - able to load/create them with their original size
-    - able to load/create them with a specific size
-    - able to "freeze" their size once loaded (resize will not affect them)
-
-*  SVG images
-    - SVGs are not scaled. they behave as raster images :(
-    - [x] wrong rendered in final SVG :( ONLY for Inkscape stuff
-    - a rectangle with margin not properly displayed
-
-    - [x] SVG in SVG rendered 
-    - [x] SVG in SVG rendered as <img> (thumb)
-    - network1 SVG does not scale in FF8.0 but it does in IE9
-    - it seems SVGs made by Adobe Illustrator render fine
-
-
-http://www.opensecurityarchitecture.org/cms/library/icon-library    
-http://www.clker.com/
-http://www.shutterstock.com/    
-
-* image not working in (saved) SVG
-* redraw boolean value does not seems to be really used !?!?!
-* add development-rules.txt to wiki
-* Text's clone not implemented ?!
-* noAddUndo property must disappear
-* undo of Properties and canvas (kinda finish all the undo issues)
 * aproximate high degree by a "bezier path" (split it into smaller degree paths)

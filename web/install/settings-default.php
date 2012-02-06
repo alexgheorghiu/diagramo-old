@@ -15,20 +15,20 @@ define('WEBADDRESS_SSL','https://diagramo-alex'); //no trailing slashes
 #database settings
 // The database server address.  Example: localhost, localhost:3306 or 87.230.14.9
 #define('DB_ADDRESS', '10.0.0.149');
-define('DB_ADDRESS', 'localhost');
+define('DB_ADDRESS', '##_DB_ADDRESS_##');
 
 
 //The database name. Example: diagramo
-define('DB_NAME', 'diagramo');
+define('DB_NAME', '##_DB_DBNAME_##');
 
 //The database user. Example: diagramo or root
-define('DB_USER_NAME', 'root');
+define('DB_USER_NAME', '##_DB_USERNAME_##');
 
 /*The database user's password, in case it is present. In case you do not have a
 password (localhost & root access) just use '' (empty) value.
  * Ex: define('DB_USER_PASS', '');
  */
-define('DB_USER_PASS', '');
+define('DB_USER_PASS', '##_DB_PASSWORD_##');
 
 /**Store the version of the editor. Usefull in bugs and software update*/
 define('VERSION', '2.2alfa');
