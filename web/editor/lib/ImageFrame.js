@@ -68,8 +68,10 @@ function ImageFrame(url, x, y, scale, frameWidth, frameHeight){
     /**Tell if we need to keep ratio of the image. Ignored. Set to true by default*/
     this.keepRatio = true;
     
-    /**The URL from where the image will be loaded. We need to keep it also as a member to be serialized (as the Image object is
-     *not serialized :(*/    
+    /**The URL from where the image will be loaded. 
+     * We need to keep it also as a member to be serialized 
+     * (as the Image object is not serialized :( by JSON)
+     **/    
     this.url = url; 
     
     

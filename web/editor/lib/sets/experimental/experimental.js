@@ -184,7 +184,7 @@ function figure_Settings(x, y)
 //    img.src = '/assets/images/logo.gif';
 //    img.src = '/test/svg/arcs.svg';
 //    var url = "/assets/images/logo.gif";
-    var url = "/editor/lib/sets/experimental/preferences-system-symbolic-plain.svg";
+    var url = figureSetsURL + "/experimental/preferences-system-symbolic-plain.svg";
     
     var ifig = new ImageFrame(url, x, y, true);
     ifig.debug = true;
@@ -209,7 +209,7 @@ function figure_Tango(x, y)
 //    img.src = '/assets/images/logo.gif';
 //    img.src = '/test/svg/arcs.svg';
 //    var url = "/assets/images/logo.gif";
-    var url = "/editor/lib/sets/experimental/tango.svg";
+    var url = figureSetsURL + "/experimental/tango.svg";
     
     var ifig = new ImageFrame(url, x, y, true, 200, 200);
     ifig.debug = true;
@@ -235,7 +235,7 @@ function figure_Organic(x, y)
 //    img.src = '/assets/images/logo.gif';
 //    img.src = '/test/svg/arcs.svg';
 //    var url = "/assets/images/logo.gif";
-    var url = "/editor/lib/sets/experimental/organic.svg";
+    var url = figureSetsURL + "/experimental/organic.svg";
     
     var ifig = new ImageFrame(url, x, y, true, 200, 200);
     ifig.debug = true;
@@ -261,7 +261,7 @@ function figure_Inkscape(x, y)
 //    img.src = '/assets/images/logo.gif';
 //    img.src = '/test/svg/arcs.svg';
 //    var url = "/assets/images/logo.gif";
-    var url = "/editor/lib/sets/experimental/rectangle.svg";
+    var url = figureSetsURL + "/experimental/rectangle.svg";
     
     var ifig = new ImageFrame(url, x, y, true, 200, 200);
     ifig.debug = true;
@@ -286,7 +286,7 @@ function figure_Airport(x, y)
 //    img.src = '/assets/images/logo.gif';
 //    img.src = '/test/svg/arcs.svg';
 //    var url = "/assets/images/logo.gif";
-    var url = "/editor/lib/sets/experimental/airport.svg";
+    var url = figureSetsURL + "/experimental/airport.svg";
     
     var ifig = new ImageFrame(url, x, y, true, 200, 200);
     ifig.debug = true;
@@ -312,7 +312,7 @@ function figure_200by200SVG(x, y)
 //    img.src = '/assets/images/logo.gif';
 //    img.src = '/test/svg/arcs.svg';
 //    var url = "/assets/images/logo.gif";
-    var url = "/editor/lib/sets/experimental/200by200.svg";
+    var url = figureSetsURL + "/experimental/200by200.svg";
     
     var ifig = new ImageFrame(url, x, y, true, 100, 100);
     ifig.debug = true;
@@ -338,7 +338,7 @@ function figure_200by200PNG(x, y)
 //    img.src = '/assets/images/logo.gif';
 //    img.src = '/test/svg/arcs.svg';
 //    var url = "/assets/images/logo.gif";
-    var url = "/editor/lib/sets/experimental/200by200.png";
+    var url = figureSetsURL + "/experimental/200by200.png";
     
     var ifig = new ImageFrame(url, x, y, true, 100, 100);
     ifig.debug = true;
@@ -367,7 +367,7 @@ function figure_3Figures(x, y)
 //    img.src = '/assets/images/logo.gif';
 //    img.src = '/test/svg/arcs.svg';
 //    var url = "/assets/images/logo.gif";
-    var url = "/editor/lib/sets/experimental/3figures.svg";
+    var url = figureSetsURL + "/experimental/3figures.svg";
     
     var ifig = new ImageFrame(url, x, y, true, 100, 100);
     ifig.debug = true;
@@ -392,7 +392,7 @@ function figure_3FiguresNoSize(x, y)
 //    img.src = '/assets/images/logo.gif';
 //    img.src = '/test/svg/arcs.svg';
 //    var url = "/assets/images/logo.gif";
-    var url = "/editor/lib/sets/experimental/3figures.svg";
+    var url = figureSetsURL + "/experimental/3figures.svg";
     
     var ifig = new ImageFrame(url, x, y, true, 100, 100);
     ifig.debug = true;

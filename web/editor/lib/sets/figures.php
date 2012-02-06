@@ -4,6 +4,16 @@
 ?>
 <script language = "javascript1.2" type="text/javascript">
     var figureSets = [];
+    
+    /*Option 1:
+     *We can use window.location like this:
+     * url = window.location.protocol + window.location.hostname + ":" + window.location.port + ....
+     * @see http://www.w3schools.com/jsref/obj_location.asp
+     * 
+     * Option 2:
+     * Use http://code.google.com/p/js-uri/
+     **/
+    var figureSetsURL = '<?=WEBADDRESS?>' + '/editor/lib/sets';
 </script>
 <?
 $dirName = dirname(__FILE__);
