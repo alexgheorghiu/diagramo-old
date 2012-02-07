@@ -8,6 +8,9 @@ define('STEP', 'step3');
 
 #we need to redirect to server
 
+$fullURL = selfURL();
+$appUrl = substr($fullURL, 0, strpos($fullURL, '/install'));
+
 $errors = array();
 
 //Try to do server side only if the form on the page was submited (action = verify)
@@ -75,6 +78,12 @@ if(isset ($_REQUEST['action']) && $_REQUEST['action'] == 'verify'){
         // Open and read settings
         fopen($settingsFile, 'w');
 
+        //WEBADDRESS
+        $settingsContent = str_ireplace("##_WEBADDRESS_##", trim($appUrl), $settingsContent);
+        
+        $sslAppUrl = str_replace('http', 'https', $appUrl);
+        $settingsContent = str_ireplace("##_WEBADDRESS_SSL_##", trim($sslAppUrl), $settingsContent);
+        
         // SQL Settings
         $settingsContent = str_ireplace("##_DB_ADDRESS_##", trim($_REQUEST['dbhost']), $settingsContent);
         $settingsContent = str_ireplace("##_DB_USERNAME_##", trim($_REQUEST['dbuser']) , $settingsContent);
@@ -172,7 +181,7 @@ if(isset ($_REQUEST['action']) && $_REQUEST['action'] == 'verify'){
             
         </style>
     </head>
-    <body onload="defaultTimezome()">
+    <body>
 
         <div id="content">
             <?php include 'logo.php'?>
@@ -190,7 +199,8 @@ if(isset ($_REQUEST['action']) && $_REQUEST['action'] == 'verify'){
                 <form action="step3.php" name="settingsForm" method="post">
                     <input type="hidden" name="action" value="verify"/>
                     <table align="center" cellpadding="3" cellspacing="2" border="0">
-
+                                                
+                        <!--Database-->
                         <tr align="left">
                             <td class="bigger">Database connection</td>
                         </tr>

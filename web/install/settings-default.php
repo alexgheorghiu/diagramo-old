@@ -8,8 +8,8 @@
 //where diagrams will be stored
 define('STOREFOLDER','/diagrams'); //no trailing slashes
 
-define('WEBADDRESS','http://diagramo-alex'); //no trailing slashes
-define('WEBADDRESS_SSL','https://diagramo-alex'); //no trailing slashes
+define('WEBADDRESS', '##_WEBADDRESS_##'); //no trailing slashes
+define('WEBADDRESS_SSL', '##_WEBADDRESS_SSL_##'); //no trailing slashes
 
 
 #database settings
