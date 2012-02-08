@@ -2,7 +2,7 @@
 include('start.php');
 include('util.php');
 include('log.php');
-include('../common/settings.php'); //settings.php should exists by now
+include('../editor/common/settings.php'); //settings.php should exists by now
 
 $fullURL = selfURL();
 $appUrl = substr($fullURL, 0, strpos($fullURL, '/install'));

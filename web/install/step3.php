@@ -108,7 +108,7 @@ if(isset ($_REQUEST['action']) && $_REQUEST['action'] == 'verify'){
         $selectDb = @mysql_select_db( trim($_REQUEST['dbname']) );
         foreach($commands as $command){
             mysql_query($command, $connectionDb);
-            print($command . "<p/>\n");
+            #print($command . "<p/>\n");
         }
 
         #exit();
