@@ -2,4 +2,8 @@ This is Alex's current mental stack
 
 Current stack:
 
-* aproximate high degree by a "bezier path" (split it into smaller degree paths)
+* Export Connector as SVG not working
+* End arrows must have proper directions
+* Enhance near to make click on curve to work.
+    Idea see /documents/specs/parametric_aproximation.jpg
+    Use TotalSteps to somehow determine the number of steps for t:[0, 1]

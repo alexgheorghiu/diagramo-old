@@ -5,7 +5,11 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
         <script type="text/javascript">
-            /**computes the drawing points for the Bezier curve*/
+            
+            /**Computes the drawing points for the Bezier curve
+             *@param points - an {Array} of points
+             *@param step - a {Number}, the step
+             **/
             function bezierPoints(points, step){
                 
                 /**Computes factorial*/
@@ -18,7 +22,7 @@
                     }
                 }
             
-                /**Computes Bernstain*/
+                /**Computes Bernstein*/
                 function B(i,n,u){
                     //if(n < i) throw "Wrong";
                     return fact(n) / (fact(i) * fact(n-i))* Math.pow(u, i) * Math.pow(1-u, n-i);
@@ -42,7 +46,9 @@
                 return temp;
             }
             
-           
+            /**Computes a NURB solution out of a set P of points
+             * @returns {Array}  of CubicCurves (as {Array} )
+             * */
             function nurbsPoints(P){
                 /**Computes factorial*/
                 function fact(k){
@@ -60,15 +66,15 @@
                     return fact(n) / (fact(i) * fact(n-i))* Math.pow(u, i) * Math.pow(1-u, n-i);
                 }
                 
-//                function P(u, points){
-//                    var r = [0,0];
-//                    var n = points.length-1;
-//                    for(var i=0; i <= n; i++){
-//                        r[0] += points[i][0] * B(i, n, u);
-//                        r[1] += points[i][1] * B(i, n, u);
-//                    }                
-//                    return r;
-//                }
+                //                function P(u, points){
+                //                    var r = [0,0];
+                //                    var n = points.length-1;
+                //                    for(var i=0; i <= n; i++){
+                //                        r[0] += points[i][0] * B(i, n, u);
+                //                        r[1] += points[i][1] * B(i, n, u);
+                //                    }                
+                //                    return r;
+                //                }
                 
                 function sum(p1, p2){
                     return [p1[0] + p2[0], p1[1] + p2[1]];
@@ -91,7 +97,9 @@
             
                 var sol = [];
                 var n = P.length;
-                /**I do not get why first 4 must be 0 and last 3 of same value.....but otherwise we will get division by zero*/
+                
+                /**I do not get why first 4 must be 0 and last 3 of same value.....
+                 *but otherwise we will get division by zero*/
                 var k = [0,0,0];                
                 
                 for(j=0;j<=n-3;j++){
@@ -139,6 +147,8 @@
                 return sol;
             }
             
+            
+            /**Paint a NURB from a an array or fragments*/
             function nurbsPaint(ctx, fragments){
                 ctx.save();
                 ctx.beginPath();
@@ -151,6 +161,7 @@
                 ctx.stroke();
                 ctx.restore();
             }
+            
             
             /**Generic paint curve method*/
             function paint_graph(ctx, points){

@@ -15,7 +15,7 @@
  *  -getBounds():[number, number, number, number]
  *  -near(distance):boolean - This should be used to test if a click is close to a primitive/figure
  *  -getPoints():Array - returns an array of points, so that a figure can implement contains
- *  -getStyleInfo():Style - returns the different styles that can be used by any shape
+ *  - toSVG():String - return the SVG representation (fragment) of the shape
  */
 
 
@@ -250,7 +250,7 @@ Line.prototype = {
 
     },
 
-    paint:function(context){
+    paint:function(context){        
         if(this.style != null){
             this.style.setupContext(context);
         }
@@ -1131,7 +1131,7 @@ CubicCurve.prototype = {
     constructor : CubicCurve,
     
     transform:function(matrix){
-        if(this.style!=null){
+        if(this.style != null){
             this.style.transform(matrix);
         }
         this.startPoint.transform(matrix);
@@ -1139,6 +1139,7 @@ CubicCurve.prototype = {
         this.controlPoint2.transform(matrix);
         this.endPoint.transform(matrix);
     },
+    
     paint:function(context){
         with(this){
             if(style!=null){
@@ -2745,7 +2746,268 @@ Figure.prototype = {
     }
 }
 
+/**
+ * Implements a NURBS component in Diagramo
+ * 
+ * @see http://en.wikipedia.org/wiki/Non-uniform_rational_B-spline
+ * 
+ * http://www.w3.org/Graphics/SVG/IG/resources/svgprimer.html#path_Q
+ * http://math.stackexchange.com/questions/92246/aproximate-n-grade-bezier-through-cubic-and-or-quadratic-bezier-curves
+ * @see http://stackoverflow.com/questions/1257168/how-do-i-create-a-bezier-curve-to-represent-a-smoothed-polyline
+ * @see http://www.codeproject.com/KB/graphics/BezierSpline.aspx Draw a Smooth Curve through a Set of 2D Points with Bezier Primitives
+ *  "Paul de Casteljau, a brilliant engineer at Citroen"
+ * @see http://stackoverflow.com/questions/8369488/splitting-a-bezier-curve
+ * @see http://devmag.org.za/2011/04/05/bzier-curves-a-tutorial/
+ * @see http://devmag.org.za/2011/06/23/bzier-path-algorithms/
+ * @see http://drdobbs.com/cpp/184403417 (Forward Difference Calculation of Bezier Curves)
+ * @see http://www.timotheegroleau.com/Flash/articles/cubic_bezier_in_flash.htm
+ * @see http://www.algorithmist.net/bezier3.html
+ * @see http://www.caffeineowl.com/graphics/2d/vectorial/bezierintro.html
+ **/
+function NURBS(points){
+//    if(points.length < 3){
+//        throw Exception("NURBS: contructor() We need minimum 3 points for a curve");
+//    }
+    
+    /**The initial {@link Point}s*/
+    this.points = Point.cloneArray(points);
+    
+    /**The array of Cubic curves*/
+    this.fragments = this.nurbsPoints(this.points);
+    
+    /**The {@link Style} of the line*/
+    this.style = new Style();
+    
+    /**Serialization type*/
+    this.oType = 'NURBS'; //object type used for JSON deserialization
+}
 
+/**Creates a {NURBS} out of JSON parsed object
+ *@param {JSONObject} o - the JSON parsed object
+ *@return {NURBS} a newly constructed NURBS
+ *@author Alex Gheorghiu <alex@scriptoid.com>
+ **/
+NURBS.load = function(o){
+    
+    var newNURBS = new NURBS(Point.loadArray(o.points));    
+    newNURBS.style = Style.load(o.style);
+    return newNURBS;
+}
+
+NURBS.prototype = {
+    /**Computes a series of Bezier(Cubic) curves to aproximate a curve modeled 
+     *by a set of points
+     *@return an {Array} of Cubic curves (provided also as {Array})
+     *Example: 
+     *  [
+     *      [p1, p2, p3, p4],
+     *      [p1', p2', p3', p4'],
+     *      etc
+     *  ]
+     * See /documents/specs/spline-to-bezier.pdf (pages 5 and 6 for a description)  
+     **/
+    nurbsPoints : function (P){
+        /**Computes factorial*/
+        function fact(k){
+            if(k==0 || k==1){
+                return 1;
+            }
+            else{
+                return k * fact(k-1);
+            }
+        }
+
+        /**Computes Bernstain*/
+        function B(i,n,u){
+            return fact(n) / (fact(i) * fact(n-i))* Math.pow(u, i) * Math.pow(1-u, n-i);
+        }
+
+        /**Computes the sum between two points
+         *@param p1 - {Point}
+         *@param p2 - {Point}
+         *@return {Point} the sum of initial points
+         **/
+        function sum(p1, p2){
+            return new Point(p1.x + p2.x, p1.y + p2.y);
+        }
+
+        /**Computes the difference between first {Point} and second {Point}
+         *@param p1 - {Point}
+         *@param p2 - {Point}
+         *@return {Point} the sum of initial points
+         **/
+        function minus(p1, p2){
+            return new Point(p1.x - p2.x, p1.y - p2.y);
+        }
+
+        /**Computes the division of a {Point} by a number
+         *@param p - {Point}
+         *@param nr - {Number}
+         *@return {Point}
+         **/
+        function divide(p, nr){
+            if(nr == 0){ 
+                throw "Division by zero not allowed (yet :) " + this.callee ;
+            }
+            return new Point(p.x/nr, p.y/nr);
+        }
+
+        /**Computes the multiplication of a {Point} by a number
+         *@param p - {Point}
+         *@param nr - {Number}
+         *@return {Point}
+         **/
+        function multiply(p, nr){
+            return new Point (p.x * nr, p.y * nr);
+        }
+
+        var sol = [];
+        var n = P.length;
+
+        /*
+         *I do not get why first 4 must be 0 and last 3 of same value.....
+         *but otherwise we will get division by zero
+         */
+        var k = [0,0,0];                
+
+        for(j=0;j<=n-3;j++){
+            k.push(j);
+        }
+
+        k.push(n-3, n-3);
+
+
+
+        for(i=1; i<=n-3; i++){
+            //q1 - compute start point
+            var q1 = divide( sum( multiply(P[i], k[i+4] - k[i+2]), multiply(P[i+1], k[i+2] - k[i+1]) ), k[i+4] - k[i+1]);
+
+            //q0 - compute 1st controll point
+            var q_01 = (k[i+3] - k[i+2]) / (k[i+3] - k[i+1]);
+            var q_02 = divide( sum( multiply(P[i-1],k[i+3] - k[i+2]), multiply(P[i], k[i+2] - k[i])), k[i+3] - k[i]);
+            var q_03 = multiply(q1, ( k[i+2] - k[i+1])/ (k[i+3] - k[i+1]) );
+            var q0 = sum(multiply(q_02, q_01), q_03);
+
+            //q2 - compute 2nd controll point
+            var q2 = divide( sum( multiply(P[i], k[i+4] - k[i+3]), multiply(P[i+1], k[i+3] - k[i+1]) ), k[i+4] - k[i+1] );
+
+            //q3 - compute end point
+            var q_31 = (k[i+3] - k[i+2]) / (k[i+4] - k[i+2]);
+            var q_32 = divide( sum( multiply(P[i+1], k[i+5] - k[i+3]), multiply(P[i+2], k[i+3] - k[i+2]) ) , k[i+5] - k[i+2]);
+            var q_33 = multiply(q2, (k[i+4] - k[i+3])/(k[i+4] - k[i+2]) );
+            var q3 = sum(multiply(q_32, q_31), q_33);                    
+            
+            //store solution
+            sol.push([q0, q1, q2, q3]);
+        }
+
+        return sol;
+    },
+    
+    /**Paint the NURBS*/
+    paint : function(context){
+        context.save();
+        context.beginPath();
+        //log.info("Nr of cubic curves " +  fragments.length);
+        for(var f=0; f<this.fragments.length; f++){
+            var fragment = this.fragments[f];
+            context.moveTo(fragment[0].x, fragment[0].y);
+            context.bezierCurveTo(fragment[1].x, fragment[1].y, 
+                fragment[2].x, fragment[2].y, 
+                fragment[3].x, fragment[3].y);
+        }
+        context.stroke();
+        context.restore();
+    },
+    
+    
+    transform : function(matrix){
+        //transform initial points
+        for(var p = 0; p<this.points.length; p++){
+            var point = this.points[p];
+            point.transform(matrix);
+        }
+        
+        //transform cubic curves
+        for(var f=0; f<this.fragments.length; f++){
+            var fragment = this.fragments[f];
+            fragment.transform(matrix);
+        }
+    },
+    
+    
+    /** Tests to see if a point belongs to this NURBS
+     * @param {Number} x - the X coordinates
+     * @param {Number} y - the Y coordinates
+     * @author Alex Gheorghiu <alex@scriptoid.com>
+     **/
+    contains: function(x, y){
+        for(var f=0; f<this.fragments.length; f++){
+            var fragment = this.fragments[f];
+            if(fragment.contains(x, y)){
+                return true;
+            }
+        }
+        
+        return false;
+    },
+    
+    
+    equals : function (object){
+        throw Exception("Not implemented");
+    },
+    
+    toString : function(){
+        throw Exception("Not implemented");
+    },
+    
+    
+    toSVG : function() {
+        
+        var result = "\n" + repeat("\t", INDENTATION) +  '<path d="';
+        
+        for(var f=0; f<this.fragments.length; f++){
+            var fragment = this.fragments[f];
+            
+            result += 'M' + fragment.startPoint.x + ',' + fragment.endPoint.y;
+            result += ' C' + fragment.controlPoint1.x + ',' + fragment.controlPoint1.y;
+            result += ' ' + fragment.controlPoint2.x + ',' + fragment.controlPoint2.y;
+            result += ' ' + fragment.endPoint.x + ',' + fragment.endPoint.y;
+        } 
+
+        result += '" style="' + this.style.toSVG() +  '"  />';
+        
+        return result;
+    },    
+    
+    clone : function() {
+        throw Exception("Not implemented");
+    },
+    
+    getBounds: function(){
+        Util.getBounds(this.getPoints());
+    },
+    
+    near : function(x, y, radius){
+        for(var f=0; f<this.fragments.length; f++){
+            var fragment = this.fragments[f];
+            if(fragment.near(x, y, radius)){
+                return true;
+            }
+        }        
+        
+        return false;
+    },
+    
+    getPoints : function(){
+        var points = []
+        for(var f=0; f<this.fragments.length; f++){
+            var fragment = this.fragments[f];
+            points = points.concat(fragment.getPoints());
+        }
+        return points;
+    }    
+}
 
 
 /**
