@@ -253,8 +253,8 @@ Connector.prototype = {
                 //paint NURBS
                 var n = new NURBS(this.turningPoints);
                 n.style = this.style.clone();
-                n.style.strokeStyle = '#00EE00';
-                n.style.lineWidth = 1;
+                //n.style.strokeStyle = '#00EE00';
+//                n.style.lineWidth = 1;
                 n.paint(context);
                 break;
                 
