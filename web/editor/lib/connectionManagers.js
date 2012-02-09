@@ -386,7 +386,7 @@ ConnectorManager.prototype = {
             var end = conCps[1].point.clone();
             con.turningPoints = [start, end];
         }
-        else if(con.type == Connector.TYPE_JAGGED){
+        else if(con.type == Connector.TYPE_JAGGED || con.type == Connector.TYPE_ORGANIC){
             //first point
             var startPoint = conCps[0].point.clone();
             
@@ -408,7 +408,7 @@ ConnectorManager.prototype = {
             con.turningPoints = solution;
             conCps[0].point = con.turningPoints[0].clone();
             conCps[1].point = con.turningPoints[con.turningPoints.length - 1].clone();
-        }    
+        }        
         
         con.updateMiddleText();
     },

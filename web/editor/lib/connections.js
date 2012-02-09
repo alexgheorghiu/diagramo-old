@@ -339,8 +339,20 @@ Connector.prototype = {
 //                context.stroke();
 //                Log.groupEnd();
                 
+                //apint support points
+//                var poly = new Polyline();
+//                poly.points = Point.cloneArray(this.turningPoints);
+//                poly.startPoint = poly.points[0];
+////                poly.style =  this.style.clone();
+//                poly.style.strokeStyle = '#000000';
+//                poly.style.lineWidth = 1;
+//                poly.paint(context);
+                
+                //paint NURBS
                 var n = new NURBS(this.turningPoints);
-//                n.style = this.style.clone();
+                //n.style = this.style.clone();
+                n.style.strokeStyle = '#00EE00';
+                n.style.lineWidth = 1;
                 n.paint(context);
                 break;
                 

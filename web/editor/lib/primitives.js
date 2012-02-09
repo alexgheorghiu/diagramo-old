@@ -526,23 +526,34 @@ Polyline.prototype = {
 
         return true;
     },
+    
+    
     paint:function(context){
-        with(this){
-            if(style!=null){
-                style.setupContext(context);
-            }
-            context.moveTo(points[0].x,points[0].y);
-            for(var i=1; i<points.length; i++){
-                context.lineTo(points[i].x,points[i].y);
-            }
-            if(style.strokeStyle!=null && this.style.strokeStyle!=""){
-                context.stroke();
-            }
-            if(style.fillStyle!=null && this.style.fillStyle!=""){
-                context.fill();
-            }
-            }
+        if(this.style != null){
+            this.style.setupContext(context);
+        }
+        
+        Log.info("Polyline:paint() start");
+        context.beginPath();
+        context.moveTo(this.points[0].x, this.points[0].y);
+        for(var i=1; i<this.points.length; i++){
+            context.lineTo(this.points[i].x, this.points[i].y);
+            //Log.info("Polyline:paint()" + " Paint a line to [" + this.points[i].x + ',' + this.points[i].y  + ']');
+        }
+               
+        
+        if(this.style.fillStyle!=null && this.style.fillStyle!=""){
+            context.fill();
+            //Log.info("Polyline:paint() We have fill: " + this.style.fillStyle)
+        }
+        
+        if(this.style.strokeStyle !=null && this.style.strokeStyle != ""){
+            //Log.info("Polyline:paint() We have stroke: " + this.style.strokeStyle)
+            context.strokeStyle = this.style.strokeStyle;
+            context.stroke();
+        }
     },
+
 
     contains:function(x, y){
         return Util.isPointInside(new Point(x, y), this.getPoints())
@@ -2906,7 +2917,10 @@ NURBS.prototype = {
     
     /**Paint the NURBS*/
     paint : function(context){
-        context.save();
+        if(this.style != null){
+            this.style.setupContext(context);
+        }
+        
         context.beginPath();
         //log.info("Nr of cubic curves " +  fragments.length);
         for(var f=0; f<this.fragments.length; f++){
@@ -2917,7 +2931,6 @@ NURBS.prototype = {
                 fragment[3].x, fragment[3].y);
         }
         context.stroke();
-        context.restore();
     },
     
     

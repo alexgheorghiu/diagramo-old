@@ -5,7 +5,7 @@
  *SO TAKE CARE!
  **/
 
-var debugSolutions = null; 
+var debugSolutions = false; 
 
 /**Set it on true if you want visual debug clues.
  * Note: See to set the Connector's visualDebug (Connector.visualDebug) to false too

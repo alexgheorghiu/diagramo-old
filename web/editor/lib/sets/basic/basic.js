@@ -37,24 +37,7 @@ var figure_defaultFillStyle = "#ffffff";
 var figure_defaultFillTextStyle = "#000000";
 
 
-function figure_Polyline(x, y)
-{
-    var f = new Figure("Polyline");
-    f.style.fillStyle = figure_defaultFillStyle;
-    f.style.strokeStyle = figure_defaultStrokeStyle;
-    f.properties.push(new BuilderProperty('Fill Style', 'style.fillStyle', BuilderProperty.TYPE_COLOR));
-    f.properties.push(new BuilderProperty('Line Width', 'style.lineWidth',BuilderProperty.TYPE_LINE_WIDTH));
 
-    var p = new Polyline();
-    p.addPoint(new Point(x, y));
-    p.addPoint(new Point(x+50, y));
-    p.addPoint(new Point(x+50, y+50));
-    p.addPoint(new Point(x, y+50));
-    p.addPoint(new Point(x, y));
-    f.addPrimitive(p);
-    f.finalise();
-    return f;
-}
 function figure_Rectangle(x, y)
 {
     var f = new Figure("Rectangle");

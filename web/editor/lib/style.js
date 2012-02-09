@@ -14,10 +14,10 @@ function Style(){
     /**Font used*/
     this.font = null;
     
-    /**Stroke/pen style*/
+    /**Stroke/pen style. Can be specified as '#FF3010' or 'rgb(200, 0, 0)'*/
     this.strokeStyle = null;
     
-    /**Fill style*/
+    /**Fill style. Can be specified as '#FF3010' or 'rgb(200, 0, 0)'*/
     this.fillStyle = null
     
     /**Alpha/transparency value*/
@@ -26,7 +26,9 @@ function Style(){
     /**Composite value*/
     this.globalCompositeOperation = null;
     
-    /**Line width*/
+    /**Line width. 
+     *@type {Integer}
+     **/
     this.lineWidth = null;
     
     /**
