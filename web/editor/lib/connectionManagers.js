@@ -349,7 +349,7 @@ ConnectorManager.prototype = {
 
 
     /**Returns the id of the connector the mouse is over.
-     *It actually return the first connector we found.
+     *It actually return the first connector we found in a vicinity of that point
      *@param {Number} x - the x coord
      *@param {Number} y - the y coord
      *@return {Number} - the id of the connector or -1 if no connector found
@@ -361,7 +361,7 @@ ConnectorManager.prototype = {
     connectorGetByXY:function(x,y){
         var id = -1;
         for(var i=0; i<this.connectors.length; i++){
-            if(this.connectors[i].contains(x,y)){
+            if(this.connectors[i].near(x, y, 3)){
                 id = this.connectors[i].id;
                 break;
             }

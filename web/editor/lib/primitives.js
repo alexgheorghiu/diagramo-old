@@ -341,7 +341,7 @@ Line.prototype = {
     },
 
     /*
-     *See if we are near a {Line} by a certain radius
+     *See if we are near a {Line} by a certain radius (also includes the extremities into computation)
      *@param {Number} x - the x coordinates
      *@param {Number} y - the y coordinates
      *@param {Number} radius - the radius to search for
@@ -559,17 +559,17 @@ Polyline.prototype = {
         return Util.isPointInside(new Point(x, y), this.getPoints())
     },
 
-    near:function(x,y,radius){
-        with(this){
-            for(var i=0; i< points.length-1; i++){
-                var l=new Line(points[i],points[i+1]);
-                if(l.near(x,y)){
-                    return true;
-                }
-            }
-            return false;
-            }
 
+    near:function(x, y, radius){
+        for(var i=0; i< this.points.length-1; i++){
+            var l = new Line(this.points[i], this.points[i+1]);
+            
+            if(l.near(x,y,radius)){
+                return true;
+            }
+        }
+        
+        return false;
     },
 
     toString:function(){
@@ -1141,6 +1141,7 @@ CubicCurve.load = function(o){
 CubicCurve.prototype = {
     constructor : CubicCurve,
     
+    
     transform:function(matrix){
         if(this.style != null){
             this.style.transform(matrix);
@@ -1151,28 +1152,46 @@ CubicCurve.prototype = {
         this.endPoint.transform(matrix);
     },
     
+    
     paint:function(context){
-        with(this){
-            if(style!=null){
-                style.setupContext(context);
-            }
-            context.moveTo(startPoint.x,startPoint.y);
-            context.bezierCurveTo(controlPoint1.x, controlPoint1.y, controlPoint2.x, controlPoint2.y, endPoint.x, endPoint.y)
+//        Log.group("CubicCurve:paint() ");
+        if(this.style != null){
+            this.style.setupContext(context);
+            Log.info("stroke style : " + this.style.strokeStyle);
+        }
+        
+        context.beginPath();
+        context.moveTo(this.startPoint.x, this.startPoint.y);
+        context.bezierCurveTo(
+            this.controlPoint1.x, this.controlPoint1.y, 
+            this.controlPoint2.x, this.controlPoint2.y, 
+            this.endPoint.x, this.endPoint.y
+        );
 
 
-            if(style.fillStyle!=null && this.style.fillStyle!=""){
-                context.fill();
-            }
+        if(this.style.fillStyle != null && this.style.fillStyle != ""){
+//            Log.info("Fill provided");
+            context.fill();
+        }
+        else{
+//            Log.info("Fill NOT provided")            
+        }
 
-            if(style.strokeStyle!=null && this.style.strokeStyle!=""){
-                context.stroke();
-            }
-            }
+        if(this.style.strokeStyle != null && this.style.strokeStyle != ""){
+//            Log.info("Stroke provided");
+            context.stroke();
+        }
+        else{
+//            Log.info("Stroke NOT provided")
+        }
+        
+        Log.groupEnd();
     },
 
+
     clone:function(){
-        ret = new CubicCurve(this.startPoint.clone(),this.controlPoint1.clone(), this.controlPoint2.clone(),this.endPoint.clone());
-        ret.style=this.style.clone();
+        var ret = new CubicCurve(this.startPoint.clone(),this.controlPoint1.clone(), this.controlPoint2.clone(),this.endPoint.clone());
+        ret.style = this.style.clone();
         return ret;
     },
 
@@ -1186,68 +1205,76 @@ CubicCurve.prototype = {
         && this.endPoint.equals(anotherCubicCurve.endPoint);
     },
 
-    /**@deprecated*/
-    deprecated_contains:function(x,y){
-        with(this){
-            var q1=new QuadCurve(startPoint,controlPoint1,controlPoint2);
-            var q2=new QuadCurve(controlPoint1,controlPoint2,endPoint);
-            return q1.contains(x,y) || q2.contains(x,y);
-            //restore();
-            }
-
-    },
-
     /**
      * Inspired by java.awt.geom.CubicCurve2D
      */
     contains:function(x, y) {
-        if (!(x * 0.0 + y * 0.0 == 0.0)) {
-            /* Either x or y was infinite or NaN.
-             * A NaN always produces a negative response to any test
-             * and Infinity values cannot be "inside" any path so
-             * they should return false as well.
-             */
-            return false;
-        }
-        // We count the "Y" crossings to determine if the point is
-        // inside the curve bounded by its closing line.
-        var x1 = this.startPoint.x//getX1();
-        var y1 = this.startPoint.y//getY1();
-        var x2 = this.endPoint.x//getX2();
-        var y2 = this.endPoint.y//getY2();
-        var crossings =
-        (Util.pointCrossingsForLine(x, y, x1, y1, x2, y2) +
-            Util.pointCrossingsForCubic(x, y,
-                x1, y1,
-                this.controlPoint1.x, this.controlPoint1.y,
-                this.controlPoint2.x, this.controlPoint2.y,
-                x2, y2, 0));
-        return ((crossings & 1) == 1);
+//        if (!(x * 0.0 + y * 0.0 == 0.0)) {
+//            /* Either x or y was infinite or NaN.
+//             * A NaN always produces a negative response to any test
+//             * and Infinity values cannot be "inside" any path so
+//             * they should return false as well.
+//             */
+//            return false;
+//        }
+//        // We count the "Y" crossings to determine if the point is
+//        // inside the curve bounded by its closing line.
+//        var x1 = this.startPoint.x//getX1();
+//        var y1 = this.startPoint.y//getY1();
+//        var x2 = this.endPoint.x//getX2();
+//        var y2 = this.endPoint.y//getY2();
+//        var crossings =
+//        (Util.pointCrossingsForLine(x, y, x1, y1, x2, y2) +
+//            Util.pointCrossingsForCubic(x, y,
+//                x1, y1,
+//                this.controlPoint1.x, this.controlPoint1.y,
+//                this.controlPoint2.x, this.controlPoint2.y,
+//                x2, y2, 0));
+//        return ((crossings & 1) == 1);
+        
+        /*
+        *Algorithm: split the Bezier curve into an aproximative polyline and use polyline's near method*/
+       var poly = new Polyline();
+       for(var t=0; t<=1; t=t+0.01){
+           var a = Math.pow((1 - t), 3);            
+            var b = 3 * t * Math.pow((1 - t), 2);
+            var c = 3 * Math.pow(t, 2) * (1 - t);
+            var d = Math.pow(t, 3);
+            var Xp = a * this.startPoint.x + b * this.controlPoint1.x + c * this.controlPoint2.x + d * this.endPoint.x;
+            var Yp = a * this.startPoint.y + b * this.controlPoint1.y + c * this.controlPoint2.y + d * this.endPoint.y;
+            poly.addPoint(new Point(Xp, Yp));
+       }
+       //Log.info("CubicCurve: Aproximative polyline " + poly);
+       
+       return poly.contains(x, y);
     },
 
 
     /**
-     *TODO: algorithm not clear and maybe we can find the math formula to determine if we have an intersection
+     *Tests to see if a point is close enough to a cubic curve
+     *@param {Number} x - the x coordinates of the point
+     *@param {Number} y - the x coordinates of the point
+     *@param {Number} radius - the radius of vicinity
+     *@author alex
      *@see <a href="http://rosettacode.org/wiki/Bitmap/B%C3%A9zier_curves/Cubic">http://rosettacode.org/wiki/Bitmap/B%C3%A9zier_curves/Cubic</a>
      */
-    near:function(x,y,radius){
-        var polls=100;
-        with(this){
-            for(i=0; i<=polls; ++i){
-                var t=i/polls;
-                var fromEnd=Math.pow((1 - t), 3);
-                var fromStart=Math.pow(t, 3);
-                var b = 3 * t * Math.pow((1 - t), 2);
-                var c = 3 * Math.pow(t, 2) * (1 - t);
-                var newX = fromEnd * startPoint.x + b * controlPoint1.x + c * controlPoint2.x + fromStart * endPoint.x;
-                var newY = fromEnd * startPoint.y + b * controlPoint1.y + c * controlPoint2.y + fromStart * endPoint.y;
-                var p=new Point(newX,newY);
-                if(p.near(x,y,radius)){
-                    return true;
-                }
-            }
-            }
-        return false
+    near:function(x, y, radius){        
+       
+       /*Algorithm: split the Bezier curve into an aproximative 
+       polyline and use polyline's near method*/
+        var poly = new Polyline();
+        
+        for(var t=0; t<=1; t+=0.01){
+            var a = Math.pow((1 - t), 3);            
+            var b = 3 * t * Math.pow((1 - t), 2);
+            var c = 3 * Math.pow(t, 2) * (1 - t);
+            var d = Math.pow(t, 3);
+            var Xp = a * this.startPoint.x + b * this.controlPoint1.x + c * this.controlPoint2.x + d * this.endPoint.x;
+            var Yp = a * this.startPoint.y + b * this.controlPoint1.y + c * this.controlPoint2.y + d * this.endPoint.y;
+            poly.addPoint(new Point(Xp, Yp));
+        }
+       
+       return poly.near(x, y, radius);
     },
 
     getPoints:function(){
@@ -1468,7 +1495,7 @@ Arc.prototype = {
                 style.setupContext(context);
             }
             context.lineWidth = style.lineWidth;
-            //context.arc(x,y,radius,(Math.PI/180)*startAngle,(Math.PI/180)*endAngle,direction);
+            //context.arc(x,y,radius,(Math.PI/180)*startAngle,(Math.PI/180)*endAngle,direction);                        
             context.moveTo(curves[0].startPoint.x,curves[0].startPoint.y);
             for(var i=0; i<curves.length; i++){
                 context.quadraticCurveTo(curves[i].controlPoint.x,curves[i].controlPoint.y,curves[i].endPoint.x,curves[i].endPoint.y)
@@ -2909,7 +2936,7 @@ NURBS.prototype = {
             var q3 = sum(multiply(q_32, q_31), q_33);                    
             
             //store solution
-            sol.push([q0, q1, q2, q3]);
+            sol.push( new CubicCurve(q0, q1, q2, q3) );
         }
 
         return sol;
@@ -2921,16 +2948,12 @@ NURBS.prototype = {
             this.style.setupContext(context);
         }
         
-        context.beginPath();
-        //log.info("Nr of cubic curves " +  fragments.length);
+        //Log.info("Nr of cubic curves " +  this.fragments.length);
         for(var f=0; f<this.fragments.length; f++){
             var fragment = this.fragments[f];
-            context.moveTo(fragment[0].x, fragment[0].y);
-            context.bezierCurveTo(fragment[1].x, fragment[1].y, 
-                fragment[2].x, fragment[2].y, 
-                fragment[3].x, fragment[3].y);
+            fragment.style = this.style.clone();
+            fragment.paint(context);
         }
-        context.stroke();
     },
     
     

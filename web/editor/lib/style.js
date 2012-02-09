@@ -158,10 +158,10 @@ Style.prototype={
 
 
     clone: function(){
-        var anotherStyle = new Style;
+        var anotherStyle = new Style();
         for(var propertyName in anotherStyle){
-            if(propertyName!="addColorStop" && propertyName!="linearGradient"){
-                anotherStyle[propertyName]=this[propertyName];
+            if(propertyName != "addColorStop" && propertyName != "linearGradient"){
+                anotherStyle[propertyName] = this[propertyName];
             }
             else{
                 for(var i=0; i< this[propertyName].length; i++){

@@ -240,106 +240,8 @@ Connector.prototype = {
 
         switch(this.type){
             case Connector.TYPE_ORGANIC:
-//                /*
-//                 *As we do not have  way to represent a n grade Bezier we will approximate it visually
-//                 *Usually we will have between 4 and 6 turning points
-//                 */
-//               
-//               
-//                context.beginPath();
-//                //Log.group("Organic");
-//                //Log.info("Nr. of turning points" + this.turningPoints.length);
-//                context.moveTo(this.turningPoints[0].x, this.turningPoints[0].y);
-//               
-//                //Log.info("Nr of  points: " + this.turningPoints.length);
-//                switch(this.turningPoints.length){
-//                    case 4:                        
-//                        /*Find draw a cubic curve between all 4 points*/
-//                        context.bezierCurveTo(this.turningPoints[1].x, this.turningPoints[1].y,
-//                            this.turningPoints[2].x, this.turningPoints[2].y,
-//                            this.turningPoints[3].x, this.turningPoints[3].y);                                                  
-//                        break;
-//                    case 5:
-//                        /*Find first collinear point (next to start or end), draw a line to it
-//                         *and then a cubic out of the 5 left */
-//                        
-//                        var pos = -1;
-//                        for(var i=1; i < this.turningPoints.length-1; i++){
-//                            if(Util.collinearity(this.turningPoints[i-1], this.turningPoints[i], this.turningPoints[i+1])){
-//                                pos = i;
-//                                break;
-//                            }
-//                        }
-//                        //Log.info("Position of collinear point: " + pos);
-//                        //Log.info("Points: " + this.turningPoints);
-//                        
-//                        if(pos == 1){ //just skip it (visually)                             
-//                            context.bezierCurveTo(this.turningPoints[2].x, this.turningPoints[2].y,
-//                                this.turningPoints[3].x, this.turningPoints[3].y,
-//                                this.turningPoints[4].x, this.turningPoints[4].y);  
-//                                
-//                        }
-//                        else if(pos == 3){ //just skipt it (visually)
-//                            context.bezierCurveTo(this.turningPoints[1].x, this.turningPoints[1].y,
-//                                this.turningPoints[2].x, this.turningPoints[2].y,
-//                                this.turningPoints[4].x, this.turningPoints[4].y); 
-//                        }
-//                        else if(pos == -1){ //default case. 
-//                            /*Add a middle point for each segment except first and last segment.
-//                             *Draw quads between points
-//                             **/
-//                            var points = [];
-//
-//                            points.push(this.turningPoints[0].clone());
-//
-//                            //add controll points in the middle of each segment
-//                            for(var i=1; i < this.turningPoints.length-2; i++){
-//                                points.push(this.turningPoints[i].clone());
-//                                var cp = new Point( (this.turningPoints[i].x + this.turningPoints[i+1].x) / 2,
-//                                                    (this.turningPoints[i].y + this.turningPoints[i+1].y) / 2);
-//                                points.push(cp);
-//                            }   
-//                            points.push(this.turningPoints[this.turningPoints.length-2].clone());                
-//                            points.push(this.turningPoints[this.turningPoints.length-1].clone());                
-//
-//                            //paint
-//                            context.beginPath();
-//
-//                            //first line
-//                            context.moveTo(points[0].x, points[0].y);
-//
-//                            //curves (using middle segments as start and end point and initial turning points as controll points
-//                            for(var i=2; i < points.length; i=i+2){
-//                                //ctx.moveTo(points[i][0], points[i][1]);
-//                                context.quadraticCurveTo( points[i-1].x, points[i-1].y, points[i].x, points[i].y );
-//                            }
-//                            
-//                            //context.moveTo(points[points.length - 1].x, points[points.length - 1].y);
-//                        }
-//                        else{
-//                            throw "Connector:paint() - case 5 issue";
-//                        }
-//
-//                        break;
-//                        
-//                    case 6:
-//                        /**Find middle of connector and draw 2 cubic curves*/
-//                        var middle = new Point( (this.turningPoints[2].x + this.turningPoints[3].x) / 2,
-//                                        (this.turningPoints[2].y + this.turningPoints[3].y) / 2);
-//                                        
-//                        context.bezierCurveTo(this.turningPoints[1].x, this.turningPoints[1].y,
-//                         this.turningPoints[2].x, this.turningPoints[2].y,
-//                         middle.x, middle.y);  
-//                         
-//                        context.bezierCurveTo(this.turningPoints[3].x, this.turningPoints[3].y,
-//                         this.turningPoints[4].x, this.turningPoints[4].y,
-//                         this.turningPoints[5].x, this.turningPoints[5].y);   
-//                        break;
-//                }
-//                context.stroke();
-//                Log.groupEnd();
                 
-                //apint support points
+                //paint support points
 //                var poly = new Polyline();
 //                poly.points = Point.cloneArray(this.turningPoints);
 //                poly.startPoint = poly.points[0];
@@ -350,7 +252,7 @@ Connector.prototype = {
                 
                 //paint NURBS
                 var n = new NURBS(this.turningPoints);
-                //n.style = this.style.clone();
+                n.style = this.style.clone();
                 n.style.strokeStyle = '#00EE00';
                 n.style.lineWidth = 1;
                 n.paint(context);
@@ -973,35 +875,74 @@ Connector.prototype = {
     
 
     /**
-     * This is really a near type function, we don't want to find out
-     * if we are anywhere within the "bounds" of the Connector
+     * See if a file is on a connector
      * @param {Number} x - coordinate
      * @param {Number} y - coordinate
+     * @author alex
      */
     contains:function(x,y){
-        for(var i=0; i<this.turningPoints.length-1; i++){
-            var l = new Line(this.turningPoints[i],this.turningPoints[i+1]);
-            if (l.near(x,y,3)){
-                return true;
-            }
+        var r = false;
+        switch(this.type){
+            
+            case Connector.TYPE_STRAIGHT:
+                //just fall :)
+                
+            case Connector.TYPE_JAGGED:
+                for(var i=0; i<this.turningPoints.length-1; i++){
+                    var l = new Line(this.turningPoints[i],this.turningPoints[i+1]);
+                    if( l.contains(x, y) ){
+                        r = true;
+                        break;
+                    }
+                }
+                break;
+                
+            case Connector.TYPE_ORGANIC:
+                var n = new NURBS(this.turningPoints);
+                
+                r = n.contains(x, y);
+                
+                break;
         }
-        return this.turningPoints[this.turningPoints.length-1].near(x,y,3) || this.turningPoints[0].near(x,y,3);
+        
+        return r;
     },
 
     /**Tests if a point defined by (x,y) is within a radius
      *@param {Number} x - x coordinates of the point
      *@param {Number} y - y coordinates of the point
      *@param {Number} radius - the radius to seach within
+     *@author alex
      **/
     near:function(x,y,radius){
-        for(var i=0; i<this.turningPoints.length-1; i++){
-            var l=new Line(this.turningPoints[i],this.turningPoints[i+1]);
-            if (l.near(x,y,radius)){
-                return true;
-            }
+        var r = false;
+        switch(this.type){
+            
+            case Connector.TYPE_STRAIGHT:
+                //just fall :)
+                
+            case Connector.TYPE_JAGGED:
+                for(var i=0; i<this.turningPoints.length-1; i++){
+                    var l = new Line(this.turningPoints[i],this.turningPoints[i+1]);
+                    if( l.near(x, y, radius) ){
+                        r = true;
+                        break;
+                    }
+                }
+                
+                break;
+                
+            case Connector.TYPE_ORGANIC:
+                var n = new NURBS(this.turningPoints);
+                
+                r = n.near(x, y, radius);
+                break;
+                
         }
-        return this.turningPoints[this.turningPoints.length-1].near(x,y,3) || this.turningPoints[0].near(x,y,3);
+        
+        return r;                
     },
+
 
     /**Returns the middle of a connector
      *Usefull for setting up the middle text
