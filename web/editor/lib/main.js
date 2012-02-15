@@ -2065,9 +2065,12 @@ function generateMoveMatrix(fig, x,y){
              *or snap to the snap line regarding figure's end bounds (endNextGridX)
              *We just need to see to which snap line will actually snap (the one that is closer)
              **/
+            
+            //TODO: what if the mouse jumps 200px?
             var startGridX = (Math.floor( fig.getBounds()[0]  / jump ) + 1) * jump;            
             var deltaStart = startGridX - fig.getBounds()[0];
-//            Log.info("Start grid X: " + startGridX + "Figure start x: " + fig.getBounds()[0] + " deltaStart: " + deltaStart );
+            Log.info("snapMonitor: " + snapMonitor +  "Start grid X: " + startGridX + "Figure start x: " + fig.getBounds()[0] + " deltaStart: " + deltaStart );
+            
             
             
             var endGridX = (Math.floor( fig.getBounds()[2]  / jump ) + 1) * jump;
