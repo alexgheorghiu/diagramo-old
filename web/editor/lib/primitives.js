@@ -172,7 +172,7 @@ Point.prototype = {
     getPoints:function(){
         return [this];
     },
-
+    
     getBounds:function(){
         return Util.getBounds(this.getPoints());
     },

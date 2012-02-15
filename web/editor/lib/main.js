@@ -21,7 +21,17 @@ var doUndo = true;
 var currentMoveUndo = null; 
 
 var CONNECTOR_MANAGER = new ConnectorManager();
-var GRIDWIDTH = 20;
+
+
+/**The width of grid cell. 
+ *Must be an odd number.
+ *Must coincide with the size of the image used as canvas tile 
+ **/
+var GRIDWIDTH = 30; 
+
+/**The distance (from a snap line) that will trigger a snap*/
+var SNAP_DISTANCE = 2;
+
 var fillColor=null;
 var strokeColor='#000000';
 var currentText=null;
@@ -382,7 +392,7 @@ function showGrid(){
     gridVisible = !gridVisible;
 
     if(gridVisible){
-        canvas.style.backgroundImage="url(assets/images/gridTile1.png)";
+        canvas.style.backgroundImage="url(assets/images/gridTile2.png)";
     }
     else {
         canvas.style.backgroundImage="";
@@ -2037,21 +2047,52 @@ function generateMoveMatrix(fig, x,y){
         [0, 0, 1]
         ];
                     
-        //        Log.info("generateMoveMatrix() - old snapMonitor : " + snapMonitor);
-        //        Log.info("generateMoveMatrix() - dx : " + dx + " dy: " + dy);
+        //Log.info("generateMoveMatrix() - old snapMonitor : " + snapMonitor);
+        //Log.info("generateMoveMatrix() - dx : " + dx + " dy: " + dy);
         snapMonitor[0] += dx;
         snapMonitor[1] += dy;
-        //        Log.info("generateMoveMatrix() - new snapMonitor : " + snapMonitor);
-        //        Log.info("generateMoveMatrix() - figure bounds : " + fig.getBounds());
+        //Log.info("generateMoveMatrix() - new snapMonitor : " + snapMonitor);
+        //Log.info("generateMoveMatrix() - figure bounds : " + fig.getBounds());
 
+        var jump = GRIDWIDTH / 2; //the figure will jump half of grid cell width
+        
         //HORIZONTAL
         if(dx > 0){ //dragged to right
-            var nextGridX = Math.ceil( (fig.getBounds()[2] + snapMonitor[0]) / GRIDWIDTH ) * GRIDWIDTH;
-            if((snapMonitor[0] + fig.getBounds()[2]) % GRIDWIDTH >= GRIDWIDTH/2 ){                
-                moveMatrix[0][2] = nextGridX - fig.getBounds()[2];
-                //                Log.info("generateMoveMatrix() - drag right, nextGridX: " + nextGridX + " x-adjust: " + (nextGridX - fig.getBounds()[2]) );
-                snapMonitor[0] -= nextGridX - fig.getBounds()[2];
+            
+            /*Idea:
+             *As you move the shape to right it might snap to next snap line  
+             *regarding figure's start bounds (startNextGridX)
+             *or snap to the snap line regarding figure's end bounds (endNextGridX)
+             *We just need to see to which snap line will actually snap (the one that is closer)
+             **/
+            var startGridX = (Math.floor( fig.getBounds()[0]  / jump ) + 1) * jump;            
+            var deltaStart = startGridX - fig.getBounds()[0];
+//            Log.info("Start grid X: " + startGridX + "Figure start x: " + fig.getBounds()[0] + " deltaStart: " + deltaStart );
+            
+            
+            var endGridX = (Math.floor( fig.getBounds()[2]  / jump ) + 1) * jump;
+            var deltaEnd = endGridX - fig.getBounds()[2];
+            
+            if(deltaStart < deltaEnd){
+                if( fig.getBounds()[0] + snapMonitor[0]  >= startGridX - SNAP_DISTANCE ){
+                    moveMatrix[0][2] = deltaStart;
+                    snapMonitor[0] -= deltaStart;
+                }
+                else if( fig.getBounds()[2] + snapMonitor[0]  >= endGridX - SNAP_DISTANCE ){ 
+                    moveMatrix[0][2] = deltaEnd;
+                    snapMonitor[0] -= deltaEnd;
+                }
             }
+            else{
+                if( fig.getBounds()[2] + snapMonitor[0]  >= endGridX - SNAP_DISTANCE ){ 
+                    moveMatrix[0][2] = deltaEnd;
+                    snapMonitor[0] -= deltaEnd;
+                }
+                else if( fig.getBounds()[0] + snapMonitor[0]  >= startGridX - SNAP_DISTANCE ){
+                    moveMatrix[0][2] = deltaStart;
+                    snapMonitor[0] -= deltaStart;
+                }
+            }            
         }
         else if(dx < 0){ //dragged to left
             var previousGridX = Math.floor( (fig.getBounds()[0] + snapMonitor[0]) / GRIDWIDTH ) * GRIDWIDTH;
@@ -2060,7 +2101,7 @@ function generateMoveMatrix(fig, x,y){
                 && fig.getBounds()[0] + snapMonitor[0] <= previousGridX + GRIDWIDTH/2
                 ){
                 moveMatrix[0][2] = -(fig.getBounds()[0] - previousGridX);
-                //                Log.info("generateMoveMatrix() - drag left, previousGridX: " + previousGridX + " x-adjust: " + (-(fig.getBounds()[0] - previousGridX)) );
+                //Log.info("generateMoveMatrix() - drag left, previousGridX: " + previousGridX + " x-adjust: " + (-(fig.getBounds()[0] - previousGridX)) );
                 snapMonitor[0] += fig.getBounds()[0] - previousGridX;
             }
         }
@@ -2069,7 +2110,7 @@ function generateMoveMatrix(fig, x,y){
         if(dy > 0){ //dragged to bottom
             var nextGridY = Math.ceil( (fig.getBounds()[3] + snapMonitor[1]) / GRIDWIDTH ) * GRIDWIDTH;
             if( (fig.getBounds()[3] + snapMonitor[1]) % GRIDWIDTH > GRIDWIDTH/2 ){
-                //                Log.info("generateMoveMatrix() - drag bottom");
+                //Log.info("generateMoveMatrix() - drag bottom");
                 moveMatrix[1][2] = nextGridY - fig.getBounds()[3];
                 snapMonitor[1] -= nextGridY - fig.getBounds()[3];
             }
@@ -2079,13 +2120,13 @@ function generateMoveMatrix(fig, x,y){
             if(fig.getBounds()[1] + snapMonitor[1] >= previousGridY
                 && fig.getBounds()[1] + snapMonitor[1] <= previousGridY + GRIDWIDTH/2
                 ){
-                //                Log.info("generateMoveMatrix() - drag top");
+                //Log.info("generateMoveMatrix() - drag top");
                 moveMatrix[1][2] = -(fig.getBounds()[1] - previousGridY);
                 snapMonitor[1] += fig.getBounds()[1] - previousGridY;
             }
         }
 
-    //        Log.info("generateMoveMatrix() - 'trimmed' snapMonitor : " + snapMonitor);
+    //Log.info("generateMoveMatrix() - 'trimmed' snapMonitor : " + snapMonitor);
         
     } else{ //normal move
         moveMatrix = [
