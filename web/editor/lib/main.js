@@ -30,7 +30,7 @@ var CONNECTOR_MANAGER = new ConnectorManager();
 var GRIDWIDTH = 30; 
 
 /**The distance (from a snap line) that will trigger a snap*/
-var SNAP_DISTANCE = 2;
+var SNAP_DISTANCE = 5;
 
 var fillColor=null;
 var strokeColor='#000000';
@@ -2057,7 +2057,7 @@ function generateMoveMatrix(fig, x,y){
         var jump = GRIDWIDTH / 2; //the figure will jump half of grid cell width
         
         //HORIZONTAL
-        if(dx > 0){ //dragged to right
+        if(dx != 0){ //dragged to right
             
             /*Idea:
              *As you move the shape to right it might snap to next snap line  
@@ -2065,15 +2065,14 @@ function generateMoveMatrix(fig, x,y){
              *or snap to the snap line regarding figure's end bounds (endNextGridX)
              *We just need to see to which snap line will actually snap (the one that is closer)
              **/
-            
-            //TODO: what if the mouse jumps 200px?
-            var startGridX = (Math.floor( fig.getBounds()[0]  / jump ) + 1) * jump;            
+                       
+            var startGridX = ( Math.floor( (fig.getBounds()[0] + snapMonitor[0])  / jump ) + 1 ) * jump;            
             var deltaStart = startGridX - fig.getBounds()[0];
-            Log.info("snapMonitor: " + snapMonitor +  "Start grid X: " + startGridX + "Figure start x: " + fig.getBounds()[0] + " deltaStart: " + deltaStart );
+//            Log.info("snapMonitor: [" + snapMonitor +  "] Start grid X: " + startGridX + "Figure start x: " + fig.getBounds()[0] + " deltaStart: " + deltaStart );
             
             
             
-            var endGridX = (Math.floor( fig.getBounds()[2]  / jump ) + 1) * jump;
+            var endGridX = (Math.floor( (fig.getBounds()[2] + snapMonitor[0])  / jump ) + 1) * jump;
             var deltaEnd = endGridX - fig.getBounds()[2];
             
             if(deltaStart < deltaEnd){
@@ -2097,37 +2096,41 @@ function generateMoveMatrix(fig, x,y){
                 }
             }            
         }
-        else if(dx < 0){ //dragged to left
-            var previousGridX = Math.floor( (fig.getBounds()[0] + snapMonitor[0]) / GRIDWIDTH ) * GRIDWIDTH;
 
-            if( fig.getBounds()[0] + snapMonitor[0] >= previousGridX
-                && fig.getBounds()[0] + snapMonitor[0] <= previousGridX + GRIDWIDTH/2
-                ){
-                moveMatrix[0][2] = -(fig.getBounds()[0] - previousGridX);
-                //Log.info("generateMoveMatrix() - drag left, previousGridX: " + previousGridX + " x-adjust: " + (-(fig.getBounds()[0] - previousGridX)) );
-                snapMonitor[0] += fig.getBounds()[0] - previousGridX;
-            }
-        }
 
         //VERTICAL
-        if(dy > 0){ //dragged to bottom
-            var nextGridY = Math.ceil( (fig.getBounds()[3] + snapMonitor[1]) / GRIDWIDTH ) * GRIDWIDTH;
-            if( (fig.getBounds()[3] + snapMonitor[1]) % GRIDWIDTH > GRIDWIDTH/2 ){
-                //Log.info("generateMoveMatrix() - drag bottom");
-                moveMatrix[1][2] = nextGridY - fig.getBounds()[3];
-                snapMonitor[1] -= nextGridY - fig.getBounds()[3];
+        if(dy != 0){ //dragged to bottom
+            var upperGridY = ( Math.floor( (fig.getBounds()[1] + snapMonitor[1])  / jump ) + 1 ) * jump;            
+            var deltaUpper = upperGridY - fig.getBounds()[1];
+//            Log.info("snapMonitor: [" + snapMonitor +  "] Upper grid Y: " + upperGridY + "Figure start y: " + fig.getBounds()[1] + " deltaUpper: " + deltaUpper );
+            
+            
+            
+            var lowerGridY = (Math.floor( (fig.getBounds()[3] + snapMonitor[1])  / jump ) + 1) * jump;
+            var deltaLower = lowerGridY - fig.getBounds()[3];
+            
+            if(deltaUpper < deltaLower){
+                if( fig.getBounds()[1] + snapMonitor[1]  >= upperGridY - SNAP_DISTANCE ){
+                    moveMatrix[1][2] = deltaUpper;
+                    snapMonitor[1] -= deltaUpper;
+                }
+                else if( fig.getBounds()[3] + snapMonitor[1]  >= lowerGridY - SNAP_DISTANCE ){ 
+                    moveMatrix[1][2] = deltaLower;
+                    snapMonitor[1] -= deltaLower;
+                }
             }
+            else{
+                if( fig.getBounds()[3] + snapMonitor[1]  >= lowerGridY - SNAP_DISTANCE ){ 
+                    moveMatrix[1][2] = deltaLower;
+                    snapMonitor[1] -= deltaLower;
+                }
+                else if( fig.getBounds()[1] + snapMonitor[1]  >= upperGridY - SNAP_DISTANCE ){
+                    moveMatrix[1][2] = deltaUpper;
+                    snapMonitor[1] -= deltaUpper;
+                }
+            }               
         }
-        else if (dy < 0){ //drag to top
-            var previousGridY = Math.floor( (fig.getBounds()[1] + snapMonitor[1]) / GRIDWIDTH ) * GRIDWIDTH;
-            if(fig.getBounds()[1] + snapMonitor[1] >= previousGridY
-                && fig.getBounds()[1] + snapMonitor[1] <= previousGridY + GRIDWIDTH/2
-                ){
-                //Log.info("generateMoveMatrix() - drag top");
-                moveMatrix[1][2] = -(fig.getBounds()[1] - previousGridY);
-                snapMonitor[1] += fig.getBounds()[1] - previousGridY;
-            }
-        }
+
 
     //Log.info("generateMoveMatrix() - 'trimmed' snapMonitor : " + snapMonitor);
         
