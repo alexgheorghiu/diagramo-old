@@ -386,7 +386,10 @@ function snapToGrid(){
 }
 
 
-/**Makes grid visible or invisible, depedinding of previous value*/
+/**Makes grid visible or invisible, depedinding of previous value
+ *If the "snap to" was active and grid made invisible the "snap to"
+ *will be disabled
+ **/
 function showGrid(){
     var canvas = getCanvas();
     gridVisible = !gridVisible;
@@ -395,8 +398,9 @@ function showGrid(){
         canvas.style.backgroundImage="url(assets/images/gridTile2.png)";
     }
     else {
-        canvas.style.backgroundImage="";
+        canvas.style.backgroundImage = "";
         document.getElementById("snapCheckbox").checked = false;
+        snapTo = false;
     }
     document.getElementById("gridCheckbox").checked = gridVisible;
 }

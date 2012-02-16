@@ -286,14 +286,16 @@ if(is_numeric($_REQUEST['diagramId'])){
                     showGrid();
                 }
                 else{
-                    document.getElementById("gridCheckbox").checked=false;
+                    //TODO: redundant?
+                    document.getElementById("gridCheckbox").checked = false;
                 }
 
                 if(document.getElementById("snapCheckbox").checked){
                     snapToGrid();
                 }
                 else{
-                    document.getElementById("snapCheckbox").checked=false;
+                    //TODO: redundant?
+                    document.getElementById("snapCheckbox").checked = false;
                 }
 
 
