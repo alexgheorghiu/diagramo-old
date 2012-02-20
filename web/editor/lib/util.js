@@ -143,10 +143,13 @@ var Util = {
      *Tests if a a poluline defined by a set of points intersects a rectangle
      *@param {Array} points - and {Array} of {Point}s
      *@param {Array} bounds - the bounds of the rectangle defined by (x1, y1, x2, y2)
+     *@param {Boolean} closedPolyline - incase polyline is closed figure then true, else false
+     * 
      *@return true - if line intersects the rectangle, false - if not
      *@author Alex Gheorghiu <alex@scriptoid.com>
+     *@author Janis Sejans <janis.sejans@towntech.lv>
      **/
-    polylineIntersectsRectangle:function(points, bounds){
+    polylineIntersectsRectangle:function(points, bounds, closedPolyline){
         
 
         //get the 4 lines/segments represented by the bounds
@@ -156,7 +159,6 @@ var Util = {
         lines.push( new Line( new Point(bounds[2], bounds[3]), new Point(bounds[0], bounds[3])) );
         lines.push( new Line( new Point(bounds[0], bounds[3]), new Point(bounds[0], bounds[1])) );
 
-        
         for(var k=0; k < points.length-1; k++){
             //create a line out of each 2 consecutive points            
             var tempLine = new Line(points[k], points[k+1]);
@@ -168,6 +170,19 @@ var Util = {
                 }
             }
         }
+        
+        //check the closed figure - that is last point connected to the first
+        if (closedPolyline){
+            //create a line out of each 2 consecutive points            
+            var tempLine = new Line(points[points.length-1], points[0]);
+            
+            //see if that line intersect any of the line on bounds border
+            for(var i=0; i<lines.length; i++){
+                if(this.lineIntersectsLine(tempLine, lines[i])){
+                    return true;
+                }
+            }            
+        }        
         
         return false;
     },

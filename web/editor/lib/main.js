@@ -184,9 +184,7 @@ var dragging = false;
 /**Holds a wrapper around canvas object*/
 var canvasProps = null; //
 
-/**Currently holds two elements the type: figure|group and the id
- *TODO: remove my comment. Nice idea Janis! In the future migh hold connector as type too.
- **/
+/**Currently holds two elements the type: figure|group and the id*/
 var clipboardBuffer = [];
 
 /**Return current canvas.
@@ -1263,7 +1261,8 @@ function onMouseUp(ev){
                 }
             }
 
-            //add free figures (not belonging to any group) that fall in selection region
+            //add free figures (not belonging to any group) that overlaps with selection region
+            //TODO: From Janis to Alex: Why we are selecting only figures that doesn`t belong to any group, I think we must also add grouped figures
             for(var i = 0; i < STACK.figures.length; i++){
                 if(STACK.figures[i].groupId == -1){ //we only want ungrouped items
                     var points = STACK.figures[i].getPoints();
@@ -1273,12 +1272,18 @@ function onMouseUp(ev){
                         points.push( new Point(STACK.figures[i].getBounds()[0], STACK.figures[i].getBounds()[3]) ); //bottom left
                         points.push( new Point(STACK.figures[i].getBounds()[2], STACK.figures[i].getBounds()[1]) ); //top right
                     }
-                        
-                    for(var a = 0; a < points.length; a++){
-                        if( Util.isPointInside(points[a], selectionArea.getPoints()) ){
-                            figuresToAdd.push(STACK.figures[i].id);
-                            break;
-                        }
+                    
+                    //TODO: From Janis: we can remove this, because intersection(next block) will also select figures whose point is in area
+                    //for(var a = 0; a < points.length; a++){
+                    //    if( Util.isPointInside(points[a], selectionArea.getPoints()) ){
+                    //        figuresToAdd.push(STACK.figures[i].id);
+                    //        break;
+                    //    }
+                    //}
+                    
+                    //select figures whose line intersects selectionArea
+                    if(Util.polylineIntersectsRectangle(points,selectionArea.getBounds(),true)){
+                        figuresToAdd.push(STACK.figures[i].id);
                     }
                 } //end if
             } //end for
