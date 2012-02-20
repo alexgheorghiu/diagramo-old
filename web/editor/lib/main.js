@@ -544,7 +544,7 @@ function onKeyDown(ev){
             break;
 
         case KEY.CTRL: //Ctrl
-        case KEY.COMMAND:
+        case KEY.COMMAND_LEFT:
         case KEY.COMMAND_FIREFOX:
             CNTRL_PRESSED = true;
             break;
