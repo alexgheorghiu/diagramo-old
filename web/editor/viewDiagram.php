@@ -14,6 +14,8 @@ if(!isset ($_REQUEST['hash'])){
 
 $delegate = new Delegate();
 $diagram = $delegate->diagramGetByHash(trim($_REQUEST['hash']));
+$authorUserDiagram = $delegate->userdiagramGetByAuthor($diagram->id);
+$author = $delegate->userGetById($authorUserDiagram->userId);
 
 //check if diagram is public
 if(!is_object($diagram)){
@@ -41,17 +43,20 @@ if(!$diagram->public){
         <link rel="stylesheet" media="screen" type="text/css" href="http://<?=WEBADDRESS?>/assets/css/style.css" />
     </head>
     <body>
-        <h1><?=$diagram->title?></h1>
-        <div><?=$diagram->description?></div>
-        <p/>
-        <div id="container">
-            <img src="/<?=sanitize($diagram->title)?>_<?=$diagram->hash?>.png" width="800" height="600" border="1"/>            
+        <div id="content" style="margin-left:  30px;">
+            <h1><?=$diagram->title?></h1>
+            <div><?=$diagram->description?></div>
+            <div>Public under <a href="http://creativecommons.org/licenses/by-sa/3.0/" target="new">Creative Commons (CC-BY-SA 3.0)</a> license.</div>
+            <div>Author : <?=displayName($author)?></div>
+            <p/>
+            <div id="container">
+                <img src="/<?=sanitize($diagram->title)?>_<?=$diagram->hash?>.png" width="800" height="600" border="1"/>            
+            </div>
+            <div>
+                <a href="/<?=sanitize($diagram->title)?>_<?=$diagram->hash?>.svg">Download SVG</a> | 
+                <a href="/<?=sanitize($diagram->title)?>_<?=$diagram->hash?>.png">Download PNG</a> |
+                <a href="/<?=sanitize($diagram->title)?>_<?=$diagram->hash?>.jpg">Download JPG</a>
+            </div>
         </div>
-        <div>
-            <a href="/<?=sanitize($diagram->title)?>_<?=$diagram->hash?>.svg">Download SVG</a> | 
-            <a href="/<?=sanitize($diagram->title)?>_<?=$diagram->hash?>.png">Download PNG</a> |
-            <a href="/<?=sanitize($diagram->title)?>_<?=$diagram->hash?>.jpg">Download JPG</a>
-        </div>
-
     </body>
 </html>

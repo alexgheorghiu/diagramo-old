@@ -940,7 +940,7 @@ class Delegate {
         return $this->getSingle('userdiagram', array('userId'=>$userId, 'diagramId'=>$diagramId));
     }
     
-    
+    /**Find the author or the diagram*/
     public function userdiagramGetByAuthor($diagramId) {
         (DEBUG) ? $_SESSION['logs'][] = __CLASS__ .'{#}'. __FUNCTION__ ."{#}{#}". __LINE__ : '';
         return $this->getSingle('userdiagram', array('diagramId'=>$diagramId, 'level'=>  Userdiagram::LEVEL_AUTHOR));
