@@ -694,4 +694,17 @@ function sanitize($str){
 	
 	return $dashed;
 }
+
+
+/**Computes the most common display name for an user
+ * @param $user - an User object
+ */
+function displayName($user){
+    $displayName = substr($user->email, 0, strpos($user->email, '@'));
+    if(strlen($user->name ) > 0 ){
+        $displayName = $user->name;
+    }
+    
+    return $displayName;
+}
 ?>

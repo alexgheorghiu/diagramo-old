@@ -70,7 +70,7 @@ if (!isset($_SESSION['userId'])) {
                         <span class="menuText" style="font-size: 14px; font-family: Arial; color: #6E6E6E;">Save</span>
                     </div>
                     
-                    <form style="position: relative; height: 270px;" action="./common/controller.php" method="post">
+                    <form style="position: relative; height: 280px;" action="./common/controller.php" method="post">
                         <input type="hidden" name="action" value="firstSaveExe"/>
                         <div style="position: absolute; top: 10px; left: 20px; right: 20px;">
                             <table width="100%" cellpadding="0" cellspacing="0">
@@ -91,15 +91,15 @@ if (!isset($_SESSION['userId'])) {
                         </div>
 
                         <div style="position: absolute; top: 160px; left: 20px;">
-                            <input type="checkbox" name="public" value="true" checked/><span class="formLabel">Public</span>                            
+                            <input type="checkbox" name="public" value="true" checked/><span class="formLabel">Public under <a href="http://creativecommons.org/licenses/by-sa/3.0/" target="new">Creative Commons (CC-BY-SA 3.0)</a> license</span>                            
                         </div>
 
-                        <div style="position: absolute; top: 180px; left: 20px; color: gray; text-align: left;">
+                        <div style="position: absolute; top: 190px; left: 20px; color: gray; text-align: left;">
                             A <b>public</b> diagram will have direct links (<a href="http://en.wikipedia.org/wiki/Permalink" target="new">permalinks</a>) to anyone
                             but only the author (and collaborators) can edit it.
                         </div>
 
-                        <div style="position: absolute; top: 230px; left: 20px; right: 20px;">
+                        <div style="position: absolute; top: 240px; left: 20px; right: 20px;">
                             <input onclick="return validateForm();" type="image" src="./assets/images/save.gif" style="display: block; margin-left: auto; margin-right: 0;" value="Save"/>
                         </div>
                         
