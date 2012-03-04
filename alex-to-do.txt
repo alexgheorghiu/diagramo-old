@@ -3,6 +3,7 @@ This is Alex's current mental stack
 Current stack:
 
 Organic connectors
+* NURBS for less than 4 points are not ok.....
 * Export Connector as SVG not working
 * End arrows must have proper directions
 * thickness of connector can not be updated

@@ -2803,9 +2803,9 @@ Figure.prototype = {
  * @see http://www.caffeineowl.com/graphics/2d/vectorial/bezierintro.html
  **/
 function NURBS(points){
-//    if(points.length < 3){
-//        throw Exception("NURBS: contructor() We need minimum 3 points for a curve");
-//    }
+    if(points.length < 4){
+        throw Exception("NURBS: contructor() We need minimum 4 points to compute NURBS equations");
+    }
     
     /**The initial {@link Point}s*/
     this.points = Point.cloneArray(points);

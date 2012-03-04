@@ -252,6 +252,7 @@ Connector.prototype = {
                 
                 //paint NURBS
                 var reducedTurningPoints  = Util.collinearReduction(this.turningPoints);
+                Log.info("Connector:paint() - Number of reduced points: " + reducedTurningPoints.length + " " + reducedTurningPoints);
 //                var n = new NURBS(this.turningPoints);
                 var n = new NURBS(reducedTurningPoints);
                 n.style = this.style.clone();
