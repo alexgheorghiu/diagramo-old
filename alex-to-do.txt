@@ -2,7 +2,6 @@ This is Alex's current mental stack
 
 Current stack:
 
-* create Diagramo Contributor Agreement
 Organic connectors
 * Export Connector as SVG not working
 * End arrows must have proper directions

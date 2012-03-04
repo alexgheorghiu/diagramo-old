@@ -251,7 +251,9 @@ Connector.prototype = {
 //                poly.paint(context);
                 
                 //paint NURBS
-                var n = new NURBS(this.turningPoints);
+                var reducedTurningPoints  = Util.collinearReduction(this.turningPoints);
+//                var n = new NURBS(this.turningPoints);
+                var n = new NURBS(reducedTurningPoints);
                 n.style = this.style.clone();
                 //n.style.strokeStyle = '#00EE00';
 //                n.style.lineWidth = 1;

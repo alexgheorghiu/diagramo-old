@@ -554,6 +554,35 @@ var Util = {
     },
     
     
+    /**Tries to cut the unecessary poins.
+     *Ex: If you have 3 points A,B and C and they are collinear then B will be cut
+     *@param {Array} v - an {Array} of {Point}s
+     *@return {Array} - the "reduced" vector of {Point}s
+     *@author Alex <alex@scriptoid.com>
+     **/    
+    collinearReduction : function (v){
+        var r = [];
+        
+        if(v.length < 3){
+            return Point.cloneArray(v);
+        }
+        
+        r.push( v[0].clone() );
+        for(var i=1; i < v.length-1; i++){
+            if( (v[i-1].x == v[i].x && v[i].x == v[i+1].x)  ||  (v[i-1].y == v[i].y && v[i].y == v[i+1].y) )
+            {
+                continue;
+            }
+            else{
+                r.push( v[i].clone() );
+            }
+        }
+        r.push( v[v.length-1].clone() );
+        
+        return r;
+    },
+    
+    
     
     
     /**Score a ortogonal path made out of Points

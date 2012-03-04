@@ -2786,7 +2786,7 @@ Figure.prototype = {
 
 /**
  * Implements a NURBS component in Diagramo
- * 
+ * @param {Array} points - an {Array} of {Point}s
  * @see http://en.wikipedia.org/wiki/Non-uniform_rational_B-spline
  * 
  * http://www.w3.org/Graphics/SVG/IG/resources/svgprimer.html#path_Q

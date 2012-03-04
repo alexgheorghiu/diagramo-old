@@ -3,7 +3,9 @@
     <head>
         <title>Test different styles of curves</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+        <script type="text/javascript" src="../lib/primitives.js"></script>
+        <script type="text/javascript"  src="../lib/style.js"></script>
+        <script type="text/javascript"  src="../lib/log.js"></script>
         <script type="text/javascript">
             
             /**Computes the drawing points for the Bezier curve
@@ -214,12 +216,12 @@
              *@see http://www.algorithmist.net/bezier3.html
              *@see http://www.caffeineowl.com/graphics/2d/vectorial/bezierintro.html
              **/
-            var s0_0 = [[50, 50], [100, 50], [100, 150], [50, 150]]; //parellel (same direction)
+            var s0_0 = [[30, 50], [100, 50], [100, 150], [50, 150]]; //parellel (same direction)
             var s0_1 = [[50, 50], [100, 50], [100, 150], [150, 150]]; //parallel (oposite direction)
             var s0_2 = [[50, 50], [100, 50], [150, 50], [200, 50]]; //colinear
             var s0_3 = [[50, 100], [50, 80], [100, 80], [120, 80]]; //orthogonal
             
-            var s1_1 = [[50, 50], [100, 50], [150, 50], [150, 100], [200, 100]];
+            var s1_1 = [[50, 50], [130, 50], [150, 50], [150, 100], [200, 100]];
             var s1_2 = [[50, 50], [100, 50], [100, 100], [150, 100], [200, 100]]; //TODO: looking strange
             var s1_3 = [[50, 50], [100, 50], [150, 50], [150, 100], [150, 150]];
             var s1_4 = [[50, 50], [100, 50], [100, 100], [150, 100], [150, 150]];
@@ -258,6 +260,9 @@
                     
                     var bezSolution =  bezierPoints(solutions[s], 0.01);
                     var nurbsSolution =  nurbsPoints(solutions[s]);
+                    var points = p2P(solutions[s]);
+                    Log.info(points);
+                    var n = new NURBS(points);
                     
                     ctx.strokeStyle = "rgb(0,0,0)";
                     paint_graph(ctx, solutions[s]);
@@ -268,8 +273,22 @@
                     ctx.strokeStyle = "rgb(0,250,0)";
                     nurbsPaint(ctx, nurbsSolution);
                     
+                    ctx.strokeStyle = "rgb(0,150,150)";
+                    n.paint(ctx);
+                    
                     ctx.restore();
                 }
+            }
+            
+            /**Convers a set of vector like points to Points*/
+            function p2P(v){
+                var r = [];
+                
+                for(var i=0;i<v.length;i++){
+                    r.push(new Point(v[i][0], v[i][1]));
+                }
+                
+                return r;
             }
             
 
