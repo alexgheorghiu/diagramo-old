@@ -267,14 +267,21 @@
                     Log.info(points);
                     var n = new NURBS(points);
                     
-                    ctx.strokeStyle = "rgb(0,0,0)";
-                    paint_graph(ctx, solutions[s]);
+                    //support
+//                    ctx.strokeStyle = "rgb(0,0,0)";
+//                    paint_graph(ctx, solutions[s]);
                     
+                    //bezier
                     ctx.strokeStyle = "rgb(250,0,0)";
                     paint_graph(ctx, bezSolution);
                     
-                    ctx.strokeStyle = "rgb(0,250,0)";
+                    //nurbs
+                    ctx.strokeStyle = "rgb(10,100,0)";
                     nurbsPaint(ctx, nurbsSolution);
+                    
+                    //midpoints
+                    ctx.strokeStyle = "rgb(100,150,100)";
+                    paintOrganic(ctx, solutions[s]);
                     
                     ctx.strokeStyle = "rgb(0,150,150)";
                     n.paint(ctx);

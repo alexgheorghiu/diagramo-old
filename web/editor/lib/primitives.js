@@ -2804,7 +2804,7 @@ Figure.prototype = {
  **/
 function NURBS(points){
     if(points.length < 4){
-        throw Exception("NURBS: contructor() We need minimum 4 points to compute NURBS equations");
+        //throw Exception("NURBS: contructor() We need minimum 4 points to compute NURBS equations");
     }
     
     /**The initial {@link Point}s*/
