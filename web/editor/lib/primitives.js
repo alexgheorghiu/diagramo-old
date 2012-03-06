@@ -2803,8 +2803,8 @@ Figure.prototype = {
  * @see http://www.caffeineowl.com/graphics/2d/vectorial/bezierintro.html
  **/
 function NURBS(points){
-    if(points.length < 4){
-        //throw Exception("NURBS: contructor() We need minimum 4 points to compute NURBS equations");
+    if(points.length < 2){
+        throw Exception("NURBS: contructor() We need minimum 3 points to have a NURBS");
     }
     
     /**The initial {@link Point}s*/
@@ -2845,6 +2845,21 @@ NURBS.prototype = {
      * See /documents/specs/spline-to-bezier.pdf (pages 5 and 6 for a description)  
      **/
     nurbsPoints : function (P){
+        var n = P.length;
+        
+        /**Contains the gathered sub curves*/        
+        var sol = [];
+        
+        if(n == 2){
+            sol.push(new Line(P[0], P[1]));
+        }
+        else if(n == 3){
+            sol.push(new QuadCurve(P[0], P[1], P[2]));
+        }
+        else if(n == 4){
+            sol.push(new CubicCurve(P[0], P[1], P[2], P[3]));
+        }
+        
         /**Computes factorial*/
         function fact(k){
             if(k==0 || k==1){
@@ -2899,8 +2914,8 @@ NURBS.prototype = {
             return new Point (p.x * nr, p.y * nr);
         }
 
-        var sol = [];
-        var n = P.length;
+        
+        
 
         /*
          *I do not get why first 4 must be 0 and last 3 of same value.....

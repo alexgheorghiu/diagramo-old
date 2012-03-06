@@ -1,6 +1,8 @@
 This is Alex's current mental stack
 
 Current stack:
+It seems that if I reduce points then for very inequable segment the smoothness is not very good.
+Ideas: add additional points around the "change direction" points?
 
 Organic connectors
 * NURBS for less than 4 points are not ok.....
