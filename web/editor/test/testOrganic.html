@@ -216,7 +216,7 @@
              *@see http://www.algorithmist.net/bezier3.html
              *@see http://www.caffeineowl.com/graphics/2d/vectorial/bezierintro.html
              **/
-            var s_alex = [[30, 50], [100, 50], [100, 150]]; //only 3 points
+//            var s_alex = [[30, 50], [100, 50], [100, 150]]; //only 3 points
             
             var s0_0 = [[30, 50], [100, 50], [100, 150], [50, 150]]; //parellel (same direction)
             var s0_1 = [[50, 50], [100, 50], [100, 150], [150, 150]]; //parallel (oposite direction)
@@ -238,57 +238,13 @@
             var alex1 = [[100, 200], [120, 50], [200, 50], [220, 100], [270, 130]];
             
             var solutions = [];
-            solutions.push(s_alex);
+//            solutions.push(s_alex);
             solutions.push(s0_0, s0_1, s0_2, s0_3);
             solutions.push(s1_1, s1_2, s1_3, s1_4);
             solutions.push(s2_1, s2_2, s2_3, s2_4, s2_5, s2_6);
-            solutions.push(alex1);
+//            solutions.push(alex1);
             
-            function init(){
-                var ctx = document.getElementById("pinza").getContext("2d");
-               
-                paint_solutions(ctx);
-            }
             
-            function paint_solutions(ctx){
-                for(var s=0; s < solutions.length; s++){
-                    //alert(solutions[s]);
-                    var i = s % 4; 
-                    var j = parseInt(s / 4);
-                    
-                    ctx.save();                    
-                    
-                    ctx.translate(i * 300, j * 300 );
-                    ctx.strokeRect(0, 0, 300, 300);
-                    
-                    var bezSolution =  bezierPoints(solutions[s], 0.01);
-                    var nurbsSolution =  nurbsPoints(solutions[s]);
-                    var points = p2P(solutions[s]);
-                    Log.info(points);
-                    var n = new NURBS(points);
-                    
-                    //support
-//                    ctx.strokeStyle = "rgb(0,0,0)";
-//                    paint_graph(ctx, solutions[s]);
-                    
-                    //bezier
-                    ctx.strokeStyle = "rgb(250,0,0)";
-                    paint_graph(ctx, bezSolution);
-                    
-                    //nurbs
-                    ctx.strokeStyle = "rgb(10,100,0)";
-                    nurbsPaint(ctx, nurbsSolution);
-                    
-                    //midpoints
-                    ctx.strokeStyle = "rgb(100,150,100)";
-                    paintOrganic(ctx, solutions[s]);
-                    
-                    ctx.strokeStyle = "rgb(0,150,150)";
-                    n.paint(ctx);
-                    
-                    ctx.restore();
-                }
-            }
             
             /**Convers a set of vector like points to Points*/
             function p2P(v){
@@ -305,9 +261,9 @@
             
             
             /**Add middle points and use them as CP...where possible :p*/
-            function paintOrganic(ctx, poly){
+            function paintQuadMidpoint(ctx, poly){
                 ctx.save();
-                ctx.strokeStyle = "rgb(0,200,0)";
+                //ctx.strokeStyle = "rgb(0,200,0)";
                 
                 //ctx.moveTo(poly[0][0], poly[0][1]);
                 
@@ -319,7 +275,49 @@
                 for(var i=1; i < poly.length-2; i++){
                     points.push(poly[i]);
                     var cp = [ (poly[i][0] + poly[i+1][0]) / 2, (poly[i][1] + poly[i+1][1]) / 2];
-                    paint_point(ctx, 'black', cp);
+//                    paint_point(ctx, 'black', cp);
+                    points.push(cp);
+                }
+                points.push(poly[poly.length-2]);		
+                points.push(poly[poly.length-1]);
+                
+                
+                
+                
+                //draw  
+                ctx.beginPath();
+                
+                //move into position
+                ctx.moveTo(points[0][0], points[0][1]);
+
+                
+                //start drawing cubic curves by grouping 3 points together
+                for(var i=2; i < points.length; i=i+2){
+                    //ctx.moveTo(points[i][0], points[i][1]);
+                    ctx.quadraticCurveTo( points[i-1][0], points[i-1][1], points[i][0], points[i][1] );
+                }
+
+                ctx.stroke();
+                ctx.restore();
+            }
+            
+            
+            /**Add middle points and use them as CP (quad and cubic)...where possible :p*/
+            function paintMixedMidpoint(ctx, poly){
+                ctx.save();
+                //ctx.strokeStyle = "rgb(0,200,0)";
+                
+                //ctx.moveTo(poly[0][0], poly[0][1]);
+                
+                var points = [];
+                
+                points.push(poly[0]);
+		
+                //add controll points in the middle of each segment (except first and last)
+                for(var i=1; i < poly.length-2; i++){
+                    points.push(poly[i]);
+                    var cp = [ (poly[i][0] + poly[i+1][0]) / 2, (poly[i][1] + poly[i+1][1]) / 2];
+//                    paint_point(ctx, 'black', cp);
                     points.push(cp);
                 }
                 points.push(poly[poly.length-2]);		
@@ -439,6 +437,52 @@
                 return [p[0]*nr, p[1]*nr];
             }
             
+            
+            function init(){
+                var ctx = document.getElementById("pinza").getContext("2d");
+               
+                paint_solutions(ctx);
+            }
+            
+            function paint_solutions(ctx){
+                for(var s=0; s < solutions.length; s++){
+                    //alert(solutions[s]);
+                    var i = s % 4; 
+                    var j = parseInt(s / 4);
+                    
+                    ctx.save();                    
+                    
+                    ctx.translate(i * 300, j * 300 );
+                    ctx.strokeRect(0, 0, 300, 300);
+                    
+                    var bezSolution =  bezierPoints(solutions[s], 0.01);
+                    var nurbsSolution =  nurbsPoints(solutions[s]);
+                    var points = p2P(solutions[s]);
+                    Log.info(points);
+                    var n = new NURBS(points);
+                    
+                    //support (transparent black)
+                    ctx.strokeStyle = "rgba(0,0,0, .75)";
+                    paint_graph(ctx, solutions[s]);
+                    
+                    //bezier (red)
+                    ctx.strokeStyle = "rgb(250,0,0)";
+                    paint_graph(ctx, bezSolution);
+                    
+                    //nurbs (green)
+                    ctx.strokeStyle = "rgb(0,255,0)";
+                    nurbsPaint(ctx, nurbsSolution);
+                    
+                    //midpoints (blue)
+                    ctx.strokeStyle = "rgb(0,0,250)";
+                    paintQuadMidpoint(ctx, solutions[s]);
+                    
+//                    ctx.strokeStyle = "rgb(0,150,150)";
+//                    n.paint(ctx);
+                    
+                    ctx.restore();
+                }
+            }
         </script>
     </head>
     <body onload="init()">
@@ -446,6 +490,7 @@
             <div>-- Support points and lines</div>
             <div style="color: red;">-- Bezier solution</div>
             <div style="color: green;">-- NURB solution</div>
+            <div style="color: blue;">-- Midpoint (quad only) solutions</div>
         </div>
         <canvas id="pinza" width="1200" height="1200"></canvas>
     </body>
