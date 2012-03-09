@@ -52,7 +52,11 @@ Experiments with computing and drawing of non native Bezier (and other) curves
                 
                 var temp = [];
                 for(var i=0; i<=nrSteps; i++){
-                    //compute t
+                    /*Compute t. We need to use  fractions
+                     *as if we increase it in small steps we introduce errors
+                     *Ex: iterating from 0 to 1 in steps of 0.001 will end at 0.900000 
+                     *or something instead of 1
+                     **/
                     var t  = i / nrSteps;
                     
                     //console.info("t=" + t);
@@ -101,14 +105,14 @@ Experiments with computing and drawing of non native Bezier (and other) curves
             function init(){
                 var ctx = document.getElementById("pinza").getContext("2d");
                
-                var points = [[50, 50], [300, 50], [300, 300], [50, 300], [50, 500], [200, 500]]; //parellel (same direction)
+                var points = [[50, 50], [300, 50], [300, 300], [50, 300], [50, 500], [200, 500], [300, 700]]; //parellel (same direction)
                 
                 for(var p in points){
                     paint_point(ctx, 'green', points[p]);
                 }
                 
                 var start = (new Date).getTime();
-                var bez1 = bezierPoints(points, 100);
+                var bez1 = bezierPoints(points, 1000);
                 var end = (new Date).getTime();
                 console.info( "Generating bezier: " + (end - start) + " miliseconds");
                 console.info("Number of points: " + bez1.length)
