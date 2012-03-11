@@ -30,21 +30,109 @@
                     return fact(n) / (fact(i) * fact(n-i))* Math.pow(u, i) * Math.pow(1-u, n-i);
                 }                            
              
-                function P(u, points){
+                /**Computes point P for t parameter*/
+                function P(t, points){
                     var r = [0,0];
                     var n = points.length-1;
                     for(var i=0; i <= n; i++){
-                        r[0] += points[i][0] * B(i, n, u);
-                        r[1] += points[i][1] * B(i, n, u);
+                        r[0] += points[i][0] * B(i, n, t);
+                        r[1] += points[i][1] * B(i, n, t);
                     }                
                     return r;
                 }
                 
+                
+                var c = 0;
+                function gather(start, end, initial){
+                    c++;
+                    if(c>10000){
+                        throw "Limit";
+                    }
+                    
+                    
+                    var Ps = P(start, points);
+                    var Pe = P(end, points);
+                    
+                    var d = distance(Ps, Pe);
+//                    console.info("c: " + c + ". start:" + start + " end:" + end + " initial: " + initial + " distance: " + d);
+                    if(distance(Ps, Pe) >= 2){
+                        var middle = (start + end)/2;
+                        if(initial){
+                            return [].concat( start, gather(start, middle, false), middle, gather(middle, end, false), end );
+                        }
+                        else{
+                            return [].concat( gather(start, middle, false), middle, gather(middle, end, false) );
+                        }
+                    }
+                    else{
+//                        console.info("\t No more recursion");
+                       
+                        if(initial){
+                            return [start, end];
+                        }
+                        else{
+                            return [];
+                        }
+                    }
+                    
+                    
+                }
+                
+                function distance(a, b){
+                    return Math.sqrt(Math.pow(a[0]-b[0], 2) + Math.pow(a[1]-b[1], 2));
+                }
+                
+                
+//                var t1 = (new Date()).getTime();
+//                var temp = [];
+//                for(var t=0;t<=1; t=t+step){
+//                    var p = P(t, points);
+//                    temp.push(p);
+//                }
+//                var t2 = (new Date()).getTime();
+//                console.info("Computation: " + (t2-t1) + " ms" + " nr of points:  " +  temp.length);
+                
+                
+                
+                var t1 = (new Date()).getTime();
                 var temp = [];
-                for(var t=0;t<=1; t=t+step){
+                
+                var aproxLength = 0;
+                for(var i=0; i<points.length-1; i++){
+                    aproxLength += distance(points[i], points[i+1]);
+                }
+                
+                var nrSteps = Math.ceil(aproxLength/2); 
+                for(var i=0; i<=nrSteps; i++){
+                    /*Compute t. We need to use  fractions
+                     *as if we increase it in small steps we introduce errors
+                     *Ex: iterating from 0 to 1 in steps of 0.001 will end at 0.900000 
+                     *or something instead of 1
+                     **/
+                    var t  = i / nrSteps;
+                    
                     var p = P(t, points);
                     temp.push(p);
                 }
+                var t2 = (new Date()).getTime();
+                console.info("Computation: " + (t2-t1) + " ms" + " nr of points:  " +  temp.length);
+                
+                
+//                var t1 = (new Date()).getTime();
+//                var ts = gather(0,1,true);
+//                
+////                console.info("Gather parameter values: " + ts );
+//                var temp = [];
+//                for(var i=0; i<ts.length; i++){
+//                    var p = P(ts[i], points);
+//                    temp.push( p );
+//                }
+//                var t2 = (new Date()).getTime();
+//                console.info("Computation: " + (t2-t1) + " ms" + " nr of points:  " +  ts.length);
+                
+                
+                
+//                console.info("Computed points: " + temp );
                 return temp;
             }
             
@@ -216,33 +304,33 @@
              *@see http://www.algorithmist.net/bezier3.html
              *@see http://www.caffeineowl.com/graphics/2d/vectorial/bezierintro.html
              **/
-//            var s_alex = [[30, 50], [100, 50], [100, 150]]; //only 3 points
+//            var s_alex = [[100, 100], [100, 50], [50, 50], [50, 150],  [150, 150],  [150, 50], [200, 50], [200, 300], [250, 300], [250, 200], [300, 200]]; //only 3 points
+//            
+//            var s0_0 = [[30, 50], [100, 50], [100, 150], [50, 150]]; //parellel (same direction)
+//            var s0_1 = [[50, 50], [100, 50], [100, 150], [150, 150]]; //parallel (oposite direction)
+//            var s0_2 = [[50, 50], [100, 50], [150, 50], [200, 50]]; //colinear
+//            var s0_3 = [[50, 100], [50, 80], [100, 80], [120, 80]]; //orthogonal
+//            
+//            var s1_1 = [[50, 50], [130, 50], [150, 50], [150, 100], [200, 100]];
+//            var s1_2 = [[50, 50], [100, 50], [100, 100], [150, 100], [200, 100]]; //TODO: looking strange
+//            var s1_3 = [[50, 50], [100, 50], [150, 50], [150, 100], [150, 150]];
+//            var s1_4 = [[50, 50], [100, 50], [100, 100], [150, 100], [150, 150]];
+//            
+//            var s2_1 = [[50, 50], [50, 30], [125, 30], [125, 150], [200, 150], [200, 130]];
+//            var s2_2 = [[100, 50], [80, 50], [80, 100], [180, 100], [180, 150], [160, 150]];
+//            var s2_3 = [[50, 50], [50, 30], [150, 30], [150, 130], [100, 130], [100, 110]];
+//            var s2_4 = [[100, 100], [80, 100], [80, 50], [200, 50], [200, 150], [150, 150]];
+//            var s2_5 = [[100, 100], [100, 80], [50, 80], [50, 180], [150, 180], [150, 160]];
+//            var s2_6 = [[100, 50], [80, 50], [80, 150], [180, 150], [180, 130], [160, 130]];
             
-            var s0_0 = [[30, 50], [100, 50], [100, 150], [50, 150]]; //parellel (same direction)
-            var s0_1 = [[50, 50], [100, 50], [100, 150], [150, 150]]; //parallel (oposite direction)
-            var s0_2 = [[50, 50], [100, 50], [150, 50], [200, 50]]; //colinear
-            var s0_3 = [[50, 100], [50, 80], [100, 80], [120, 80]]; //orthogonal
-            
-            var s1_1 = [[50, 50], [130, 50], [150, 50], [150, 100], [200, 100]];
-            var s1_2 = [[50, 50], [100, 50], [100, 100], [150, 100], [200, 100]]; //TODO: looking strange
-            var s1_3 = [[50, 50], [100, 50], [150, 50], [150, 100], [150, 150]];
-            var s1_4 = [[50, 50], [100, 50], [100, 100], [150, 100], [150, 150]];
-            
-            var s2_1 = [[50, 50], [50, 30], [125, 30], [125, 150], [200, 150], [200, 130]];
-            var s2_2 = [[100, 50], [80, 50], [80, 100], [180, 100], [180, 150], [160, 150]];
-            var s2_3 = [[50, 50], [50, 30], [150, 30], [150, 130], [100, 130], [100, 110]];
-            var s2_4 = [[100, 100], [80, 100], [80, 50], [200, 50], [200, 150], [150, 150]];
-            var s2_5 = [[100, 100], [100, 80], [50, 80], [50, 180], [150, 180], [150, 160]];
-            var s2_6 = [[100, 50], [80, 50], [80, 150], [180, 150], [180, 130], [160, 130]];
-            
-            var alex1 = [[100, 200], [120, 50], [200, 50], [220, 100], [270, 130]];
+            var alex1 = [[50, 50], [100, 50], [100, 100]];
             
             var solutions = [];
 //            solutions.push(s_alex);
-            solutions.push(s0_0, s0_1, s0_2, s0_3);
-            solutions.push(s1_1, s1_2, s1_3, s1_4);
-            solutions.push(s2_1, s2_2, s2_3, s2_4, s2_5, s2_6);
-//            solutions.push(alex1);
+//            solutions.push(s0_0, s0_1, s0_2, s0_3);
+//            solutions.push(s1_1, s1_2, s1_3, s1_4);
+//            solutions.push(s2_1, s2_2, s2_3, s2_4, s2_5, s2_6);
+            solutions.push(alex1);
             
             
             
@@ -455,7 +543,7 @@
                     ctx.translate(i * 300, j * 300 );
                     ctx.strokeRect(0, 0, 300, 300);
                     
-                    var bezSolution =  bezierPoints(solutions[s], 0.01);
+                    var bezSolution =  bezierPoints(solutions[s], 0.02);
                     var nurbsSolution =  nurbsPoints(solutions[s]);
                     var points = p2P(solutions[s]);
                     Log.info(points);
@@ -469,13 +557,13 @@
                     ctx.strokeStyle = "rgb(250,0,0)";
                     paint_graph(ctx, bezSolution);
                     
-                    //nurbs (green)
-                    ctx.strokeStyle = "rgb(0,255,0)";
-                    nurbsPaint(ctx, nurbsSolution);
-                    
-                    //midpoints (blue)
-                    ctx.strokeStyle = "rgb(0,0,250)";
-                    paintQuadMidpoint(ctx, solutions[s]);
+//                    //nurbs (green)
+//                    ctx.strokeStyle = "rgb(0,255,0)";
+//                    nurbsPaint(ctx, nurbsSolution);
+//                    
+//                    //midpoints (blue)
+//                    ctx.strokeStyle = "rgb(0,0,250)";
+//                    paintQuadMidpoint(ctx, solutions[s]);
                     
 //                    ctx.strokeStyle = "rgb(0,150,150)";
 //                    n.paint(ctx);
