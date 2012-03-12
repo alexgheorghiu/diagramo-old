@@ -241,24 +241,71 @@ Connector.prototype = {
         switch(this.type){
             case Connector.TYPE_ORGANIC:
                 
-                //paint support points
-//                var poly = new Polyline();
-//                poly.points = Point.cloneArray(this.turningPoints);
-//                poly.startPoint = poly.points[0];
-////                poly.style =  this.style.clone();
 //                poly.style.strokeStyle = '#000000';
 //                poly.style.lineWidth = 1;
 //                poly.paint(context);
                 
                 //paint NURBS
-                var reducedTurningPoints  = Util.collinearReduction(this.turningPoints);
-                Log.info("Connector:paint() - Number of reduced points: " + reducedTurningPoints.length + " " + reducedTurningPoints);
-                var n = new NURBS(this.turningPoints);
-//                var n = new NURBS(reducedTurningPoints);
-                n.style = this.style.clone();
-                //n.style.strokeStyle = '#00EE00';
-//                n.style.lineWidth = 1;
-                n.paint(context);
+                var rPoints  = Util.collinearReduction(this.turningPoints);
+                Log.info("Connector:paint() - Number of reduced points: " + rPoints.length + " " + rPoints);
+
+                var points = [];
+                
+                var point = rPoints[0];
+                
+		//TODO: WHY do they coincide 3rd and 4th?
+                //add controll points in the middle of each segment (except first and last)
+                for(var i=0; i < rPoints.length-1; i++){
+                    point = rPoints[i];
+                    var nextPoint = rPoints[i+1];
+                    var middlePoint = new Point( (point.x + nextPoint.x) / 2, (point.y + nextPoint.y) / 2);
+                    
+                    points.push(point.clone());
+                    points.push(middlePoint.clone());
+                    points.push(nextPoint.clone());
+                }
+//                points.push(rPoints[rPoints.length-2]);		
+//                points.push(rPoints[rPoints.length-1]);
+                
+                
+                Log.info("Connector:paint() - New points: " + points);
+                context.save();
+                //draw  
+                context.beginPath();
+                
+                context.strokeStyle = '#00CC00';
+                context.fillStyle = '#FF0000';
+                context.lineWidth = '2';
+                
+                for(var p in points){
+                    context.fillRect(points[p].x - 1, points[p].y - 1 , 3, 3);
+                }
+                
+                //move into position
+                context.moveTo(points[0].x, points[0].y);
+                context.lineTo(points[1].x, points[1].y)
+  
+                //TODO: WHY do they coincide?
+                context.quadraticCurveTo( 
+                        points[2].x, points[3].y, 
+                        points[3].x, points[3].y 
+                );
+                        
+//                //start drawing cubic curves by grouping 3 points together
+//                for(var i=1; i < points.length-2 ; i=i+2){
+//                    
+//                    context.quadraticCurveTo( 
+//                        points[i+1].x, points[i+1].y, 
+//                        points[i+2].x, points[i+2].y 
+//                    );                    
+//                }
+                
+//                context.lineTo(points[points.length-1].x, points[points.length-1].y);
+
+                context.stroke();
+                context.restore();
+                
+                
                 break;
                 
             case Connector.TYPE_STRAIGHT:

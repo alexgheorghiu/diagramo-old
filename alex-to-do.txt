@@ -1,13 +1,10 @@
 This is Alex's current mental stack
 
 Current stack:
-It seems that if I reduce points then for very inequable segment the smoothness is not very good.
-Ideas: add additional points around the "change direction" points?
-Additional points located based on neighbors' lengths. Similar to cage support for a spiral.
-Smaller segments influence the location of new points on large segments. (socialist curve :)) )
+Organic connector mid point algorithm not working 
 
 Organic connectors
-* NURBS for less than 4 points are not ok.....
+* 
 * Export Connector as SVG not working
 * End arrows must have proper directions
 * thickness of connector can not be updated
