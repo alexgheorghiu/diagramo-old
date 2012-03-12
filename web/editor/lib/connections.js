@@ -253,7 +253,6 @@ Connector.prototype = {
                 
                 var point = rPoints[0];
                 
-		//TODO: WHY do they coincide 3rd and 4th?
                 //add controll points in the middle of each segment (except first and last)
                 for(var i=0; i < rPoints.length-1; i++){
                     point = rPoints[i];
@@ -261,11 +260,14 @@ Connector.prototype = {
                     var middlePoint = new Point( (point.x + nextPoint.x) / 2, (point.y + nextPoint.y) / 2);
                     
                     points.push(point.clone());
+                    if(i == 0 || i == rPoints.length-2){ ///skip first and last middle
+                        continue;
+                    }
                     points.push(middlePoint.clone());
-                    points.push(nextPoint.clone());
+                    //points.push(nextPoint.clone());
                 }
 //                points.push(rPoints[rPoints.length-2]);		
-//                points.push(rPoints[rPoints.length-1]);
+                points.push(rPoints[rPoints.length-1]);
                 
                 
                 Log.info("Connector:paint() - New points: " + points);
@@ -281,30 +283,56 @@ Connector.prototype = {
                     context.fillRect(points[p].x - 1, points[p].y - 1 , 3, 3);
                 }
                 
-                //move into position
-                context.moveTo(points[0].x, points[0].y);
-                context.lineTo(points[1].x, points[1].y)
-  
-                //TODO: WHY do they coincide?
-                context.quadraticCurveTo( 
-                        points[2].x, points[3].y, 
-                        points[3].x, points[3].y 
-                );
-                        
+//                //move into position
+//                context.moveTo(points[0].x, points[0].y);
+//
 //                //start drawing cubic curves by grouping 3 points together
-//                for(var i=1; i < points.length-2 ; i=i+2){
+//                for(var i=0; i < points.length-2 ; i=i+2){
 //                    
 //                    context.quadraticCurveTo( 
 //                        points[i+1].x, points[i+1].y, 
 //                        points[i+2].x, points[i+2].y 
 //                    );                    
 //                }
-                
+//                
 //                context.lineTo(points[points.length-1].x, points[points.length-1].y);
-
-                context.stroke();
-                context.restore();
+//
+//                context.stroke();
+//                context.restore();
                 
+//                var n = new NURBS(points);
+                var n = new NURBS(rPoints);
+                n.style.strokeStyle = 'rgba(0,100,0,0.5)';
+                n.paint(context);
+                
+                
+                var n2 = new NURBS(points);
+                n2.style.strokeStyle = 'rgba(0,0,100,0.5)';
+                n2.paint(context);
+                
+                
+                points = [];
+                var point = rPoints[0];
+                
+                //add controll points in the middle of each segment (except first and last)
+                for(var i=0; i < rPoints.length-1; i++){
+                    point = rPoints[i];
+                    var nextPoint = rPoints[i+1];
+                    var middlePoint = new Point( (point.x + nextPoint.x) / 2, (point.y + nextPoint.y) / 2);
+                    
+                    points.push(point.clone());
+//                    if(i == 0 || i == rPoints.length-2){ ///skip first and last middle
+//                        continue;
+//                    }
+                    points.push(middlePoint.clone());
+                    //points.push(nextPoint.clone());
+                }
+//                points.push(rPoints[rPoints.length-2]);		
+                points.push(rPoints[rPoints.length-1]);
+                
+                var n2 = new NURBS(points);
+                n2.style.strokeStyle = 'rgba(100,0,0,0.5)';
+                n2.paint(context);
                 
                 break;
                 
