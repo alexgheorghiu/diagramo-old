@@ -225,8 +225,7 @@ Text.prototype = {
      **/
     transform:function(matrix){
         this.vector[0].transform(matrix);
-        this.vector[1].transform(matrix);
-        
+        this.vector[1].transform(matrix);        
     },
 
 

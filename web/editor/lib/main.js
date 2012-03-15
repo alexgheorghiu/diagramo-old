@@ -1398,6 +1398,7 @@ function onMouseMove(ev){
     
     var x = coords[0];
     var y = coords[1];
+    
     var canvas = getCanvas();
 
     /*change cursor
@@ -1497,6 +1498,7 @@ function onMouseMove(ev){
                         if (!SHIFT_PRESSED){//just translate the figure                            
                             canvas.style.cursor = 'move';
                             var translateMatrix = generateMoveMatrix(STACK.figureGetById(selectedFigureId), x, y);
+                        Log.info("onMouseMove() + STATE_FIGURE_SELECTED : translation matrix" + translateMatrix);
                             var cmdTranslateFigure = new FigureTranslateCommand(selectedFigureId, translateMatrix);
                             History.addUndo(cmdTranslateFigure);
                             cmdTranslateFigure.execute();
@@ -2043,6 +2045,15 @@ function connectorMovePoint(connectionPointId, x, y, ev){
  */
 function generateMoveMatrix(fig, x,y){
     //    Log.group("generateMoveMatrix");
+    if(typeof x === 'undefined'){
+        throw "Exception in generateMoveMatrix, x is undefined";
+    }
+    
+    if(typeof y === 'undefined'){
+        throw "Exception in generateMoveMatrix,  is undefined";
+    }
+    
+    Log.info("main.js --> generateMoveMatrix x:" + x + ' y:' + y + ' lastMove=[' + lastMove + ']' );
     var dx = x - lastMove[0];
     var dy = y - lastMove[1];
     //    Log.info("generateMoveMatrix() - delta  " + dx + ',  ' + dy);
@@ -2186,7 +2197,7 @@ function getCanvasXY(ev){
     var position = null;
     var canvasBounds = getCanvasBounds();
 //    Log.group("main.js->getCanvasXY()");
-//    Log.info("Canvas bounds: [" + canvasBounds + ']');
+    Log.info("Canvas bounds: [" + canvasBounds + ']');
     
     var tempPageX = null;
     var tempPageY = null;
@@ -2200,11 +2211,11 @@ function getCanvasXY(ev){
     else{ //normal Desktop
         tempPageX = ev.pageX; //Retrieves the x-coordinate of the mouse pointer relative to the top-left corner of the document.
         tempPageY = ev.pageY; //Retrieves the y-coordinate of the mouse pointer relative to the top-left corner of the document.          
-//        Log.info("ev.pageX:" + ev.pageX + " ev.pageY:" + ev.pageY);
+        Log.info("ev.pageX:" + ev.pageX + " ev.pageY:" + ev.pageY);
     }
     
-    if(tempPageX >= canvasBounds[0] && tempPageX <= canvasBounds[2]
-        && tempPageY >= canvasBounds[1] && tempPageY <= canvasBounds[3])
+    if(canvasBounds[0] <= tempPageX && tempPageX <= canvasBounds[2]
+        && canvasBounds[1] <= tempPageY && tempPageY <= canvasBounds[3])
     {
 //        Log.info('Inside canvas');
         position = [tempPageX - $("#a").offset().left, tempPageY - $("#a").offset().top];
