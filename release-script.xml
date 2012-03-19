@@ -7,8 +7,7 @@ This is the Ant script (see http:/ant.apache.org) to generate builds for Diagram
     <property name="build.dir" value="${basedir}/build"/>
     <property name="dist.dir" value="${basedir}/dist"/>
     <property name="temp.dir" value="${basedir}/temp"/>
-    <property name="version" value="2.0.0"/>
-    <property name="script.release.file" value="${dist.dir}/diagramo-${version}.zip"/>
+    <property name="script.release.file" value="${dist.dir}/diagramo-lamp.zip"/>
 
 
     <target name="list">
