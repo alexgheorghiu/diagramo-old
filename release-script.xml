@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+This is the Ant script (see http:/ant.apache.org) to generate builds for DiagramoScript
+-->
+<project name="diagramo" default="list" basedir=".">
+
+    <property name="build.dir" value="${basedir}/build"/>
+    <property name="dist.dir" value="${basedir}/dist"/>
+    <property name="temp.dir" value="${basedir}/temp"/>
+    <property name="version" value="2.0.0"/>
+    <property name="script.release.file" value="${dist.dir}/diagramo-${version}.zip"/>
+
+
+    <target name="list">
+        <echo>+---------------------------------------------------+</echo>
+        <echo>| Run ant [target]                                  |</echo>
+        <echo>| list - prints this help                           |</echo>
+        <echo>| prepare - prepare folder structure                |</echo>
+        <echo>| build - build application                         |</echo>
+        <echo>| obfuscate - obfuscate some parts of it            |</echo>
+        <echo>| js.obfuscate - obfuscate JavaScript               |</echo>
+        <echo>| php.obfuscate - obfuscate PHP                     |</echo>
+        <echo>| dist - creates ZIP distribution file              |</echo>
+        <echo>| clean - clean project                             |</echo>
+        <echo>+---------------------------------------------------+</echo>
+    </target>
+
+
+    <target name="prepare">
+        <echo>+-------------------PREPARE-------------------------+</echo>
+        <mkdir dir="${build.dir}"/>
+        <mkdir dir="${dist.dir}"/>
+        <mkdir dir="${temp.dir}"/>
+    </target>
+
+
+
+    <target name="build" depends="prepare">
+        <echo>+------------------SCRIPT BUILD-----------------------------+</echo>
+        <copy todir="${build.dir}">
+            <fileset dir="${basedir}/web">
+                <exclude name="common/settings.php"/>
+
+                <exclude name="test/"/>
+                <exclude name="readme.txt"/>
+                <exclude name="diagrams/*.dia"/>
+                <exclude name="diagrams/*.svg"/>
+                <exclude name="diagrams/*.png"/>
+                <exclude name="diagrams/*.jpg"/>
+                
+
+                <exclude name="exporter/*.png"/>
+                <exclude name="exporter/*.svg"/>
+                <exclude name="exporter/*.jpg"/>
+                <exclude name="exporter/*.bat"/>
+            </fileset>
+        </copy>
+
+    </target>
+
+
+
+    <!-- @see: http://www.julienlecomte.net/blog/2007/09/16/ -->
+    <target name="js.obfuscate" depends="build">
+        <echo>+------------------OBFUSCATE JavaScript-----------------------------+</echo>
+        
+
+
+        <echo>Obfuscate connections.js</echo>
+        <java jar="./documents/compressor/yuicompressor-2.4.2.jar" fork="true">
+            <arg value="${build.dir}/editor/lib/connections.js"/>
+            <arg value="-o"/>
+            <arg value="${build.dir}/editor/lib/connections.js"/>
+        </java>
+
+        
+        <echo>Obfuscate handles.js</echo>
+        <java jar="./documents/compressor/yuicompressor-2.4.2.jar" fork="true">
+            <arg value="${build.dir}/editor/lib/handles.js"/>
+            <arg value="-o"/>
+            <arg value="${build.dir}/editor/lib/handles.js"/>
+        </java>
+        
+        
+        
+        <echo>Obfuscate stack.js</echo>
+        <java jar="./documents/compressor/yuicompressor-2.4.2.jar" fork="true">
+            <arg value="${build.dir}/editor/lib/stack.js"/>
+            <arg value="-o"/>
+            <arg value="${build.dir}/editor/lib/stack.js"/>
+        </java>
+        
+        
+        <echo>Obfuscate text.js</echo>
+        <java jar="./documents/compressor/yuicompressor-2.4.2.jar" fork="true">
+            <arg value="${build.dir}/editor/lib/text.js"/>
+            <arg value="-o"/>
+            <arg value="${build.dir}/editor/lib/text.js"/>
+        </java>
+                
+
+        <echo>Obfuscate main.js</echo>
+        <java jar="./documents/compressor/yuicompressor-2.4.2.jar" fork="true">
+            <arg value="${build.dir}/editor/lib/main.js"/>
+            <arg value="-o"/>
+            <arg value="${build.dir}/editor/lib/main.js"/>
+        </java>
+        
+    </target>
+    
+    
+    
+    <target name="php.obfuscate" depends="js.obfuscate">
+        <echo>+------------------OBFUSCATE PHP-----------------------------+</echo>
+        
+        <echo>Obfuscate utils.php</echo>
+        <exec executable="php" output="${temp.dir}/encode.output.txt">
+            <arg line="./documents/encoder/encoder.php ${build.dir}/editor/common/utils.php ${build.dir}/editor/common/utils.php"/>
+        </exec>
+
+        <echo>Obfuscate delegate.php</echo>
+        <exec executable="php" output="${temp.dir}/encode.output.txt">
+            <arg line="./documents/encoder/encoder.php ${build.dir}/editor/common/delegate.php ${build.dir}/editor/common/delegate.php"/>
+        </exec>
+        
+        <echo>Obfuscate controller.php</echo>
+        <exec executable="php" output="${temp.dir}/encode.output.txt">
+            <arg line="./documents/encoder/encoder.php ${build.dir}/editor/common/controller.php ${build.dir}/editor/common/controller.php"/>
+        </exec>
+        
+    </target>
+
+
+    <target name="obfuscate" depends="js.obfuscate, php.obfuscate">
+        <echo>+------------------OBFUSCATE-----------------------------+</echo>
+    </target>
+
+
+    <target name="dist" depends="obfuscate">
+        <echo>+------------------SCRIPT DIST-----------------------------+</echo>
+        <zip destfile="${script.release.file}" basedir="${build.dir}" />
+    </target>
+
+
+
+    <target name="clean">
+        <echo>+------------------SCRIPT CLEAN----------------------------+</echo>
+        <delete dir="${build.dir}"/>
+        <delete dir="${dist.dir}" />
+        <delete dir="${temp.dir}" />
+    </target>
+
+
+
+</project>
