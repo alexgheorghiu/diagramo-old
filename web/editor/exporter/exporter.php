@@ -9,6 +9,13 @@ $exportType = 'pdf'; //Can be jpg | png | pdf
 
 $folder = dirname(__FILE__);
 
+
+$jre_path = 'java';
+
+if(is_dir($folder . '/jre')){ //ok we have an embedded JRE
+    $jre_path = $folder . '/jre/bin/java';
+}
+
 //Fake SVG file
 $data = '<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
@@ -42,19 +49,19 @@ $command = '';
 switch ($exportType) {
     case 'jpg':
         $tempExp = $folder . "/" . $ui . '.jpg';
-        $command = sprintf('java -jar batik-rasterizer.jar -m image/jpeg -q .99 %s -d %s', $tempSVG, $tempExp);
+        $command = sprintf('%s -jar batik-rasterizer.jar -m image/jpeg -q .99 %s -d %s', $jre_path, $tempSVG, $tempExp);
         break;
     case 'tiff':
         exit("Tiff not implemented");
         break;
     case 'pdf':
         $tempExp = $folder . "/" . $ui . '.pdf';
-        $command = sprintf('java -jar batik-rasterizer.jar -m application/pdf %s -d %s', $tempSVG, $tempExp);
+        $command = sprintf('%s -jar batik-rasterizer.jar -m application/pdf %s -d %s', $jre_path, $tempSVG, $tempExp);
         break;
     case 'png': //flow to default
     default:
         $tempExp = $folder . "/" . $ui . '.png';
-        $command = sprintf('java -jar batik-rasterizer.jar -m image/png -q .99 %s -d %s', $tempSVG, $tempExp);
+        $command = sprintf('%s -jar batik-rasterizer.jar -m image/png -q .99 %s -d %s', $jre_path,  $tempSVG, $tempExp);
 }
 
 print "\n$tempExp";

@@ -18,6 +18,8 @@ documents/jsdoc-toolkit/test.log
 
 web/editor/common/settings.php
 
+web/editor/exporter/jre/
+
 build/
 dist/
 temp/

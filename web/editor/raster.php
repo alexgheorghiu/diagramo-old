@@ -6,6 +6,16 @@ require_once dirname(__FILE__) . '/common/delegate.php';
 //print_r($_REQUEST);
 //exit;
 
+
+$folder = dirname(__FILE__);
+
+$jre_path = 'java';
+
+if(is_dir($folder . '/exporter/jre')){ //ok we have an embedded JRE
+    $jre_path = $folder . '/exporter/jre/bin/java';
+}
+
+
 if (!isset($_SESSION)) {
     session_start();
 }
@@ -74,7 +84,7 @@ switch ($type) {
             $batikPath = dirname(__FILE__) . '/exporter';
             
             //Note: Always use "%s" to be able to use white spaces in paths
-            $command = sprintf('java -jar "%s"/batik-rasterizer.jar -m image/png -q .99 "%s" -d "%s"', $batikPath, $svgPath, $pngPath);
+            $command = sprintf('%s -jar "%s"/batik-rasterizer.jar -m image/png -q .99 "%s" -d "%s"', $jre_path, $batikPath, $svgPath, $pngPath);
             #print "Command: $command";
             #exit();
             $output = shell_exec($command);
@@ -142,7 +152,7 @@ switch ($type) {
             $batikPath = dirname(__FILE__) . '/exporter';
             
             //Note: Always use "%s" to be able to use white spaces in paths
-            $command = sprintf('java -jar "%s"/batik-rasterizer.jar -m image/jpeg -q .99 "%s" -d "%s"', $batikPath, $svgPath, $jpgPath);
+            $command = sprintf('%s -jar "%s"/batik-rasterizer.jar -m image/jpeg -q .99 "%s" -d "%s"', $jre_path, $batikPath, $svgPath, $jpgPath);
             $output = shell_exec($command);
             //end conversion
 
