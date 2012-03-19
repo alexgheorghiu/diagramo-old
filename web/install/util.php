@@ -188,7 +188,15 @@ function lastId($con) {
 }
 
 function testJava() {
-    $r = exec('java Echo');
+    $jre = "java";
+    
+    $path = dirname(__FILE__) . '../editor/exporter/jre';
+    
+    if(is_dir($path)){ //ok we have bundled java
+        $jre = $path . '/bin/java';
+    }
+    
+    $r = exec(sprintf('%s Echo', $jre));
     if ($r == 'ok') {
         return true;
     }
