@@ -54,7 +54,9 @@ $page = 'users';
             <? require_once dirname(__FILE__) . '/common/messages.php'; ?>
             <br/>
 
-            
+            <div style="background-color: yellow; font-size: 30px;">
+                Update to use this section :p
+            </div>
             
             <!--Collaborators-->
             <?if(count($users) > 0 ){?>

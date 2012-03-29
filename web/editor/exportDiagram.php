@@ -29,6 +29,8 @@ $url = strleft($selfUrl, '/exportDiagram.php'); //find the URL of the applicatio
 $svgLink = WEBADDRESS . '/' . sanitize($diagram->title) . '_' . $diagram->hash . '.svg';
 $pngLink = WEBADDRESS . '/' . sanitize($diagram->title) . '_' . $diagram->hash . '.png';
 $jpgLink = WEBADDRESS . '/' . sanitize($diagram->title) . '_' . $diagram->hash . '.jpg';
+
+$page = 'export';
 ?>
 
 <!DOCTYPE html>

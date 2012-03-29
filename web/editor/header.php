@@ -29,7 +29,7 @@
         <!--Settings menu-->
         <div class="dropdown_menu"><a href="#" onmouseover="dropdownSpace.menuOpen('settings')" onmouseout="dropdownSpace.menuCloseTime()">Settings</a>
             <div class="dropdown_menu_panel"  id="settings" onmouseover="dropdownSpace.menuCancelCloseTime()" onmouseout="dropdownSpace.menuCloseTime()">
-                <a href="#">My settings</a>
+                <a href="./settings.php">My settings</a>
             </div>
         </div>
         <!--Settings menu-->

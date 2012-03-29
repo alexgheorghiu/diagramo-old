@@ -186,7 +186,7 @@ $page = 'editor';
             function saveAs(){
                 var canvas = getCanvas();
 //                var $diagram = {c:canvas.save(), s:STACK, m:CONNECTOR_MANAGER};
-                var $diagram = {c:canvasProps, s:stack, m:CONNECTOR_MANAGER};
+                var $diagram = {c:canvasProps, s:STACK, m:CONNECTOR_MANAGER};
                 $serializedDiagram = JSON.stringify($diagram);
                 var svgDiagram = toSVG();
 

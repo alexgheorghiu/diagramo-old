@@ -91,12 +91,12 @@ if (!isset($_SESSION['userId'])) {
                         </div>
 
                         <div style="position: absolute; top: 160px; left: 20px;">
-                            <input type="checkbox" name="public" value="true" checked/><span class="formLabel">Public under <a href="http://creativecommons.org/licenses/by-sa/3.0/" target="new">Creative Commons (CC-BY-SA 3.0)</a> license</span>                            
+                            <input type="checkbox" name="public" value="true" /><span class="formLabel">Public</span>                            
                         </div>
 
                         <div style="position: absolute; top: 190px; left: 20px; color: gray; text-align: left;">
                             A <b>public</b> diagram will have direct links (<a href="http://en.wikipedia.org/wiki/Permalink" target="new">permalinks</a>) to anyone
-                            but only the author (and collaborators) can edit it.
+                            but only the authors can edit it.
                         </div>
 
                         <div style="position: absolute; top: 240px; left: 20px; right: 20px;">
