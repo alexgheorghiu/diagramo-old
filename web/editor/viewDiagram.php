@@ -47,12 +47,12 @@ if(!$diagram->public){
             <div>Public </div>
             <p/>
             <div id="container">
-                <img src="/<?=sanitize($diagram->title)?>_<?=$diagram->hash?>.png" width="800" height="600" border="1"/>            
+                <img src="./raster.php?type=png&diagramId=<?=$diagram->id?>" width="800" height="600" border="1"/>            
             </div>
             <div>
-                <a href="/<?=sanitize($diagram->title)?>_<?=$diagram->hash?>.svg">Download SVG</a> | 
-                <a href="/<?=sanitize($diagram->title)?>_<?=$diagram->hash?>.png">Download PNG</a> |
-                <a href="/<?=sanitize($diagram->title)?>_<?=$diagram->hash?>.jpg">Download JPG</a>
+                <a href="./raster.php?type=svg&diagramId=<?=$diagram->id?>">Download SVG</a> | 
+                <a href="./raster.php?type=png&diagramId=<?=$diagram->id?>">Download PNG</a> |
+                <a href="./raster.php?type=jpg&diagramId=<?=$diagram->id?>">Download JPG</a>
             </div>
         </div>
     </body>

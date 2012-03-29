@@ -20,18 +20,14 @@ if (!isset($_SESSION)) {
     session_start();
 }
 
-if (!isset($_REQUEST['hash'])) {
-    echo 'No hash';
+if ( !is_numeric($_REQUEST['diagramId']) ) {
+    echo 'No proper id';
     exit();
 }
 
-if(strlen(trim($_REQUEST['hash'])) != 6){
-    print "Wrong hash";
-    exit();
-}
 
 $delegate = new Delegate();
-$diagram = $delegate->diagramGetByHash(trim($_REQUEST['hash']));
+$diagram = $delegate->diagramGetById($_REQUEST['diagramId']);
 if(!is_object($diagram)){
     print  "No diagram";
     exit();

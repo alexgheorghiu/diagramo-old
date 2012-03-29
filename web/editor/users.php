@@ -55,7 +55,7 @@ $page = 'users';
             <br/>
 
             <div style="background-color: yellow; font-size: 30px;">
-                Update to use this section :p
+                Upgrade to use this section :p
             </div>
             
             <!--Collaborators-->

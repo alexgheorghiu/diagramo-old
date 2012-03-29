@@ -26,9 +26,9 @@ $diagram = $delegate->diagramGetById($_REQUEST['diagramId']);
 $selfUrl = selfURL(); //find full URL to this script
 $url = strleft($selfUrl, '/exportDiagram.php'); //find the URL of the application
 
-$svgLink = WEBADDRESS . '/' . sanitize($diagram->title) . '_' . $diagram->hash . '.svg';
-$pngLink = WEBADDRESS . '/' . sanitize($diagram->title) . '_' . $diagram->hash . '.png';
-$jpgLink = WEBADDRESS . '/' . sanitize($diagram->title) . '_' . $diagram->hash . '.jpg';
+$svgLink = WEBADDRESS . '/editor/raster.php?type=svg&diagramId=' . $diagram->id;
+$pngLink = WEBADDRESS . '/editor/raster.php?type=png&diagramId=' . $diagram->id;
+$jpgLink = WEBADDRESS . '/editor/raster.php?type=jpg&diagramId=' . $diagram->id;
 
 $page = 'export';
 ?>
@@ -68,11 +68,16 @@ $page = 'export';
                     </table>
                 </div>
                 
+                <div style="background-color: yellow; font-size: 30px;">
+                    Upgrade to use this section :p
+                </div>
+                
                 <h3>As SVG</h3>
                 <input type="text" value="<?=$svgLink?>"  style="width: 400px;"/> <br/>
                 <a href="<?=$svgLink?>" target="_blank"><?=$svgLink?></a>
                 <p/>
-
+                                
+                
                 <h3>As PNG</h3>
                 <input type="text" value="<?=$pngLink?>" style="width: 400px;"/><br/>
                 <a href="<?=$pngLink?>" target="_blank"><?=$pngLink?></a>
