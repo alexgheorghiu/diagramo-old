@@ -512,23 +512,17 @@ function editDiagramExe() {
     }
 
     $d = new Delegate();
-    $userdiagram = $d->userdiagramGetByIds($_SESSION['userId'], $_REQUEST['diagramId']);
-    if (is_object($userdiagram) && is_numeric($userdiagram->userId)) { //see if we are "attached" to this diagram
-        $diagram = $d->diagramGetById($_REQUEST['diagramId']);
+    $diagram = $d->diagramGetById($_REQUEST['diagramId']);
 
-        $diagram->title = trim($_REQUEST['title']);
-        $diagram->description = trim($_REQUEST['description']);
-        $diagram->public = ($_REQUEST['public'] == true) ? true : false;
-        $diagram->lastUpdate = now();
+    $diagram->title = trim($_REQUEST['title']);
+    $diagram->description = trim($_REQUEST['description']);
+    $diagram->public = ($_REQUEST['public'] == true) ? true : false;
+    $diagram->lastUpdate = now();
 
-        if ($d->diagramUpdate($diagram)) {
-            addMessage("Diagram updated");
-        } else {
-            addError("Diagram not updated");
-        }
+    if ($d->diagramUpdate($diagram)) {
+        addMessage("Diagram updated");
     } else {
-        print "No rights over that diagram";
-        exit();
+        addError("Diagram not updated");
     }
 
     redirect('../myDiagrams.php');

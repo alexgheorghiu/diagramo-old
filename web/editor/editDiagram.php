@@ -19,13 +19,11 @@ if (!isset($_REQUEST['diagramId'])) {
 }
 
 $d = new Delegate();
-$userdiagram = $d->userdiagramGetByIds($_SESSION['userId'], $_REQUEST['diagramId']);
-if (!is_object($userdiagram) || !is_numeric($userdiagram->userId)) {
-    echo "No rights to edit that diagram";
-    exit();
-}
+
 
 $diagram = $d->diagramGetById($_REQUEST['diagramId']);
+
+$page = 'editDiagram';
 ?>
 
 <!DOCTYPE html>
@@ -42,6 +40,7 @@ $diagram = $d->diagramGetById($_REQUEST['diagramId']);
         <div id="page">
             <? require_once dirname(__FILE__) . '/header.php'; ?>
 
+            
 
             <div id="content">
                 
@@ -79,7 +78,7 @@ $diagram = $d->diagramGetById($_REQUEST['diagramId']);
                         
                         <div style="position: absolute; top: 180px; left: 20px; color: gray; text-align: left;">
                             A <b>public</b> diagram will have direct links (<a href="http://en.wikipedia.org/wiki/Permalink" target="new">permalinks</a>) to anyone
-                            but only the author (and collaborators) can edit it.
+                            but only the authors  can edit it.
                         </div>
                         
                         <div style="position: absolute; top: 230px; left: 20px; right: 20px;">
