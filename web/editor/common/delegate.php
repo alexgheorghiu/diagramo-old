@@ -433,7 +433,7 @@ class Delegate {
             $query .= sprintf(", %d", $nr);
         }
 
-        print $query;
+        #print $query;
         (DEBUG) ? $_SESSION['logs'][] = "&nbsp;&nbsp;&nbsp;&nbsp;" . __CLASS__ .'{#}'. __FUNCTION__ ."{#}{$query}{#}". __LINE__ : '';
 
         //EXECUTE query

@@ -396,13 +396,13 @@ function save() {
 
             $delegate = new Delegate();
             
-            //see if we have rights to save it
-            $userdiagram = $delegate->userdiagramGetByIds($_SESSION['userId'], $_REQUEST['diagramId']);
-            if(!is_object($userdiagram)){
-                print 'Not allocated to this diagram';
-                exit();
-            }
-            //end check rights
+//            //see if we have rights to save it
+//            $userdiagram = $delegate->userdiagramGetByIds($_SESSION['userId'], $_REQUEST['diagramId']);
+//            if(!is_object($userdiagram)){
+//                print 'Not allocated to this diagram';
+//                exit();
+//            }
+//            //end check rights
 
 
             $currentDiagramId = $_REQUEST['diagramId'];
