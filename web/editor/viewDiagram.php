@@ -7,15 +7,13 @@ if (!isset($_SESSION)) {
     session_start();
 }
 
-if(!isset ($_REQUEST['hash'])){
+if(!is_numeric ($_REQUEST['diagramId'])){
     echo 'No hash';
     exit();
 }
 
 $delegate = new Delegate();
-$diagram = $delegate->diagramGetByHash(trim($_REQUEST['hash']));
-$authorUserDiagram = $delegate->userdiagramGetByAuthor($diagram->id);
-$author = $delegate->userGetById($authorUserDiagram->userId);
+$diagram = $delegate->diagramGetById($_REQUEST['diagramId']);
 
 //check if diagram is public
 if(!is_object($diagram)){
@@ -24,7 +22,7 @@ if(!is_object($diagram)){
 }
 
 if(!$diagram->public){
-    print "Diagram is (no longer?) public";
+    print "Diagram is not public";
     exit();
 }
 //end check
@@ -46,8 +44,7 @@ if(!$diagram->public){
         <div id="content" style="margin-left:  30px;">
             <h1><?=$diagram->title?></h1>
             <div><?=$diagram->description?></div>
-            <div>Public under <a href="http://creativecommons.org/licenses/by-sa/3.0/" target="new">Creative Commons (CC-BY-SA 3.0)</a> license.</div>
-            <div>Author : <?=displayName($author)?></div>
+            <div>Public </div>
             <p/>
             <div id="container">
                 <img src="/<?=sanitize($diagram->title)?>_<?=$diagram->hash?>.png" width="800" height="600" border="1"/>            
