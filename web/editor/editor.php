@@ -12,20 +12,14 @@ $delegate = new Delegate();
 
 $loggedUser = $delegate->userGetById($_SESSION['userId']);
 
+#print_r($_SESSION['userId']);
+
 //start diagram guardian
 if(is_numeric($_REQUEST['diagramId'])){
-    if(is_object($loggedUser)){
-        $userdiagram = $delegate->userdiagramGetByIds($loggedUser->id, $_REQUEST['diagramId']);
-        if(!is_object($userdiagram)){
-            print "Not allocated to this diagram";
-            exit();
-        }
-    }
-    else{
-        print "Not allowed to see this diagram";
+    if(!is_object($loggedUser)){
+        print "Not allocated to this diagram";
         exit();
-
-    }    
+    }        
 }
 //end diagram guardian
 

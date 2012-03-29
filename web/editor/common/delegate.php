@@ -433,7 +433,7 @@ class Delegate {
             $query .= sprintf(", %d", $nr);
         }
 
-        #print $query;
+        print $query;
         (DEBUG) ? $_SESSION['logs'][] = "&nbsp;&nbsp;&nbsp;&nbsp;" . __CLASS__ .'{#}'. __FUNCTION__ ."{#}{$query}{#}". __LINE__ : '';
 
         //EXECUTE query
@@ -845,6 +845,12 @@ class Delegate {
         return $this->getMultiple('diagram', array('public'=>true), array('createdDate'=>DESC));
     }  
     
+    
+    public function diagramGetAll() {
+        (DEBUG) ? $_SESSION['logs'][] = __CLASS__ .'{#}'. __FUNCTION__ ."{#}{#}". __LINE__ : '';
+        return $this->getMultiple('diagram');
+    }  
+    
     public function diagramGetPublic($start, $end) {
         (DEBUG) ? $_SESSION['logs'][] = __CLASS__ .'{#}'. __FUNCTION__ ."{#}{#}". __LINE__ : '';
         return $this->getMultiple('diagram', array('public'=>true), array('createdDate'=>DESC), $start, $end);
@@ -930,36 +936,36 @@ class Delegate {
     /**************************************************************************/
     /*****************************USERDIAGRAMS**************************************/
     /**************************************************************************/
-    public function userdiagramCreate($entry) {
-        (DEBUG) ? $_SESSION['logs'][] = __CLASS__ .'{#}'. __FUNCTION__ ."{#}{#}". __LINE__ : '';
-        return $this->create($entry, array('diagramId', 'userId'), 'userdiagram', false, false);
-    }
-    
-    public function userdiagramGetByIds($userId, $diagramId) {
-        (DEBUG) ? $_SESSION['logs'][] = __CLASS__ .'{#}'. __FUNCTION__ ."{#}{#}". __LINE__ : '';
-        return $this->getSingle('userdiagram', array('userId'=>$userId, 'diagramId'=>$diagramId));
-    }
-    
-    /**Find the author or the diagram*/
-    public function userdiagramGetByAuthor($diagramId) {
-        (DEBUG) ? $_SESSION['logs'][] = __CLASS__ .'{#}'. __FUNCTION__ ."{#}{#}". __LINE__ : '';
-        return $this->getSingle('userdiagram', array('diagramId'=>$diagramId, 'level'=>  Userdiagram::LEVEL_AUTHOR));
-    }
-
-    public function userdiagramGetByDiagramId($diagramId) {
-        (DEBUG) ? $_SESSION['logs'][] = __CLASS__ .'{#}'. __FUNCTION__ ."{#}{#}". __LINE__ : '';
-        return $this->getMultiple('userdiagram', array('diagramId'=>$diagramId));
-    }
-
-    public function userdiagramDelete($userId, $diagramId){
-        (DEBUG) ? $_SESSION['logs'][] = __CLASS__ .'{#}'. __FUNCTION__ ."{#}{#}". __LINE__ : '';
-        return $this->delete('userdiagram', array('userId'=>$userId, 'diagramId'=>$diagramId));
-    }
-    
-    public function userdiagramDeleteByUser($userId){
-        (DEBUG) ? $_SESSION['logs'][] = __CLASS__ .'{#}'. __FUNCTION__ ."{#}{#}". __LINE__ : '';
-        return $this->delete('userdiagram', array('userId' => $userId));
-    }
+//    public function userdiagramCreate($entry) {
+//        (DEBUG) ? $_SESSION['logs'][] = __CLASS__ .'{#}'. __FUNCTION__ ."{#}{#}". __LINE__ : '';
+//        return $this->create($entry, array('diagramId', 'userId'), 'userdiagram', false, false);
+//    }
+//    
+//    public function userdiagramGetByIds($userId, $diagramId) {
+//        (DEBUG) ? $_SESSION['logs'][] = __CLASS__ .'{#}'. __FUNCTION__ ."{#}{#}". __LINE__ : '';
+//        return $this->getSingle('userdiagram', array('userId'=>$userId, 'diagramId'=>$diagramId));
+//    }
+//    
+//    /**Find the author or the diagram*/
+//    public function userdiagramGetByAuthor($diagramId) {
+//        (DEBUG) ? $_SESSION['logs'][] = __CLASS__ .'{#}'. __FUNCTION__ ."{#}{#}". __LINE__ : '';
+//        return $this->getSingle('userdiagram', array('diagramId'=>$diagramId, 'level'=>  Userdiagram::LEVEL_AUTHOR));
+//    }
+//
+//    public function userdiagramGetByDiagramId($diagramId) {
+//        (DEBUG) ? $_SESSION['logs'][] = __CLASS__ .'{#}'. __FUNCTION__ ."{#}{#}". __LINE__ : '';
+//        return $this->getMultiple('userdiagram', array('diagramId'=>$diagramId));
+//    }
+//
+//    public function userdiagramDelete($userId, $diagramId){
+//        (DEBUG) ? $_SESSION['logs'][] = __CLASS__ .'{#}'. __FUNCTION__ ."{#}{#}". __LINE__ : '';
+//        return $this->delete('userdiagram', array('userId'=>$userId, 'diagramId'=>$diagramId));
+//    }
+//    
+//    public function userdiagramDeleteByUser($userId){
+//        (DEBUG) ? $_SESSION['logs'][] = __CLASS__ .'{#}'. __FUNCTION__ ."{#}{#}". __LINE__ : '';
+//        return $this->delete('userdiagram', array('userId' => $userId));
+//    }
 
 }
 ?>

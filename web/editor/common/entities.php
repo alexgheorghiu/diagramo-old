@@ -46,23 +46,6 @@ class Diagramdata {
 	}
 }
 
-class Invitation {
-
-	public $id;
-	public $diagramId;
-	public $email;
-	public $token;
-	public $createdDate;
-
-	function loadFromSQL($row) {
-		$this->id = is_null($row['id']) ? null : $row['id'];
-		$this->diagramId = is_null($row['diagramId']) ? null : $row['diagramId'];
-		$this->email = is_null($row['email']) ? null : $row['email'];
-		$this->token = is_null($row['token']) ? null : $row['token'];
-		$this->createdDate = is_null($row['createdDate']) ? null : $row['createdDate'];
-	}
-}
-
 class Setting {
 
 	public $name;
@@ -84,6 +67,7 @@ class User {
 	public $lastLoginDate;
 	public $lastLoginIP;
 	public $lastBrowserType;
+	public $admin;
 
 	function loadFromSQL($row) {
 		$this->id = is_null($row['id']) ? null : $row['id'];
@@ -94,28 +78,7 @@ class User {
 		$this->lastLoginDate = is_null($row['lastLoginDate']) ? null : $row['lastLoginDate'];
 		$this->lastLoginIP = is_null($row['lastLoginIP']) ? null : $row['lastLoginIP'];
 		$this->lastBrowserType = is_null($row['lastBrowserType']) ? null : $row['lastBrowserType'];
-	}
-}
-
-class Userdiagram {
-	const STATUS_ACCEPTED = 'accepted';
-	const STATUS_PENDING = 'pending';
-	const STATUS_KICKEDOF = 'kickedof';
-	const LEVEL_EDITOR = 'editor';
-	const LEVEL_AUTHOR = 'author';
-
-	public $userId;
-	public $diagramId;
-	public $invitedDate;
-	public $status;
-	public $level;
-
-	function loadFromSQL($row) {
-		$this->userId = is_null($row['userId']) ? null : $row['userId'];
-		$this->diagramId = is_null($row['diagramId']) ? null : $row['diagramId'];
-		$this->invitedDate = is_null($row['invitedDate']) ? null : $row['invitedDate'];
-		$this->status = is_null($row['status']) ? null : $row['status'];
-		$this->level = is_null($row['level']) ? null : $row['level'];
+		$this->admin = is_null($row['admin']) ? null : $row['admin'];
 	}
 }
 ?>

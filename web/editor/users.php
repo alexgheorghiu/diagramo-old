@@ -44,7 +44,7 @@ $buddies =  $delegate->usersGetBuddies($loggedUser->id);
 <html>
     <!--Copyright 2010 Scriptoid s.r.l-->
     <head>
-        <title>Colaborators - Diagramo</title>
+        <title>Users - Diagramo</title>
         <meta http-equiv="X-UA-Compatible" content="IE=9" />
         <link rel="stylesheet" media="screen" type="text/css" href="assets/css/style.css" />
         <script type="text/javascript" src="./assets/javascript/dropdownmenu.js?<?=time()?>"></script>    

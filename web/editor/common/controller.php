@@ -598,14 +598,7 @@ function firstSaveExe() {
     unset($_SESSION['tempSVG']);
 
     //attach it to an user
-    $userdiagram = new Userdiagram();
-    $userdiagram->diagramId = $diagramId;
-    $userdiagram->userId = $_SESSION['userId'];
-    $userdiagram->invitedDate = now();
-    $userdiagram->level = Userdiagram::LEVEL_AUTHOR;
-    $userdiagram->status = Userdiagram::STATUS_ACCEPTED;
 
-    $delegate->userdiagramCreate($userdiagram);
 
     redirect("../editor.php?diagramId=" . $diagramId);
 }
