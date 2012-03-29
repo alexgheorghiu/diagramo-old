@@ -181,12 +181,14 @@ h3{
 	height:13px;
 	width:880px;
 	background-color:#F4F4F4;
-	text-align:right;
+	text-align:center;
 	font-size:11px;
 	padding:25px 40px;
+        color: #ccc;
 }
+
 .footer a, .footer a:visited, .footer a:hover{
-	color: #444243;
+	color: #ccc;
 	text-decoration:none;
 }
 .footer a:hover{

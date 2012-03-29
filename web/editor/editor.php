@@ -29,6 +29,7 @@ if(is_numeric($_REQUEST['diagramId'])){
 }
 //end diagram guardian
 
+$page = 'editor';
 ?>
 
 

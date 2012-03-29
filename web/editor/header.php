@@ -6,6 +6,7 @@
         </div>
         <!-- /File menu-->
         
+        <?if($page=='editor'){?>
         <!--File menu-->
         <div class="dropdown_menu"><a href="#" onmouseover="dropdownSpace.menuOpen('file')" onmouseout="dropdownSpace.menuCloseTime()">File</a>
             <div class="dropdown_menu_panel" id="file" onmouseover="dropdownSpace.menuCancelCloseTime()" onmouseout="dropdownSpace.menuCloseTime()">
@@ -83,5 +84,6 @@
                     break;
             }
         </script>   
+        <?}?>
     </div>
 </div>
