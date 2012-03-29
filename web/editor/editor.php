@@ -38,6 +38,8 @@ if(is_numeric($_REQUEST['diagramId'])){
     <head>
         <title>HTML5 diagram editor</title>
         <meta http-equiv="X-UA-Compatible" content="IE=9" />
+        <script type="text/javascript" src="./assets/javascript/dropdownmenu.js?<?=time()?>"></script>    
+        
         <link rel="stylesheet" media="screen" type="text/css" href="./assets/css/style.css" />
         <link rel="stylesheet" media="screen" type="text/css" href="./assets/css/minimap.css" />
         <? require_once("./lib/sets/figures.php");?>
@@ -316,6 +318,9 @@ if(is_numeric($_REQUEST['diagramId'])){
                 document.onkeypress = onKeyPress;                
                 document.onkeydown = onKeyDown;
                 document.onkeyup = onKeyUp;
+                
+                // close layer when click-out
+                
             }
         </script>
 
@@ -331,123 +336,54 @@ if(is_numeric($_REQUEST['diagramId'])){
     <body onload="init();" id="body">
         
         <? require_once dirname(__FILE__) . '/header.php'; ?>
-        <div id="menu">
-            <table border="0" cellpadding="3" cellspacing="0">
-                <tr>
-                    <td width="10">
-                        &nbsp;
-                    </td>
-                    <td valign="middle">
-                        <a style="text-decoration: none;" href="./common/controller.php?action=newDiagramExe" title="New diagram"><img style="vertical-align:middle; margin-right: 3px;" src="assets/images/icon_new.jpg" border="0" width="20" height="21"/><span class="menuText">New</span></a>
-                    </td>
-                    <td width="20" align="center">
-                        <img style="vertical-align:middle;" src="assets/images/upper_bar_separator.jpg" border="0" width="2" height="16"/>
-                    </td>
-                    <td valign="middle">
-                        <a style="text-decoration: none;" href="./myDiagrams.php" title="Open diagram"><img style="vertical-align:middle; margin-right: 3px;" src="assets/images/icon_open.jpg" border="0" width="20" height="21"/><span class="menuText">Open</span></a>
-                    </td>
-                    <td width="20" align="center">
-                        <img style="vertical-align:middle;" src="assets/images/upper_bar_separator.jpg" border="0" width="2" height="16"/>
-                    </td>
-                    <td valign="middle">
-                        <a style="text-decoration: none;" href="javascript:save();"  title="Save diagram (Ctrl-S)"><img style="vertical-align:middle; margin-right: 3px;" src="assets/images/icon_save.jpg" border="0" width="22" height="22"/><span class="menuText">Save</span></a>
-                    </td>
-                    <td width="20" align="center">
-                        <img style="vertical-align:middle;" src="assets/images/upper_bar_separator.jpg" border="0" width="2" height="16"/>
-                    </td>
-                    <td valign="middle">
-                        <a style="text-decoration: none;" href="javascript:saveAs();"  title="Save diagram as..."><img style="vertical-align:middle; margin-right: 3px;" src="assets/images/icon_save_as.jpg" border="0" width="22" height="22"/><span class="menuText">Save as</span></a>
-                    </td>
-                    <td width="20" align="center">
-                        <img style="vertical-align:middle;" src="assets/images/upper_bar_separator.jpg" border="0" width="2" height="16"/>
-                    </td>
-
-                    <?if(is_numeric($_REQUEST['diagramId']) ){//option available ony when the diagram was saved?>
-                    <td valign="middle">
-                        <a style="text-decoration: none;" href="./exportDiagram.php?diagramId=<?=$_REQUEST['diagramId']?>"  title="Export diagram"><img style="vertical-align:middle; margin-right: 3px;" src="assets/images/icon_export.jpg" border="0" width="22" height="22"/><span class="menuText">Export</span></a>
-                    </td>
-                    <td width="20" align="center">
-                        <img style="vertical-align:middle;" src="assets/images/upper_bar_separator.jpg" border="0" width="2" height="16"/>
-                    </td>
-                    <?}?>
-
-                    <!--
-                    <td valign="middle">
-                        <a style="text-decoration: none;" href="javascript:exportCanvas();"><img style="vertical-align:middle; margin-right: 3px;" src="../assets/images/icon_export.jpg" border="0" width="22" height="22"/><span class="menuText">Debug Export</span></a>
-                    </td>
-                    <td width="20" align="center">
-                        <img style="vertical-align:middle;" src="../assets/images/upper_bar_separator.jpg" border="0" width="2" height="16"/>
-                    </td>
-                    -->
-
-                    <?if(is_numeric($_REQUEST['diagramId']) ){ //these options should appear ONLY if we have a saved diagram
-                        $diagram = $delegate->diagramGetById($_REQUEST['diagramId']);
-                    ?>
-                    <td valign="middle">
-                        <a style="text-decoration: none;" href="./colaborators.php?diagramId=<?=$_REQUEST['diagramId']?>"  title="Invite/Manage collaborators"><img style="vertical-align:middle; margin-right: 3px;" src="assets/images/collaborators.gif" border="0" width="22" height="22"/><span class="menuText">Colaborators</span></a>
-                    </td>
-                    <td width="20" align="center">
-                        <img style="vertical-align:middle;" src="assets/images/upper_bar_separator.jpg" border="0" width="2" height="16"/>
-                    </td>
-                    <td>
-                        <span class="menuText" title="Use this URL to share diagram to others">Direct link : </span> <input style="font-size: 10px;" title="External direct URL to diagram" type="text" class="text" size="100" value="<?=WEBADDRESS?>/<?=sanitize($diagram->title)?>_<?=$diagram->hash?>.html"/>
-                    </td>
-                    <?}?>
-
-                    <script type="text/javascript">
-                        switch(isBrowserReady()){
-                            case 0: //not supported at all
-                                document.write("<td bgcolor=\"red\">");
-                                document.write("No support for HTML5. More <a href=\"http://<?=WEBADDRESS?>/htm5-support.php\">here</a></a>");
-                                document.write("</td>");
-                                break;
-                            case 1: //IE - partially supported
-                                document.write("<td bgcolor=\"yellow\">");
-                                document.write("Poor HTML5 support. More <a href=\"http://<?=WEBADDRESS?>/htm5-support.php\">here</a></a>");
-                                document.write("</td>");
-                                break;
-                        }
-                    </script>
-
-                </tr>
-            </table>
-        </div>
-
 
         <div id="actions">
-            <input type="checkbox" onclick="showGrid();" id="gridCheckbox"  title="Show grid" /> <span class="toolbarText">Show grid</span>
-            <img class="separator" src="assets/images/toolbar_separator.gif" border="0" width="1" height="16"/>
-            <input type="checkbox" onclick="snapToGrid();" id="snapCheckbox" title="Snap elements to grid" /> <span class="toolbarText">Snap to grid</span>
-            <img class="separator" src="assets/images/toolbar_separator.gif" border="0" width="1" height="16"/>
-            <!--
-            <a class="button" href="javascript:action('up');">up</a>
-            <a class="button" href="javascript:action('down');">down</a>
-            <a class="button" href="javascript:action('left');">left</a>
-            <a class="button" href="javascript:action('right');">right</a>
-            <a class="button" href="javascript:action('grow');">grow</a>
-            <a class="button" href="javascript:action('shrink');">shrink</a>
-            <a class="button" href="javascript:action('rotate90');">rotate 5<sup>o</sup> CW</a>
-            <a class="button" href="javascript:action('rotate90A');">rotate 5<sup>o</sup> ACW</a>
-            <a style="border: 1px solid red; background-color: red; color: white;" href="javascript:STACK.reset(); CONNECTOR_MANAGER.reset(); draw();">Reset Canvas</a><br />
-            -->
-            <a href="javascript:action('front');" title="Move to front"><img src="assets/images/icon_front.gif" border="0"/></a>
-            <img class="separator" src="assets/images/toolbar_separator.gif" border="0" width="1" height="16"/>
             
-            <a href="javascript:action('back');" title="Move to back"><img src="assets/images/icon_back.gif" border="0"/></a>
-            <img class="separator" src="assets/images/toolbar_separator.gif" border="0" width="1" height="16"/>
-            <a href="javascript:action('moveforward');" title="Move (one level) to front"><img src="assets/images/icon_forward.gif" border="0"/></a>
             
-            <img class="separator" src="assets/images/toolbar_separator.gif" border="0" width="1" height="16"/>
-            <a href="javascript:action('moveback');" title="Move (one level) back"><img src="assets/images/icon_backward.gif" border="0"/></a>
 
+            <a style="text-decoration: none;" href="javascript:save();"  title="Save diagram (Ctrl-S)"><img src="assets/images/icon_save.jpg" border="0" width="16" height="16"/></a>
+            
             <img class="separator" src="assets/images/toolbar_separator.gif" border="0" width="1" height="16"/>
+            
+            <a style="text-decoration: none;" href="./myDiagrams.php" title="Open diagram"><img src="assets/images/icon_open.jpg" border="0" width="16" height="16"/></a>
+            
+            <img class="separator" src="assets/images/toolbar_separator.gif" border="0" width="1" height="16"/>
+            
             <a href="javascript:action('connector-straight');"  title="Straight connector"><img src="assets/images/icon_connector_straight.gif" border="0"/></a>
 
             <img class="separator" src="assets/images/toolbar_separator.gif" border="0" width="1" height="16"/>
+            
             <a href="javascript:action('connector-jagged');" title="Jagged connector"><img src="assets/images/icon_connector_jagged.gif" border="0"/></a>
             
             <img class="separator" src="assets/images/toolbar_separator.gif" border="0" width="1" height="16"/>
+            
             <a href="javascript:action('connector-organic');" title="Organic connector"><img src="assets/images/icon_connector_organic.gif" border="0" alt="Organic"/></a>
+            
+            <img class="separator" src="assets/images/toolbar_separator.gif" border="0" width="1" height="16"/>            
+                        
+            <input type="checkbox" onclick="showGrid();" id="gridCheckbox"  title="Show grid" /> <span class="toolbarText">Show grid</span>
+            
+            <img class="separator" src="assets/images/toolbar_separator.gif" border="0" width="1" height="16"/>
+            
+            <input type="checkbox" onclick="snapToGrid();" id="snapCheckbox" title="Snap elements to grid" /> <span class="toolbarText">Snap to grid</span>
+            
+            <img class="separator" src="assets/images/toolbar_separator.gif" border="0" width="1" height="16"/>
+
+            <a href="javascript:action('front');" title="Move to front"><img src="assets/images/icon_front.gif" border="0"/></a>
+            
+            <img class="separator" src="assets/images/toolbar_separator.gif" border="0" width="1" height="16"/>
+            
+            <a href="javascript:action('back');" title="Move to back"><img src="assets/images/icon_back.gif" border="0"/></a>
+            
+            <img class="separator" src="assets/images/toolbar_separator.gif" border="0" width="1" height="16"/>
+            
+            <a href="javascript:action('moveforward');" title="Move (one level) to front"><img src="assets/images/icon_forward.gif" border="0"/></a>
+            
+            <img class="separator" src="assets/images/toolbar_separator.gif" border="0" width="1" height="16"/>
+            
+            <a href="javascript:action('moveback');" title="Move (one level) back"><img src="assets/images/icon_backward.gif" border="0"/></a>
+
+            
             
             <img class="separator" src="assets/images/toolbar_separator.gif" border="0" width="1" height="16"/>
             <a href="javascript:action('group');" title="Group (Ctrl-G)"><img src="assets/images/group.gif" border="0"/></a>
@@ -466,7 +402,9 @@ if(is_numeric($_REQUEST['diagramId'])){
 
             <a href="javascript:action('undo');" title="Undo (Ctrl-Z)"><img src="assets/images/arrow_undo.png" border="0"/></a>
             <!-- TODO: From Janis: we have to create a nice icon for duplicate, currently this is the only command without an icon -->
+            <!--
             <a href="javascript:action('duplicate');">Copy (Ctrl-D)</a>
+            -->
             
             <!-- <a href="javascript:action('redo');" title="Redo (Ctrl-Y)"><img src="assets/images/arrow_redo.png" border="0"/></a> -->
             <!--

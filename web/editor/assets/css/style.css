@@ -9,8 +9,8 @@ body{
 }
 
 #header{
-    height: 57px;
-    background-image: url('../images/logo_background.jpg');
+    height: 36px;
+    background-image: url('../images/logo_background.png');
     background-repeat:repeat-x;
     background-position: top left;
     /*border: 1px solid black;*/
@@ -24,6 +24,7 @@ body{
 
 }
 
+/*
 #menu {
     width: 100%;
     height: 33px;
@@ -32,20 +33,28 @@ body{
     text-align: left;
     margin: 0;
 }
+*/
 
 #actions{
-    padding-left: 122px;
-    height: 27px;
-    border: 1px solid #E5E5E5;
-    background-color: #F6F6F6;
-    padding-top: 5px;
+    /*padding-left: 122px;*/
+    height: 36px;
+    background-image: url('../images/logo_background.png');
+    background-repeat:repeat-x;
+    background-position: top left;
+    /*border: 1px solid #E5E5E5;*/
+    /*background-color: #F6F6F6;*/
+    /*padding-top: 5px;*/
+    /*overflow: hidden;*/
+    padding: 6px 4px 6px 10px;
 }
 
 #editor{
     position: fixed;
-    top: 125px;
+    top: 72px;
     bottom: 0px;
     width: 100%;
+    z-index: 0;    
+    /*border: 1px solid red;*/
 }
 
 .separator {
@@ -58,6 +67,7 @@ body{
     background-repeat: repeat;
     background-color: #FFFFFF;
 }
+
 #body{
     width: 100%;
 }
@@ -68,13 +78,15 @@ body{
     float: left;
     width: 120px;
     height: 300px;
-    border: 1px solid #E5E5E5;
+    /*border: 1px solid #E5E5E5;*/
+    padding-top: 5px;
+    padding-left: 5px;
     background-color: #F6F6F6;
 }
 
 #container{
     position: fixed;
-    top: 125px;
+    top: 72px;
     bottom: 0px;
     left: 130px;
     right: 260px;
@@ -180,4 +192,86 @@ body{
     color: #8B8B8B;
     font-size: 14px;
     text-shadow: 0px 1px 0px #FFFFFF;
+}
+
+
+
+#dropdown
+{	
+    margin: 0;
+    padding: 0;
+    z-index: 10;
+    position: relative;
+    /*display: none;*/
+}
+
+.dropdown_menu
+{	
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    float: left;
+    font: bold 14px arial;
+    z-index: 10;
+}
+
+.dropdown_menu a
+{	
+    display: block;
+    margin: 0 1px 0 0;
+    padding: 8px 10px 4px 10px;
+    /*width: 60px;*/
+    /*background: #5970B2;
+    color: #FFF;
+    */
+    color: #333;
+    text-align: left;
+    text-decoration: none;
+}
+
+.dropdown_menu a:hover
+{	
+    background: #ccc;
+}
+
+.dropdown_menu_panel
+{	
+    position: absolute;
+    visibility: hidden;
+    margin: 0;
+    padding: 0;
+    background: #eee;
+    border: 1px solid #666;
+    /*top: 36px;*/
+    
+    color: #8B8B8B;
+    font-size: 12px;
+    /*text-decoration: none;*/
+    text-shadow: 0px 1px 0px #FFFFFF;
+    /**For IE glow you need both width and filter but also shrink the <a> area :p
+    width: 50px;
+    filter: glow(color=FFFFFF,strength=1);    
+    */
+    white-space: nowrap;
+}
+
+.dropdown_menu_panel a
+{	
+    position: relative;
+    display: block;
+    margin: 0;
+    padding: 5px 10px;
+    width: auto;
+    white-space: nowrap;
+    text-align: left;
+    text-decoration: none;
+    
+    color: #8B8B8B;
+    background: #eee;
+}
+
+.dropdown_menu_panel a:hover
+{	
+    background: #fff; 
+    color: #8B8B8B;
 }
