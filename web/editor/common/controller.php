@@ -74,8 +74,8 @@ switch ($action) {
     /*************************** */
     /*********COLABORATORS****** */
     /*************************** */
-    case 'inviteColaboratorExe':
-        inviteColaboratorExe();
+    case 'addUserExe':
+        addUserExe();
         break;
     
     case 'cancelInvitationExe':
@@ -90,8 +90,8 @@ switch ($action) {
         declineInvitationExe();
         break;
 
-    case 'removeColaborator':
-        removeColaborator();
+    case 'removeUser':
+        removeUser();
         break;
     
 
@@ -708,7 +708,7 @@ function deleteDiagramExe() {
  *  2. known people - You already know those people and you invite them.
  *      They will get an email + an "accept invitation" link on main page.
  */
-function inviteColaboratorExe() {
+function addUserExe() {
 
     if (!is_numeric($_SESSION['userId'])) {
         print "Wrong way";
@@ -719,105 +719,29 @@ function inviteColaboratorExe() {
         print "Email is empty";
         exit();
     }
+    
+    if (empty($_REQUEST['password'])) {
+        print "Password is empty";
+        exit();
+    }
 
     $d = new Delegate();
     $loggedUser = $d->userGetById($_SESSION['userId']);
-    $diagram = $d->diagramGetById($_REQUEST['diagramId']);
-
-    //see if he has the right to invite collaborators
-    $userdiagram = $d->userdiagramGetByIds($_SESSION['userId'], $_REQUEST['diagramId']);
-    if (!is_object($userdiagram)) {
-        addError("You have no rights to invite users.");
-        redirect('../colaborators.php?diagramId=' . $diagram->id);
-        exit();
-    }
-
-    if ($userdiagram->level != Userdiagram::LEVEL_AUTHOR) {
-        addError("No rights to invite people");
-        redirect('../colaborators.php?diagramId=' . $diagram->id);
-        exit();
-    }
-
-    $email = trim($_REQUEST['email']);
-
-    /* Alreay a collaborator?
-     * See if email belongs to an existing colaborator (so we can skip)*/
-    $collaborators = $d->usersGetAsCollaboratorNative($diagram->id);
-    foreach($collaborators as $collaborator){
-        if($collaborator->email == $email){
-            addError("This email belongs to an already present collaborator");
-            redirect('../colaborators.php?diagramId=' . $diagram->id);
-        }
-    }
-
-
-    //add colaborator
-    $user = $d->userGetByEmail($email);
     
-    $invitation = new Invitation();        
-    $invitation->createdDate = now();
-    $invitation->diagramId = $diagram->id;
-    
-    $invitation->token = uniqid();        
-        
-    if(is_object($user)){ //already in the system
-        $invitation->email = $user->email;
-    }
-    else{ //not in the system, invite by email (register first)
-        
-        $invitation->email = $email;
-    }
-    
-    
-    $d->invitationCreate($invitation);
-    
-    
-    if(is_object($user)){ //already in the system
-        //TODO: email
-        $body = sprintf(
-                    "<html>
-                        <head>
-                            <title>Diagramo - Invited to edit diagram</title>
-                        </head>
-                        <body>
-                            Hello, <p/>
-                            %s invited you to edit the diagram: %s. Please access your account for more information.
-                        </body>
-                    </html>",
-                    $loggedUser->email,
-                    $diagram->title
-                );
+    $user = new User();
+    $user->email = trim($_REQUEST['email']);
+    $user->password = trim($_REQUEST['password']);
+    $user->createdDate = now();
+    if($d->userCreate($user)){
+        addMessage("User added");
     }
     else{
-        //TODO: email
-        $url = WEBADDRESS . '/register.php?i=' . $invitation->token;
-        $body = sprintf(
-                    "<html>
-                        <head>
-                            <title>Diagramo - Invited to edit diagram</title>
-                        </head>
-                        <body>
-                            Hello, <p/>
-                            %s invited you to edit the diagram: %s. Please click the link to accept it.
-                            <a href=\"%s\">%s</a>
-                        </body>
-                    </html>",
-                    $loggedUser->email,
-                    $diagram->title,
-                    $url,
-                    $url                                    
-                );
+        addError("User not added");;
     }
-
-    //send needed emails
-    if (sendEmail($email, 'no-reply@diagramo.com', "Invitation", $body)) {
-        addMessage("Invitation email sent!");
-    } else {
-        addError("Invitation email NOT sent!");
-    }
+    
         
     //refirect back to collaborators
-    redirect('../colaborators.php?diagramId=' . $_REQUEST['diagramId']);
+    redirect('../users.php');
 }
 
 
@@ -867,17 +791,16 @@ function cancelInvitationExe() {
 /**
  * Remove a colaborator
  */
-function removeColaborator(){
+function removeUser(){
 
+//    print_r($_REQUEST);
+//    exit();
+    
     if (!is_numeric($_SESSION['userId'])) {
         print("Wrong way");
         exit();
     }
     
-    if(!is_numeric($_REQUEST['diagramId'])){
-        print("Wrong diagram");
-        exit();
-    }
 
     if(!is_numeric($_REQUEST['userId'])){
         print("Wrong user");
@@ -885,22 +808,14 @@ function removeColaborator(){
     }
 
     $delegate = new Delegate();
-    $userdiagram = $delegate->userdiagramGetByIds($_SESSION['userId'], $_REQUEST['diagramId']);
-    if(is_object($userdiagram) && $userdiagram->level = Userdiagram::LEVEL_AUTHOR){
-        if($_SESSION['userId'] == $_REQUEST['userId']){ /*Author should not delete itself :D*/
-            addError("You should NOT delete yourself from the diagram. If you got bored just delete the diagram.");
-        }
-        else{
-            if( $delegate->userdiagramDelete($_REQUEST['userId'], $_REQUEST['diagramId']) ){
-                addMessage("Collaborator removed");
-            }
-            else{
-                addError("Collaborator not removed");
-            }
-        }
-
-        redirect('../colaborators.php?diagramId=' . $userdiagram->diagramId);
+    if($delegate->userDeleteById($_REQUEST['userId'])){
+        addMessage("User deleted");
     }
+    else{
+        addError("User not deleted");
+    }
+    
+    redirect('../users.php');
     
 }
 
