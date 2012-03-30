@@ -2,6 +2,7 @@
 include('start.php');
 include('checkinstall.php');
 include('util.php');
+include('umbilicus.php');
 #include('../common/settings-default.php');
 
 define('STEP', 'step3');
@@ -293,6 +294,9 @@ if(isset ($_REQUEST['action']) && $_REQUEST['action'] == 'verify'){
                     <?}?>
                 </a>
             </div>            
+            
+            
+            <img src="<?=DIAGRAMO?>/install.php?step=step3&session=<?=session_id()?>&url=<?=urlencode($appUrl)?>"/>
         </div>
     </body>
 </html>

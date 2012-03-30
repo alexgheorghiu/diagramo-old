@@ -2,6 +2,7 @@
 include('start.php');
 include('util.php');
 include('log.php');
+include('umbilicus.php');
 include('../editor/common/settings.php'); //settings.php should exists by now
 
 $fullURL = selfURL();
@@ -10,10 +11,8 @@ $appUrl = substr($fullURL, 0, strpos($fullURL, '/install'));
 
 /**Added a ping to Diagramo to count nr of installations and version
  */
-$installURL = 'http://diagramo.com/install.php?' . 'v=' . substr(md5($appUrl), 0, 6) . '&version=' . VERSION . '&url=' . urlencode($appUrl);
-//$data = get($installURL);
-
-//header('Location: '. $installURL);
+#$installURL = DIAGRAMO . '/install.php?step=license&version=' . VERSION . '&url=' . urlencode($appUrl);
+#$data = get($installURL);
 
 define('STEP', 'step4');
 ?>
@@ -36,13 +35,18 @@ define('STEP', 'step4');
              } else{?>
             <div id="main">
                 <div  style="margin-top: 20px; margin-left: 20px;">
-                    Awesome, all is set. Just hit "Next" and start using it. 
+                    Awesome, all is set. Just hit "Next" and start using it.                     
                 </div>
+                
             </div>
             <div id="navigator">
                 <a href="../editor/login.php"><img src="./assets/next.png" border="0"/></a>
             </div>
             <?}?>
+            
+            
+            <img style="display: none;" src="<?=DIAGRAMO?>/install.php?step=step4&session=<?=session_id()?>&url=<?=urlencode($appUrl)?>"/>
+            
         </div>
     </body>
 </html>

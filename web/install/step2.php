@@ -1,10 +1,15 @@
 <?php
 include('start.php');
 include('checkinstall.php');
+include('umbilicus.php');
 include('util.php');
 #include('../common/settings-default.php');
 
 define('STEP','step2');
+
+$fullURL = selfURL();
+$appUrl = substr($fullURL, 0, strpos($fullURL, '/install'));
+
 
 $extensions = get_loaded_extensions();
 
@@ -241,6 +246,10 @@ $requirements = loadRequirements();
                 <a href="step3.php"><img src="./assets/next.png" border="0"/></a>
                 <?php }?>
             </div>
+            
+            
+            <img style="display: none;" src="<?=DIAGRAMO?>/install.php?step=step2&session=<?=session_id()?>&url=<?=urlencode($appUrl)?>"/>
+            
         </div>
     </body>
 </html>
