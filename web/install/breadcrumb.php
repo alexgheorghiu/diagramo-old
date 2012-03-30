@@ -4,8 +4,7 @@ $steps = array(
     'step1' => '1.Welcome', 
     'step2' => '2.Requirements', 
     'step3' => '3.Settings',     
-    'step4' => '4.License',
-    'step5' => '5.Done'
+    'step4' => '4.Done'
     );
 ?>
 <div id="breadcrumb">
