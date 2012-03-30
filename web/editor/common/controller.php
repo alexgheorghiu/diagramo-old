@@ -113,6 +113,12 @@ switch ($action) {
     case 'editUserExe':
         editUserExe();
         break;
+    
+    
+    /****************LICENSE--------------*/
+    case 'saveLicense':
+        saveLicense();
+        break;
 }
 
 
@@ -963,6 +969,28 @@ function registerExe(){
     }       
 }
 
+
+
+function saveLicense(){
+    print_r($_REQUEST);
+    
+    $serial = $_REQUEST['serial'];
+    $host = $_REQUEST['host'];
+    
+    $url = DIAGRAMO . "/activator.php?serial=$serial&host=$host";
+    #print 'URL: ' . $url;
+    
+    $license = get($url);
+    
+    #print 'License: ' . $license;
+    
+    $d = new Delegate();
+    $d->settingsSaveNative('LICENSE', $license);
+    
+    addMessage("App activated");
+    redirect('../manageLicense.php');
+    exit(0);
+}
 
 
 

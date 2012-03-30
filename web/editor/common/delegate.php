@@ -7,6 +7,66 @@ require_once(dirname(__FILE__).'/entities.php');
 require_once(dirname(__FILE__).'/utils.php');
 
 
+/**
+ * LICENSE
+ * License Class is not reflected in the Database (it was not generates by SQLarity)
+ * To generate a license you need first 8 fields completed
+ */
+class License {
+    //from client
+    public $serial;   // buyer's serial number
+    public $host; //Where the license will be installed
+    
+    //from server
+    public $date;   // purchase date (SQL datetime) as 'yyyy-mm-dd'
+    public $unlockKey;  // full key of the license (license object saved to a string)
+
+    /**
+     * Saves the License object (this) object to a string
+     */
+    public function save() {
+        $this->unlockKey = $this->computeUnlockKey();
+        return base64_encode(strrev(serialize($this)));
+    }
+
+    /**
+     * Load the License object (this) from a string
+     */
+    public function load($str) {
+        //load stored object
+        $obj = unserialize(strrev(base64_decode($str)));
+
+        //copy data from loaded object into our *this* object - (clone?)
+        $this->serial = $obj->serial;    // Random generated
+        $this->host = $obj->host;
+        
+        $this->date = $obj->date;        
+        $this->unlockKey = $obj->unlockKey;   // Full license (the same with the DB company.license)
+    }
+
+    /*
+     * Computes License's full key based on its other values
+     * The key is based on email, date, expiryDate, maxUsers and serial
+     */
+
+    protected function computeUnlockKey() {
+        $computedKey = md5(
+                        strrev($this->host) .
+                        strtolower(substr(base64_encode($this->date), 0, 5)) .
+                        $this->serial);        
+
+        /* Return final computed key */
+        return $computedKey;
+    }
+
+    /** Check a license */
+    public function checkLicense() {
+        $recomputedFullLicense = $this->computeUnlockKey();
+        return ($this->unlockKey == $recomputedFullLicense) ? true : false;
+    }
+
+}
+
 
 class Delegate {
 
@@ -967,5 +1027,41 @@ class Delegate {
 //        return $this->delete('userdiagram', array('userId' => $userId));
 //    }
 
+    
+    public function settingsLoadNative($key){
+        (DEBUG) ? $_SESSION['logs'][] = __CLASS__ .'{#}'. __FUNCTION__ ."{#}{#}". __LINE__ : '';
+        
+
+        $query = sprintf("select `value` from `setting` where `name` = '%s' ",$key);
+
+        (DEBUG) ? $_SESSION['logs'][] = "&nbsp;&nbsp;&nbsp;&nbsp;" . __CLASS__ .'{#}'. __FUNCTION__ ."{#}{$query}{#}". __LINE__ : '';
+
+        $value = '';
+
+        //EXECUTE query
+        $result = $this->executeSQL($query, $this->con);
+        if($row = mysql_fetch_array($result, MYSQL_ASSOC)){
+            $value = $row['value'];
+        }
+                
+
+        return $value;
+    }
+    
+    
+    public function settingsSaveNative($key, $value){
+        (DEBUG) ? $_SESSION['logs'][] = __CLASS__ .'{#}'. __FUNCTION__ ."{#}{#}". __LINE__ : '';
+        
+        $query = sprintf("update `setting` set `value`='%s' where `name` = '%s' ", $value, $key);
+        
+        $this->executeSQL($query, $this->con);
+        
+        if(mysql_affected_rows($this->con)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
 }
 ?>

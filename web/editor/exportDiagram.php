@@ -31,6 +31,12 @@ $pngLink = WEBADDRESS . '/editor/raster.php?type=png&diagramId=' . $diagram->id;
 $jpgLink = WEBADDRESS . '/editor/raster.php?type=jpg&diagramId=' . $diagram->id;
 
 $page = 'export';
+
+
+$rawLicense = $delegate->settingsLoadNative('LICENSE');
+$l = new License();
+$l->load($rawLicense);
+
 ?>
 
 <!DOCTYPE html>
@@ -68,25 +74,35 @@ $page = 'export';
                     </table>
                 </div>
                 
-                <div style="background-color: yellow; font-size: 30px;">
-                    Upgrade to use this section :p
-                </div>
-                
-                <h3>As SVG</h3>
-                <input type="text" value="<?=$svgLink?>"  style="width: 400px;"/> <br/>
-                <a href="<?=$svgLink?>" target="_blank"><?=$svgLink?></a>
-                <p/>
-                                
-                
-                <h3>As PNG</h3>
-                <input type="text" value="<?=$pngLink?>" style="width: 400px;"/><br/>
-                <a href="<?=$pngLink?>" target="_blank"><?=$pngLink?></a>
-                <p/>
+                <?if(!$l->checkLicense() ){ ?>    
+                    <div style="background-color: yellow; font-size: 30px;">
+                        License invalid.  <p/>
+                        Upgrade to use this section :p
+                    </div>            
+                <?} else if($l->host != $_SERVER['HTTP_HOST']) {?>
+                    <div style="background-color: yellow; font-size: 30px;">
+                        License host (<?=$l->host?>) is wrong. <p/> 
+                        Upgrade to use this section :p
+                    </div>            
+                <?} else {?>
+                    <h3>As SVG</h3>
+                    <input type="text" value="<?=$svgLink?>"  style="width: 400px;"/> <br/>
+                    <a href="<?=$svgLink?>" target="_blank"><?=$svgLink?></a>
+                    <p/>
 
-                <h3>As JPG</h3>
-                <input type="text" value="<?=$jpgLink?>" style="width: 400px;"/><br/>
-                <a href="<?=$jpgLink?>" target="_blank"><?=$jpgLink?></a>
-                <p/>
+
+                    <h3>As PNG</h3>
+                    <input type="text" value="<?=$pngLink?>" style="width: 400px;"/><br/>
+                    <a href="<?=$pngLink?>" target="_blank"><?=$pngLink?></a>
+                    <p/>
+
+                    <h3>As JPG</h3>
+                    <input type="text" value="<?=$jpgLink?>" style="width: 400px;"/><br/>
+                    <a href="<?=$jpgLink?>" target="_blank"><?=$jpgLink?></a>
+                    <p/>
+                <?}?>
+                
+                
 
                 <a href="./editor.php?diagramId=<?=$diagram->id?>">back to edit diagram</a>
             </div>

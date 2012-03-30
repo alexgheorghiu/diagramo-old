@@ -707,4 +707,59 @@ function displayName($user){
     
     return $displayName;
 }
+
+/**
+ * Gets data from a specific URL
+ * It will try several methods before fails.
+ *
+ * @param $url - the URL to get data from
+ * @return data if accessible or false if not accessible
+ */
+function get($url) {
+
+    // Try to get the url content with file_get_contents()
+    $getWithFileContents = getWithFileContents($url);
+    if ($getWithFileContents !== false) {
+        return trim($getWithFileContents);
+    }
+
+    // Try to get the url content with cURL library
+    $getWithCURL = getWithCURL($url);
+    if ($getWithCURL !== false) {
+        return trim($getWithCURL);
+    }
+
+    // Default, return false
+    return false;
+}
+
+/**
+ * Use file_get_contents to access data from URL
+ * @return data if accessible or false if not accessible
+ */
+function getWithFileContents($fileLocation) {
+    return file_get_contents($fileLocation);
+}
+
+/**
+ * Use cURL to access data from URL
+ * @return data if accessible or false if not accessible
+ */
+function getWithCURL($fileLocation) {
+    if (function_exists('curl_init') AND function_exists("curl_exec")) {
+        $ch = curl_init($fileLocation);
+
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+        curl_setopt($ch, CURLOPT_POST, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+        $data = curl_exec($ch);
+        curl_close($ch);
+
+        return $data ? $data : false;
+    } else {
+        return false;
+    }
+}
 ?>

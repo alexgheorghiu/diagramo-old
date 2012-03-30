@@ -21,7 +21,6 @@ body{
 
 #content{
     background-color: white;
-
 }
 
 /*
@@ -72,7 +71,9 @@ body{
     width: 100%;
 }
 
-
+.copyright {
+    text-align: center;
+}
 
 #figures {
     float: left;
@@ -275,3 +276,4 @@ body{
     background: #fff; 
     color: #8B8B8B;
 }
+

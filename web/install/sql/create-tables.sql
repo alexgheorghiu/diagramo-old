@@ -61,4 +61,4 @@ CREATE  TABLE IF NOT EXISTS `diagramdata` (
 
 
 -- insert data --
-INSERT INTO `setting` (`name`, `value`) VALUES ('database_version' , '1');
+INSERT INTO `setting` (`name`, `value`) VALUES ('LICENSE' , '');
