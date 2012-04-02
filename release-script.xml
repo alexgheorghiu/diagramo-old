@@ -7,6 +7,9 @@ This is the Ant script (see http:/ant.apache.org) to generate builds for Diagram
     <property name="build.dir" value="${basedir}/build"/>
     <property name="dist.dir" value="${basedir}/dist"/>
     <property name="temp.dir" value="${basedir}/temp"/>
+    <property name="web.dir" value="${basedir}/web"/>
+    <property name="editor.dir" value="${web.dir}/editor"/>
+    
     <property name="script.release.file" value="${dist.dir}/diagramo-lamp.zip"/>
 
 
@@ -37,21 +40,20 @@ This is the Ant script (see http:/ant.apache.org) to generate builds for Diagram
     <target name="build" depends="prepare">
         <echo>+------------------SCRIPT BUILD-----------------------------+</echo>
         <copy todir="${build.dir}">
-            <fileset dir="${basedir}/web">
-                <exclude name="common/settings.php"/>
+            <fileset dir="${web.dir}">
+                <exclude name="editor/common/settings.php"/>
 
-                <exclude name="test/"/>
-                <exclude name="readme.txt"/>
-                <exclude name="diagrams/*.dia"/>
-                <exclude name="diagrams/*.svg"/>
-                <exclude name="diagrams/*.png"/>
-                <exclude name="diagrams/*.jpg"/>
+                <exclude name="editor/test/"/>
+                <exclude name="editor/diagrams/*.dia"/>
+                <exclude name="editor/diagrams/*.svg"/>
+                <exclude name="editor/diagrams/*.png"/>
+                <exclude name="editor/diagrams/*.jpg"/>
                 
 
-                <exclude name="exporter/*.png"/>
-                <exclude name="exporter/*.svg"/>
-                <exclude name="exporter/*.jpg"/>
-                <exclude name="exporter/*.bat"/>
+                <exclude name="editor/exporter/*.png"/>
+                <exclude name="editor/exporter/*.svg"/>
+                <exclude name="editor/exporter/*.jpg"/>
+                <exclude name="editor/exporter/*.bat"/>
             </fileset>
         </copy>
 

@@ -1,5 +1,19 @@
 This is Alex's current mental stack
 
+[x] build to ignore settings.php
+[ ] ONE click distribution
+
+
+
+
+
+
+
+
+
+
+Older
+----------------
 Current stack:
 Move to Donationware started. Nice
 Organic connector mid point algorithm not working 
