@@ -56,6 +56,10 @@ if (!isset($_SESSION['userId'])) {
                 
             }
         </script>
+        
+        <script type="text/javascript" src="./assets/javascript/dropdownmenu.js?<?=time()?>"></script>    
+        <script type="text/javascript" src="./lib/browserReady.js?<?=time()?>"></script>
+        <script type="text/javascript" src="./lib/log.js?<?=time()?>"></script>
     </head>
     <body>
         <div id="page">

@@ -56,6 +56,10 @@ $l->load($rawLicense);
                 return false;
             }
         </script>
+        
+        <script type="text/javascript" src="./assets/javascript/dropdownmenu.js?<?=time()?>"></script>    
+        <script type="text/javascript" src="./lib/browserReady.js?<?=time()?>"></script>
+        <script type="text/javascript" src="./lib/log.js?<?=time()?>"></script>
     </head>
     <body>
         <? require_once dirname(__FILE__) . '/header.php'; ?>
@@ -75,14 +79,15 @@ $l->load($rawLicense);
                 </div>
                 
                 <?if(!$l->checkLicense() ){ ?>    
-                    <div style="background-color: yellow; font-size: 30px;">
-                        License invalid.  <p/>
-                        Upgrade to use this section :p
+                    <div>
+                        This feature is disable in free version. 
+                        <p/>
+                        Please <a href="./license.php"><img style="vertical-align: middle;" src="assets/images/upgrade-button.png" /></a> to be enable these feature.
                     </div>            
                 <?} else if($l->host != $_SERVER['HTTP_HOST']) {?>
                     <div style="background-color: yellow; font-size: 30px;">
                         License host (<?=$l->host?>) is wrong. <p/> 
-                        Upgrade to use this section :p
+                        Please <a href="./license.php"><img style="vertical-align: middle;" src="assets/images/upgrade-button.png" /></a> to be enable these feature.
                     </div>            
                 <?} else {?>
                     <h3>As SVG</h3>

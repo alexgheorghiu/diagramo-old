@@ -46,18 +46,18 @@ $l->load($rawLicense);
                 <br/>
 
                 <?if($rawLicense == ''){?>
-                <div class="form" style="width: 400px;">
+                <div class="form" style="width: 400px; text-align: left; ">
                     <div class="formTitle" >
-                        <span class="menuText" style="font-size: 14px; font-family: Arial; color: #6E6E6E;">Settings</span>
+                        <span class="menuText" style="font-size: 14px; font-family: Arial; color: #6E6E6E;">License</span>
                     </div>
-                    <div style="text-align: left;">
+                    <div style="text-align: left; /*letter-spacing: 0.1em;*/ line-height: 200%; padding-left: 10px;">
                         Please copy/paste the license you got in the form bellow.
-                        If you do not have a license please <a href="<?=DIAGRAMO?>/buy.php">buy one</a>.<br/>                        
+                        If you do not have a license please <a href="<?=DIAGRAMO?>/buy.php"><img style="vertical-align: middle;" src="assets/images/buy.png" /></a> one.<br/>                        
                     </div>
                     
                     <p/>
                     
-                    <form action="./common/controller.php" method="post">
+                    <form action="./common/controller.php" method="post" style="padding-left: 10px;">
                         <input type="hidden" name="action" value="saveLicense"/>
                         <input type="hidden" name="host" value="<?=$_SERVER['SERVER_NAME']?>"/>
                         License<br/>

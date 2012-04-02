@@ -46,7 +46,7 @@
         <div class="dropdown_menu"><a href="#" onmouseover="dropdownSpace.menuOpen('help')" onmouseout="dropdownSpace.menuCloseTime()">Help</a>            
             <div class="dropdown_menu_panel" id="help"    onmouseover="dropdownSpace.menuCancelCloseTime()" onmouseout="dropdownSpace.menuCloseTime()" >
                 <a href="https://bitbucket.org/scriptoid/diagramo-script/issues/new" target="new">Report bug</a>
-                <a href="./manageLicense.php">License</a>
+                <a href="./license.php">License</a>
             </div>                        
         </div>
         <!--Help menu-->

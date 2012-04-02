@@ -658,39 +658,27 @@ function deleteDiagramExe() {
 
     //TODO: usually ONLY the author can delete the diagram
     $d = new Delegate();
+    
+//    print_r($_REQUEST);
+//    exit();
 
-
-    $userdiagram = $d->userdiagramGetByIds($_SESSION['userId'], $_REQUEST['diagramId']);
-    if (is_object($userdiagram) && is_numeric($userdiagram->userId)) {
-        
-        //delete diagramdata
-        $diagramDatas = $d->diagramdataGetByDiagramId($userdiagram->diagramId);
-        $storageFolder = getStorageFolder();
-        foreach($diagramDatas as $diagramData){
-            //TODO: we can make more tests here
-            unlink($storageFolder . '/' . $diagramData->fileName);
-            $d->diagramdataDeleteByDiagramIdAndType($diagramData->diagramId, $diagramData->type);
-        }
-
-
-        //delete all users linked to this diagram
-        $userdiagrams = $d->userdiagramGetByDiagramId($userdiagram->diagramId);
-        foreach($userdiagrams as $userdiagram){
-            $d->userdiagramDelete($userdiagram->userId, $userdiagram->diagramId);
-        }
-        
-        
-        //delete diagram
-        if ($d->diagramDelete($userdiagram->diagramId)) {
-            addMessage("Diagram deleted");
-        } else {
-            addError("Diagram could not be deleted from database");
-        }
-
-        redirect('../myDiagrams.php');
-    } else {
-        print 'Error: no right over that diagram';
+    //delete diagramdata
+    $diagramDatas = $d->diagramdataGetByDiagramId($_REQUEST['diagramId']);
+    $storageFolder = getStorageFolder();
+    foreach($diagramDatas as $diagramData){
+        //TODO: we can make more tests here
+        unlink($storageFolder . '/' . $diagramData->fileName);
+        $d->diagramdataDeleteByDiagramIdAndType($diagramData->diagramId, $diagramData->type);
     }
+
+    //delete diagram
+    if ($d->diagramDelete($_REQUEST['diagramId'])) {
+        addMessage("Diagram deleted");
+    } else {
+        addError("Diagram could not be deleted from database");
+    }
+
+    redirect('../myDiagrams.php');
 }
 
 

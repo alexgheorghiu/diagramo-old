@@ -1,3 +1,14 @@
+/*
+#E65227 darker orange (logo)
+#EF6329 lighter orange (logo)
+#0288AE darker blue
+#81CFE9 lighter blue
+#F4F4F4 light gray
+#656565 gray
+#50B1D2 light blue
+#1AA851 green
+#32B050 light green
+*/
 .message {color: green;}
 .error {color: red; }
 
@@ -275,5 +286,11 @@ body{
 {	
     background: #fff; 
     color: #8B8B8B;
+}
+
+.license_warning{
+    background-color: white; 
+    border: 1px solid black; 
+    font-size: 20px;
 }
 
