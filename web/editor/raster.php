@@ -33,22 +33,24 @@ if(!is_object($diagram)){
     exit();
 }
 
+
+
+
 $diagram = $delegate->diagramGetById($diagram->id);
-        
+  
 //GUARDIAN: see if we can display this diagram
 $display = false;
 if ($diagram->public) {
     $display = true;
 } else {
     $loggedUser = $delegate->userGetById($_SESSION['userId']); //do we have a logged user
-    if (is_object($loggedUser)) {
-        $userdiagram = $delegate->userdiagramGetByIds($loggedUser->id, $diagram->id); //is he allocated to this diagram?
-        if (is_object($userdiagram)) {
-            $display = true;
-        }
+    
+    if (is_object($loggedUser)) {        
+        $display = true;
     }
 }
 //END GUARDIAN: check display
+
 
 
 $type = $_REQUEST['type'];

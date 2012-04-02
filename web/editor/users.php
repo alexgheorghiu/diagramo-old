@@ -50,6 +50,10 @@ $l->load($rawLicense);
             
             
         </script>
+        
+        <script type="text/javascript" src="./assets/javascript/dropdownmenu.js?<?=time()?>"></script>    
+        <script type="text/javascript" src="./lib/browserReady.js?<?=time()?>"></script>
+        <script type="text/javascript" src="./lib/log.js?<?=time()?>"></script>
     </head>
     <body>
         <? require_once dirname(__FILE__) . '/header.php'; ?>

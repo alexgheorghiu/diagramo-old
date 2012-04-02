@@ -625,14 +625,7 @@ function load() {
             exit();
         }
 
-        $userdiagram = $d->userdiagramGetByIds($_SESSION['userId'], $_REQUEST['diagramId']);
-        if (is_object($userdiagram) && is_numeric($userdiagram->userId)) {
-            $allow = true;
-        }
-        else{
-            print 'Error: no right over that diagram';
-            exit();
-        }
+        $allow = true;
     }
 
     if($allow){

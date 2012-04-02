@@ -35,6 +35,10 @@ $page = 'editDiagram';
         <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
         <link href="./assets/css/style.css" type="text/css" rel="stylesheet"/>
         <link href="./assets/css/style_1.css" type="text/css" rel="stylesheet"/>
+        
+        <script type="text/javascript" src="./assets/javascript/dropdownmenu.js?<?=time()?>"></script>    
+        <script type="text/javascript" src="./lib/browserReady.js?<?=time()?>"></script>
+        <script type="text/javascript" src="./lib/log.js?<?=time()?>"></script>
     </head>
     <body>
         <div id="page">

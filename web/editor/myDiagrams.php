@@ -1,4 +1,5 @@
 <?php
+$page = 'mydiagrams';
 
 require_once dirname(__FILE__) . '/common/delegate.php';
 
@@ -38,6 +39,11 @@ function firstName($email){
         <title>My diagrams - Diagramo</title>
         <meta http-equiv="X-UA-Compatible" content="IE=9" />
         <link rel="stylesheet" media="screen" type="text/css" href="assets/css/style.css" />
+        
+        <script type="text/javascript" src="./assets/javascript/dropdownmenu.js?<?=time()?>"></script>    
+        <script type="text/javascript" src="./lib/browserReady.js?<?=time()?>"></script>
+        <script type="text/javascript" src="./lib/log.js?<?=time()?>"></script>
+        
         <script type="text/javascript">
             function confirmation(message){
                 var answer = confirm(message);
