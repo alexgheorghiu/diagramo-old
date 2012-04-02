@@ -1,3 +1,3 @@
 <?php
-define(DIAGRAMO, 'http://diagramo.test');
+define(DIAGRAMO, 'http://diagramo.com');
 ?>
