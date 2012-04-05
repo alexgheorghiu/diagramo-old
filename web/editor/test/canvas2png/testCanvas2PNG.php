@@ -22,7 +22,9 @@
                 
                 ctx.moveTo(10,10);
                 ctx.lineTo(200, 200);
-                ctx.stroke();                
+                ctx.stroke();   
+                
+                canvas.addEventListener('click', point, false);
             }
             
             function saveCanvas(){
@@ -50,13 +52,24 @@
                 return true;
             }
             
+            function point(e){
+                ctx.beginPath();
+                ctx.fillStyle = '#000000';
+                ctx.fillRect(e.pageX, e.pageY, 2, 2);
+                
+            }
+            
             window.addEventListener('load', init, false);
+            
             
         </script>
     </head>
-    <body >
-        <canvas width="400" height="500" id="c" style="float: left;"></canvas>
-        <a href="./download.php" onclick="return saveCanvas(); " target="new">Save</a>
-        <textarea id="console" cols="50" rows="10"></textarea>
+    <body style="position: relative;">
+        <canvas width="400" height="300" id="c" style="position: absolute; top: 0; left:0; height: 300px;"></canvas>
+        <div style="position: absolute; top: 300px; left: 0; width: 500px;">
+            <a href="./download.php" onclick="return saveCanvas();" target="blank">Save</a>
+            <a href="http://scriptoid.com" onclick="return saveCanvas();" target="blank">Savex</a>
+            <textarea id="console" cols="50" rows="10"></textarea>
+        </div>
     </body>
 </html>
