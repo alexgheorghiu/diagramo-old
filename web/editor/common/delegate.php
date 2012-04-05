@@ -101,17 +101,7 @@ class Delegate {
 
     /**get a connection*/
     protected  function getConnection() {
-
-        $con	= mysql_connect(DB_ADDRESS, DB_USER_NAME, DB_USER_PASS);
-        $ok		= mysql_select_db(DB_NAME);
-
-        // add connection to array
-        $sqlLinks[] = $con;
-
-        if (mysql_errno()) {
-            die('<br />'.mysql_errno().':'.mysql_error().'<br />');
-        }
-
+        $con = sqlite_open('test.db', 0666, $error);
         return $con;
     }
 

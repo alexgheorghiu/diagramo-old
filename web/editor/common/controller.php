@@ -158,7 +158,7 @@ function loginExe() {
         $user->lastLoginDate = now();
         $user->lastLoginIp = $_SERVER['REMOTE_ADDR'];
         $user->lastBrowserType = $_SERVER['HTTP_USER_AGENT'];
-        $delegate->userUpdate($user);
+        //$delegate->userUpdate($user);
 
         redirect("../editor.php");
         exit(0);        
