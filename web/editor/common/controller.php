@@ -144,10 +144,12 @@ function loginExe() {
         exit(0);
     }
 
-    $delegate = new Delegate();
-    $user = $delegate->userGetByEmailAndPassword($email, $password);
+    $user = Delegate::userGetByEmailAndPassword($email, $password);
+//	print_r($user);
+//	exit();
+	
     if (is_object($user)) {
-        $_SESSION['userId'] = $user->id;
+        $_SESSION['userEmail'] = $user->email;
 
         //remember me option
         if ($_REQUEST['rememberMe'] === 'true') {
@@ -174,15 +176,13 @@ function loginExe() {
  * Logout
  */
 function logoutExe() {
-    if (is_numeric($_SESSION['userId'])) {
-        unset($_SESSION['userId']);
+    unset($_SESSION['userEmail']);
 
-        // Clear the user cookie
-        setcookie('biscuit', null, time() - ((60 * 60 * 24) * 5), '/');
+	// Clear the user cookie
+	setcookie('biscuit', null, time() - ((60 * 60 * 24) * 5), '/');
 
 
-        session_destroy();
-    }
+	session_destroy();
 
     addMessage("You were logged out!");
 
