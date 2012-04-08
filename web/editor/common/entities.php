@@ -5,7 +5,6 @@ $currentFolder = dirname(__FILE__);
 class Diagram {
 
 	public $id;
-	public $hash;
 	public $title;
 	public $description;
 	public $public;
@@ -14,14 +13,13 @@ class Diagram {
 	public $size;
 
 	function loadFromSQL($row) {
-		$this->id = is_null($row['id']) ? null : $row['id'];
-		$this->hash = is_null($row['hash']) ? null : $row['hash'];
-		$this->title = is_null($row['title']) ? null : $row['title'];
-		$this->description = is_null($row['description']) ? null : $row['description'];
-		$this->public = is_null($row['public']) ? null : $row['public'];
-		$this->createdDate = is_null($row['createdDate']) ? null : $row['createdDate'];
-		$this->lastUpdate = is_null($row['lastUpdate']) ? null : $row['lastUpdate'];
-		$this->size = is_null($row['size']) ? null : $row['size'];
+		$this->id = $row['id'];
+		$this->title = $row['title'];
+		$this->description = $row['description'];
+		$this->public = $row['public'];
+		$this->createdDate = $row['createdDate'];
+		$this->lastUpdate = $row['lastUpdate'];
+		$this->size = $row['size'];
 	}
 }
 
