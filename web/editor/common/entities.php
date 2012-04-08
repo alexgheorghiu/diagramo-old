@@ -25,26 +25,7 @@ class Diagram {
 	}
 }
 
-class Diagramdata {
-	const TYPE_DIA = 'dia';
-	const TYPE_SVG = 'svg';
-	const TYPE_JPG = 'jpg';
-	const TYPE_PNG = 'png';
 
-	public $diagramId;
-	public $type;
-	public $fileName;
-	public $fileSize;
-	public $lastUpdate;
-
-	function loadFromSQL($row) {
-		$this->diagramId = is_null($row['diagramId']) ? null : $row['diagramId'];
-		$this->type = is_null($row['type']) ? null : $row['type'];
-		$this->fileName = is_null($row['fileName']) ? null : $row['fileName'];
-		$this->fileSize = is_null($row['fileSize']) ? null : $row['fileSize'];
-		$this->lastUpdate = is_null($row['lastUpdate']) ? null : $row['lastUpdate'];
-	}
-}
 
 class Setting {
 
@@ -59,26 +40,14 @@ class Setting {
 
 class User {
 
-	public $id;
 	public $email;
 	public $password;
 	public $name;
-	public $createdDate;
-	public $lastLoginDate;
-	public $lastLoginIP;
-	public $lastBrowserType;
-	public $admin;
 
-	function loadFromSQL($row) {
-		$this->id = is_null($row['id']) ? null : $row['id'];
-		$this->email = is_null($row['email']) ? null : $row['email'];
-		$this->password = is_null($row['password']) ? null : $row['password'];
-		$this->name = is_null($row['name']) ? null : $row['name'];
-		$this->createdDate = is_null($row['createdDate']) ? null : $row['createdDate'];
-		$this->lastLoginDate = is_null($row['lastLoginDate']) ? null : $row['lastLoginDate'];
-		$this->lastLoginIP = is_null($row['lastLoginIP']) ? null : $row['lastLoginIP'];
-		$this->lastBrowserType = is_null($row['lastBrowserType']) ? null : $row['lastBrowserType'];
-		$this->admin = is_null($row['admin']) ? null : $row['admin'];
+	function loadFromArray($row) {
+		$this->email = $row['email'];
+		$this->password = $row['password'];
+		$this->name = $row['name'];
 	}
 }
 ?>
