@@ -15,7 +15,7 @@ $loggedUser = $delegate->userGetById($_SESSION['userId']);
 #print_r($_SESSION['userId']);
 
 //start diagram guardian
-if(is_numeric($_REQUEST['diagramId'])){
+if(isset($_REQUEST['diagramId']) && is_numeric($_REQUEST['diagramId'])){
     if(!is_object($loggedUser)){
         print "Not allocated to this diagram";
         exit();
@@ -131,7 +131,7 @@ $page = 'editor';
 
                 //see: http://api.jquery.com/jQuery.post/
                 $.post("./common/controller.php",
-                    {action: 'save', diagram: serializedDiagram, svg: svgDiagram, diagramId: '<?=$_REQUEST['diagramId']?>'},
+                    {action: 'save', diagram: serializedDiagram, svg: svgDiagram, diagramId: '<?=isset($_REQUEST['diagramId']) ? $_REQUEST['diagramId'] : ''?>'},
                     function(data){
                         //alert(data);
                         if(data == 'noaccount'){
@@ -305,7 +305,7 @@ $page = 'editor';
                 setUpEditPanel(canvasProps);
 
                 //Load current diagram
-                <? if( is_numeric($_REQUEST['diagramId']) ){?>
+                <? if( isset($_REQUEST['diagramId']) && is_numeric($_REQUEST['diagramId']) ){?>
                 load(<?=$_REQUEST['diagramId']?>);
                 <? }?>
                     

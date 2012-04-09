@@ -1,1 +1,0 @@
-python -u cgi_server.py

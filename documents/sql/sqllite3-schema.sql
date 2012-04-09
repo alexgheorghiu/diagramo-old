@@ -52,8 +52,20 @@ insert into `diagram` (`id`, `title`, `description`, `public`, `createdDate`, `l
 
 
 insert into `user` (`id`, `email`, `password`, `name`, `createdDate`, `admin`)
-    values(1, 'alex@scriptoid.com', '1234567890', 'Alex Gheorghiu', '2012-04-09 10:46:50', 'true');
+    values(1, 'alex@scriptoid.com', '534b44a19bf18d20b71ecc4eb77c572f', 'Alex Gheorghiu', '2012-04-09 10:46:50', 'true');
 
 insert into `user` (`email`, `password`, `name`, `createdDate`, `admin`)
-    values('nisa@scriptoid.com', '1234567890', 'Nisa', '2012-04-09 10:46:50', 'false');
+    values('nisa@scriptoid.com', '5fad30428811fe378fd389cd7659a33c', 'Nisa', '2012-04-09 10:46:50', 'false');
 
+
+
+insert into `setting` (`name`, `value`) values('VERSION', '2.3beta');
+insert into `setting` (`name`, `value`) values('DIAGRAMO', 'http://diagramo.com');
+insert into `setting` (`name`, `value`) values('WEBADDRESS', 'http://diagramo.script');
+insert into `setting` (`name`, `value`) values('WEBADDRESS_SSL', 'https://diagramo.script');
+insert into `setting` (`name`, `value`) values('STOREFOLDER', '/diagrams');
+insert into `setting` (`name`, `value`) values('SMTP_ENABLE', 'yes');
+insert into `setting` (`name`, `value`) values('SMTP_HOST', 'ssl://smtp.gmail.com');
+insert into `setting` (`name`, `value`) values('SMTP_PORT', '465');
+insert into `setting` (`name`, `value`) values('SMTP_USERNAME', '####');
+insert into `setting` (`name`, `value`) values('SMTP_PASSWORD', '####');

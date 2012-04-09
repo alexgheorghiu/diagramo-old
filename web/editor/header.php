@@ -15,7 +15,7 @@
                 <?if($page=='editor'){?>
                     <a style="text-decoration: none;" href="javascript:save();"  title="Save diagram (Ctrl-S)"><img style="vertical-align:middle; margin-right: 3px;" src="assets/images/icon_save.jpg" border="0" width="22" height="22"/><span class="menuText">Save</span></a>
                     <a style="text-decoration: none; border-bottom: 1px solid #666;" href="javascript:saveAs();"  title="Save diagram as..."><img style="vertical-align:middle; margin-right: 3px;" src="assets/images/icon_save_as.jpg" border="0" width="22" height="22"/><span class="menuText">Save as...</span></a>
-                    <?if(is_numeric($_REQUEST['diagramId']) ){//option available ony when the diagram was saved?>
+                    <?if(isset($_REQUEST['diagramId']) &&  is_numeric($_REQUEST['diagramId']) ){//option available ony when the diagram was saved?>
                         <a style="text-decoration: none; border-bottom: 1px solid #666;" href="./exportDiagram.php?diagramId=<?=$_REQUEST['diagramId']?>"  title="Export diagram"><img style="vertical-align:middle; margin-right: 3px;" src="assets/images/icon_export.jpg" border="0" width="22" height="22"/><span class="menuText">Export</span></a>
                     <?}?>
                 <?}?>
@@ -54,7 +54,7 @@
         
         <!--Direct link-->
         <?if($page=='editor'){?>
-            <?if(is_numeric($_REQUEST['diagramId']) ){ //these options should appear ONLY if we have a saved diagram
+            <?if(isset($_REQUEST['diagramId']) &&  is_numeric($_REQUEST['diagramId']) ){ //these options should appear ONLY if we have a saved diagram
                 $diagram = $delegate->diagramGetById($_REQUEST['diagramId']);
             ?>                
             <div style="padding-top: 6px;">

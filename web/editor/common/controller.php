@@ -140,7 +140,7 @@ function loginExe() {
     if (errors ()) {
         #print "Errors"; exit(0);
         //outer site
-        redirect("../index.php");
+        redirect("../../index.php");
         exit(0);
     }
 

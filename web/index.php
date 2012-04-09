@@ -1,7 +1,7 @@
 <?php
 
 //Check if already installed
-if (!file_exists(dirname(__FILE__) . '/editor/common/settings.php') ) { //no settings file
+if (!file_exists(dirname(__FILE__) . '/editor/data/diagramo.db') ) { //no settings file
     #print 'Application already installed';
     header("Location: ./install/step1.php");
     exit();

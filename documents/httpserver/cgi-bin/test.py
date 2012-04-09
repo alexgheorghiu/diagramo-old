@@ -1,3 +1,0 @@
-import cgi
-
-cgi.test()
