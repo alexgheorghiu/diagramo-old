@@ -9,3 +9,6 @@ x save, save as, load and edit diagram
 - rebuild installer
 - public view diagram
 - on "my diagrams" logout link is broken
+- fix my settings
+- hide "remember me"
+- images (svg in network package) not loaded
