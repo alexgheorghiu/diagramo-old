@@ -5,11 +5,10 @@
 \.conflict\~$
 
 syntax: glob
-web/editor/data/diagrams/*.dia
-web/editor/data/diagrams/*.jpg
-web/editor/data/diagrams/*.png
-web/editor/data/diagrams/*.svg
-web/editor/data/*.txt
+web/editor/diagrams/*.dia
+web/editor/diagrams/*.jpg
+web/editor/diagrams/*.png
+web/editor/diagrams/*.svg
 
 
 documents/mailserver/*.html

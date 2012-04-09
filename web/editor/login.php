@@ -15,13 +15,13 @@ $delegate = new Delegate();
  * [1] Session method
  * Check is user id session is set and is numeric
  */
-if ( isset($_SESSION['userEmail']) ) {
+if (isset($_SESSION['userId']) AND is_numeric($_SESSION['userId'])) {
 
     // Load user as object, from SQL by id
-    $loggedUser = Delegate::userGetByEmail($_SESSION['userEmail']);
+    $loggedUser = $delegate->userGetById(abs(intval($_SESSION['userId'])));
 
     // If exists a logged user
-    if (is_object($loggedUser)) {
+    if (is_numeric($loggedUser->id)) {
         redirect('./editor.php');
     }
 
@@ -37,11 +37,11 @@ if ( isset($_SESSION['userEmail']) ) {
     // Validate data
     if (validateEmail($userCookie['email'], null) AND validateString($userCookie['password'], null, 1)) {
         // Load user as object, from SQL by id
-        $loggedUser = Delegate::userGetByEmailAndPassword($userCookie['email'], $userCookie['password']);
+        $loggedUser = $delegate->userGetByEmailAndCryptedPassword($userCookie['email'], $userCookie['password']);
 
         // If user is an object
         if (is_object($loggedUser)) {
-            $_SESSION['userEmail'] = $loggedUser->email;
+            $_SESSION['userId'] = $loggedUser->id;
             redirect('./editor.php');
         }
     }

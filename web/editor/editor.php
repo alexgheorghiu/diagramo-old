@@ -10,7 +10,7 @@ require_once dirname(__FILE__) . '/common/rememberme.php';
 
 $delegate = new Delegate();
 
-$loggedUser = Delegate::userGetByEmail($_SESSION['userEmail']);
+$loggedUser = $delegate->userGetById($_SESSION['userId']);
 
 #print_r($_SESSION['userId']);
 

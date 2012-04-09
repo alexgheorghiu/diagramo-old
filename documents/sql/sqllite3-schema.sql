@@ -44,3 +44,16 @@ CREATE  TABLE IF NOT EXISTS `diagramdata` (
 );
 
 
+insert into `diagram` (`id`, `title`, `description`, `public`, `createdDate`, `lastUpdate`, `size`)
+    values(1, 'First diagram', 'An example of first Diagram', 0, '2012-04-09 10:46:50', '2012-04-09 10:46:50', 512);
+
+insert into `diagram` (`id`, `title`, `description`, `public`, `createdDate`, `lastUpdate`, `size`)
+    values(2, 'Second diagram', 'An example of second Diagram', 0, '2012-04-09 10:47:50', '2012-04-09 10:47:50', 752);
+
+
+insert into `user` (`id`, `email`, `password`, `name`, `createdDate`, `admin`)
+    values(1, 'alex@scriptoid.com', '1234567890', 'Alex Gheorghiu', '2012-04-09 10:46:50', 'true');
+
+insert into `user` (`email`, `password`, `name`, `createdDate`, `admin`)
+    values('nisa@scriptoid.com', '1234567890', 'Nisa', '2012-04-09 10:46:50', 'false');
+
