@@ -32,7 +32,9 @@
                 //alert(dataURL);
                 console.value = dataURL;
                 
-                //see: http://api.jquery.com/jQuery.post/
+                /*see: http://api.jquery.com/jQuery.post/
+                 *Possible to make it asynch
+                 **/
                 $.post("./save.php",
                     {action: 'save', data: dataURL},
                     function(respData){

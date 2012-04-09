@@ -8,5 +8,6 @@ $imgData = base64_decode($data);
 $fh = fopen('data.png', 'w');
 fwrite($fh, $imgData);
 fclose($fh);
+sleep(10);
 print('ok');
 ?>

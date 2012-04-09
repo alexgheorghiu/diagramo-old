@@ -9,7 +9,7 @@ date_default_timezone_set('America/New_York');
  * The path does not contain the trailing /
  */
 function getStorageFolder(){
-    return dirname(__FILE__) . '/../diagrams';
+    return dirname(__FILE__) . '/../data/diagrams';
 }
 
 // Set a error message into session

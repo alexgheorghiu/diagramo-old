@@ -93,8 +93,8 @@ function firstName($email){
                     <? for ($i=0; $i < count($allDiagrams); $i++) {
                          $myDiagram = $allDiagrams[$i];
                         //$svgLink = $url . '/diagram/' . $allDiagrams->hash . '.svg';
-                        $svgLink = sprintf('./raster.php?type=svg&diagramId=%d', $myDiagram->id);
-                        $pngLink = sprintf('./raster.php?type=png&diagramId=%d', $myDiagram->id);
+                        $svgLink = sprintf('./png.php?type=svg&diagramId=%d', $myDiagram->id);
+                        $pngLink = sprintf('./png.php?diagramId=%d', $myDiagram->id);
                     ?>
                         <tr>
                             <td align="center">

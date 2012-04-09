@@ -23,6 +23,9 @@ $d = new Delegate();
 
 $diagram = $d->diagramGetById($_REQUEST['diagramId']);
 
+//print_r($diagram);
+//exit();
+
 $page = 'editDiagram';
 ?>
 

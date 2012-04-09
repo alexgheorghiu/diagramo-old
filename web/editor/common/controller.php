@@ -391,70 +391,81 @@ function saveSettingsExe() {
 
 function save() {
 
-    if (!is_numeric($_SESSION['userId'])) { //no user logged so save it temporarly
+    if (isset($_REQUEST['diagramId']) &&  is_numeric($_REQUEST['diagramId'])) { //we have a current working diagram
+        //print($_POST['svg']);
+
+        $delegate = new Delegate();
+
+
+        $currentDiagramId = $_REQUEST['diagramId'];
+        $nowIsNow = now();
+
+        // 1 - update the Dia file
+        $diaData = $delegate->diagramdataGetByDiagramIdAndType($currentDiagramId, Diagramdata::TYPE_DIA);
+
+        $fh = fopen(getStorageFolder() . '/' . $currentDiagramId . '.dia', 'w');
+        //$fh = fopen(dirname(__FILE__) . '/../diagrams/' . $currentDiagramId . '.dia', 'w');
+
+//            $diaFile = dirname(__FILE__) . '/../diagrams/' . $_REQUEST['diagramId'] . '.dia';
+        $diaSize = fwrite($fh, $_POST['diagram']);
+        fclose($fh);
+
+        $diaData->fileSize = $diaSize;
+        $diaData->lastUpdate = $nowIsNow;
+        $delegate->diagramdataUpdate($diaData);
+        //end update Dia file
+        
+        
+//        //2 - update the SVG file
+//        $svgData = $delegate->diagramdataGetByDiagramIdAndType($currentDiagramId, Diagramdata::TYPE_SVG);
+//
+//        $fh = fopen(getStorageFolder() . '/' . $currentDiagramId . '.svg', 'w');
+//        $svgSize = fwrite($fh, $_POST['svg']);
+//        fclose($fh);
+//
+//        $svgData->fileSize = $svgSize;
+//        $svgData->lastUpdate = $nowIsNow;
+//        $delegate->diagramdataUpdate($svgData);
+//        //end update the SVG file
+//        //update the Diagram
+//        $diagram = $delegate->diagramGetById($currentDiagramId);
+//        $diagram->size = $diaSize;
+//        $diagram->lastUpdate = $nowIsNow;
+        
+        
+        //3 - update the PNG file
+        $svgData = $delegate->diagramdataGetByDiagramIdAndType($currentDiagramId, Diagramdata::TYPE_PNG);
+
+        $fh = fopen(getStorageFolder() . '/' . $currentDiagramId . '.png', 'wb');
+//        $fh = fopen(getStorageFolder() . '/' . $currentDiagramId . '.svg', 'w');
+        $data = substr($_POST['png'], strpos($_POST['png'], ','));
+        $imgData = base64_decode($data);
+        $svgSize = fwrite($fh, $imgData);
+        fclose($fh);
+
+        $svgData->fileSize = $svgSize;
+        $svgData->lastUpdate = $nowIsNow;
+        $delegate->diagramdataUpdate($svgData);
+        //end update the SVG file
+        
+        
+        //update the Diagram
+        $diagram = $delegate->diagramGetById($currentDiagramId);
+        $diagram->size = $diaSize;
+        $diagram->lastUpdate = $nowIsNow;
+
+        if ($delegate->diagramUpdate($diagram)) {
+            print "saved";
+        } else {
+            print 'diagramdata not saved';
+        }
+        exit();
+    } else { //no current working diagram
         $_SESSION['tempDiagram'] = $_POST['diagram'];
         $_SESSION['tempSVG'] = $_POST['svg'];
-        print "noaccount";
+        $_SESSION['tempPNG'] = $_POST['png'];
+        print "firstSave";
         exit();
-    } else { //user is logged
-        if (is_numeric($_REQUEST['diagramId'])) { //we have a current working diagram
-            //print($_POST['svg']);
-
-            $delegate = new Delegate();
-            
-//            //see if we have rights to save it
-//            $userdiagram = $delegate->userdiagramGetByIds($_SESSION['userId'], $_REQUEST['diagramId']);
-//            if(!is_object($userdiagram)){
-//                print 'Not allocated to this diagram';
-//                exit();
-//            }
-//            //end check rights
-
-
-            $currentDiagramId = $_REQUEST['diagramId'];
-            $nowIsNow = now();
-
-            //update the Dia file
-            $diaData = $delegate->diagramdataGetByDiagramIdAndType($currentDiagramId, Diagramdata::TYPE_DIA);
-
-            $fh = fopen(dirname(__FILE__) . '/../diagrams/' . $currentDiagramId . '.dia', 'w');
-            
-//            $diaFile = dirname(__FILE__) . '/../diagrams/' . $_REQUEST['diagramId'] . '.dia';
-            $diaSize = fwrite($fh, $_POST['diagram']);
-            fclose($fh);
-
-            $diaData->fileSize = $diaSize;
-            $diaData->lastUpdate = $nowIsNow;
-            $delegate->diagramdataUpdate($diaData);
-            //end update Dia file
-            //update the SVG file
-            $svgData = $delegate->diagramdataGetByDiagramIdAndType($currentDiagramId, Diagramdata::TYPE_SVG);
-
-            $fh = fopen(getStorageFolder() . '/' . $currentDiagramId . '.svg', 'w');
-            $svgSize = fwrite($fh, $_POST['svg']);
-            fclose($fh);
-
-            $svgData->fileSize = $svgSize;
-            $svgData->lastUpdate = $nowIsNow;
-            $delegate->diagramdataUpdate($svgData);
-            //end update the SVG file
-            //update the Diagram
-            $diagram = $delegate->diagramGetById($currentDiagramId);
-            $diagram->size = $diaSize;
-            $diagram->lastUpdate = $nowIsNow;
-
-            if ($delegate->diagramUpdate($diagram)) {
-                print "saved";
-            } else {
-                print 'diagramdata not saved';
-            }
-            exit();
-        } else { //no current working diagram
-            $_SESSION['tempDiagram'] = $_POST['diagram'];
-            $_SESSION['tempSVG'] = $_POST['svg'];
-            print "firstSave";
-            exit();
-        }
     }
 }
 
@@ -469,11 +480,13 @@ function saveAs() {
     if (!is_numeric($_SESSION['userId'])) { //no user logged
         $_SESSION['tempDiagram'] = $_POST['diagram'];
         $_SESSION['tempSVG'] = $_POST['svg'];
+        $_SESSION['tempPNG'] = $_POST['png'];
         print "noaccount";
         exit();
     } else { //user is logged
         $_SESSION['tempDiagram'] = $_POST['diagram'];
         $_SESSION['tempSVG'] = $_POST['svg'];
+        $_SESSION['tempPNG'] = $_POST['png'];
         print "step1Ok";
         exit();
     }
@@ -522,7 +535,7 @@ function editDiagramExe() {
 
     $diagram->title = trim($_REQUEST['title']);
     $diagram->description = trim($_REQUEST['description']);
-    $diagram->public = ($_REQUEST['public'] == true) ? true : false;
+    $diagram->public = ($_REQUEST['public'] == true) ? 1 : 0;
     $diagram->lastUpdate = now();
 
     if ($d->diagramUpdate($diagram)) {
@@ -536,6 +549,9 @@ function editDiagramExe() {
 
 /* * We already have the temporary diagram saved in session */
 function firstSaveExe() {
+//    print_r($_SESSION);
+//    exit();
+    
     if (!is_numeric($_SESSION['userId'])) {
         print "Wrong way";
         exit();
@@ -548,21 +564,22 @@ function firstSaveExe() {
     $diagram = new Diagram();
     $diagram->title = trim($_REQUEST['title']);
     $diagram->description = trim($_REQUEST['description']);
-    $diagram->public = ($_REQUEST['public'] == true) ? true : false;
+    $diagram->public = (isset($_REQUEST['public']) && $_REQUEST['public'] == 'true') ? 'true' : 'false';
     $diagram->createdDate = $nowIsNow;
     $diagram->lastUpdate = $nowIsNow;
     $diagram->size = strlen($_SESSION['tempDiagram']); //TODO: it might be not very accurate
 
     $delegate = new Delegate();
 
-    $token = '';
-    do {
-        $token = generateRandom(6);
-    } while ($delegate->diagramCountByHash($token) > 0);
-
-    $diagram->hash = $token;
+//    $token = '';
+//    do {
+//        $token = generateRandom(6);
+//    } while ($delegate->diagramCountByHash($token) > 0);
+//
+//    $diagram->hash = $token;
     $diagramId = $delegate->diagramCreate($diagram);
     //end save Diagram
+    
     //create Dia file
     $diagramdata = new Diagramdata();
     $diagramdata->diagramId = $diagramId;
@@ -578,6 +595,8 @@ function firstSaveExe() {
 
     $delegate->diagramdataCreate($diagramdata);
     //end Dia file
+    
+    /*
     //create SVG file
     $diagramdata = new Diagramdata();
     $diagramdata->diagramId = $diagramId;
@@ -592,10 +611,32 @@ function firstSaveExe() {
     $diagramdata->lastUpdate = $nowIsNow;
     $delegate->diagramdataCreate($diagramdata);
     //end SVG file
+    */
+    
+    
+    //create PNG file
+    $diagramdata = new Diagramdata();
+    $diagramdata->diagramId = $diagramId;
+    $diagramdata->type = Diagramdata::TYPE_PNG;
+    $diagramdata->fileName = $diagramId . '.png';
 
+    $fh = fopen(getStorageFolder() . '/' . $diagramId . '.png', 'wb');
+    $data = substr($_SESSION['tempPNG'], strpos($_SESSION['tempPNG'], ','));
+    $imgData = base64_decode($data);
+    $size = fwrite($fh, $imgData);
+    fclose($fh);
+
+    $diagramdata->fileSize = $size;
+    $diagramdata->lastUpdate = $nowIsNow;
+
+    $delegate->diagramdataCreate($diagramdata);
+    //end Dia file
+    
+    
     //clean temporary diagram
     unset($_SESSION['tempDiagram']);
     unset($_SESSION['tempSVG']);
+    unset($_SESSION['tempPNG']);
 
     //attach it to an user
 

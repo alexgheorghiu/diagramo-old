@@ -117,6 +117,10 @@ $page = 'editor';
                 //alert("save triggered!");
                 Log.info('Save pressed');
 
+                var canvas = getCanvas();
+                var dataURL = canvas.toDataURL();
+//                Log.info(dataURL);
+//                return false;
                 
                 var diagram = { c: canvasProps, s:STACK, m:CONNECTOR_MANAGER };
                 //Log.info('stringify ...');
@@ -131,14 +135,9 @@ $page = 'editor';
 
                 //see: http://api.jquery.com/jQuery.post/
                 $.post("./common/controller.php",
-                    {action: 'save', diagram: serializedDiagram, svg: svgDiagram, diagramId: '<?=isset($_REQUEST['diagramId']) ? $_REQUEST['diagramId'] : ''?>'},
+                    {action: 'save', diagram: serializedDiagram, png:dataURL, svg: svgDiagram, diagramId: '<?=isset($_REQUEST['diagramId']) ? $_REQUEST['diagramId'] : ''?>'},
                     function(data){
-                        //alert(data);
-                        if(data == 'noaccount'){
-                            Log.info('No account...so we will redirect');
-                            window.location = '../register.php';
-                        }
-                        else if(data == 'firstSave'){
+                        if(data == 'firstSave'){
                             Log.info('firstSave!');
                             window.location = './saveDiagram.php';                            
                         }
@@ -185,6 +184,8 @@ $page = 'editor';
              **/
             function saveAs(){
                 var canvas = getCanvas();
+                var dataURL = canvas.toDataURL();
+                
 //                var $diagram = {c:canvas.save(), s:STACK, m:CONNECTOR_MANAGER};
                 var $diagram = {c:canvasProps, s:STACK, m:CONNECTOR_MANAGER};
                 $serializedDiagram = JSON.stringify($diagram);
@@ -193,7 +194,7 @@ $page = 'editor';
                 //alert($serializedDiagram);
 
                 //see: http://api.jquery.com/jQuery.post/
-                $.post("./common/controller.php", {action: 'saveAs', diagram: $serializedDiagram, svg: svgDiagram},
+                $.post("./common/controller.php", {action: 'saveAs', diagram: $serializedDiagram, png:dataURL, svg: svgDiagram},
                     function(data){
                         if(data == 'noaccount'){
                             Log.info('You must have an account to use that feature');
@@ -336,7 +337,7 @@ $page = 'editor';
             
             
 
-            <a style="text-decoration: none;" href="javascript:save();"  title="Save diagram (Ctrl-S)"><img src="assets/images/icon_save.jpg" border="0" width="16" height="16"/></a>
+            <a style="text-decoration: none;" href="#" onclick="return save();" title="Save diagram (Ctrl-S)"><img src="assets/images/icon_save.jpg" border="0" width="16" height="16"/></a>
             
             <img class="separator" src="assets/images/toolbar_separator.gif" border="0" width="1" height="16"/>
             

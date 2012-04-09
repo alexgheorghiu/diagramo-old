@@ -349,9 +349,9 @@ class Delegate extends SQLite3 {
                     case 'string':
                         $query .= sprintf(" `{$key}` = '%s' ", addslashes($value));
                         break;
-                    case 'boolean':
-                        $query .= sprintf(" `{$key}` = %s ", $value ? "true" : "false");
-                        break;
+//                    case 'boolean':
+//                        $query .= sprintf(" `{$key}` = %s ", $value ? "true" : "false");
+//                        break;
                     default:
                         $query .= sprintf(" `{$key}` = %s ", addslashes($value));
                         break;
@@ -385,8 +385,8 @@ class Delegate extends SQLite3 {
                 }
             }
         } //end foreach
-        #print $query;
-        #exit();
+//        print $query;
+//        exit();
 
         (DEBUG) ? $_SESSION['logs'][] = "&nbsp;&nbsp;&nbsp;&nbsp;" . __CLASS__ . '{#}' . __FUNCTION__ . "{#}{$query}{#}" . __LINE__ : '';
 
@@ -633,7 +633,43 @@ class Delegate extends SQLite3 {
         (DEBUG) ? $_SESSION['logs'][] = __CLASS__ .'{#}'. __FUNCTION__ ."{#}{#}". __LINE__ : '';
         return $this->update($diagram);
     }
+    
+        /**This create a cascade delete to diagramdata*/
+    public function diagramDelete($diagramId){
+        (DEBUG) ? $_SESSION['logs'][] = __CLASS__ .'{#}'. __FUNCTION__ ."{#}{#}". __LINE__ : '';
+        return $this->delete('diagram', array('id'=>$diagramId));
+    }
+    
+    /**************************************************************************/
+    /*****************************DIAGRAMDATA**********************************/
+    /**************************************************************************/
+    public function diagramdataCreate($entry) {
+        (DEBUG) ? $_SESSION['logs'][] = __CLASS__ .'{#}'. __FUNCTION__ ."{#}{#}". __LINE__ : '';
+        //$object, $ids = array('id'), $tableName=null,  $nullify=false, $autoincrement=true) {
+        return $this->create($entry, array('diagramId', 'type'), 'diagramdata', false, false);
+    }
 
+    public function diagramdataGetByDiagramIdAndType($diagramId, $type) {
+        (DEBUG) ? $_SESSION['logs'][] = __CLASS__ .'{#}'. __FUNCTION__ ."{#}{#}". __LINE__ : '';
+        return $this->getSingle('diagramdata', array('diagramId'=>$diagramId, 'type'=>$type));
+    }
+    
+    public function diagramdataUpdate($diagramdata) {
+        (DEBUG) ? $_SESSION['logs'][] = __CLASS__ .'{#}'. __FUNCTION__ ."{#}{#}". __LINE__ : '';
+        return $this->update($diagramdata, array('diagramId', 'type'), 'diagramdata'); //do not update the key
+    }
+    
+    public function diagramdataGetByDiagramId($diagramId) {
+        (DEBUG) ? $_SESSION['logs'][] = __CLASS__ .'{#}'. __FUNCTION__ ."{#}{#}". __LINE__ : '';
+        return $this->getMultiple('diagramdata', array('diagramId'=>$diagramId));
+    }
+    
+    /**This create a cascade delete to diagramdata*/
+    public function diagramdataDeleteByDiagramIdAndType($diagramId, $type){
+        (DEBUG) ? $_SESSION['logs'][] = __CLASS__ .'{#}'. __FUNCTION__ ."{#}{#}". __LINE__ : '';
+        return $this->delete('diagramdata', array('diagramId'=>$diagramId, 'type'=>$type));
+    }
+        
 }
 
 function diagramCreate($dbhandle, $title, $description, $public) {

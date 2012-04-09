@@ -1,6 +1,5 @@
 <?php
 /* This page is used for both logged users and outsiders to */
-require_once dirname(__FILE__) . '/common/settings.php';
 
 
 
@@ -17,10 +16,8 @@ if (!isset($_SESSION['userId'])) {
     echo "Sic";
     exit();
 }
+$page = "save";
 ?>
-
-
-
 <!DOCTYPE html>
 <html>
     <head>
