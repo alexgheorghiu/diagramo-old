@@ -5,6 +5,9 @@ Todo:
 -----
 - add a readme inside zip
 - protect installer too
+- license back
+- discriminator lamp installer vs all-in-one
+- all-in-one for Linux?
 
 Todo:
 x save, save as, load and edit diagram
