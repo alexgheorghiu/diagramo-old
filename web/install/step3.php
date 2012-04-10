@@ -1,9 +1,9 @@
 <?php
 include('start.php');
 include('checkinstall.php');
-include('util.php');
+include('../editor/common/utils.php');
 include('umbilicus.php');
-#include('../common/settings-default.php');
+
 
 define('STEP', 'step3');
 
@@ -68,6 +68,7 @@ if(isset ($_REQUEST['action']) && $_REQUEST['action'] == 'verify'){
         
         //add path to local url
         $webaddressSQL =  sprintf("insert into `setting` (`name`, `value`) values ('WEBADDRESS','%s')", $appUrl);
+        $db->query($webaddressSQL);
         
         $db->close();
     }

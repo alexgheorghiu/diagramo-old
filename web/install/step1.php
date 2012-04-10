@@ -1,7 +1,7 @@
 <?php
 include('start.php');
 include('checkinstall.php');
-include('util.php');
+include('../editor/common/utils.php');
 include('umbilicus.php');
 define('STEP','step1');
 

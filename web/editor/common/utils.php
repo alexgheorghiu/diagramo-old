@@ -762,4 +762,45 @@ function getWithCURL($fileLocation) {
         return false;
     }
 }
+
+
+/**
+ * Takes a special formatted sql file and split into commands
+ * !!! THE COMMANDS ARE SPLIT BY COMMENTS !!!
+ * @param $fileName - the file name of the SQL file
+ */
+function getSQLCommands($fileName) {
+    $commands = array();
+
+    $fh = fopen($fileName, 'r');
+    if ($fh) {
+        $command = '';
+        while (($buffer = fgets($fh, 4096)) !== false) {
+            if (strpos($buffer, '--') === 0) {  //we have a 'special' comment
+                //add current command to commands
+                if (count(trim($command)) > 0) {
+                    $commands[] = $command;
+                }
+
+                //reset current command
+                $command = '';
+            } else if (count(trim($buffer)) > 0) { //we have a command (fragment), try to ignore blank lines
+                $command .= ' ' . $buffer;
+            }
+        }
+
+        //add last line command to commands
+        if (count(trim($command)) > 0) {
+            $commands[] = $command;
+        }
+
+        if (!feof($fh)) {
+            echo "Error: unexpected fgets() fail\n";
+        }
+
+        fclose($fh);
+    }
+
+    return $commands;
+}
 ?>

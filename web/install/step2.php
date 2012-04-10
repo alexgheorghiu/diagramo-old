@@ -2,8 +2,7 @@
 include('start.php');
 include('checkinstall.php');
 include('umbilicus.php');
-include('util.php');
-#include('../common/settings-default.php');
+include('../editor/common/utils.php');
 
 define('STEP','step2');
 

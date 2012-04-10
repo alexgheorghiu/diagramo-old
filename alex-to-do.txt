@@ -6,8 +6,8 @@ Todo:
 x save, save as, load and edit diagram
 x manage users
 x gave up to VERSION, WEBADRESS
-- rebuild installer
-- public view diagram
+x rebuild installer
+x public view diagram
 - on "my diagrams" logout link is broken
 - fix my settings
 - hide "remember me"
@@ -15,3 +15,4 @@ x gave up to VERSION, WEBADRESS
 - background of diagrams should be white (not transparent)
 - write specific php.ini settings
 - plug to dcentral
+- update build script

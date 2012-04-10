@@ -47,13 +47,8 @@ $WEBADDRESS = $delegate->settingsGetByKeyNative('WEBADDRESS');
             <div>Public </div>
             <p/>
             <div id="container">
-                <img src="./raster.php?type=png&diagramId=<?=$diagram->id?>" width="800" height="600" border="1"/>            
-            </div>
-            <div>
-                <a href="./raster.php?type=svg&diagramId=<?=$diagram->id?>">Download SVG</a> | 
-                <a href="./raster.php?type=png&diagramId=<?=$diagram->id?>">Download PNG</a> |
-                <a href="./raster.php?type=jpg&diagramId=<?=$diagram->id?>">Download JPG</a>
-            </div>
+                <img src="<?=$WEBADDRESS?>/editor/png.php?diagramId=<?=$diagram->id?>" width="800" height="600" border="1"/>            
+            </div>            
         </div>
     </body>
 </html>
