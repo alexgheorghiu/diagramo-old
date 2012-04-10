@@ -1,6 +1,10 @@
 This is Alex's current mental stack
 
 
+Todo:
+-----
+- add a readme inside zip
+
 
 Todo:
 x save, save as, load and edit diagram
