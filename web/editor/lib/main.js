@@ -2233,7 +2233,9 @@ function reset(){
     var canvas = getCanvas();
     var ctx = getContext();
     ctx.beginPath();
-    ctx.clearRect(0,0,canvas.width,canvas.height)
+    ctx.clearRect(0,0,canvas.width,canvas.height);   
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillRect(0,0,canvas.width,canvas.height);
     ctx.closePath();
     ctx.stroke();
 //canvas.width=canvas.width;
@@ -2247,7 +2249,7 @@ function draw(){
 
     //    Log.group("A draw started");
     //alert('Paint 1')
-    reset();
+    reset();    
     //alert('Paint 2')
     STACK.paint(ctx);
     

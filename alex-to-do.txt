@@ -11,8 +11,13 @@ x public view diagram
 x on "my diagrams" logout link is broken
 x fix my settings
 x hide "forgot password"
-- images (svg in network package) not loaded
-- background of diagrams should be white (not transparent)
+x images (svg in network package) not loaded
+x background of diagrams should be white (not transparent)
 - write specific php.ini settings
 - plug to dcentral (add version)
 - update build script
+
+
+
+Later:
+SVG background of canvas
