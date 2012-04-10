@@ -581,34 +581,11 @@ class Delegate extends SQLite3 {
     }
     
     
-    /*     * *********************************************************************** */
-    /*     * *********************************************************************** */
-    /*     * *********************************************************************** */
+
     
-    public function settingsLoadNative($key){
-        (DEBUG) ? $_SESSION['logs'][] = __CLASS__ .'{#}'. __FUNCTION__ ."{#}{#}". __LINE__ : '';
-        
-
-        $query = sprintf("select `value` from `setting` where `name` = '%s' ",$key);
-
-        (DEBUG) ? $_SESSION['logs'][] = "&nbsp;&nbsp;&nbsp;&nbsp;" . __CLASS__ .'{#}'. __FUNCTION__ ."{#}{$query}{#}". __LINE__ : '';
-
-        $value = '';
-
-        //EXECUTE query
-        $result = $this->query($query);
-        if($row = $result->fetchArray()){
-            $value = $row['value'];
-        }
-                
-
-        return $value;
-    }
-    
-    /*     * *********************************************************************** */
-    /*     * *********************************************************************** */
-    /*     * *********************************************************************** */
-
+    /************************************************************************* */
+    /************************************************************************* */
+    /************************************************************************* */
     public function diagramGetAll() {
         (DEBUG) ? $_SESSION['logs'][] = __CLASS__ . '{#}' . __FUNCTION__ . "{#}{#}" . __LINE__ : '';
         return $this->getMultiple('diagram', null, array('title' => 'DESC'));
@@ -639,6 +616,45 @@ class Delegate extends SQLite3 {
         (DEBUG) ? $_SESSION['logs'][] = __CLASS__ .'{#}'. __FUNCTION__ ."{#}{#}". __LINE__ : '';
         return $this->delete('diagram', array('id'=>$diagramId));
     }
+    
+    /**************************************************************************/
+    /*********************************SETTINGS*********************************/
+    /**************************************************************************/
+    public function settingsGetByKeyNative($key){
+        (DEBUG) ? $_SESSION['logs'][] = __CLASS__ .'{#}'. __FUNCTION__ ."{#}{#}". __LINE__ : '';
+        
+
+        $query = sprintf("select `value` from `setting` where `name` = '%s' ",$key);
+
+        (DEBUG) ? $_SESSION['logs'][] = "&nbsp;&nbsp;&nbsp;&nbsp;" . __CLASS__ .'{#}'. __FUNCTION__ ."{#}{$query}{#}". __LINE__ : '';
+
+        $value = '';
+
+        //EXECUTE query
+        $result = $this->query($query);
+        if( $row = $result->fetchArray() ){
+            $value = $row['value'];
+        }
+                
+
+        return $value;
+    }
+    
+    
+    public function settingsSaveNative($key, $value){
+        (DEBUG) ? $_SESSION['logs'][] = __CLASS__ .'{#}'. __FUNCTION__ ."{#}{#}". __LINE__ : '';
+        
+        $query = sprintf("update `setting` set `value`='%s' where `name` = '%s' ", $value, $key);
+        
+        $this->query($query);
+        
+        if($this->changes() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
     
     /**************************************************************************/
     /*********************************USER*************************************/

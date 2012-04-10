@@ -8,6 +8,9 @@ if (!isset($_SESSION)) {
 
 $delegate = new Delegate();
 
+$VERSION = $delegate->settingsGetByKeyNative('VERSION');
+
+
 /**
  * Redirect to 'draw' if we are alredy logged or if we have 'remember me' option active
  * 

@@ -4,8 +4,8 @@ This is Alex's current mental stack
 
 Todo:
 x save, save as, load and edit diagram
-- manage users
-- gave up to VERSION, WEBADRESS
+x manage users
+x gave up to VERSION, WEBADRESS
 - rebuild installer
 - public view diagram
 - on "my diagrams" logout link is broken

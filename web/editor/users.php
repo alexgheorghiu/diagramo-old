@@ -24,7 +24,7 @@ $users = $delegate->userGetAll();
 
 $page = 'users';
 
-$rawLicense = $delegate->settingsLoadNative('LICENSE');
+$rawLicense = $delegate->settingsGetByKeyNative('LICENSE');
 $l = new License();
 #$l->load($rawLicense);
 

@@ -1,3 +1,6 @@
+<?
+$WEBADDRESS = $delegate->settingsGetByKeyNative('WEBADDRESS');
+?>
 <div id="header">    
     <div id="dropdown">
         <!--Logo menu-->
@@ -20,7 +23,7 @@
                     <?}?>
                 <?}?>
                 <?if (is_object($loggedUser)) { ?>    
-                <a style="text-decoration: none;" href="./common/controller.php?action=logoutExe"><img style="vertical-align:middle;" src="<?=WEBADDRESS?>/editor/assets/images/icon_logout.gif" border="0" width="16" height="16"/><span class="menuText">Logout (<?= $loggedUser->email ?>)</span></a>
+                <a style="text-decoration: none;" href="./common/controller.php?action=logoutExe"><img style="vertical-align:middle;" src="<?=$WEBADDRESS?>/editor/assets/images/icon_logout.gif" border="0" width="16" height="16"/><span class="menuText">Logout (<?= $loggedUser->email ?>)</span></a>
                 <?}?>
             </div>
         </div>
@@ -59,7 +62,7 @@
             ?>                
             <div style="padding-top: 6px;">
                 <img style="vertical-align:middle;" src="assets/images/upper_bar_separator.jpg" border="0" width="2" height="16"/>
-                <span class="menuText" title="Use this URL to share diagram to others">Direct link : </span> <input style="font-size: 10px;" title="External direct URL to diagram" type="text" class="text" size="100" value="<?=WEBADDRESS?>/editor/viewDiagram.php?diagramId=<?=$diagram->id?>"/>
+                <span class="menuText" title="Use this URL to share diagram to others">Direct link : </span> <input style="font-size: 10px;" title="External direct URL to diagram" type="text" class="text" size="100" value="<?=$WEBADDRESS?>/editor/viewDiagram.php?diagramId=<?=$diagram->id?>"/>
             </div>
             <?}?>
         <?}?>
@@ -80,12 +83,12 @@
             switch(isBrowserReady()){
                 case 0: //not supported at all
                     document.write('<span style="background-color: red;" >');
-                    document.write("No support for HTML5. More <a href=\"http://<?=WEBADDRESS?>/htm5-support.php\">here</a></a>");
+                    document.write("No support for HTML5. More <a href=\"http://<?=$WEBADDRESS?>/htm5-support.php\">here</a></a>");
                     document.write("</span>");
                     break;
                 case 1: //IE - partially supported
                     document.write('<span style="background-color: yellow;" >');
-                    document.write("Poor HTML5 support. More <a href=\"http://<?=WEBADDRESS?>/htm5-support.php\">here</a></a>");
+                    document.write("Poor HTML5 support. More <a href=\"http://<?=$WEBADDRESS?>/htm5-support.php\">here</a></a>");
                     document.write("</span>");
                     break;
             }

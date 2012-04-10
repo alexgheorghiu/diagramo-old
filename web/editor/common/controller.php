@@ -214,9 +214,10 @@ function forgotPasswordExe() {
     }
 
     $delegate = new Delegate();
+    $WEBADDRESS = $delegate->settingsGetByKeyNative('WEBADDRESS');
     $user = $delegate->userGetByEmail($email);
     if (is_object($user)) {
-        $url = WEBADDRESS . '/editor/common/controller.php?action=resetPassword&k=' . $user->password . '&i=' . $user->id;
+        $url = $WEBADDRESS . '/editor/common/controller.php?action=resetPassword&k=' . $user->password . '&i=' . $user->id;
         $body =
                 "<html>
                 <head>

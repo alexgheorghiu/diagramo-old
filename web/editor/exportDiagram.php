@@ -25,10 +25,10 @@ $diagram = $delegate->diagramGetById($_REQUEST['diagramId']);
 
 $selfUrl = selfURL(); //find full URL to this script
 $url = strleft($selfUrl, '/exportDiagram.php'); //find the URL of the application
-
-$svgLink = WEBADDRESS . '/editor/raster.php?type=svg&diagramId=' . $diagram->id;
-$pngLink = WEBADDRESS . '/editor/raster.php?type=png&diagramId=' . $diagram->id;
-$jpgLink = WEBADDRESS . '/editor/raster.php?type=jpg&diagramId=' . $diagram->id;
+$WEBADDRESS = $delegate->settingsGetByKeyNative('WEBADDRESS');
+$svgLink = $WEBADDRESS . '/editor/raster.php?type=svg&diagramId=' . $diagram->id;
+$pngLink = $WEBADDRESS . '/editor/raster.php?type=png&diagramId=' . $diagram->id;
+$jpgLink = $WEBADDRESS . '/editor/raster.php?type=jpg&diagramId=' . $diagram->id;
 
 $page = 'export';
 

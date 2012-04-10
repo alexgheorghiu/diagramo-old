@@ -26,7 +26,7 @@ if(!$diagram->public){
     exit();
 }
 //end check
-
+$WEBADDRESS = $delegate->settingsGetByKeyNative('WEBADDRESS');
 
 //exit("here");
 ?>
@@ -38,7 +38,7 @@ if(!$diagram->public){
         <title><?=$diagram->title?></title>
         <meta name="description" content="<?=$diagram->description?>" />
         <meta http-equiv="X-UA-Compatible" content="IE=9" />
-        <link rel="stylesheet" media="screen" type="text/css" href="http://<?=WEBADDRESS?>/assets/css/style.css" />
+        <link rel="stylesheet" media="screen" type="text/css" href="http://<?=$WEBADDRESS?>/assets/css/style.css" />
     </head>
     <body>
         <div id="content" style="margin-left:  30px;">

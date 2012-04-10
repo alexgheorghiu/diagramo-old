@@ -1,6 +1,7 @@
 <?php
 /**This file simply seach the /lib/sets folder and try to load all the figure sets
  */
+$WEBADDRESS = $delegate->settingsGetByKeyNative('WEBADDRESS');
 ?>
 <script language = "javascript1.2" type="text/javascript">
     var figureSets = [];
@@ -13,7 +14,7 @@
      * Option 2:
      * Use http://code.google.com/p/js-uri/
      **/
-    var figureSetsURL = '<?=WEBADDRESS?>' + '/editor/lib/sets';
+    var figureSetsURL = '<?=$WEBADDRESS?>' + '/editor/lib/sets';
 </script>
 <?
 $dirName = dirname(__FILE__);
