@@ -12,3 +12,4 @@ x save, save as, load and edit diagram
 - fix my settings
 - hide "remember me"
 - images (svg in network package) not loaded
+- background of diagrams should be white (not transparent)
