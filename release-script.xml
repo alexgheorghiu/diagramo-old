@@ -4,13 +4,18 @@ This is the Ant script (see http:/ant.apache.org) to generate builds for Diagram
 -->
 <project name="diagramo" default="list" basedir=".">
 
-    <property name="build.dir" value="${basedir}/build"/>
+    <property name="php.dir" value="c:/Tools/php5.4.0"/>    
+    <property name="build.dir" value="${basedir}/build"/>    
     <property name="dist.dir" value="${basedir}/dist"/>
+    <property name="docs.dir" value="${basedir}/documents"/>
+	<property name="build-all-in-one.dir" value="${basedir}/build-all-in-one"/>
+    <property name="dist-all-in-one.dir" value="${basedir}/dist-all-in-one"/>
     <property name="temp.dir" value="${basedir}/temp"/>
     <property name="web.dir" value="${basedir}/web"/>
     <property name="editor.dir" value="${web.dir}/editor"/>
     
     <property name="script.release.file" value="${dist.dir}/diagramo-lamp.zip"/>
+    <property name="all-in-one.release.file" value="${dist.dir}/diagramo-all-in-one.zip"/>
 
 
     <target name="list">
@@ -44,10 +49,11 @@ This is the Ant script (see http:/ant.apache.org) to generate builds for Diagram
                 <exclude name="editor/common/settings.php"/>
 
                 <exclude name="editor/test/"/>
-                <exclude name="editor/diagrams/*.dia"/>
-                <exclude name="editor/diagrams/*.svg"/>
-                <exclude name="editor/diagrams/*.png"/>
-                <exclude name="editor/diagrams/*.jpg"/>
+                <exclude name="editor/data/diagrams/*.dia"/>
+                <exclude name="editor/data/diagrams/*.svg"/>
+                <exclude name="editor/data/diagrams/*.png"/>
+                <exclude name="editor/data/diagrams/*.jpg"/>
+                <exclude name="editor/data/diagramo.db"/>
                 
 
                 <exclude name="editor/exporter/*.png"/>
@@ -57,6 +63,7 @@ This is the Ant script (see http:/ant.apache.org) to generate builds for Diagram
             </fileset>
         </copy>
 
+		<replace file="${build.dir}/install/umbilicus.php" token="http://diagramo.test" value="http://diagramo.com" />
     </target>
 
 
@@ -141,6 +148,30 @@ This is the Ant script (see http:/ant.apache.org) to generate builds for Diagram
         <echo>+------------------SCRIPT DIST-----------------------------+</echo>
         <zip destfile="${script.release.file}" basedir="${build.dir}" />
     </target>
+	
+	
+	<target name="build-all-in-one" depends="obfuscate">
+        <echo>+------------------SCRIPT BUILD-----------------------------+</echo>
+        <copy todir="${build-all-in-one.dir}">
+            <fileset dir="${build.dir}">
+            </fileset>
+        </copy>
+		
+        <copy todir="${build-all-in-one.dir}/php">
+            <fileset dir="${php.dir}">
+            </fileset>
+        </copy>
+		
+		<copy todir="${build-all-in-one.dir}">
+            <fileset dir="${docs.dir}/all-in-one">
+            </fileset>
+        </copy>
+    </target>
+	
+	<target name="dist-all-in-one" depends="build-all-in-one">
+        <echo>+------------------SCRIPT DIST-----------------------------+</echo>
+        <zip destfile="${all-in-one.release.file}" basedir="${build-all-in-one.dir}" />
+    </target>
 
 
 
@@ -148,6 +179,8 @@ This is the Ant script (see http:/ant.apache.org) to generate builds for Diagram
         <echo>+------------------SCRIPT CLEAN----------------------------+</echo>
         <delete dir="${build.dir}"/>
         <delete dir="${dist.dir}" />
+        <delete dir="${build-all-in-one.dir}"/>
+        <delete dir="${dist-all-in-one.dir}" />
         <delete dir="${temp.dir}" />
     </target>
 

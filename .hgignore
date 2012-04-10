@@ -24,5 +24,6 @@ web/editor/common/settings.php
 
 
 build/
+build-all-in-one/
 dist/
 temp/
