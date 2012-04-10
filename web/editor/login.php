@@ -104,7 +104,7 @@ for ($i = 1; $i < count($key); $i++)
                 </table>
                 <br/>
                 <!-- <a style="font-size: smaller;" href="./register.php">Create account</a> | -->
-                <a style="font-size: smaller;" href="./forgot-password.php">Forgot password?</a>                
+                <!-- <a style="font-size: smaller;" href="./forgot-password.php">Forgot password?</a>                 -->
             </form>
 
         </div>

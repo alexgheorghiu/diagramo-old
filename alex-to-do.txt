@@ -10,9 +10,9 @@ x rebuild installer
 x public view diagram
 x on "my diagrams" logout link is broken
 x fix my settings
-- hide "remember me"
+x hide "forgot password"
 - images (svg in network package) not loaded
 - background of diagrams should be white (not transparent)
 - write specific php.ini settings
-- plug to dcentral
+- plug to dcentral (add version)
 - update build script
