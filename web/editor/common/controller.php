@@ -752,7 +752,7 @@ function addUserExe() {
     
     $user = new User();
     $user->email = trim($_REQUEST['email']);
-    $user->password = trim($_REQUEST['password']);
+    $user->password = md5(trim($_REQUEST['password']));
     $user->createdDate = now();
     if($d->userCreate($user)){
         addMessage("User added");
