@@ -16,7 +16,11 @@ x background of diagrams should be white (not transparent)
 x write specific php.ini settings
 x plug to dcentral (add version)
 - update build script
+- when save canvases with SVG it got errors
+	Security error
+	[Break On This Error] 	
 
+	var dataURL = canvas.toDataURL();
 
 
 Later:
