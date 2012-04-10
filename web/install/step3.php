@@ -67,8 +67,16 @@ if(isset ($_REQUEST['action']) && $_REQUEST['action'] == 'verify'){
         $db->query($userSQL);
         
         //add path to local url
-        $webaddressSQL =  sprintf("insert into `setting` (`name`, `value`) values ('WEBADDRESS','%s')", $appUrl);
-        $db->query($webaddressSQL);
+        $q = sprintf("insert into `setting` (`name`, `value`) values ('WEBADDRESS','%s')", $appUrl);
+        $db->query($q);
+        
+        //add link to Diagramo
+        $q =  sprintf("insert into `setting` (`name`, `value`) values ('DIAGRAMO','%s')", DIAGRAMO);
+        $db->query($q);
+        
+        //add version in the database
+        $q =  sprintf("insert into `setting` (`name`, `value`) values ('VERSION','%s')", VERSION);
+        $db->query($q);
         
         $db->close();
     }
@@ -200,7 +208,7 @@ if(isset ($_REQUEST['action']) && $_REQUEST['action'] == 'verify'){
             </div>            
             
             
-            <img src="<?=DIAGRAMO?>/install.php?step=step3&session=<?=session_id()?>&url=<?=urlencode($appUrl)?>"/>
+            <img src="<?=DIAGRAMO?>/install.php?step=step3&version=<?=VERSION?>&session=<?=session_id()?>&url=<?=urlencode($appUrl)?>"/>
         </div>
     </body>
 </html>

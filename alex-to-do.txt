@@ -14,7 +14,7 @@ x hide "forgot password"
 x images (svg in network package) not loaded
 x background of diagrams should be white (not transparent)
 x write specific php.ini settings
-- plug to dcentral (add version)
+x plug to dcentral (add version)
 - update build script
 
 

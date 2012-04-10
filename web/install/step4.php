@@ -45,7 +45,7 @@ define('STEP', 'step4');
             <?}?>
             
             
-            <img style="display: none;" src="<?=DIAGRAMO?>/install.php?step=step4&session=<?=session_id()?>&url=<?=urlencode($appUrl)?>"/>
+            <img style="display: none;" src="<?=DIAGRAMO?>/install.php?step=step4&version=<?=VERSION?>&session=<?=session_id()?>&url=<?=urlencode($appUrl)?>"/>
             
         </div>
     </body>

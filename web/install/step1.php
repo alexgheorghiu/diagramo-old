@@ -34,7 +34,7 @@ $appUrl = substr($fullURL, 0, strpos($fullURL, '/install'));
             </div>
             
             
-            <img style="display: none;" src="<?=DIAGRAMO?>/install.php?step=step1&session=<?=session_id()?>&url=<?=urlencode($appUrl)?>"/>
+            <img style="display: none;" src="<?=DIAGRAMO?>/install.php?step=step1&version=<?=VERSION?>&session=<?=session_id()?>&url=<?=urlencode($appUrl)?>"/>
         </div>
     </body>
 </html>

@@ -223,7 +223,7 @@ $requirements = loadRequirements();
             </div>
             
             
-            <img style="display: none;" src="<?=DIAGRAMO?>/install.php?step=step2&session=<?=session_id()?>&url=<?=urlencode($appUrl)?>"/>
+            <img style="display: none;" src="<?=DIAGRAMO?>/install.php?step=step2&version=<?=VERSION?>&session=<?=session_id()?>&url=<?=urlencode($appUrl)?>"/>
             
         </div>
     </body>

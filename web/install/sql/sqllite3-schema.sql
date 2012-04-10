@@ -51,10 +51,3 @@ CREATE  TABLE IF NOT EXISTS `diagramdata` (
     FOREIGN KEY(diagramId) REFERENCES diagram(id),
     PRIMARY KEY (`diagramId`, `type`)    
 );
-
--- fake data --
-insert into `setting` (`name`, `value`) values('VERSION', '2.3beta');
-
--- fake data --
-insert into `setting` (`name`, `value`) values('DIAGRAMO', 'http://diagramo.com');
-
