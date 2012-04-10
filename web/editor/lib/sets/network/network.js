@@ -27,7 +27,7 @@ function figure_Person(x, y)
     f.style.strokeStyle = figure_defaultStrokeStyle;
     
     //Image
-    var url = figureSetsURL + "/network/1_person.svg";
+    var url = figureSetsURL + "/svg.php?set=network&figure=1_person";
     
     var ifig = new ImageFrame(url, x, y, true, 48, 48);
     ifig.debug = true;
@@ -68,7 +68,7 @@ function figure_Switch(x, y){
     f.style.strokeStyle = figure_defaultStrokeStyle;
     
     //Image
-    var url = figureSetsURL + "/network/2_switch.svg";
+    var url = figureSetsURL + "/svg.php?set=network&figure=2_switch";
     
     var ifig = new ImageFrame(url, x, y, true, imageWidth, imageHeight);
     ifig.debug = true;
@@ -109,7 +109,7 @@ function figure_Router(x, y){
     f.style.strokeStyle = figure_defaultStrokeStyle;
     
     //Image
-    var url = figureSetsURL + "/network/3_router.svg";
+    var url = figureSetsURL + "/svg.php?set=network&figure=3_router";
     
     var ifig = new ImageFrame(url, x, y, true, imageWidth, imageHeight);
     ifig.debug = true;
@@ -150,7 +150,7 @@ function figure_Cloud(x, y){
     f.style.strokeStyle = figure_defaultStrokeStyle;
     
     //Image
-    var url = figureSetsURL + "/network/4_cloud.svg";
+    var url = figureSetsURL + "/svg.php?set=network&figure=4_cloud";
     
     var ifig = new ImageFrame(url, x, y, true, imageWidth, imageHeight);
     ifig.debug = true;
@@ -190,7 +190,7 @@ function figure_Server(x, y){
     f.style.strokeStyle = figure_defaultStrokeStyle;
     
     //Image
-    var url = figureSetsURL + "/network/5_server.svg";
+    var url = figureSetsURL + "/svg.php?set=network&figure=5_server";
     
     var ifig = new ImageFrame(url, x, y, true, imageWidth, imageHeight);
     ifig.debug = true;
@@ -231,7 +231,7 @@ function figure_Firewall(x, y){
     f.style.strokeStyle = figure_defaultStrokeStyle;
     
     //Image
-    var url = figureSetsURL + "/network/6_firewall.svg";
+    var url = figureSetsURL + "/svg.php?set=network&figure=6_firewall";
     
     var ifig = new ImageFrame(url, x, y, true, imageWidth, imageHeight);
     ifig.debug = true;
@@ -272,7 +272,7 @@ function figure_Building(x, y){
     f.style.strokeStyle = figure_defaultStrokeStyle;
     
     //Image
-    var url = figureSetsURL + "/network/7_building.svg";
+    var url = figureSetsURL + "/svg.php?set=network&figure=7_building";
     
     var ifig = new ImageFrame(url, x, y, true, imageWidth, imageHeight);
     ifig.debug = true;
@@ -312,7 +312,7 @@ function figure_Laptop(x, y){
     f.style.strokeStyle = figure_defaultStrokeStyle;
     
     //Image
-    var url = figureSetsURL + "/network/8_laptop.svg";
+    var url = figureSetsURL + "/svg.php?set=network&figure=8_laptop";
     
     var ifig = new ImageFrame(url, x, y, true, imageWidth, imageHeight);
     ifig.debug = true;
@@ -356,7 +356,7 @@ function figure_Desktop(x, y){
     f.style.strokeStyle = figure_defaultStrokeStyle;
     
     //Image
-    var url = figureSetsURL + "/network/9_desktop.svg";
+    var url = figureSetsURL + "/svg.php?set=network&figure=9_desktop";
     
     var ifig = new ImageFrame(url, x, y, true, imageWidth, imageHeight);
     ifig.debug = true;
@@ -397,7 +397,7 @@ function figure_Lock(x, y){
     f.style.strokeStyle = figure_defaultStrokeStyle;
     
     //Image
-    var url = figureSetsURL + "/network/10_lock.svg";
+    var url = figureSetsURL + "/svg.php?set=network&figure=10_lock";
     
     var ifig = new ImageFrame(url, x, y, true, imageWidth, imageHeight);
     ifig.debug = true;
@@ -438,7 +438,7 @@ function figure_PDA(x, y){
     f.style.strokeStyle = figure_defaultStrokeStyle;
     
     //Image
-    var url = figureSetsURL + "/network/11_pda.svg";
+    var url = figureSetsURL + "/svg.php?set=network&figure=11_pda";
     
     var ifig = new ImageFrame(url, x, y, true, imageWidth, imageHeight);
     ifig.debug = true;
@@ -479,7 +479,7 @@ function figure_Phone(x, y){
     f.style.strokeStyle = figure_defaultStrokeStyle;
     
     //Image
-    var url = figureSetsURL + "/network/12_phone.svg";
+    var url = figureSetsURL + "/svg.php?set=network&figure=12_phone";
     
     var ifig = new ImageFrame(url, x, y, true, imageWidth, imageHeight);
     ifig.debug = true;
@@ -520,7 +520,7 @@ function figure_Printer(x, y){
     f.style.strokeStyle = figure_defaultStrokeStyle;
     
     //Image
-    var url = figureSetsURL + "/network/13_printer.svg";
+    var url = figureSetsURL + "/svg.php?set=network&figure=13_printer";
     
     var ifig = new ImageFrame(url, x, y, true, imageWidth, imageHeight);
     ifig.debug = true;
@@ -561,7 +561,7 @@ function figure_Database(x, y){
     f.style.strokeStyle = figure_defaultStrokeStyle;
     
     //Image
-    var url = figureSetsURL + "/network/14_database.svg";
+    var url = figureSetsURL + "/svg.php?set=network&figure=14_database";
     
     var ifig = new ImageFrame(url, x, y, true, imageWidth, imageHeight);
     ifig.debug = true;
@@ -603,7 +603,7 @@ function figure_UPS(x, y){
     f.style.strokeStyle = figure_defaultStrokeStyle;
     
     //Image
-    var url = figureSetsURL + "/network/15_ups.svg";
+    var url = figureSetsURL + "/svg.php?set=network&figure=15_ups";
     
     var ifig = new ImageFrame(url, x, y, true, imageWidth, imageHeight);
     ifig.debug = true;
@@ -644,7 +644,7 @@ function figure_Wireless(x, y){
     f.style.strokeStyle = figure_defaultStrokeStyle;
     
     //Image
-    var url = figureSetsURL + "/network/16_wireless_router.svg";
+    var url = figureSetsURL + "/svg.php?set=network&figure=16_wireless_router";
     
     var ifig = new ImageFrame(url, x, y, true, imageWidth, imageHeight);
     ifig.debug = true;
