@@ -18,38 +18,7 @@ $errors = array();
 if(isset ($_REQUEST['action']) && $_REQUEST['action'] == 'verify'){
     $passed = true;
     
-    //test again for settings.php
-    if(is_file("../editor/common/settings.php")){
-        $errors[] = 'File settings.php already present. Please delete it to continue with installation.';
-        $passed = false;
-    }
-    
-    //test database connection
-    if(empty($_REQUEST['dbhost'])){
-        $errors[] = 'Database host can not be empty';
-        $passed = false;
-    }
-    
-    if(empty($_REQUEST['dbname'])){
-        $errors[] = 'Database name can not be empty';
-        $passed = false;
-    }
-    
-    if(empty($_REQUEST['dbuser'])){
-        $errors[] = 'Database user name can not be empty';
-        $passed = false;
-    }
-    
-    if( !@mysql_connect(trim($_REQUEST['dbhost']), trim($_REQUEST['dbuser']), trim($_REQUEST['dbuserpass']) ) ){
-        $errors[] = 'Could not connect to MySQL server';
-        $passed = false;
-    }
-    
-    if(!@mysql_select_db(trim($_REQUEST['dbname']))){
-        $errors[] = 'Could not use ' . $_REQUEST['dbname'] . ' database';
-        $passed = false;
-    }    
-    
+     
     
     //test master admin login
     if(empty($_REQUEST['admin_name'])){
@@ -66,49 +35,22 @@ if(isset ($_REQUEST['action']) && $_REQUEST['action'] == 'verify'){
     }
     
     
-    //Create settings.php
-    if(count($errors) == 0){
-        $settingsDefaultFile = "./settings-default.php";
-        $settingsFile = "../editor/common/settings.php";
-
-        // Open and read default settings
-        $handle = fopen($settingsDefaultFile, 'r');
-        $settingsContent = fread($handle, filesize($settingsDefaultFile));
-        fclose($handle);
-
-        // Open and read settings
-        fopen($settingsFile, 'w');
-
-        //WEBADDRESS
-        $settingsContent = str_ireplace("##_WEBADDRESS_##", trim($appUrl), $settingsContent);
-        
-        $sslAppUrl = str_replace('http', 'https', $appUrl);
-        $settingsContent = str_ireplace("##_WEBADDRESS_SSL_##", trim($sslAppUrl), $settingsContent);
-        
-        // SQL Settings
-        $settingsContent = str_ireplace("##_DB_ADDRESS_##", trim($_REQUEST['dbhost']), $settingsContent);
-        $settingsContent = str_ireplace("##_DB_USERNAME_##", trim($_REQUEST['dbuser']) , $settingsContent);
-        $settingsContent = str_ireplace("##_DB_PASSWORD_##", trim($_REQUEST['dbuserpass']), $settingsContent);
-        $settingsContent = str_ireplace("##_DB_DBNAME_##", trim($_REQUEST['dbname']), $settingsContent);
-
-        $handle = fopen($settingsFile, 'w');
-        if (fwrite($handle, $settingsContent) == false) {
-            $errors[] = 'Could not create settings.php file';
-        }
-        fflush($handle);
-        fclose($handle);
-    }
-    //end create settings file
-
+    
     
     //Insert Company and Root into the database
     if(count($errors) == 0){
+        //path to diagrmo db
+        $dbFilePath = '../editor/data/diagramo.db';
+        //$dbFilePath = 'diagramo.db';
+        
+        $db = new SQLite3($dbFilePath);
+        
+        //load commands
+        $commands = getSQLCommands('./sql/sqllite3-schema.sql');
+                
         //create tables
-        $commands = getSQLCommands('./sql/create-tables.sql');
-        $connectionDb = @mysql_connect( trim($_REQUEST['dbhost']), trim($_REQUEST['dbuser']), trim($_REQUEST['dbuserpass']) );
-        $selectDb = @mysql_select_db( trim($_REQUEST['dbname']) );
         foreach($commands as $command){
-            mysql_query($command, $connectionDb);
+            $db->query($command);
             #print($command . "<p/>\n");
         }
 
@@ -122,8 +64,12 @@ if(isset ($_REQUEST['action']) && $_REQUEST['action'] == 'verify'){
                 addslashes(trim($_REQUEST['admin_name'])),
                 now()
                 );
-        mysql_query($userSQL, $connectionDb);
+        $db->query($userSQL);
         
+        //add path to local url
+        $webaddressSQL =  sprintf("insert into `setting` (`name`, `value`) values ('WEBADDRESS','%s')", $appUrl);
+        
+        $db->close();
     }
     //end insert Company and Root into the database
     
@@ -201,70 +147,27 @@ if(isset ($_REQUEST['action']) && $_REQUEST['action'] == 'verify'){
                     <input type="hidden" name="action" value="verify"/>
                     <table align="center" cellpadding="3" cellspacing="2" border="0">
                                                 
-                        <!--Database-->
-                        <tr align="left">
-                            <td class="bigger">Database connection</td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <table align="center">
-
-                                    <tr>
-                                        <td>Database host:</td>
-                                        <td>&nbsp;&nbsp;</td>
-                                        <td><input type="text" name="dbhost" value="<?=$_REQUEST['action'] == 'verify' ? $_REQUEST['dbhost'] : 'localhost'?>" /><span class="required">*</span></td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>Database name:</td>
-                                        <td>&nbsp;&nbsp;</td>
-                                        <td><input type="text" name="dbname" value="<?=$_REQUEST['dbname']?>" /><span class="required">*</span></td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>Username:</td>
-                                        <td>&nbsp;&nbsp;</td>
-                                        <td><input type="text" name="dbuser" value="<?=$_REQUEST['dbuser']?>" /><span class="required">*</span></td>
-
-                                    </tr>
-
-                                    <tr>
-                                        <td>Password:</td>
-                                        <td>&nbsp;&nbsp;</td>
-                                        <td><input type="password" name="dbuserpass" value="<?=$_REQUEST['dbuserpass']?>" /></td>
-                                    </tr>
-                                </table>
-                            </td>
-
-                        </tr>
-                                                
-
-                        <!-- -->
-
                         <tr align="left">
                             <td class="bigger">Administrator account</td>
                         </tr>
 
                         <tr>
                             <td>
-
                                 <table align="center">
-
                                     <tr>
-                                        <td>Admin name:</td>
+                                        <td>Your name:</td>
                                         <td>&nbsp;&nbsp;</td>
                                         <td><input type="text" name="admin_name" value="<?=$_REQUEST['admin_name']?>" /><span class="required">*</span></td>
                                     </tr>
 
                                     <tr>
-                                        <td>Admin email:</td>
+                                        <td>Your email:</td>
                                         <td>&nbsp;&nbsp;</td>
                                         <td><input type="text" name="admin_email" value="<?=$_REQUEST['admin_email']?>" /><span class="required">*</span></td>
                                     </tr>
 
                                     <tr>
-                                        <td>Admin password:</td>
+                                        <td>Your password:</td>
                                         <td>&nbsp;&nbsp;</td>
                                         <td><input type="password" name="admin_pass" value="<?=$_REQUEST['admin_pass']?>" /><span class="required">*</span></td>
 

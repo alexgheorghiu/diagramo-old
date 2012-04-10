@@ -13,3 +13,5 @@ x gave up to VERSION, WEBADRESS
 - hide "remember me"
 - images (svg in network package) not loaded
 - background of diagrams should be white (not transparent)
+- write specific php.ini settings
+- plug to dcentral

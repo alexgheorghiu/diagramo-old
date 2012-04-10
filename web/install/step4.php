@@ -3,10 +3,13 @@ include('start.php');
 include('util.php');
 include('log.php');
 include('umbilicus.php');
-include('../editor/common/settings.php'); //settings.php should exists by now
+include('../editor/common/delegate.php'); 
 
 $fullURL = selfURL();
 $appUrl = substr($fullURL, 0, strpos($fullURL, '/install'));
+
+$d = new Delegate();
+$DIAGRAMO = $d->settingsGetByKeyNative('DIAGRAMO');
 
 
 /**Added a ping to Diagramo to count nr of installations and version
@@ -45,7 +48,7 @@ define('STEP', 'step4');
             <?}?>
             
             
-            <img style="display: none;" src="<?=DIAGRAMO?>/install.php?step=step4&session=<?=session_id()?>&url=<?=urlencode($appUrl)?>"/>
+            <img style="display: none;" src="<?=$DIAGRAMO?>/install.php?step=step4&session=<?=session_id()?>&url=<?=urlencode($appUrl)?>"/>
             
         </div>
     </body>

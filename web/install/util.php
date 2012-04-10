@@ -187,23 +187,6 @@ function lastId($con) {
     }
 }
 
-function testJava() {
-    $jre = "java";
-    
-    $path = dirname(__FILE__) . '../editor/exporter/jre';
-    
-    if(is_dir($path)){ //ok we have bundled java
-        $jre = $path . '/bin/java';
-    }
-    
-    $r = exec(sprintf('%s Echo', $jre));
-    if ($r == 'ok') {
-        return true;
-    }
-
-    return false;
-}
-
 /**
  * Find the URL under which the current PHP file is run
  * @see http://dev.kanngard.net/Permalinks/ID_20050507183447.html

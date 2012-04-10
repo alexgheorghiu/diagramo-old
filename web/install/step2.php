@@ -28,7 +28,7 @@ function loadRequirements(){
             'name' => 'PHP Version',
             'wanted' => 'mandatory',
             'type' => 'version',
-            'requested' => '5.0',
+            'requested' => '5.3',
             'current' => phpversion(),
             'help' => 'php_version'
         ),
@@ -66,11 +66,11 @@ function loadRequirements(){
         ),
         
         array(
-            'name' => 'PHP Extension: MySQL',
+            'name' => 'PHP Extension: SQLite3',
             'wanted' => 'mandatory',
             'type' => 'string',
             'requested' => 'installed',
-            'current' => (is_numeric(array_search('mysql', $extensions))) ? 'installed' : 'not installed',
+            'current' => (is_numeric(array_search('sqlite3', $extensions))) ? 'installed' : 'not installed',
             'help' => 'extension_mysql'
         ),
         array(
@@ -81,22 +81,6 @@ function loadRequirements(){
             'current' => (is_numeric(array_search('pcre', $extensions))) ? 'installed' : 'not installed',
             'help' => 'extension_pcre'
         ),
-//        array(
-//            'name' => 'PHP Extension: ZLIB',
-//            'wanted' => 'mandatory',
-//            'type' => 'string',
-//            'requested' => 'installed',
-//            'current' => (is_numeric(array_search('zlib', $extensions))) ? 'installed' : 'not installed',
-//            'help' => 'extension_zlib'
-//        ),
-//        array(
-//            'name' => 'PHP Extension: GD',
-//            'wanted' => 'mandatory',
-//            'type' => 'string',
-//            'requested' => 'installed',
-//            'current' => (is_numeric(array_search('gd', $extensions))) ? 'installed' : 'not installed',
-//            'help' => 'extension_gd'
-//        ),
         array(
             'name' => 'Internet connection',
             'wanted' => 'mandatory',
@@ -106,27 +90,19 @@ function loadRequirements(){
             'help' => 'internet_connection'
         ),
         array(
-            'name' => 'Java runtime installed on server',
-            'wanted' => 'optional',
-            'type' => 'string',
-            'requested' => 'installed',
-            'current' => testJava() ? 'installed' : 'not installed',
-            'help' => 'installed_java'
-        ),
-        array(
-            'name' => 'Directory permissions: CHMOD 0777 > /<b>common</b>',
+            'name' => 'Directory permissions: CHMOD 0777 > <b>/editor/data</b>',
             'wanted' => 'mandatory',
             'type' => 'string',
             'requested' => 'writable',
-            'current' => (@is_writable('../editor/common')) ? 'writable' : 'not writable',
-            'help' => 'folder_common'
+            'current' => (@is_writable('../editor/data')) ? 'writable' : 'not writable',
+            'help' => 'folder_data'
         ),
         array(            
-            'name' => 'Directory permissions: CHMOD 0777 > /<b>diagrams</b>',
+            'name' => 'Directory permissions: CHMOD 0777 > <b>/editor/data/diagrams</b>',
             'wanted' => 'mandatory',
             'type' => 'string',
             'requested' => 'writable',
-            'current' => (@is_writable('../editor/diagrams')) ? 'writable' : 'not writable',
+            'current' => (@is_writable('../editor/data/diagrams')) ? 'writable' : 'not writable',
             'help' => 'folder_diagrams'
         )
     );

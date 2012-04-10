@@ -46,9 +46,7 @@ $l = new License();
                 }
 
                 return false;
-            }
-            
-            
+            }                        
         </script>
         
         <script type="text/javascript" src="./assets/javascript/dropdownmenu.js?<?=time()?>"></script>    
