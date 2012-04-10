@@ -16,6 +16,7 @@ $delegate = new Delegate();
 
 $loggedUser = $delegate->userGetById($_SESSION['userId']);
 
+$page = "mysqttings";
 ?>
 
 <!DOCTYPE html>
@@ -62,9 +63,6 @@ $loggedUser = $delegate->userGetById($_SESSION['userId']);
                             <tr>
                                 <td align="left"><span class="formLabel">New password</span></td>
                                 <td align="right"><input  class="formField" size="40"   type="password" name="newPassword"/></td>
-                            </tr>
-                            <tr>
-                                <td align="left" colspan="2">(leave passwords blank if you do not want to change the password)</td>
                             </tr>
                             <tr>
                                 <td colspan="2">
