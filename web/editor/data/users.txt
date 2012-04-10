@@ -1,0 +1,3 @@
+email	password	name
+alex@scriptoid.com	534b44a19bf18d20b71ecc4eb77c572f	Alex Gheorghiu
+ioana@brasov.ro	032663518fde7671a2a54a687daa04a2	Ioana Popon

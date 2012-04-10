@@ -15,6 +15,14 @@
                 canvas = document.getElementById('c');
                 ctx = canvas.getContext('2d');
                 
+				var img = new Image();
+//				img.src = './svg.php?file=arcs.svg';
+				img.src = './svg.php?file=duck.jpg';
+				//img.src = './duck.jpg';
+				img.onload = function (){
+					ctx.drawImage(img, 0, 0);
+				}
+				
                 ctx.beginPath();
                 ctx.fillStyle = '#FFFFFF';
                 ctx.fillRect(0, 0, 400, 500);
