@@ -54,7 +54,7 @@
         
         <!--Direct link-->
         <?if($page=='editor'){?>
-            <?if(is_numeric($_REQUEST['diagramId']) ){ //these options should appear ONLY if we have a saved diagram
+            <?if(isset($_REQUEST['diagramId']) && is_numeric($_REQUEST['diagramId']) ){ //these options should appear ONLY if we have a saved diagram
                 $diagram = $delegate->diagramGetById($_REQUEST['diagramId']);
             ?>                
             <div style="padding-top: 6px;">

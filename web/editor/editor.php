@@ -15,7 +15,7 @@ $loggedUser = Delegate::userGetByEmail($_SESSION['userEmail']);
 #print_r($_SESSION['userId']);
 
 //start diagram guardian
-if(is_numeric($_REQUEST['diagramId'])){
+if(isset($_REQUEST['diagramId']) && is_numeric($_REQUEST['diagramId'])){
     if(!is_object($loggedUser)){
         print "Not allocated to this diagram";
         exit();
