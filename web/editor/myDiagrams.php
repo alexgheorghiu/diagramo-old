@@ -16,7 +16,7 @@ if (!isset($_SESSION['userId']) || !is_numeric($_SESSION['userId'])) {
 
 $delegate = new Delegate();
 
-
+$loggedUser = $delegate->userGetById($_SESSION['userId']);
 $allDiagrams = $delegate->diagramGetAll();
 
 

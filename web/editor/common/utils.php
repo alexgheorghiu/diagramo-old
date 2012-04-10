@@ -15,14 +15,22 @@ function getStorageFolder(){
 // Set a error message into session
 function addError($error) {
     if(!empty($error)) {
+        if(!isset($_SESSION['errors']) || !is_array($_SESSION['errors'])){
+            $_SESSION['errors'] = array();
+        }
         $_SESSION['errors'][] = $error;
     }
+//    print_r($_SESSION);
+//    exit();
 }
 
 
 // Set a successfully message into session
 function addMessage($message) {
     if(!empty($message)) {
+        if(!isset($_SESSION['errors']) || !is_array($_SESSION['messages'])){
+            $_SESSION['messages'] = array();
+        }
         $_SESSION['messages'][] = $message;
     }
 }
@@ -30,7 +38,7 @@ function addMessage($message) {
 
 // Check if we have errors messages into session
 function errors() {
-    if(is_array($_SESSION['errors']) AND count($_SESSION['errors']) >= 1) {        
+    if( isset($_SESSION['errors']) && is_array($_SESSION['errors']) AND count($_SESSION['errors']) >= 1) {        
         return true;
     } else {
         return false;

@@ -8,8 +8,8 @@ x manage users
 x gave up to VERSION, WEBADRESS
 x rebuild installer
 x public view diagram
-- on "my diagrams" logout link is broken
-- fix my settings
+x on "my diagrams" logout link is broken
+x fix my settings
 - hide "remember me"
 - images (svg in network package) not loaded
 - background of diagrams should be white (not transparent)

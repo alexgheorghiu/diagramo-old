@@ -331,7 +331,7 @@ function resetPasswordExe() {
 
 function saveSettingsExe() {
 
-    if (!is_numeric($_SESSION['userId'])) {
+    if (!isset($_SESSION['userId']) || !is_numeric($_SESSION['userId'])) {
         addError("Not permited");
         redirect("../editor.php");
         exit(0);
@@ -346,21 +346,17 @@ function saveSettingsExe() {
     $currentPassword = trim($_POST['currentPassword']);
     $newPassword = trim($_POST['newPassword']);
 
-//    if (strlen($name) >= 2) {
-//        $user->name = $name;
-//    }
 
-    if (strlen($currentPassword) > 0) { //we want to change the password
-        if (!strlen($newPassword) >= 4) {
-            addError("New password too short or empty");
-        }
-
-        if (md5($currentPassword) != $user->password) {
-            addError("Current password is wrong");
-        } else {
-            $user->password = md5($newPassword);
-        }
+    if (!strlen($newPassword) >= 4) {
+        addError("New password too short or empty");
     }
+
+    if (md5($currentPassword) != $user->password) {
+        addError("Current password is wrong");
+    } else {
+        $user->password = md5($newPassword);
+    }
+
 
 
 
