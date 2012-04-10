@@ -13,7 +13,7 @@ x fix my settings
 x hide "forgot password"
 x images (svg in network package) not loaded
 x background of diagrams should be white (not transparent)
-- write specific php.ini settings
+x write specific php.ini settings
 - plug to dcentral (add version)
 - update build script
 
