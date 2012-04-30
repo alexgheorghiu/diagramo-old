@@ -3,12 +3,13 @@ This is Alex's current mental stack
 
 Todo:
 -----
-- add a readme inside zip
+
 - license back
 - discriminator lamp installer vs all-in-one
 - all-in-one for Linux?
 
 Todo:
++ add a readme inside zip
 + protect installer too (only steps after step2)
 + save, save as, load and edit diagram
 + manage users
