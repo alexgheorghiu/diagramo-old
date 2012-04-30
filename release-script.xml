@@ -8,7 +8,7 @@ This is the Ant script (see http:/ant.apache.org) to generate builds for Diagram
     <property name="build.dir" value="${basedir}/build"/>    
     <property name="dist.dir" value="${basedir}/dist"/>
     <property name="docs.dir" value="${basedir}/documents"/>
-	<property name="build-all-in-one.dir" value="${basedir}/build-all-in-one"/>
+    <property name="build-all-in-one.dir" value="${basedir}/build-all-in-one"/>
     <property name="dist-all-in-one.dir" value="${basedir}/dist-all-in-one"/>
     <property name="temp.dir" value="${basedir}/temp"/>
     <property name="web.dir" value="${basedir}/web"/>
@@ -63,7 +63,7 @@ This is the Ant script (see http:/ant.apache.org) to generate builds for Diagram
             </fileset>
         </copy>
 
-		<replace file="${build.dir}/install/umbilicus.php" token="http://diagramo.test" value="http://diagramo.com" />
+        <replace file="${build.dir}/install/umbilicus.php" token="http://diagramo.test" value="http://diagramo.com" />
     </target>
 
 
@@ -162,7 +162,7 @@ This is the Ant script (see http:/ant.apache.org) to generate builds for Diagram
             </fileset>
         </copy>
 		
-		<copy todir="${build-all-in-one.dir}">
+        <copy todir="${build-all-in-one.dir}">
             <fileset dir="${docs.dir}/all-in-one">
             </fileset>
         </copy>

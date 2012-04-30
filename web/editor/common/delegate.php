@@ -1,6 +1,5 @@
 <?php
 define('DEBUG', false);
-define('WEBADDRESS', 'http://127.0.0.1:9999/');
 
 require_once dirname(__FILE__) . '/utils.php';
 

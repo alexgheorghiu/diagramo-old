@@ -26,16 +26,16 @@ $diagram = $delegate->diagramGetById($_REQUEST['diagramId']);
 $selfUrl = selfURL(); //find full URL to this script
 $url = strleft($selfUrl, '/exportDiagram.php'); //find the URL of the application
 $WEBADDRESS = $delegate->settingsGetByKeyNative('WEBADDRESS');
-$svgLink = $WEBADDRESS . '/editor/raster.php?type=svg&diagramId=' . $diagram->id;
-$pngLink = $WEBADDRESS . '/editor/raster.php?type=png&diagramId=' . $diagram->id;
-$jpgLink = $WEBADDRESS . '/editor/raster.php?type=jpg&diagramId=' . $diagram->id;
+//$svgLink = $WEBADDRESS . '/editor/raster.php?type=svg&diagramId=' . $diagram->id;
+$pngLink = $WEBADDRESS . '/editor/png.php?type=png&diagramId=' . $diagram->id;
+//$jpgLink = $WEBADDRESS . '/editor/raster.php?type=jpg&diagramId=' . $diagram->id;
 
 $page = 'export';
 
 
-$rawLicense = $delegate->settingsLoadNative('LICENSE');
+$rawLicense = $delegate->settingsGetByKeyNative('LICENSE');
 $l = new License();
-$l->load($rawLicense);
+//$l->load($rawLicense);
 
 ?>
 
@@ -78,33 +78,36 @@ $l->load($rawLicense);
                     </table>
                 </div>
                 
-                <?if(!$l->checkLicense() ){ ?>    
+                <?if( /*test*/false && !$l->checkLicense() ){ ?>    
                     <div>
                         This feature is disable in free version. 
                         <p/>
                         Please <a href="./license.php"><img style="vertical-align: middle;" src="assets/images/upgrade-button.png" /></a> to be enable these feature.
                     </div>            
-                <?} else if($l->host != $_SERVER['HTTP_HOST']) {?>
+                <?} else if(/*test*/false && $l->host != $_SERVER['HTTP_HOST']) {?>
                     <div style="background-color: yellow; font-size: 30px;">
                         License host (<?=$l->host?>) is wrong. <p/> 
                         Please <a href="./license.php"><img style="vertical-align: middle;" src="assets/images/upgrade-button.png" /></a> to be enable these feature.
                     </div>            
                 <?} else {?>
+                    <!--
                     <h3>As SVG</h3>
                     <input type="text" value="<?=$svgLink?>"  style="width: 400px;"/> <br/>
                     <a href="<?=$svgLink?>" target="_blank"><?=$svgLink?></a>
                     <p/>
-
+                    -->
 
                     <h3>As PNG</h3>
                     <input type="text" value="<?=$pngLink?>" style="width: 400px;"/><br/>
                     <a href="<?=$pngLink?>" target="_blank"><?=$pngLink?></a>
                     <p/>
 
+                    <!--
                     <h3>As JPG</h3>
                     <input type="text" value="<?=$jpgLink?>" style="width: 400px;"/><br/>
                     <a href="<?=$jpgLink?>" target="_blank"><?=$jpgLink?></a>
                     <p/>
+                    -->
                 <?}?>
                 
                 
