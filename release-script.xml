@@ -136,6 +136,16 @@ This is the Ant script (see http:/ant.apache.org) to generate builds for Diagram
             <arg line="./documents/encoder/encoder.php ${build.dir}/editor/common/controller.php ${build.dir}/editor/common/controller.php"/>
         </exec>
         
+        <echo>Obfuscate install/step3</echo>
+        <exec executable="php" output="${temp.dir}/encode.output.txt">
+            <arg line="./documents/encoder/encoder.php ${build.dir}/install/step3.php ${build.dir}/install/step3.php"/>
+        </exec>
+        
+        <echo>Obfuscate install/step4</echo>
+        <exec executable="php" output="${temp.dir}/encode.output.txt">
+            <arg line="./documents/encoder/encoder.php ${build.dir}/install/step4.php ${build.dir}/install/step4.php"/>
+        </exec>
+        
     </target>
 
 
@@ -150,7 +160,7 @@ This is the Ant script (see http:/ant.apache.org) to generate builds for Diagram
     </target>
 	
 	
-	<target name="build-all-in-one" depends="obfuscate">
+    <target name="build-all-in-one" depends="obfuscate">
         <echo>+------------------SCRIPT BUILD-----------------------------+</echo>
         <copy todir="${build-all-in-one.dir}">
             <fileset dir="${build.dir}">
@@ -168,7 +178,7 @@ This is the Ant script (see http:/ant.apache.org) to generate builds for Diagram
         </copy>
     </target>
 	
-	<target name="dist-all-in-one" depends="build-all-in-one">
+    <target name="dist-all-in-one" depends="build-all-in-one">
         <echo>+------------------SCRIPT DIST-----------------------------+</echo>
         <zip destfile="${all-in-one.release.file}" basedir="${build-all-in-one.dir}" />
     </target>

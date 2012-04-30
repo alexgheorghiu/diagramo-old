@@ -4,15 +4,15 @@ This is Alex's current mental stack
 Todo:
 -----
 - add a readme inside zip
-- protect installer too
 - license back
 - discriminator lamp installer vs all-in-one
 - all-in-one for Linux?
 
 Todo:
-x save, save as, load and edit diagram
-x manage users
-x gave up to VERSION, WEBADRESS
++ protect installer too (only steps after step2)
++ save, save as, load and edit diagram
++ manage users
++ gave up to VERSION, WEBADRESS
 x rebuild installer
 x public view diagram
 x on "my diagrams" logout link is broken
