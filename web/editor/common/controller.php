@@ -996,18 +996,23 @@ function saveLicense(){
     $serial = $_REQUEST['serial'];
     $host = $_REQUEST['host'];
     
-    $url = DIAGRAMO . "/activator.php?serial=$serial&host=$host";
+    $d = new Delegate();
+    
+    $DIAGRAMO = $d->settingsGetByKeyNative('DIAGRAMO');
+    
+    $url = $DIAGRAMO . "/dcentral/activator.php?serial=$serial&host=$host";
     #print 'URL: ' . $url;
+    
     
     $license = get($url);
     
     #print 'License: ' . $license;
+    #exit();
     
-    $d = new Delegate();
     $d->settingsSaveNative('LICENSE', $license);
     
     addMessage("App activated");
-    redirect('../manageLicense.php');
+    redirect('../license.php');
     exit(0);
 }
 

@@ -4,7 +4,7 @@ This is Alex's current mental stack
 Todo:
 -----
 
-- license back
+= (done, review and testing needed) license back
 - discriminator lamp installer vs all-in-one
 - all-in-one for Linux?
 

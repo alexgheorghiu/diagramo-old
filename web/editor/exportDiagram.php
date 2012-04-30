@@ -35,7 +35,9 @@ $page = 'export';
 
 $rawLicense = $delegate->settingsGetByKeyNative('LICENSE');
 $l = new License();
-//$l->load($rawLicense);
+if(trim($rawLicense) != ''){
+    $l->load($rawLicense);
+}
 
 ?>
 
@@ -78,13 +80,13 @@ $l = new License();
                     </table>
                 </div>
                 
-                <?if( /*test*/false && !$l->checkLicense() ){ ?>    
+                <?if(!$l->checkLicense() ){ ?>    
                     <div>
-                        This feature is disable in free version. 
+                        This feature (export as PNG) is disable in free version. 
                         <p/>
                         Please <a href="./license.php"><img style="vertical-align: middle;" src="assets/images/upgrade-button.png" /></a> to be enable these feature.
                     </div>            
-                <?} else if(/*test*/false && $l->host != $_SERVER['HTTP_HOST']) {?>
+                <?} else if($l->host != $_SERVER['HTTP_HOST']) {?>
                     <div style="background-color: yellow; font-size: 30px;">
                         License host (<?=$l->host?>) is wrong. <p/> 
                         Please <a href="./license.php"><img style="vertical-align: middle;" src="assets/images/upgrade-button.png" /></a> to be enable these feature.

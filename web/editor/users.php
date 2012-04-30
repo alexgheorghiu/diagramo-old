@@ -26,7 +26,9 @@ $page = 'users';
 
 $rawLicense = $delegate->settingsGetByKeyNative('LICENSE');
 $l = new License();
-#$l->load($rawLicense);
+if(trim($rawLicense) != ''){
+    $l->load($rawLicense);
+}
 
 ?>
 
@@ -60,7 +62,7 @@ $l = new License();
             <? require_once dirname(__FILE__) . '/common/messages.php'; ?>
             <br/>
 
-            <?if(false && !$l->checkLicense() ){ ?>    
+            <?if(!$l->checkLicense() ){ ?>    
                 <div>
                     <div style="margin: 10px auto; width: 600px;">
                         This feature is disable in free version. 
@@ -68,7 +70,7 @@ $l = new License();
                         Please <a href="./license.php"><img style="vertical-align: middle;" src="assets/images/upgrade-button.png" /></a> to be enable these feature.
                     </div> 
                 </div>            
-            <?} else if(false && $l->host != $_SERVER['HTTP_HOST']) {?>
+            <?} else if($l->host != $_SERVER['HTTP_HOST']) {?>
                 <div style="margin: 10px auto; width: 600px;">
                     License host (<?=$l->host?>) is wrong. 
                     <p/> 

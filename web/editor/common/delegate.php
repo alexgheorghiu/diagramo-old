@@ -643,7 +643,8 @@ class Delegate extends SQLite3 {
     public function settingsSaveNative($key, $value){
         (DEBUG) ? $_SESSION['logs'][] = __CLASS__ .'{#}'. __FUNCTION__ ."{#}{#}". __LINE__ : '';
         
-        $query = sprintf("update `setting` set `value`='%s' where `name` = '%s' ", $value, $key);
+        //see http://stackoverflow.com/questions/418898/sqlite-upsert-not-insert-or-replace
+        $query = sprintf("insert or REPLACE  into `setting` (`value`,`name`) VALUES('%s', '%s')", $value, $key);
         
         $this->query($query);
         

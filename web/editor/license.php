@@ -20,6 +20,8 @@ $rawLicense = $delegate->settingsGetByKeyNative('LICENSE');
 
 $page = "license";
 
+$DIAGRAMO = $delegate->settingsGetByKeyNative('DIAGRAMO');
+
 ?>
 
 <!DOCTYPE html>
@@ -50,8 +52,8 @@ $page = "license";
                         <span class="menuText" style="font-size: 14px; font-family: Arial; color: #6E6E6E;">License</span>
                     </div>
                     <div style="text-align: left; /*letter-spacing: 0.1em;*/ line-height: 200%; padding-left: 10px;">
-                        Please copy/paste the license you got in the form bellow.
-                        If you do not have a license please <a href="<?=DIAGRAMO?>/buy.php"><img style="vertical-align: middle;" src="assets/images/buy.png" /></a> one.<br/>                        
+                        Please copy/paste the serial you got in the form bellow.
+                        If you do not have a serial please <a href="<?=$DIAGRAMO?>/buy.php"><img style="vertical-align: middle;" src="assets/images/buy.png" /></a> one.<br/>                        
                     </div>
                     
                     <p/>
@@ -59,8 +61,8 @@ $page = "license";
                     <form action="./common/controller.php" method="post" style="padding-left: 10px;">
                         <input type="hidden" name="action" value="saveLicense"/>
                         <input type="hidden" name="host" value="<?=$_SERVER['SERVER_NAME']?>"/>
-                        License<br/>
-                        <textarea name="serial" id="serial" cols="30" rows="10"></textarea>
+                        Serial key<br/>
+                        <input type="text" name="serial" id="serial" style="width: 300px;"/>
                         <p/>
                         <input type="image" src="./assets/images/save.gif" style="vertical-align: middle;"  value="Save"/>
                     </form>
