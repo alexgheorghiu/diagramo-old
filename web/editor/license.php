@@ -16,10 +16,9 @@ $delegate = new Delegate();
 
 $loggedUser = $delegate->userGetById($_SESSION['userId']);
 
-$rawLicense = $delegate->settingsLoadNative('LICENSE');
+$rawLicense = $delegate->settingsGetByKeyNative('LICENSE');
 
-$l = new License();
-$l->load($rawLicense);
+$page = "license";
 
 ?>
 
@@ -66,7 +65,10 @@ $l->load($rawLicense);
                         <input type="image" src="./assets/images/save.gif" style="vertical-align: middle;"  value="Save"/>
                     </form>
                 </div>
-                <?} else {?>
+                <?} else {
+                    $l = new License();
+                    $l->load($rawLicense);
+                ?>
                     Ok, you have a license.
                     <br/>
                     Host: <?=$l->host?>
