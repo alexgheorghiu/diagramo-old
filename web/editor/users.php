@@ -30,6 +30,11 @@ if(trim($rawLicense) != ''){
     $l->load($rawLicense);
 }
 
+$currentHost = $_SERVER['HTTP_HOST'];
+if(strpos($currentHost, ':')){
+    $currentHost = substr($currentHost, 0, strpos($currentHost, ':'));
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -70,9 +75,9 @@ if(trim($rawLicense) != ''){
                         Please <a href="./license.php"><img style="vertical-align: middle;" src="assets/images/upgrade-button.png" /></a> to be enable these feature.
                     </div> 
                 </div>            
-            <?} else if($l->host != $_SERVER['HTTP_HOST']) {?>
+            <?} else if($l->host != $currentHost) {?>
                 <div style="margin: 10px auto; width: 600px;">
-                    License host (<?=$l->host?>) is wrong. 
+                    License host (<?=$l->host?>) is wrong. IT should be <?=$currentHost?> 
                     <p/> 
                     Please <a href="./license.php"><img style="vertical-align: middle;" src="assets/images/upgrade-button.png" /></a> to be enable these feature.
                 </div>            
@@ -120,13 +125,13 @@ if(trim($rawLicense) != ''){
 
                 <p/>
 
-                <!--Invite known people-->
+                <!--Add known people-->
 
                 <div class="form"  style="width: 600px;">
                     <div class="formTitle" >
                         <table width="100%" border="0" cellpadding="0" cellspacing="0">
                             <tr>
-                                <td width="400"><span class="formLabel" style="font-size: 14px; font-family: Arial; color: #6E6E6E;">Invite known people to diagram</span></td>
+                                <td width="400"><span class="formLabel" style="font-size: 14px; font-family: Arial; color: #6E6E6E;">Add known people to diagram</span></td>
                                 <td colspan="2">&nbsp;</td>
                             </tr>
                         </table>

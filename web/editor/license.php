@@ -53,7 +53,7 @@ $DIAGRAMO = $delegate->settingsGetByKeyNative('DIAGRAMO');
                     </div>
                     <div style="text-align: left; /*letter-spacing: 0.1em;*/ line-height: 200%; padding-left: 10px;">
                         Please copy/paste the serial you got in the form bellow.
-                        If you do not have a serial please <a href="<?=$DIAGRAMO?>/buy.php"><img style="vertical-align: middle;" src="assets/images/buy.png" /></a> one.<br/>                        
+                        If you do not have a serial please <a href="<?=$DIAGRAMO?>/buy.php" target="_blank"><img style="vertical-align: middle;" src="assets/images/buy.png" /></a> one.<br/>                        
                     </div>
                     
                     <p/>

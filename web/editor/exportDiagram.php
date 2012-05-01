@@ -39,6 +39,11 @@ if(trim($rawLicense) != ''){
     $l->load($rawLicense);
 }
 
+$currentHost = $_SERVER['HTTP_HOST'];
+if(strpos($currentHost, ':')){
+    $currentHost = substr($currentHost, 0, strpos($currentHost, ':'));
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -86,9 +91,9 @@ if(trim($rawLicense) != ''){
                         <p/>
                         Please <a href="./license.php"><img style="vertical-align: middle;" src="assets/images/upgrade-button.png" /></a> to be enable these feature.
                     </div>            
-                <?} else if($l->host != $_SERVER['HTTP_HOST']) {?>
+                <?} else if($l->host != $currentHost) {?>
                     <div style="background-color: yellow; font-size: 30px;">
-                        License host (<?=$l->host?>) is wrong. <p/> 
+                        License host (<?=$l->host?>) is wrong. It should be: <?=$currentHost?> <p/> 
                         Please <a href="./license.php"><img style="vertical-align: middle;" src="assets/images/upgrade-button.png" /></a> to be enable these feature.
                     </div>            
                 <?} else {?>
