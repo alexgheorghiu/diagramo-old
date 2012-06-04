@@ -1,4 +1,6 @@
 Diagramo
 ========
 
-Pure HTML5 (canvas) flowchart software
+Pure HTML5 (canvas) flowchart software. 
+
+Features:
