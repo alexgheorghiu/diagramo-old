@@ -1,3 +1,5 @@
+#more on ignore files here: http://git-scm.com/book/ch2-2.html
+
 web/editor/data/diagramo.db
 web/editor/data/diagrams/*.dia
 web/editor/data/diagrams/*.png

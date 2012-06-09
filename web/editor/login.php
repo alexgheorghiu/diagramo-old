@@ -23,7 +23,7 @@ if (isset($_SESSION['userId']) AND is_numeric($_SESSION['userId'])) {
     $loggedUser = $delegate->userGetById(abs(intval($_SESSION['userId'])));
 
     // If exists a logged user
-    if (is_numeric($loggedUser->id)) {
+    if (isset($loggedUser) && is_numeric($loggedUser->id)) {
         redirect('./editor.php');
     }
 
