@@ -31,15 +31,7 @@ class License {
      * Load the License object (this) from a string
      */
     public function load($str) {
-        //load stored object
-        $obj = unserialize(strrev(base64_decode($str)));
-
-        //copy data from loaded object into our *this* object - (clone?)
-        $this->serial = $obj->serial;    // Random generated
-        $this->host = $obj->host;
-        
-        $this->date = $obj->date;        
-        $this->unlockKey = $obj->unlockKey;   // Full license (the same with the DB company.license)
+        //nothing
     }
 
     /*
@@ -48,19 +40,12 @@ class License {
      */
 
     protected function computeUnlockKey() {
-        $computedKey = md5(
-                        strrev($this->host) .
-                        strtolower(substr(base64_encode($this->date), 0, 5)) .
-                        $this->serial);        
-
-        /* Return final computed key */
-        return $computedKey;
+        return "";
     }
 
     /** Check a license */
     public function checkLicense() {
-        $recomputedFullLicense = $this->computeUnlockKey();
-        return ($this->unlockKey == $recomputedFullLicense) ? true : false;
+        return true;
     }
 
 }

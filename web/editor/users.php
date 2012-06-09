@@ -75,7 +75,7 @@ if(strpos($currentHost, ':')){
                         Please <a href="./license.php"><img style="vertical-align: middle;" src="assets/images/upgrade-button.png" /></a> to be enable these feature.
                     </div> 
                 </div>            
-            <?} else if($l->host != $currentHost) {?>
+            <?} else if(false && $l->host != $currentHost) {?>
                 <div style="margin: 10px auto; width: 600px;">
                     License host (<?=$l->host?>) is wrong. IT should be <?=$currentHost?> 
                     <p/> 
