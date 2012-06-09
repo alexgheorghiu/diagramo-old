@@ -18,10 +18,10 @@ if (!isset($_REQUEST['diagramId'])) {
     exit();
 }
 
-$d = new Delegate();
+$delegate = new Delegate();
 
 
-$diagram = $d->diagramGetById($_REQUEST['diagramId']);
+$diagram = $delegate->diagramGetById($_REQUEST['diagramId']);
 
 //print_r($diagram);
 //exit();

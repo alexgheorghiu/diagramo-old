@@ -561,7 +561,7 @@ function firstSaveExe() {
     $diagram = new Diagram();
     $diagram->title = trim($_REQUEST['title']);
     $diagram->description = trim($_REQUEST['description']);
-    $diagram->public = (isset($_REQUEST['public']) && $_REQUEST['public'] == 'true') ? 'true' : 'false';
+    $diagram->public = (isset($_REQUEST['public']) && $_REQUEST['public'] == 'true') ? 1 : 0;
     $diagram->createdDate = $nowIsNow;
     $diagram->lastUpdate = $nowIsNow;
     $diagram->size = strlen($_SESSION['tempDiagram']); //TODO: it might be not very accurate
