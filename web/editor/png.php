@@ -3,7 +3,6 @@
 require_once dirname(__FILE__) . '/common/delegate.php';
 
 
-
 if (!isset($_SESSION)) {
     session_start();
 }
@@ -14,9 +13,8 @@ if (is_numeric($_REQUEST['diagramId'])) {
     $diagram = $d->diagramGetById($_REQUEST['diagramId']);    
     $d->close();
     
-    if (/*is_numeric($_SESSION['userId']) || */$diagram->public) {
+    if (is_numeric($_SESSION['userId']) || $diagram->public) {
         $filePath = dirname(__FILE__) . '/data/diagrams/' . $_REQUEST['diagramId'] . '.png';
-
 
 
         if (file_exists($filePath)) {
